@@ -1,0 +1,316 @@
+<section>
+  <div id="totalSec" class="row align-items-center">
+    <div class="col-6">
+      <span class="card-title h2" *ngIf="!workingRecord"><strong>Today Record</strong></span>
+      <span *ngIf="workingRecord"><strong>From: </strong> {{this.startDateRecord | date:'mediumDate'}} <strong>To: </strong> {{this.endDateRecord | date:'mediumDate'}} </span>
+    </div>
+    <div class="col-6 text-right px-3">
+      <a (click)="getDefault();"> <i class="ft-refresh-cw font-weight-bold" ngbTooltip="Reset" placement="bottom"></i> 
+      </a>
+      <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2">Select Range for Record</button>
+    </div>
+    <div class="col-12">
+      <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
+      </ngb-datepicker>
+      <ng-template #t1 let-date let-focused="focused" class="template">
+        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
+          {{ date.day }}
+        </span>
+      </ng-template>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="recordCard card">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0 w-100"> 
+            <span>{{dashboardData?.total?.totalCurrentDayHirings}} </span>
+            <span class="float-right">
+              <img height="25px" src="../../../assets/img/ico/confused.png">
+            </span></h5>
+          <hr>
+          <p class="mb-0">
+            <span>{{!workingRecord?'Today':''}} Hirings</span>
+          </p>
+          <a routerLink="/hiring" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="recordCard card">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+            {{dashboardData?.total?.totalCurrentDayCustomers}}
+          <span class="float-right">
+            <img height="25px" src="../../../assets/img/ico/client.png">
+          </span></h5>
+          <hr>
+          <p class="mb-0">
+            <span>{{!workingRecord?'Today':''}} Customers</span>
+          </p>
+          <a routerLink="/customers" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="recordCard card">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+              {{dashboardData?.total?.totalCurrentDayBellBoys}}
+              <span class="float-right">
+                <img height="25px" src="../../../assets/img/ico/BB-PNG.png">
+              </span>
+            </h5>
+          <hr>
+          <p class="mb-0">
+            <span>{{!workingRecord?'Today':''}} Bellboy</span>
+          </p>
+          <a routerLink="/bellboy" class="stretched-link"></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="card recordCard">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+              {{dashboardData?.total?.totalEarningDate | number:0}}/- Rs
+              <span class="float-right">
+                <img height="25px" src="../../../assets/img/ico/money.png">
+              </span>
+            </h5>
+          <hr>
+          <p class="mb-0">
+            <span>Today Earnings</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="card recordCard">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+              {{dashboardData?.total?.totalPendingHirings}}
+              <span class="float-right">
+                <img height="25px" src="../../../assets/img/ico/pending.svg">
+              </span>
+            </h5>
+          <hr>
+          <p class="mb-0">
+            <span>Pending Hirings</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="card recordCard">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+            {{dashboardData?.total?.totalInProgressHirings}}
+            <span class="float-right">
+              <img height="25px" src="../../../assets/img/ico/in-progress.svg">
+            </span>
+          </h5>
+          <hr>
+          <p class="mb-0">
+            <span>In Progress Hirings</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="card recordCard">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+            {{dashboardData?.total?.totalCompletedHirings}}
+            <span class="float-right">
+              <img height="25px" src="../../../assets/img/ico/checked-hirings.svg">
+            </span>
+          </h5>
+          <hr>
+          <p class="mb-0">
+            <span>Completed Hirings</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xl-3">
+      <div class="card recordCard">
+        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        <div class="card-body" *ngIf="!spinner">
+          <h5 class="font-weight-500 mb-0">
+            {{dashboardData?.total?.totalCancelledHirings}}
+            <span class="float-right">
+              <img height="25px" src="../../../assets/img/ico/canceled-hiring.svg">
+            </span>
+          </h5>
+          <hr>
+          <p class="mb-0">
+            <span>Cancelled Hirings</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header ">
+          <div class="row">
+            <div class="col-sm-6">
+              <span *ngIf="!workingGraph" class="card-title h2"><strong>Current Week Statistics</strong></span>
+              <span *ngIf="workingGraph"><strong>From: </strong> {{this.startDateGraph | date:'mediumDate'}} <strong>To: </strong> {{this.endDateGraph | date:'mediumDate'}} </span>
+            </div>
+            <div class="col-sm-6 text-right">
+              <button (click)="showDatePick('datepicker')" class="btn btn-orange mr-2 float-right">Select Graph Range</button>
+              <ngb-datepicker #dp id="datepicker" class="d-none mr-2" style="top:30px" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t" outsideDays="hidden">
+              </ngb-datepicker>
+              <ng-template #t let-date let-focused="focused" class="template">
+                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
+                  {{ date.day }}
+                </span>
+              </ng-template>
+            </div>
+            <div class="col-12 mt-2 text-right">
+              <ul class="d-flex float-right mb-0">
+                <li class="active" id="li1" (click)="getHirings();active('li1')">
+                  <a>Hiring</a>
+                </li>
+                <li id="li2" class="" (click)="getCustomers();active('li2')">
+                  <a>Customers</a>
+                </li>
+                <li id="li3" class="" (click)="getBellboys();active('li3')">
+                  <a>Bellboys</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display: block;">
+            <canvas #chart baseChart height="260px" width="1024px" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-6">
+      <div class="card  ml-auto mr-auto">
+        <div class="card-body">
+          <h5 class="font-weight-500 mb-0">{{dashboardData?.totalWithDetail?.currentDayHirings?.length}}
+          <span class="float-right">
+            <img height="25px" src="../../../assets/img/ico/confused.png">
+          </span></h5>
+          <p class="mb-0">{{!workingRecord?'New':''}} Hirings</p>
+          <hr>
+          <div style="height: 190px; overflow-y: scroll;">
+            <div *ngFor="let item of pagedItems" class="media pt-0 pb-2 align-items-center">
+              <div class="actions position-relative">
+                <span>{{item.actions.length}}</span>
+                <!-- <span class="hide-word">Actions</span> -->
+              </div>
+              <div class="media-body">
+                <h4 class="font-medium-1 mb-0">{{item.customer.name}}</h4>
+                <small class=" m-0">{{item.hiring_id}}</small>
+              </div>
+              <div class="media-body">
+                <div class="text-right text-dark">
+                  <a routerLink="/hiring/hiringDetail/{{item.hiring_id}}">
+                    <img src="../../../assets/img/ico/eye.png" class="img-eye" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="text-right">
+            <a>
+              <button [disabled]="pager.currentPage === 1 || pager.currentPage<1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPage(pager.currentPage - 1)"></button>
+              <button [disabled]="pager.currentPage === pager.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPage(pager.currentPage + 1)"></button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="card  ml-auto mr-auto">
+        <div class="card-body">
+          <h5 class="font-weight-500 mb-0">{{dashboardData?.totalWithDetail?.currentDayCustomers?.length}}
+          <span class="float-right">
+            <img src="../../../assets/img/ico/client.png" height="25px">
+          </span></h5>
+          <p class="mb-0">{{!workingRecord?'New':''}} Customers</p>
+          <hr>
+          <div style="height: 190px; overflow-y: scroll;">
+            <div *ngFor="let item of pagedItemsCustomer" class="media pt-0 pb-2 align-items-center">
+              <img src="{{item.avatar?.value}}" alt="Avatar" width="35" class="mr-3 avatar round" onerror="src='../../../assets/img/gallery/1.jpg'">
+              <div class="media-body">
+                <h4 class="font-medium-1 mb-0">{{item.name}}</h4>
+                <small class=" m-0">{{item.mobile}}</small>
+              </div>
+              <div class="media-body">
+                <div class="text-right text-dark">
+                  <a routerLink="/customers/custdetail/{{item._id}}">
+                    <img src="../../../assets/img/ico/eye.png" class="img-eye" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="text-right">
+            <a>
+              <button [disabled]="pager2.currentPage === 1 || pager2.currentPage<1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPageCustomer(pager2.currentPage - 1)"></button>
+              <button [disabled]="pager2.currentPage === pager2.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPageCustomer(pager2.currentPage + 1)"></button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="card  ml-auto mr-auto">
+        <div class="card-body">
+          <h5 class="font-weight-500 mb-0">{{dashboardData?.totalWithDetail?.currentDayBellBoys?.length}}
+          <span class="float-right">
+            <img height="25px" src="../../../assets/img/ico/BB-PNG.png">
+          </span></h5>
+          <p class="mb-0">{{!workingRecord?'New':''}} Bellboys</p>
+          <hr>
+          <div style="height: 190px; overflow-y: scroll;">
+            <div *ngFor="let item of pagedItemsBellboy" class="media pt-0 pb-2 align-items-center">
+              <img src="{{item.avatar?.value}}" alt="Avatar" width="35" class="mr-3 avatar round" onerror="src='../../../assets/img/gallery/1.jpg'">
+              <div class="media-body">
+                <h4 class="font-medium-1 mb-0">{{item.name}}</h4>
+                <small class=" m-0">{{item.mobile}}</small>
+              </div>
+              <div class="media-body">
+                <div class="text-right text-dark">
+                  <a routerLink="/bellboy/bellboydetail/{{item._id}}">
+                    <img src="../../../assets/img/ico/eye.png" class="img-eye" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="text-right">
+            <a>
+              <button [disabled]="pager3.currentPage === 1 || pager3.currentPage<1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPageBellboy(pager3.currentPage - 1)"></button>
+              <button [disabled]="pager3.currentPage === pager3.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPageBellboy(pager3.currentPage + 1)"></button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #shimmer>
+  <div class="card-body" *ngIf="spinner" [ngClass]="{'shine':spinner}">
+  </div>
+</ng-template>

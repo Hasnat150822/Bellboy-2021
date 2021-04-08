@@ -1,0 +1,25 @@
+nav.navbar {
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    box-shadow: none;
+}
+.user{
+    flex-direction: column;
+    line-height: 1.1rem;
+}
+.avtar{
+    border-radius: 119%;
+    border: none;
+    background: #ccc;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.breadcrumb{
+    margin: 14px auto;
+} 
+.navbar-header .navbar-collapse-toggle{
+    margin: 6px 0px 10px 15px;
+}
+.dropdown-menu{
+    right: 0% !important;
+    left: unset !important;
+}

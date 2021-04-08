@@ -1,0 +1,71 @@
+<section>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media align-items-center">
+              <a>
+                <img alt="100x100" (click)="bigImage(amazonImgUrl+detailUser?.avatar?.value)" class="media-object d-flex mr-3 bg-primary height-100 rounded-circle" src="{{amazonImgUrl}}{{detailUser?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'">
+              </a>
+              <div class="media-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h3 class="font-weight-normal mb-0">{{detailUser?.name}}</h3>
+                  </div>
+                </div>
+                <p><span class="text-secondary">{{detailUser?.role?.title}}</span>
+                </p>
+              </div>
+            </div>
+            <form [formGroup]="updateUser" (ngSubmit)="update(updateUser)">
+              <div class="row mt-3">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="name" value="{{detailUser?.name}}" class="form-control" placeholder="Name">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input type="text" formControlName="cellNo" value="{{detailUser?.contact_number}}" class="form-control" placeholder="Cell no">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input type="email" formControlName="email" value="{{detailUser?.email}}" class="form-control" placeholder="Email">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group position-relative">
+                    <input [type]="inputType" class="form-control mb-3" placeholder="Password" formControlName="pass" />
+                    <a><i (click)="eyeToggle=!eyeToggle; inputType='text'" class="ft-eye text-orange position-absolute" *ngIf="eyeToggle===true"></i>
+                    <i class="ft-eye-off position-absolute text-orange" (click)="eyeToggle=!eyeToggle; inputType='password'" *ngIf="eyeToggle===false"></i></a>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <select name="role" formControlName="roleId" class="form-control" id="roleSelect">
+                      <option value="">{{this.detailUser?.role?.title}}</option>
+                      <option *ngFor="let item of allRoles" value="{{item._id}}">{{item.title}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 text-center">
+                  <button class="btn btn-secondary mr-2" routerLink="/usermanage">
+                    Cancel
+                  </button>
+                  <button class="btn btn-orange">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-big-image *ngIf="isBigImg"></app-big-image>

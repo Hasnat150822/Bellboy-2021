@@ -1,0 +1,155 @@
+<section id="tabs">
+  <div class="loading-container" *ngIf="spinner">
+    <div class="spinner"></div>
+  </div>
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-0">
+      <h3 class="mb-0">Bellboy Types</h3>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body position-relative">
+            <!-- Flexbox container for aligning the toasts -->
+            <div aria-live="polite" id="toaster" aria-atomic="true" class="d-none toaster justify-content-center align-items-center" style="min-height: 200px;">
+              <!-- Then put toasts within -->
+              <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <button type="button" class="mr-1 close" (click)="closeToast('toaster')" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="toast-body text-center bg-orange">
+                  Updated
+                </div>
+              </div>
+            </div>
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Bellboy</th>
+                  <th>Label</th>
+                  <th>Logo</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr [formGroup]="walker">
+                  <td>Walker</td>
+                  <td class="d-flex align-items-center justify-content-center">
+                    <span class="w-50">
+                            <input class="form-control text-center" value="{{bbTypes?.Walker?.title}}" id="input1" formControlName="title">
+                          </span>
+                    <a><i (click)="changeDisable('input1')" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                  </td>
+                  <td class="w-100px">
+                    <div class="position-relative">
+                      <img src="{{imgURL}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" class="absolute-img" alt="img" class="table-img-size">
+                      <a><i class="absolute-icon" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                      <input #file type="file" accept="image/*" (change)="preview(file.files, 'imgURL')" class="absolute-input">
+                    </div>
+                  </td>
+                  <td>
+                    <span>Active</span>
+                    <a>
+                      <i placement="top" ngbTooltip="Deactive Bellboy" class="ft-power text-error"></i>
+                    </a>
+                  </td>
+                  <td>
+                    <a>
+                      <button type="submit" (click)="updateWalker(walker,bbTypes['Walker'], 'input1')" class="btn btn-orange">Update</button>
+                    </a>
+                  </td>
+                </tr>
+                <tr [formGroup]="cycler">
+                  <td>Cycler</td>
+                  <td class="d-flex align-items-center justify-content-center">
+                    <span class="w-50">
+                            <input class="form-control text-center" value="{{bbTypes?.Cycler?.title}}" id="input2" formControlName="title">
+                          </span>
+                    <a><i (click)="changeDisable('input2')" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                  </td>
+                  <td class="w-100px">
+                    <div class="position-relative">
+                      <img src="{{imgURL1}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" class="absolute-img" alt="img" class="table-img-size">
+                      <a><i class="absolute-icon" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                      <input #file1 type="file" accept="image/*" (change)="preview(file1.files, 'imgURL1')" class="absolute-input">
+                    </div>
+                  </td>
+                  <td>
+                    <span>Active</span>
+                    <a>
+                      <i placement="top" ngbTooltip="Deactive Bellboy" class="ft-power text-error"></i>
+                    </a>
+                  </td>
+                  <td>
+                    <a>
+                      <button type="submit" (click)="updateCycler(cycler,bbTypes['Cycler'], 'input2')" class="btn btn-orange">Update</button>
+                    </a>
+                  </td>
+                </tr>
+                <tr [formGroup]="biker">
+                  <td>MotoBiker</td>
+                  <td class="d-flex align-items-center justify-content-center">
+                    <span class="w-50">
+                            <input class="form-control text-center" value="{{bbTypes?.MotoBiker?.title}}" id="input3" formControlName="title">
+                          </span>
+                    <a><i (click)="changeDisable('input3')" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                  </td>
+                  <td class="w-100px">
+                    <div class="position-relative">
+                      <img src="{{imgURL2}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" class="absolute-img" alt="img" class="table-img-size">
+                      <a><i class="absolute-icon" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                      <input #file2 type="file" accept="image/*" (change)="preview(file2.files, 'imgURL2')" class="absolute-input">
+                    </div>
+                  </td>
+                  <td>
+                    <span>Active</span>
+                    <a>
+                      <i placement="top" ngbTooltip="Deactive Bellboy" class="ft-power text-error"></i>
+                    </a>
+                  </td>
+                  <td>
+                    <a>
+                      <button type="submit" (click)="updateBiker(biker,bbTypes['MotoBiker'], 'input3')" class="btn btn-orange">Update</button>
+                    </a>
+                  </td>
+                </tr>
+                <tr [formGroup]="car">
+                  <td>Car</td>
+                  <td class="d-flex align-items-center justify-content-center">
+                    <span class="w-50">
+                            <input class="form-control text-center" value="{{bbTypes?.Car?.title}}" id="input4" formControlName="title">
+                          </span>
+                    <a><i (click)="changeDisable('input4')" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                  </td>
+                  <td class="w-100px">
+                    <div class="position-relative">
+                      <img src="{{imgURL3}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" class="absolute-img" alt="img" class="table-img-size">
+                      <a><i class="absolute-icon" class="ml-2 ft-edit-2 font-weight-bold"></i></a>
+                      <input #file3 type="file" accept="image/*" (change)="preview(file3.files, 'imgURL3')" class="absolute-input">
+                    </div>
+                  </td>
+                  <td>
+                    <span>Active</span>
+                    <a>
+                      <i placement="top" ngbTooltip="Deactive Bellboy" class="ft-power text-error"></i>
+                    </a>
+                  </td>
+                  <td>
+                    <a>
+                      <button type="submit" (click)="updateCar(car,bbTypes['Car'], 'input4')" class="btn btn-orange">Update</button>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>

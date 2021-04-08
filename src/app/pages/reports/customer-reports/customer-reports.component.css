@@ -1,0 +1,23 @@
+.buttons{
+    list-style: none;
+    margin: unset;
+    padding: unset;
+    display: flex;
+    align-items: center;
+}
+.button-list{
+    padding-right: 1rem;
+}
+.pagination{
+    justify-content: flex-end !important;
+}
+.btn-outline-orange{
+    border-color: #FA9008 !important;
+    color: #FA9008 !important;
+    border-radius: 360px;
+    margin-left: .75rem;
+    font-size: 13px !important;
+}
+.btn-outline-orange:hover{
+    color: white !important;
+}

@@ -1,0 +1,178 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title">Customer</h4>
+            </div>
+            <div class="col-sm-12 mt-2">
+              <div class="media align-items-center">
+                <a (click)="openModel(bigImg, detailOrder?.customer?.avatar?.value)">
+                  <img alt="100x100" class="object-fit d-flex mr-3 bg-primary rounded-circle" src="{{amazonImgUrl}}{{detailOrder?.customer?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'">
+                </a>
+                <div class="media-body">
+                  <h5 class="font-weight-normal" [routerLink]="['/customers/custdetail', detailOrder?.customer?._id]">
+                    <a>{{detailOrder?.customer?.name}}</a>
+                  </h5>
+                  <p><span>Cell No:</span><span class="ml-3 text-secondary">{{detailOrder?.customer?.mobile}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-4">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <h4 class="card-title mb-2">Order Detail</h4>
+            </div>
+            <div class="col-sm-6 text-right">
+              <span>Status: </span>
+              <span *ngIf="detailOrder?.status==1" class="text-orange">Pending</span>
+              <span *ngIf="detailOrder?.status==2" class="text-success">Assigned</span>
+              <span *ngIf="detailOrder?.status==3" class="text-success">At PickUp Point</span>
+              <span *ngIf="detailOrder?.status==4" class="text-success">On the Way</span>
+              <span *ngIf="detailOrder?.status==5" class="text-success">Reached</span>
+              <span *ngIf="detailOrder?.status==6" class="text-success">Completed</span>
+              <span *ngIf="detailOrder?.status==7" class="text-error">Cancelled</span>
+            </div>
+            <div class="col-sm-12">
+              <div class="row row-area p-2 m-0">
+                <div class="col-sm-6">
+                  <h5 class="fontCharge">Orders</h5>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <span>Order Date:</span>
+                  <span class="ml-3 text-secondary">{{detailOrder?.created_at | date:'mediumDate'}}</span>
+                </div>
+                <div class="col-sm-6">
+                  <span>Order Id:</span>
+                  <span class="ml-3 text-secondary">{{detailOrder?.order_id}}</span>
+                </div>
+                <div class="col-sm-6">
+                  <span>Order Time:</span>
+                  <span class="ml-3 text-secondary">{{detailOrder?.created_at | date:'mediumTime'}}</span>
+                </div>
+                <div class="col-sm-6">
+                  <span>Category:</span>
+                  <span class="ml-3 text-secondary">{{detailOrder?.category?.title}}</span>
+                </div>
+                <div class="col-sm-6">
+                  <span>Bellboy Type:</span>
+                  <span class="ml-3 text-secondary">{{detailOrder?.bellboyType.title}}</span>
+                </div>
+                <hr class="col-sm-11 my-2">
+                <table class="text-center col-sm-12">
+                  <thead>
+                    <tr>
+                      <th>Product Name</th>
+                      <th>Brand</th>
+                      <th>Brand Icon</th>
+                      <th>Quantity</th>
+                      <th>Image</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of detailOrder?.items">
+                      <td>{{item.product?.title}}</td>
+                      <td>{{item.brand?.title}}</td>
+                      <td>
+                        <a (click)="openModel(bigImg, item.brand?.icon)">
+                          <img class="object-little-fit" src="{{amazonImgUrl}}{{item.brand?.icon}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'">
+                        </a>
+                      </td>
+                      <td class="object-little-fit">{{item.quantity}}</td>
+                      <td>
+                        <a (click)="openModel(bigImg, item.image?.value)">
+                          <img class="object-little-fit" src="{{amazonImgUrl}}{{item.image?.value}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'">
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr class="col-sm-11 my-2">
+                <div class="col-sm-12">
+                  <p>Voice Note:</p>
+                </div>
+                <div class="col-sm-12 mb-2">
+                  <audio class="w-100" src="{{amazonImgUrl}}{{detailOrder?.voice_note.value}}" controls></audio>
+                </div>
+                <div class="col-sm-6 mb-2">
+                  <span>Estimated Amount:</span>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <p>{{detailOrder?.charges?.totalBill | currency:'pkr'}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <h4 class="card-title"> Assigned Bellboy </h4>
+              <br>
+            </div>
+            <div class="col-sm-6 text-right">
+              <span *ngIf="!detailOrder?.bellboy" class="text-orange">Not Assigned Yet</span>
+            </div>
+            <div class="col-sm-12 ">
+              <div class="media align-items-center">
+                <a (click)="openModel(bigImg, detailOrder?.bellboy?.avatar?.value)">
+                  <img alt="100x100" class="object-fit d-flex mr-3 bg-primary rounded-circle" src="{{amazonImgUrl}}{{detailOrder?.bellboy?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'">
+                </a>
+                <div class="media-body">
+                  <h5 class="font-weight-normal">
+                    <a [routerLink]="['/bellboy/bellboydetail', detailOrder?.bellboy?._id]">{{detailOrder?.bellboy?.name}}</a>
+                  </h5>
+                  <p><span>Cell No:</span><span class="ml-3 text-secondary">{{detailOrder?.bellboy?.mobile}}</span>
+                  </p>
+                </div>
+              </div>
+              <br>
+            </div>
+            <div class="col-12">
+              <h5 class="font-weight-normal">Delivery Location</h5>
+              <p>
+                <span>Address: </span>
+                <span class="font-weight-lighter"> {{detailOrder?.deliveryAddress?.address}} </span>
+              </p>
+              <div class="map" id="map">
+                <img width="100%" *ngIf="!detailOrder?.deliveryAddress?.address" src="../../../../assets/img/gallery/map-not-load.png" alt="">
+              </div>
+              <br>
+              <h5 class="font-weight-normal">Pickup Location</h5>
+              <p>
+                <span>Address: </span>
+                <span class="font-weight-lighter"> {{detailOrder?.pickUpAddress?.address}} </span>
+              </p>
+              <div class="map" id="map1">
+                <img width="100%" *ngIf="!detailOrder?.pickUpAddress?.address" src="../../../../assets/img/gallery/map-not-load.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-white" (click)="modal.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{currentImage}}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit2" alt="" srcset="">
+  </div>
+</ng-template>

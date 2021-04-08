@@ -1,0 +1,510 @@
+<section id="tabs">
+  <div class="loading-container" *ngIf="spinner">
+    <div class="spinner"></div>
+  </div>
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-1">
+      <h3>Deliveries</h3>
+    </div>
+    <div class="col-sm-12">
+      <div class="parent">
+        <i class="ft-search child"></i>
+        <input type="text" (keyup)="getOrders($event.target.value, status, 1)" id="SearchBellboy" class="form-control placeholder-pad w-33" placeholder="Search by Order Id">
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body px-0 py-3">
+            <ngb-tabset type="pills">
+              <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getOrders('', 2,1)">Order Recieved</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name</th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy</th>
+                        <th>Bellboy Type</th>
+                        <th>Category</th>
+                        <th>Order Time</th>
+                        <th>Finish Time</th>
+                        <th>Date</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allOrders">
+                        <td>{{item.order_id}}</td>
+                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
+                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        </td>
+                        <td>{{item.customer?.mobile}}</td>
+                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        </td>
+                        <td>{{item.bellboyType?.title}}</td>
+                        <td>{{item.category?.title}}</td>
+                        <td>{{item.start_time | date : 'mediumTime'}}</td>
+                        <td>{{item.end_time | date : 'mediumTime'}}</td>
+                        <td>{{item.created_at | date:'mediumDate'}}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="['/deliveries/deliverydetail', item.order_id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end">
+                    <p class="mr-3 d-flex align-items-center">
+                      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                      <span class="text-secondary ml-2">{{totalItems}}</span>
+                    </p>
+                    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getOrders(keyword,status, 1)">
+                            <span aria-hidden="true">First</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="Prev" ngbTooltip="Previous" (click)="getOrders(keyword,status, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                            <span aria-hidden="true">«</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="getOrders(keyword,status, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a ngbTooltip="Next" (click)="getOrders(keyword,status, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="getOrders(keyword,status, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                            <span aria-hidden="true">Last</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getOrders('', 3, 1)">Shopping</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name</th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy</th>
+                        <th>Bellboy Type</th>
+                        <th>Category</th>
+                        <th>Order Time</th>
+                        <th>Finish Time</th>
+                        <th>Date</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allOrders">
+                        <td>{{item.order_id}}</td>
+                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
+                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        </td>
+                        <td>{{item.customer?.mobile}}</td>
+                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        </td>
+                        <td>{{item.bellboyType?.title}}</td>
+                        <td>{{item.category?.title}}</td>
+                        <td>{{item.start_time | date : 'mediumTime'}}</td>
+                        <td>{{item.end_time | date : 'mediumTime'}}</td>
+                        <td>{{item.created_at | date:'mediumDate'}}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="['/deliveries/deliverydetail', item.order_id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end">
+                    <p class="mr-3 d-flex align-items-center">
+                      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                      <span class="text-secondary ml-2">{{totalItems}}</span>
+                    </p>
+                    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getOrders(keyword,status, 1)">
+                            <span aria-hidden="true">First</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="Prev" ngbTooltip="Previous" (click)="getOrders(keyword,status, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                            <span aria-hidden="true">«</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="getOrders(keyword,status, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a ngbTooltip="Next" (click)="getOrders(keyword,status, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="getOrders(keyword,status, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                            <span aria-hidden="true">Last</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getOrders('', 4, 1)">
+                    On the way
+                  </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name</th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy</th>
+                        <th>Bellboy Type</th>
+                        <th>Category</th>
+                        <th>Order Time</th>
+                        <th>Finish Time</th>
+                        <th>Date</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allOrders">
+                        <td>{{item.order_id}}</td>
+                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
+                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        </td>
+                        <td>{{item.customer?.mobile}}</td>
+                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        </td>
+                        <td>{{item.bellboyType?.title}}</td>
+                        <td>{{item.category?.title}}</td>
+                        <td>{{item.start_time | date : 'mediumTime'}}</td>
+                        <td>{{item.end_time | date : 'mediumTime'}}</td>
+                        <td>{{item.created_at | date:'mediumDate'}}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="['/deliveries/deliverydetail', item.order_id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end">
+                    <p class="mr-3 d-flex align-items-center">
+                      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                      <span class="text-secondary ml-2">{{totalItems}}</span>
+                    </p>
+                    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getOrders(keyword,status, 1)">
+                            <span aria-hidden="true">First</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="Prev" ngbTooltip="Previous" (click)="getOrders(keyword,status, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                            <span aria-hidden="true">«</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="getOrders(keyword,status, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a ngbTooltip="Next" (click)="getOrders(keyword,status, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="getOrders(keyword,status, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                            <span aria-hidden="true">Last</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getOrders('', 5, 1)">Reached</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name</th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy</th>
+                        <th>Bellboy Type</th>
+                        <th>Category</th>
+                        <th>Order Time</th>
+                        <th>Finish Time</th>
+                        <th>Date</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allOrders">
+                        <td>{{item.order_id}}</td>
+                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
+                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        </td>
+                        <td>{{item.customer?.mobile}}</td>
+                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        </td>
+                        <td>{{item.bellboyType?.title}}</td>
+                        <td>{{item.category?.title}}</td>
+                        <td>{{item.start_time | date : 'mediumTime'}}</td>
+                        <td>{{item.end_time | date : 'mediumTime'}}</td>
+                        <td>{{item.created_at | date:'mediumDate'}}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="['/deliveries/deliverydetail', item.order_id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end">
+                    <p class="mr-3 d-flex align-items-center">
+                      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                      <span class="text-secondary ml-2">{{totalItems}}</span>
+                    </p>
+                    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getOrders(keyword,status, 1)">
+                            <span aria-hidden="true">First</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="Prev" ngbTooltip="Previous" (click)="getOrders(keyword,status, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                            <span aria-hidden="true">«</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="getOrders(keyword,status, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a ngbTooltip="Next" (click)="getOrders(keyword,status, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="getOrders(keyword,status, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                            <span aria-hidden="true">Last</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getOrders('', 6, 1)">Completed</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name</th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy</th>
+                        <th>Bellboy Type</th>
+                        <th>Category</th>
+                        <th>Order Time</th>
+                        <th>Finish Time</th>
+                        <th>Date</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allOrders">
+                        <td>{{item.order_id}}</td>
+                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
+                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        </td>
+                        <td>{{item.customer?.mobile}}</td>
+                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        </td>
+                        <td>{{item.bellboyType?.title}}</td>
+                        <td>{{item.category?.title}}</td>
+                        <td>{{item.start_time | date : 'mediumTime'}}</td>
+                        <td>{{item.end_time | date : 'mediumTime'}}</td>
+                        <td>{{item.created_at | date:'mediumDate'}}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="['/deliveries/deliverydetail', item.order_id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end">
+                    <p class="mr-3 d-flex align-items-center">
+                      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                      <span class="text-secondary ml-2">{{totalItems}}</span>
+                    </p>
+                    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getOrders(keyword,status, 1)">
+                            <span aria-hidden="true">First</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="Prev" ngbTooltip="Previous" (click)="getOrders(keyword,status, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                            <span aria-hidden="true">«</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="getOrders(keyword,status, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a ngbTooltip="Next" (click)="getOrders(keyword,status, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="getOrders(keyword,status, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                            <span aria-hidden="true">Last</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getOrders('', 7, 1)">Cancelled</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name</th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy</th>
+                        <th>Bellboy Type</th>
+                        <th>Category</th>
+                        <th>Reason</th>
+                        <th>Cancelled Time</th>
+                        <th>Date</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allOrders">
+                        <td>{{item.order_id}}</td>
+                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
+                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        </td>
+                        <td>{{item.customer?.mobile}}</td>
+                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        </td>
+                        <td>{{item.bellboyType?.title}}</td>
+                        <td>
+                          {{item.category?.title}}
+                        </td>
+                        <td><a class="text-orange" (click)="open(reason, item.cancellation_reason)">Reason</a>
+                        </td>
+                        <td>{{item.created_at | date:'mediumTime'}}</td>
+                        <td>{{item.created_at | date:'mediumDate'}}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="['/deliveries/deliverydetail', item.order_id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end">
+                    <p class="mr-3 d-flex align-items-center">
+                      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                      <span class="text-secondary ml-2">{{totalItems}}</span>
+                    </p>
+                    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getOrders(keyword,status, 1)">
+                            <span aria-hidden="true">First</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a aria-label="Prev" ngbTooltip="Previous" (click)="getOrders(keyword,status, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                            <span aria-hidden="true">«</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="getOrders(keyword,status, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a ngbTooltip="Next" (click)="getOrders(keyword,status, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                        </li>
+                        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="getOrders(keyword,status, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                            <span aria-hidden="true">Last</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- Modals -->
+<!-- reason -->
+<ng-template #reason let-modal>
+  <div class="modal-header justify-content-center mb-3">
+    <h3 class="card-title mb-0">Cancellation Reason</h3>
+  </div>
+  <div class="modal-body pb-0">
+    <p class="font-weight-normal text-center">{{cacelled_reason}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Close</button>
+  </div>
+</ng-template>

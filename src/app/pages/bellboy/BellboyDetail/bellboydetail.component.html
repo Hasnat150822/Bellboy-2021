@@ -1,0 +1,289 @@
+<section>
+  <div class="card">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-sm-4 border-right">
+          <div class="media">
+            <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.avatar?.value)">
+              <img class="align-self-center mr-3 image-size" src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+            </a>
+            <div class="media-body mt-auto mb-auto">
+              <h5 class="font-weight-normal"> {{detailBellboy?.bellBoy?.name}}</h5>
+              <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.working_status == true">Online </span>
+              <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.working_status == false">Offline </span>
+              {{detailBellboy?'|':''}}
+              <span class="h6 text-orange" *ngIf="detailBellboy?.bellBoy?.status == 0">Pending </span>
+              <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.status == 1">Approved </span>
+              <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 2">Rejected </span>
+              <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 3">Blocked </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4 border-right">
+          <h5 class="font-weight-500">Contact Detail</h5>
+          <p>
+            <span>Cell No:</span>
+            <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.mobile}}</span>
+          </p>
+          <p>
+            <span>Email:</span>
+            <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.email}}</span>
+          </p>
+          <p>
+            <span>Joining Date:</span><span class="ml-3 text-secondary">
+                {{detailBellboy?.bellBoy?.created_at | date:'mediumDate'}}
+              </span>
+          </p>
+          <p class="mb-0">
+            <span>Date of Birth:</span>
+            <span class="ml-3 text-secondary">
+                {{detailBellboy?.bellBoy?.birth_date.month}}-{{detailBellboy?.bellBoy?.birth_date.day}}-{{detailBellboy?.bellBoy?.birth_date.year}}
+              </span>
+          </p>
+        </div>
+        <div class="col-sm-4">
+          <h5 class="font-weight-500">Bellboy Stats</h5>
+          <p>
+            <span>Last online:</span>
+            <span class="ml-3 text-secondary" *ngIf="detailBellboy">
+              {{detailBellboy?.bellBoy?.last_active | date:'mediumDate'}} at {{detailBellboy?.bellBoy?.last_active | date:'shortTime'}}
+            </span>
+          </p>
+          <p>
+            <span>Total working hours:</span>
+            <span class="ml-3 text-secondary" *ngIf="detailBellboy">
+              {{ detailBellboy?.bellBoy?.total_working_hours.toString().split(".")[0] }} hours
+              {{ ('.'+detailBellboy?.bellBoy?.total_working_hours.toString().split(".")[1])*60 | number:'1.0-0' }} mins
+            </span>
+          </p>
+          <p>
+            <span>Total completed hirings:</span>
+            <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.total_hirings }}</span>
+          </p>
+          <p>
+            <span>Total earnings:</span>
+            <span class="ml-3 text-secondary" *ngIf="detailBellboy">{{detailBellboy?.bellBoy?.total_earnings | number:'1.0-0'}}/- Rs</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="font-weight-500">Legals</h5>
+      <div class="row">
+        <div class="col-sm-6 border-right">
+          <div class="row">
+            <div class="col-sm-6 text-left">
+              <h6 class="font-weight-500 mb-0" style="line-height: 37px;">CNIC details</h6>
+            </div>
+            <div class="col-sm-6 text-right mb-2">
+              <a>
+                <button class="btn btn-orange" *ngIf="detailBellboy?.bellBoy?.legals?.nic?.approval == 0" (click)="changeNIC(1)">Approve NIC</button>
+                <button class="btn btn-danger" *ngIf="detailBellboy?.bellBoy?.legals?.nic?.approval == 1" (click)="changeNIC(0)">Block NIC</button>
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>NIC Number: </span>
+                <span class="ml-2 text-secondary">
+                  {{detailBellboy?.bellBoy?.legals?.nic?.value}}
+                </span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Expiry Date: </span>
+                <span class="ml-2 text-secondary">
+                  {{detailBellboy?.bellBoy?.legals?.nic?.expiry_date | date:'mediumDate'}}
+                </span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.nic?.front_image)">
+                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.nic?.front_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              </a>
+              <figcaption class="text-center">Front</figcaption>
+            </div>
+            <div class="col-sm-6">
+              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.nic?.back_image)">
+                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.nic?.back_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              </a>
+              <figcaption class="text-center">Back</figcaption>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="col-sm-6 text-left">
+              <h6 class="font-weight-500 mb-0" style="line-height: 37px;">License details</h6>
+            </div>
+            <div class="col-sm-6 text-right mb-2">
+              <a>
+                <button class="btn btn-orange" *ngIf="detailBellboy?.bellBoy?.legals?.driving_license?.approval == 0" (click)="changeLicense(1)">Approve License</button>
+                <button class="btn btn-danger" *ngIf="detailBellboy?.bellBoy?.legals?.driving_license?.approval == 1" (click)="changeLicense(0)">Block License</button>
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>License Number: </span>
+                <span class="ml-2 text-secondary">
+                  {{detailBellboy?.bellBoy?.legals?.driving_license?.value}}
+                </span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Expiry Date: </span>
+                <span class="ml-2 text-secondary">
+                  {{detailBellboy?.bellBoy?.legals?.driving_license?.expiry_date | date:'mediumDate'}}
+                </span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.driving_license?.front_image)">
+                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.driving_license?.front_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              </a>
+              <figcaption class="text-center">Front</figcaption>
+            </div>
+            <div class="col-sm-6">
+              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.driving_license?.back_image)">
+                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.driving_license?.back_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              </a>
+              <figcaption class="text-center">Back</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body mb-0">
+            <div class="row mb-3 justify-content-center">
+              <div class="col-sm-12">
+                <h5 class="font-weight-500">Vehicle Details</h5>
+              </div>
+              <div class="col-sm-12 card-header py-2 mt-2">
+                <h6 class="mb-0 font-weight-normal">Vehicle List</h6>
+              </div>
+              <div class="col-sm-12 bg-light">
+                <div class="row align-items-center text-center" *ngFor="let item of detailBellboy?.vehicles">
+                  <div class="col-sm-3">
+                    <img class="vehicle-image" src="{{amazonImgUrl}}{{item?.vehicleType?.icon}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" alt="" />
+                  </div>
+                  <div class="col-sm-3">
+                    <img class="vehicle-image mt-1" style="border-radius: 15px" src="{{amazonImgUrl}}{{item?.vehicleBrand?.icon}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" alt="" />
+                  </div>
+                  <div class="col-sm-2">{{item?.vehicleModel?.title}}</div>
+                  <div class="col-sm-2">
+                    <a>
+                      <button *ngIf="item.approval==0" (click)="changeStatus(item._id, 1)" class="btn btn-success">
+                        Approve
+                      </button>
+                      <button *ngIf="item.approval==1" (click)="changeStatus(item._id, 0)" class="btn btn-danger">
+                        Block
+                      </button>
+                    </a>
+                  </div>
+                  <div class="col-sm-2">
+                    <a class="p-0 text-dark" ngbTooltip="View Detail" (click)="showDetail(item._id)">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="" />
+                    </a>
+                  </div>
+                  <div id="{{item._id}}" hidden="true" class="col-sm-12">
+                    <div class="row m-0 v-detail text-left">
+                      <div class="col-sm-5">
+                        <p>
+                          <span>Color: </span>
+                          <span class="text-secondary ml-3">{{item.color}}</span>
+                        </p>
+                      </div>
+                      <div class="col-sm-7">
+                        <p>
+                          <span>Approval Status: </span>
+                          <span class="text-secondary text-orange ml-3" *ngIf="item.approval==0">Pending</span
+                          >
+                          <span
+                            class="text-secondary text-success ml-3"
+                            *ngIf="item.approval==1"
+                            >Approved</span
+                          >
+                        </p>
+                      </div>
+                      <div class="col-sm-5">
+                        <p>
+                          <span>Brand: </span>
+                          <span class="text-secondary ml-3">
+                            {{item?.vehicleBrand?.title}}
+                          </span>
+                        </p>
+                      </div>
+                      <div class="col-sm-7">
+                        <p>
+                          <span>Number Plate: </span>
+                          <span class="text-secondary ml-3">
+                            {{item?.plate?.plate_number}}
+                          </span>
+                        </p>
+                      </div>
+                      <div class="col-sm-12 row align-items-center m-0">
+                        <div class="col-sm-3 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.front_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.front_image}}" />
+                          </a>
+                          <figcaption>Front</figcaption>
+                        </div>
+                        <div class="col-sm-3 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.back_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.back_image}}" />
+                          </a>
+                          <figcaption>Back</figcaption>
+                        </div>
+                        <div class="col-sm-3 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.right_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.right_image}}" />
+                          </a>
+                          <figcaption>Right</figcaption>
+                        </div>
+                        <div class="col-sm-3 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.left_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.left_image}}" />
+                          </a>
+                          <figcaption>Left</figcaption>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 text-center">
+                        <a>
+                          <img class="plate-image" (click)="openModel(bigImg, item?.plate?.plate_image)" src="{{amazonImgUrl}}{{item?.plate?.plate_image}}" alt="img" />
+                        </a>
+                        <figcaption>Number Plate</figcaption>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <app-bellboy-hirings [bbId]="_id"></app-bellboy-hirings>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-white" (click)="modal.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{currentImage}}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit" alt="" srcset="">
+  </div>
+</ng-template>

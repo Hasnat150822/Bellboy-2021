@@ -1,0 +1,64 @@
+<!--Login Page Starts-->
+<section id="login">
+  <div class="container-fluid">
+    <div class="row m-0 full-height-vh">
+      <div class="col-md-7 d-flex align-items-center text-white">
+        <div class="content-div">
+          <div class="row">
+            <div class="col-sm-12 mb-2">
+              <h1 class="font-weight-normal">Bellboy</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <p>Filling the gap in daily household and outdoor needs, our mobile application offers a unique service for you to conveniently hire-a-bellboy as “your personal assistant” for a certain period of time, to do multiple or specific outdoor jobs,
+                for example, research of any product or market (sanitary market prices & latest pictures or school’s visits to collect prospectus), distribute marriage invitations on your behalf, get the laundry, parcel/gift delivery or courier, exchange
+                from a certain store etc.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <p>Additionally you can order deliveries of groceries, medicines, food, fruits & vegetables and meat from selected stores or nearby shop to your door step. Let our bellboys take care of your needs.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <p>Let our bellboys take care of your needs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 d-flex align-items-center justify-content-center">
+        <div class="card" style="width: 500px;">
+          <div cSSlass="card-content">
+            <div class="card-body">
+              <h3 class="mb-3">Welcome to <span class="text-orange">Admin Panel</span></h3>
+              <form [formGroup]="loginForm">
+                <div class="form-group">
+                  <input type="email" class="form-control mb-3" placeholder="Email" formControlName="email" />
+                  <p class="text-error" *ngIf="submitted && loginForm.controls.email.hasError('required')">
+                    Email is required
+                  </p>
+                </div>
+                <div class="form-group position-relative">
+                  <input [type]="inputType" class="form-control mb-3" placeholder="Password" formControlName="pass" />
+                  <a><i (click)="eyeToggle=!eyeToggle; inputType='text'" class="ft-eye text-orange position-absolute" *ngIf="eyeToggle===true"></i>
+                    <i class="ft-eye-off position-absolute text-orange" (click)="eyeToggle=!eyeToggle; inputType='password'" *ngIf="eyeToggle===false"></i></a>
+                  <p class="text-error" *ngIf="submitted && loginForm.controls.pass.hasError('required')">
+                    Password is required
+                  </p>
+                </div>
+                <div class="fg-actions d-flex justify-content-between" (click)="subitForm(loginForm)">
+                  <button class="btn btn-login w-100">
+                    <a class="text-decoration-none text-white">Login</a>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

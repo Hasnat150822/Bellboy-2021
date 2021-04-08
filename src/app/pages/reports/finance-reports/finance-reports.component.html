@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-12">
+    <span class="card-title h2"> <strong>Total Record</strong> </span>
+  </div>
+  <div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="card recordCard">
+      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+      <div class="card-body" *ngIf="!spinner">
+        <h5 class="font-weight-500 mb-0">
+          {{totalRecords
+          ?.totalCustomers}}
+          <span class="float-right">
+            <img height="25px" src="../../../assets/img/ico/users.png">
+          </span>
+        </h5>
+        <hr>
+        <p class="mb-0">
+          <span>Total Customer</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="card recordCard">
+      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+      <div class="card-body" *ngIf="!spinner">
+        <h5 class="font-weight-500 mb-0">
+          {{totalRecords
+          ?.totalCustomersWithHirings}}
+          <span class="float-right">
+            <img height="25px" src="../../../assets/img/ico/canceled-hiring.svg">
+          </span>
+        </h5>
+        <hr>
+        <p class="mb-0">
+          <span>Customer With Hirings</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="card recordCard">
+      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+      <div class="card-body" *ngIf="!spinner">
+        <h5 class="font-weight-500 mb-0">
+          {{totalRecords
+          ?.hiringsCount}}
+          <span class="float-right">
+            <img height="25px" src="../../../assets/img/ico/product.png">
+          </span>
+        </h5>
+        <hr>
+        <p class="mb-0">
+          <span>Total Hirings</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="card recordCard">
+      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+      <div class="card-body" *ngIf="!spinner">
+        <h5 class="font-weight-500 mb-0">
+            {{totalRecords
+            ?.totalEarning | number:'1.0-0'}}/- Rs
+            <span class="float-right">
+              <img height="25px" src="../../../assets/img/ico/money.png">
+            </span>
+          </h5>
+        <hr>
+        <p class="mb-0">
+          <span>Total Earnings</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #shimmer>
+  <div class="card-body" *ngIf="spinner" [ngClass]="{'shine':spinner}">
+  </div>
+</ng-template>

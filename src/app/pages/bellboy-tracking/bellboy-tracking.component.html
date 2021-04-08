@@ -1,0 +1,75 @@
+<!--Fullscreen Map Starts-->
+<section id="fullscreenMap" class="mt-2">
+  <div class="loading-container" *ngIf="spinner">
+    <div class="spinner"></div>
+  </div>
+  <div class="row">
+    <div id="mapView" class="col-sm-8 p-0 position-relative">
+      <a (click)="maximize()"><i ngbTooltip="Full View" class="ft-maximize"></i></a>
+      <agm-map *ngIf="isSelected === true" style="height: 500px;" [zoom]="zoom" [scaleControl]="true" [latitude]="lat" [longitude]="lng">
+        <agm-marker *ngFor="let item of bellboys" [latitude]="item?.geolocation?.latitude" [longitude]="item?.geolocation?.longitude" [iconUrl]="'../../../assets/img/ico/marker.png'" (mouseOver)="onMouseOver(infoWindow, $event)" (mouseOut)="onMouseOut(infoWindow, $event)"
+        (markerClick)="detailView(item?.profile?.id)">
+          <agm-info-window [disableAutoPan]="false" #infoWindow>
+            <div class="row align-items-center">
+              <div class="col-sm-4">
+                <img class="window-img" src="{{amazonImgUrl}}{{item?.profile?.avatar}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="">
+              </div>
+              <div class="col-sm-8">
+                <h5 class="font-weight-500">{{item?.profile?.name}}</h5>
+                <p>
+                  <span class="font-weight-500">Mobile: &nbsp;</span>
+                  <span>{{item?.profile?.mobile}}</span>
+                </p>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+      <agm-map *ngIf="isSelected === false" style="height: 500px;" [zoom]="zoom" [scaleControl]="true" [latitude]="lat" [longitude]="lng">
+        <agm-marker *ngFor="let item of locations" [latitude]="item?.geolocation?.latitude" [longitude]="item?.geolocation?.longitude" [iconUrl]="'../../../assets/img/ico/marker-green.png'" (mouseOver)="onMouseOver(infoWindow, $event)" (mouseOut)="onMouseOut(infoWindow, $event)"
+        (markerClick)="detailView(item?.profile?.id)">
+          <agm-info-window [disableAutoPan]="false" #infoWindow>
+            <div class="row align-items-center">
+              <div class="col-sm-4">
+                <img class="window-img" src="{{amazonImgUrl}}{{item?.profile?.avatar}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="">
+              </div>
+              <div class="col-sm-8">
+                <h5 class="font-weight-500">{{item?.profile?.name}}</h5>
+                <p>
+                  <span class="font-weight-500">Mobile: &nbsp;</span>
+                  <span>{{item?.profile?.mobile}}</span>
+                </p>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+    <div id="bellboy" class="col-sm-4 p-0">
+      <div class="card rounded-0 pb-0 m-0" style="height: 500px;">
+        <div class="card-body customeCard">
+          <div *ngFor="let item of bellboys" class="row bg-light py-2 rounded align-items-center mb-2">
+            <div class="col-sm-12">
+              <div class="media" (click)="zoomCurrent(item)">
+                <img class="table-img-size" src="{{amazonImgUrl}}{{item.profile?.avatar}}">
+                <div class="media-body">
+                  <article class="font-weight-500">{{item.profile?.name}}</article>
+                  <small>{{item.profile?.mobile}}</small>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-sm-5 text-right">
+              <button class="btn btn-orange" (click)="assignBellboy(item._id)">
+                Assign Bellboy
+              </button>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button class="mb-3 btn btn-orange" (click)="resetMap()">Reset Map</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Fullscreen Map Ends-->

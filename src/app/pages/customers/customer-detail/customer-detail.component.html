@@ -1,0 +1,130 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row align-items-center" myMatchHeight="card">
+      <div class="col-sm-4 card">
+        <div class="media align-self-center m-auto">
+          <a (click)="bigImage(amazonImgUrl+customerDetail?.avatar?.value)">
+            <img class="align-self-center mr-3 image-size" src="{{customerDetail?amazonImgUrl+customerDetail?.avatar?.value:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+          </a>
+          <div class="media-body mt-auto mb-auto">
+            <h5 class="font-weight-normal">{{customerDetail?.name}}</h5><span class="h6 text-success" *ngIf="customerDetail?.status == true">Active </span><span class="h6 text-error" *ngIf="customerDetail?.status == false">Deactive</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 card border-left align-self-start">
+        <h5 class="font-weight-500">Contact Detail</h5>
+        <p><span>Cell No:</span>  <span class="ml-3 text-secondary">{{customerDetail?.mobile}}</span>
+        </p>
+        <p><span>Email:</span>  <span class="ml-3 text-secondary">{{customerDetail?.email}}</span>
+        </p>
+        <p><span>Joining Date:</span><span class="ml-3 text-secondary"> {{customerDetail?.created_at | date:'mediumDate'}}</span>
+        </p>
+        <p><span>Gender:</span><span class="ml-3 text-secondary"> {{customerDetail?.gender}}</span>
+        </p>
+        <p class="mb-0"><span>Date of Birth:</span>  <span class="ml-3 text-secondary">{{customerDetail?.birth_date | date:'mediumDate'}}</span>
+        </p>
+      </div>
+      <div class="col-sm-4 card border-left">
+        <h5 class="font-weight-500">Customer Stats</h5>
+        <p><span>Last Login:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.last_active | date:'mediumDate'}} at {{customerDetail?.last_active | date:'shortTime'}}</span>
+        </p>
+        <p><span>Last Seen:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.last_seen | date:'mediumDate'}} at {{customerDetail?.last_seen | date:'shortTime'}}</span>
+        </p>
+        <p><span>Sign Up Device:</span>  <span class="ml-3 text-secondary">{{customerDetail?.signup_device }}</span>
+        </p>
+        <p><span>Current Device:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.current_device}}</span>
+        </p>
+        <p><span>Total Logins:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.total_logins}}</span>
+        </p>
+        <p><span>Total Hirings:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.total_hirings}}</span>
+        </p>
+        <p><span>Total Amount Spent:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.total_spend | number:'1.0-0'}}/ -Rs</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card mt-2" [perfectScrollbar]>
+  <div class="card-content">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <h5 class="font-weight-500">Hiring<div class="form-group float-right perPageBlock mb-0"><select class="form-control perPage" (change)="getHiringsByCust(1, $event.target.value)"><option value="10">10 / page</option><option value="25">25 / page</option><option value="50">50 / page</option></select></div></h5>
+          <br>
+          <table class="table table-responsive-md table-striped">
+            <thead>
+              <tr>
+                <th>Hiring Id</th>
+                <th>No of Tasks</th>
+                <th>Bellboy Name</th>
+                <th>Status</th>
+                <th>Amount</th>
+                <th>Grace Time</th>
+                <th>Time</th>
+                <th>Date</th>
+                <th>Detail View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of hiringByCust">
+                <td>{{item.hiring_id}}</td>
+                <td>{{item.totalActions}}</td>
+                <td><a [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]">{{item.bellboy?.name}}</a>
+                </td>
+                <td><span *ngIf="item.status==1" class="text-orange">Pending</span>  <span *ngIf="item.status==2" class="text-success">Assigned</span>  <span *ngIf="item.status==3" class="text-success">In Progress / Payment Waiting</span>  <span *ngIf="item.status==4"
+                  class="text-success">Completed</span>  <span *ngIf="item.status==5" class="text-error">Cancelled</span>
+                </td>
+                <td>{{item.charges?.totalBill}}</td>
+                <td>{{item.charges?.graceTime}}</td>
+                <td>{{item.charges?.totalTime | timeConvert}}</td>
+                <td>{{item.created_at | date:'mediumDate'}}</td>
+                <td>
+                  <a class="p-0 text-dark" [routerLink]="['/hiring/hiringDetail', item.hiring_id]">
+                    <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-container *ngTemplateOutlet="pagination"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-big-image *ngIf="isBigImg"></app-big-image>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end" *ngIf="pager.pages && pager.pages.length">
+    <p class="mr-3 d-flex align-items-center"><span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> : <span class="text-secondary ml-2">{{ this.customerDetail?.total_hirings }}</span>
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination">
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"><a aria-label="First" class="ng2-smart-page-link page-link" (click)="
+            getHiringsByCust(
+              1,
+              perPage
+            )
+          "><span aria-hidden="true">First</span></a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage <= 4 }"><a aria-label="Prev" ngbTooltip="Previous 5" (click)="prev5Items(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+        </li>
+        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }"><a (click)="
+            getHiringsByCust(
+              page,
+              perPage
+            )
+          " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"><a ngbTooltip="Next 5" (click)="next5Items(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span></a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"><a (click)="
+            getHiringsByCust(
+              pager.totalPages,
+              perPage
+            )
+          " aria-label="Last" class="ng2-smart-page-link page-link"><span aria-hidden="true">Last</span></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-template>

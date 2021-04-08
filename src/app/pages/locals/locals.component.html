@@ -1,0 +1,68 @@
+<section id="tabs">
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-6 mb-1">
+      <h3>Locals</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button class="btn btn-orange mb-0" (click)="open(addlocal)">Add Local</button>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Urdu</td>
+                  <td>ur</td>
+                </tr>
+                <tr>
+                  <td>English</td>
+                  <td>eng</td>
+                </tr>
+                <tr>
+                  <td>Urdu</td>
+                  <td>ur</td>
+                </tr>
+                <tr>
+                  <td>English</td>
+                  <td>eng</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- addbrand -->
+<ng-template #addlocal let-modal>
+  <div class="modal-header justify-content-center">
+    <h3 class="card-title mb-0">Add Locals</h3>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Code">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="modal.close('Save click')">Add Local</button>
+  </div>
+</ng-template>

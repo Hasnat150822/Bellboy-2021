@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3 *ngIf="headStatus == 'all'">All Advertisement</h3>
+      <h3 *ngIf="headStatus == 'active'">Active Advertisement</h3>
+      <h3 *ngIf="headStatus == 'deactivate'">Deactivate Advertisement</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button (click)="open(addAdvert)" class="btn btn-orange">Add Advertisement</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let item of allAdvert.advertisements" class="slide">
+          <div class="card">
+            <div class="card-body">
+              <h6>
+                            <span class="font-weight-500">Advertisement Title</span>
+                            <p class="float-right"><small class="font-weight-500">Status: </small> <small class="text-success">{{item.status}}</small></p>
+                        </h6>
+              <img src="https://bellboy-global-bucket.s3.amazonaws.com/{{item.image}}" height="230px" width="300px" onerror="src='../../../assets/img/gallery/1.jpg'" alt="" width="100%">
+              <div class="row py-2">
+                <div class="col-sm-6">
+                  <button *ngIf="item.status==false" (click)="updateStatus('true',item._id)" class="btn btn-success">
+                    Activate
+                  </button>
+                  <button *ngIf="item.status==true" (click)="updateStatus('false',item._id)" class="btn btn-orange">
+                    Deactivate
+                  </button>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <button class="btn btn-danger">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col-sm-12 text-right">
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'active';getAdvert(true)">Total Actived Advertisements: </a> </span>
+      <span class="text-orange">{{allAdvert.totalActive}}</span> &nbsp;
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'deactivate';getAdvert(false)">Total Deactivated Advertisements: </a> </span>
+      <span class="text-orange">{{allAdvert.totalDeactive}}</span> &nbsp;
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'all';getAdvert(null)">Total Advertisements: </a> </span>
+      <span class="text-orange">{{allAdvert.total}}</span>
+    </div>
+  </div>
+</div>
+<ng-template #addAdvert let-modal>
+  <div class="modal-header justify-content-center">
+    <h3>Upload File</h3>
+  </div>
+  <div class="modal-body">
+    <div class="position-relative text-center">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="256" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+      [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+      <input #file type="file" accept='image/*' (change)="fileChangeEvent($event)" class="upload-input" type="file">
+      <button class="camera-icon btn btn-orange">Insert Image</button>
+      <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{croppedImage}}">
+      <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+      <p class="text-error" *ngIf="croppedImage && submitted">
+        Image is required
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-right">
+      <button class="btn btn-secondary" (click)="modal.close('close click')">Close</button>
+      <button class="btn btn-success" (click)="uploadImg()">Upload Image</button>
+    </div>
+  </div>
+</ng-template>

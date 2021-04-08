@@ -1,0 +1,46 @@
+// Login Page
+#login{
+  background-image: url('../../../../assets/img/photos/loginbg.png');
+  background-size: 100% 100%;
+}
+.container-fluid{
+  background-color: rgba(0, 0, 0, 0.45);
+}
+.login-img {
+  padding: 0;
+  background: #f0f0f0;
+}
+.ft-eye, .ft-eye-off{
+  right: 12px;
+  top: 10px;
+}
+.login-btn {
+  .btn.btn-outline-primary {
+    &:hover {
+      a {
+        color: #fff;
+      }
+    }
+  }
+}
+.content-div{
+  padding: 0px 20px;
+  text-shadow: 1px ​1px black;
+}
+.btn-login{
+  background-color: #FA9008;
+  border-color: #FA9008;
+}
+.recover-pass {
+  button.btn.btn-primary {
+    color: #fff !important;
+  }
+}
+.forgot-password-option,
+.remember-me {
+
+  a.text-decoration-none,
+  .custom-control-label {
+    font-size: 14px;
+  }
+}

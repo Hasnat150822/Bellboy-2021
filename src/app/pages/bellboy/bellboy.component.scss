@@ -1,0 +1,42 @@
+ul.nav-pills{
+    padding-left: 1rem;
+}
+#SearchBellboy::placeholder{
+    color: #ccc;
+    margin-left: 10px;
+}
+.object-fit{
+    height: 400px;
+    width: 600px;
+    object-fit: contain;
+  }
+  ::ng-deep .bigImage .modal-dialog{
+    max-width: 60%;
+    left: 8%;
+    box-shadow: none;
+    overflow-x: scroll;
+  }
+  ::ng-deep .bigImage .modal-dialog .modal-content{
+    background:rgba(0,0,0,0);
+    border:none;
+  }
+  ::ng-deep .my-class {
+    top: 0% !important;
+    .modal-dialog { 
+        max-width: 70%;
+        width: 70%;
+      }
+      .modal-content{
+        margin-bottom: 18px;
+    }
+}
+  .modal-header{
+      background-color: unset;
+  }
+  .ft-x {
+      font-size: 24px;
+  }
+.ng2-smart-page-item{
+    line-height: unset;
+    margin: 0 !important;
+}

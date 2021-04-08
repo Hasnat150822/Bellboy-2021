@@ -1,0 +1,21 @@
+.window-img{
+    height: 100px;
+    width: 100px;
+    object-fit: fill;
+    border-radius: 50%;
+}
+.customeCard{
+    overflow-y: scroll;
+}
+.media{
+    cursor: pointer;
+}
+.ft-maximize{
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    left: 1rem;
+    color: red;
+    font-size: 24px;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+}

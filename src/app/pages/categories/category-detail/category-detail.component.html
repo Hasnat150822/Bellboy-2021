@@ -1,0 +1,95 @@
+<section>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3>Category Detail</h3>
+              </div>
+              <div class="col-sm-6 text-right">
+                <span class="font-weight-bold">Status: </span>
+                <span *ngIf="catDetail.status == false" class="font-weight-light text-secondary">Deactive</span>
+                <span *ngIf="catDetail.status == true" class="font-weight-light text-secondary">Active</span>
+                <a class="ml-2">
+                  <i placement="top" *ngIf="catDetail.status == false" ngbTooltip="Activate Category" (click)="changeStatus('true')" class="ft-power text-success"></i>
+                  <i placement="top" *ngIf="catDetail.status == true" ngbTooltip="Deactivate Category" (click)="changeStatus('false')" class="ft-power text-error"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <h5 class="font-weight-bold text-center">Category Title</h5>
+                <div class="row align-items-center" *ngFor="let item of catDetail.labels">
+                  <div class="col-12">
+                    <h5 class="font-weight-normal">{{item?.locale?.title}}</h5>
+                  </div>
+                  <div class="col-8">
+                    <div class="form-group mt-3">
+                      <input type="text" class="form-control" id="{{item._id}}" value="{{item?.label}}" placeholder="Category Name">
+                    </div>
+                  </div>
+                  <div class="col-4 text-left">
+                    <a>
+                      <button class="btn btn-orange" (click)="updateLabel(item._id, item)">Update Label</button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 d-flex justify-content-end align-items-center position-relative">
+                <img src="{{imgURL}}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" class="position-absolute image-style">
+                <input type="file" #file accept="image/*" (change)="preview(file.files)" class="change-input">
+                <button class="change-button">Change</button>
+              </div>
+              <div class="col-sm-2 text-right d-flex position-relative justify-content-end">
+                <a (click)="open(addLabel)" class="text-orange">
+                  <span class="ft-plus text-dark"></span>
+                  <span class="ml-1"> Add Label </span> 
+                </a>
+                <button class="btn btn-orange bottom-place" (click)="updateImage()">Update Image</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #addLabel let-modal>
+  <div class="modal-header justify-content-center">
+    <h3 class="card-title mb-0">Add Label</h3>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="labelForm">
+      <div class="form-group">
+        <select class="form-control" (change)="changeLocal($event)">
+          <option value="">Select Language</option>
+          <option *ngFor="let item of locals" value="{{item.code}}/{{item._id}}">
+            {{item.title}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group" *ngIf="code=='ur' || code=='ar'">
+        <input type="text" formControlName="label" class="form-control text-right" placeholder="لیبل">
+      </div>
+      <div class="form-group" *ngIf="code=='en'">
+        <input type="text" formControlName="label" class="form-control" placeholder="Label">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="submitLabel(labelForm)">Add Label</button>
+  </div>
+</ng-template>

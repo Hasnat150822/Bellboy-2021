@@ -1,0 +1,292 @@
+<section id="tabs">
+  <div class="row text-left mt-2">
+    <div class="col-6">
+      <h3>Roles Management</h3>
+    </div>
+    <div class="col-6 text-right">
+      <button class="btn btn-orange mb-0" (click)="open(addRole)">Add New Role</button>
+    </div>
+    <!-- <div class="col-sm-12">
+     <input class="form-control w-33" placeholder="Search Departments">
+   </div> -->
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    <a (click)="sortByName();">Title <i id="sortByName"></i> </a>
+                  </th>
+                  <!-- <th>User Registered</th> -->
+                  <th>Permission</th>
+                  <th>View / Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                <tr *ngFor="let item of permissions">
+                  <td>{{item.title}}</td>
+                  <!-- <td>4</td> -->
+                  <td>{{item.permissions.length}}</td>
+                  <!-- <td>Hasnat Hameed</td> -->
+                  <td>
+                    <a class="p-0 text-dark" (click)="open(updateRole);permissionVerify(item, item.permissions)">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<ng-template #addRole let-modal>
+  <div class="modal-header justify-content-center mb-2">
+    <h3 class="card-title mb-0">Add New Role</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="createRoleForm">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="title" placeholder="Title for Role">
+            <div *ngIf="roleSubmitted">
+              <p class="text-error mb-1" *ngIf="createRoleForm.controls.title.hasError('required')">
+                Title is required
+              </p>
+              <p class="text-error" *ngIf="this.checkedValues.length==0">
+                Please select atleast one Permission
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:0:3; let i=index">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 0)" type="checkbox">
+              <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" value="BellBoy" id="bellboy" type="checkbox">
+              <a>
+                <label class="custom-control-label fill-check fill-check text-orange" for="bellboy" (click)="isHideBellboy=!isHideBellboy">BellBoy</label>
+              </a>
+              <div [hidden]="isHideBellboy" id="bellboySec">
+                <div *ngFor="let item of checkboxValue | slice:3:10; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 3)" type="checkbox">
+                  <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:10:11; let i=index">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 10)" type="checkbox">
+              <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" value="Finance" id="reportsSec" type="checkbox">
+              <a>
+                <label class="custom-control-label fill-check text-orange" for="reportsSec" (click)="isHideReports = !isHideReports">Reports</label>
+              </a>
+              <div [hidden]="isHideReports">
+                <div *ngFor="let item of checkboxValue | slice:11:13; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 11)" type="checkbox">
+                  <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" value="Orders" id="orderSec" type="checkbox">
+              <a>
+                <label class="custom-control-label fill-check text-orange" for="orderSec" (click)="isHideOrder=!isHideOrder">Bellboy Staff</label>
+              </a>
+              <div [hidden]="isHideOrder">
+                <div *ngFor="let item of checkboxValue | slice:13:15; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 13)" type="checkbox">
+                  <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" value="Media" id="mediaSec" type="checkbox">
+              <a>
+                <label class="custom-control-label fill-check text-orange" for="mediaSec" (click)="isHideMedia = !isHideMedia">Media</label>
+              </a>
+              <div [hidden]="isHideMedia">
+                <div *ngFor="let item of checkboxValue | slice:15:17; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 15)" type="checkbox">
+                  <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:17:19; let i=index">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 17)" type="checkbox">
+              <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-orange" (click)="SubmitRole(createRoleForm)">Add Role</button>
+  </div>
+</ng-template>
+<ng-template #updateRole let-modal>
+  <div class="modal-header justify-content-center">
+    <h3 class="card-title mb-0">Update Role</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <form class="modal-body pb-0" [formGroup]="updateForm">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="title" placeholder="Title for Role">
+          <div *ngIf="roleSubmitted">
+            <p class="text-error mb-1" *ngIf="updateForm.controls.title.hasError('required')">
+              Title is required
+            </p>
+            <p class="text-error" *ngIf="this.checkedValues.length==0">
+              Please select atleast one Permission
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:0:3; let i=index">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 0)" type="checkbox">
+            <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" value="BellBoy" id="bellboy" type="checkbox">
+            <a>
+              <label class="custom-control-label fill-check fill-check text-orange" for="bellboy" (click)="isHideBellboy=!isHideBellboy">BellBoy</label>
+            </a>
+            <div [hidden]="isHideBellboy" id="bellboySec">
+              <div *ngFor="let item of checkboxValue | slice:3:10; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 3)" type="checkbox">
+                <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:10:11; let i=index">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 10)" type="checkbox">
+            <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" value="Finance" id="reportsSec" type="checkbox">
+            <a>
+              <label class="custom-control-label fill-check text-orange" for="reportsSec" (click)="isHideReports = !isHideReports">Reports</label>
+            </a>
+            <div [hidden]="isHideReports">
+              <div *ngFor="let item of checkboxValue | slice:11:13; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 11)" type="checkbox">
+                <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" value="Orders" id="orderSec" type="checkbox">
+            <a>
+              <label class="custom-control-label fill-check text-orange" for="orderSec" (click)="isHideOrder=!isHideOrder">Bellboy Staff</label>
+            </a>
+            <div [hidden]="isHideOrder">
+              <div *ngFor="let item of checkboxValue | slice:13:15; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 13)" type="checkbox">
+                <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" value="Media" id="mediaSec" type="checkbox">
+            <a>
+              <label class="custom-control-label fill-check text-orange" for="mediaSec" (click)="isHideMedia = !isHideMedia">Media</label>
+            </a>
+            <div [hidden]="isHideMedia">
+              <div *ngFor="let item of checkboxValue | slice:15:17; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 15)" type="checkbox">
+                <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:17:19; let i=index">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 17)" type="checkbox">
+            <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="modal.close('Save click'); UpdateRole(updateForm)">Update</button>
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>

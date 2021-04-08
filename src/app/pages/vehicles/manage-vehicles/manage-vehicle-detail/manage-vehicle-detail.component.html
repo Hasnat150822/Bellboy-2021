@@ -1,0 +1,149 @@
+<section>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body mb-3">
+            <div class="row mb-3">
+              <div class="col-sm-6 col-xs-6">
+                <h4 class="card-title">Bellboy Profile</h4>
+              </div>
+              <div class="col-sm-6 col-xs-6 text-right">
+                <p>
+                  <span class="">Status: </span>
+                  <span class="h6 text-success" *ngIf="DetailVehicle?.bellboy.working_status == true">Online</span>
+                  <span class="h6 text-error" *ngIf="DetailVehicle?.bellboy.working_status == false">Offline</span>
+                </p>
+                <p>
+                  <span class="">Approval Status: </span>
+                  <span class="h6 text-secondary" *ngIf="DetailVehicle?.bellboy.status == 0">Pending</span>
+                  <span class="h6 text-success" *ngIf="DetailVehicle?.bellboy.status == 1">Approved</span>
+                  <span class="h6 text-error" *ngIf="DetailVehicle?.bellboy.status == 2">Rejected</span>
+                  <span class="h6 text-error" *ngIf="DetailVehicle?.bellboy.status == 3">Blocked</span>
+                </p>
+              </div>
+            </div>
+            <div class="media align-items-center">
+              <a (click)="openModel(bigImg, DetailVehicle?.bellboy?.avatar?.value)">
+                <img alt="100x100" class="media-object image-size d-flex mr-3 bg-primary" src="{{amazonImgUrl}}{{DetailVehicle?.bellboy?.avatar?.value}}">
+              </a>
+              <div class="media-body">
+                <h5 class="font-weight-normal">{{DetailVehicle?.bellboy?.name}}</h5>
+                <p>
+                  <span>Cell No:</span>
+                  <span class="ml-3 text-secondary">{{DetailVehicle?.bellboy?.mobile}}</span>
+                </p>
+                <p>
+                  <span>Email:</span>
+                  <span class="ml-3 text-secondary">{{DetailVehicle?.bellboy?.email}}</span>
+                </p>
+                <p>
+                  <span>Joining Date:</span><span class="ml-3 text-secondary">
+                    {{DetailVehicle?.bellboy?.created_at}}
+                  </span>
+                </p>
+                <p class="mb-0">
+                  <span>Date of Birth:</span>
+                  <span class="ml-3 text-secondary">
+                    {{DetailVehicle?.bellboy?.birth_date?.month}}-{{DetailVehicle?.bellBoy?.birth_date?.day}}-{{DetailVehicle?.bellBoy?.birth_date?.year}}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-sm-6 col-xs-6">
+                <h4 class="card-title">Vehicle details</h4>
+              </div>
+              <div class="col-sm-6 text-right">
+                <a (click)="approveVehicle(1)" *ngIf="DetailVehicle?.approval==0">
+                  <button class="btn btn-orange">
+                    Approve Vehicle
+                  </button>
+                </a>
+                <a (click)="approveVehicle(0)" *ngIf="DetailVehicle?.approval==1">
+                  <button class="btn btn-orange">
+                    Cancel Approval
+                  </button>
+                </a>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <p>
+                  <span>Brand:</span>
+                  <span class="ml-3 text-secondary">{{DetailVehicle?.vehicleBrand?.title}}</span>
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <p>
+                  <span>Color:</span>
+                  <span class="ml-3 text-secondary">{{DetailVehicle?.color}}</span>
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <p>
+                  <span>Modal:</span>
+                  <span class="ml-3 text-secondary">{{DetailVehicle?.vehicleModel?.title}} </span>
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <p>
+                  <span>Vehicle no:</span>
+                  <span class="ml-3 text-secondary">{{DetailVehicle?.plate?.plate_number}}</span>
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-12 row align-items-center m-0">
+              <div class="col-sm-3 text-center">
+                <a>
+                  <img class="vehicleImage" (click)="openModel(bigImg, DetailVehicle?.vehicle_images?.front_image)" src="{{amazonImgUrl}}{{DetailVehicle?.vehicle_images?.front_image}}" alt="">
+                </a>
+                <figcaption>Front</figcaption>
+              </div>
+              <div class="col-sm-3 text-center">
+                <a>
+                  <img class="vehicleImage" (click)="openModel(bigImg, DetailVehicle?.vehicle_images?.back_image)" src="{{amazonImgUrl}}{{DetailVehicle?.vehicle_images?.back_image}}" alt="">
+                </a>
+                <figcaption>Back</figcaption>
+              </div>
+              <div class="col-sm-3 text-center">
+                <a>
+                  <img class="vehicleImage" (click)="openModel(bigImg, DetailVehicle?.vehicle_images?.right_image)" src="{{amazonImgUrl}}{{DetailVehicle?.vehicle_images?.right_image}}" alt="">
+                </a>
+                <figcaption>Right</figcaption>
+              </div>
+              <div class="col-sm-3 text-center">
+                <a>
+                  <img class="vehicleImage" (click)="openModel(bigImg, DetailVehicle?.vehicle_images?.left_image)" src="{{amazonImgUrl}}{{DetailVehicle?.vehicle_images?.left_image}}" alt="">
+                </a>
+                <figcaption>Left</figcaption>
+              </div>
+            </div>
+            <div class="col-sm-12 text-center">
+              <a>
+                <img class="plate-image" (click)="openModel(bigImg, DetailVehicle?.plate?.plate_image)" src="{{amazonImgUrl}}{{DetailVehicle?.plate?.plate_image}}" alt="">
+              </a>
+              <figcaption>Number Plate</figcaption>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-white" (click)="modal.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{currentImage}}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit" alt="" srcset="">
+  </div>
+</ng-template>

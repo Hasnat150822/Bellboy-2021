@@ -1,0 +1,29 @@
+.row-area{
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+  padding: 12px 0px;
+  margin: 0px 0px 18px 0px !important;
+}
+.image-size{
+  height: 150px;
+  width: 150px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+}
+.object-fit2{
+  height: 400px;
+  width: 600px;
+  object-fit: contain;
+}
+::ng-deep .bigImage .modal-dialog{
+  max-width: 60%;
+  left: 8%;
+  box-shadow: none;
+}
+::ng-deep .bigImage .modal-dialog .modal-content{
+  background:rgba(0,0,0,0);
+  border:none;
+}
+.modal-header{
+  background-color: unset;
+}

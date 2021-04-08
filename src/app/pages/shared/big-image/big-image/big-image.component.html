@@ -1,0 +1,9 @@
+<ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-white" (click)="closeModal()"></span
+    ></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{ currentImage }}" onerror="src='../../../../../assets/img/ico/bb-brand.jpg'" class="object-fit" />
+  </div>
+</ng-template>

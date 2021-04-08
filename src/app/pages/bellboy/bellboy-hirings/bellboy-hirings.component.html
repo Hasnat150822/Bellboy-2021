@@ -1,0 +1,47 @@
+<h5 class="font-weight-500">Hiring Detail</h5>
+<table class="table table-responsive-md table-hover">
+  <thead>
+    <tr>
+      <th>Hiring Id</th>
+      <th>Created Date</th>
+      <th>Spend Time</th>
+      <th>Status</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of bbHirings" [routerLink]="['/hiring/hiringDetail', item.hiring_id]">
+      <td>
+        {{item.hiring_id | showDashes}}
+        <!-- <a class="stretched-link" [routerLink]="['/hiring/hiringDetail', item.hiring_id]"></a> -->
+      </td>
+      <td>
+        {{item.created_at | date:"mediumDate" | showDashes}}
+      </td>
+      <td>
+        {{item.hours | timeConvert}}
+      </td>
+      <td [ngClass]="{
+      'text-warning':item.status == 1||2||3, 
+      'text-success':item.status == 4, 
+      'text-danger':item.status == 5}">
+        {{item.status | hiringStatus | showDashes}}
+      </td>
+      <td>
+        {{item.amount | showDashes}}
+      </td>
+    </tr>
+    <tr *ngIf="spinner">
+      <td colspan="12" class="py-4 bg-white">
+        <div class="spinner-border text-orange" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-right mr-2" *ngIf="bbHirings">
+  <span>Total Hirings: &nbsp; {{totalHirings}}</span>
+  <a><i (click)="getBellboys(currentPage-1)" ngbTooltip="Prev" class="font-weight-bold ft-chevron-left mr-2"></i></a>
+  <a><i (click)="getBellboys(currentPage+1)" ngbTooltip="Next" class="font-weight-bold ft-chevron-right"></i></a>
+</div>

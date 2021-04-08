@@ -1,0 +1,520 @@
+<section id="tabs">
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-1">
+      <h3>Manage Hiring</h3> 
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="position-relative"> <i ngbTooltip="Default Data" (click)="
+			searchValue='';
+            getHirings(status, 1);
+            renderClass('', '', '');
+            sortBy = '-created_at';
+            input.value = ''
+          " class="ft-refresh-cw child font-weight-bold"></i>
+        <input [type]="inputType" class="form-control placeholder-pad" #input id="searchInput" (change)="searchValue = $event.target.value" placeholder="Search" (keyup)="onEnter($event)" value="{{ searchValue }}" />
+        <div class="btn-group position-absolute">
+          <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+            <button class="btn border-left dropdown-toggle-split" ngbDropdownToggle>By {{ placeVal }} <i class="ft-chevron-down"></i>
+            </button>
+            <!-- dropdown menu start  -->
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <button ngbDropdownItem *ngFor="let item of searchDropdown" (click)="
+                  placeVal = item.fieldName;
+                  inputType = item.type;
+                  input.value = '';
+                  searchType = item.searchType
+                ">{{ item.fieldName }}</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-search" (click)="getHirings(status, 1); input.value = ''">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="form-group float-right perPageBlock mb-0">
+              <select class="form-control perPage" (change)="
+                  perPage = $event.target.value; getHirings(this.status, 1)">
+                <option value="10">10 / page</option>
+                <option value="25">25 / page</option>
+                <option value="50">50 / page</option>
+              </select>
+            </div>
+            <ngb-tabset type="pills" #tabset="ngbTabset">
+              <ngb-tab id="tab1">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab1';
+                      getHirings(1, 1);
+                      changeTabStatus()
+                    ">Pending</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Customer Name <i id="sortByCustName"></i>
+                        </th>
+                        <th>Cell No</th>
+                        <!-- <th>Time</th> -->
+                        <th> <a (click)="sortByNumber()">Actions <i id="sortByNumber"></i
+                          ></a> 
+                        </th>
+                        <th>Bellboy Type</th>
+                        <th>Created Time</th>
+                        <th> <a (click)="sortByDate()">Date <i id="sortByDate"></i
+                          ></a> 
+                        </th>
+                        <th>View / Cancel</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                      <tr *ngFor="let item of permArr">
+                        <td>{{ item.hiring_id }}</td>
+                        <td> <span *ngIf="item.customer?.name"><a class="hoverOrange" ngbTooltip="View Detail">{{
+                              item.customer?.name
+                            }}</a></span
+                          >
+                          <span *ngIf="!item.customer?.name">-</span> 
+                        </td>
+                        <td> <span *ngIf="item.customer?.mobile">{{
+                            item.customer?.mobile
+                          }}</span>  <span *ngIf="!item.customer?.mobile">-</span> 
+                        </td>
+                        <td>{{ math.abs(item.totalActions) }}</td>
+                        <td>{{ item.bellboyType?.title }}</td>
+                        <td>{{ item.created_at | date: "mediumTime" }}</td>
+                        <td>{{ item.created_at | date: "mediumDate" }}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="[
+                              '/hiring/hiringDetail',
+                              item.hiring_id
+                            ]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" />
+                          </a>
+                          <a ngbTooltip="Cancel Hiring" class="p-0 text-dark" (click)="singleHiringId = item; open(cancel, '')">
+                            <img src="../../../assets/img/ico/forbidden.svg" class="ml-2 img-eye" />
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab2">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab2';
+                      getHirings(2, 1);
+                      changeTabStatus()
+                    ">In Progress</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Hiring Id</th>
+                        <th>Customer Name <i id="sortByCustName"></i>
+                        </th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy <i id="sortByBBName"></i>
+                        </th>
+                        <th>Bellboy Type</th>
+                        <th> <a (click)="sortByNumber()">Actions <i id="sortByNumber"></i
+                          ></a> 
+                        </th>
+                        <th>Start Time</th>
+                        <th> <a (click)="sortByDate()">Date <i id="sortByDate"></i
+                          ></a> 
+                        </th>
+                        <th>View / Cancel</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                      <tr *ngFor="let item of permArr">
+                        <td>{{ item.hiring_id }}</td>
+                        <td [routerLink]="[
+                            '/customers/custdetail',
+                            item.customer?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.customer?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.customer?.mobile }}</td>
+                        <td [routerLink]="[
+                            '/bellboy/bellboydetail',
+                            item.bellboy?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.bellboy?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.bellboyType?.title }}</td>
+                        <td>{{ item.totalActions }}</td>
+                        <td>{{ item.start_time | date: "mediumTime" }}</td>
+                        <td>{{ item.created_at | date: "mediumDate" }}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="[
+                              '/hiring/hiringDetail',
+                              item.hiring_id
+                            ]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="" />
+                          </a>
+                          <a ngbTooltip="Cancel Hiring" class="p-0 text-dark" (click)="singleHiringId = item; open(cancel, '')">
+                            <img src="../../../assets/img/ico/forbidden.svg" class="ml-2 img-eye" alt="" />
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab3">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab3';
+                      getHirings(3, 1);
+                      changeTabStatus()
+                    ">Non-Closed Orders</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Hiring Id</th>
+                        <th>Customer Name <i id="sortByCustName"></i>
+                        </th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy <i id="sortByBBName"></i>
+                        </th>
+                        <th>Bellboy Type</th>
+                        <th> <a (click)="sortByNumber()">Actions <i id="sortByNumber"></i
+                          ></a> 
+                        </th>
+                        <th>Start Time</th>
+                        <th> <a (click)="sortByDate()">Date <i id="sortByDate"></i
+                          ></a> 
+                        </th>
+                        <th>View / Close</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                      <tr *ngFor="let item of permArr">
+                        <td>{{ item.hiring_id }}</td>
+                        <td [routerLink]="[
+                            '/customers/custdetail',
+                            item.customer?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.customer?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.customer?.mobile }}</td>
+                        <td [routerLink]="[
+                            '/bellboy/bellboydetail',
+                            item.bellboy?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.bellboy?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.bellboyType?.title }}</td>
+                        <td>{{ item.totalActions }}</td>
+                        <td>{{ item.start_time | date: "mediumTime" }}</td>
+                        <td>{{ item.created_at | date: "mediumDate" }}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="[
+                              '/hiring/hiringDetail',
+                              item.hiring_id
+                            ]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="" />
+                          </a>
+                          <a ngbTooltip="Close Hiring" class="p-0 text-dark" (click)="singleHiringId = item; open(cancel, '')">
+                            <img src="../../../assets/img/ico/forbidden.svg" class="ml-2 img-eye" alt="" />
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab4">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab4';
+                      getHirings(4, 1);
+                      changeTabStatus()
+                    ">Complete</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Hiring Id</th>
+                        <th>Customer Name <i id="sortByCustName"></i>
+                        </th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy <i id="sortByBBName"></i>
+                        </th>
+                        <th>Bellboy Type</th>
+                        <th> <a (click)="sortByNumber()">Actions <i id="sortByNumber"></i
+                          ></a> 
+                        </th>
+                        <th>Start Time</th>
+                        <th>Finish Time</th>
+                        <th> <a (click)="sortByDate()">Date <i id="sortByDate"></i
+                          ></a> 
+                        </th>
+                        <th>Amount</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                      <tr *ngFor="let item of permArr">
+                        <td>{{ item.hiring_id }}</td>
+                        <td [routerLink]="[
+                            '/customers/custdetail',
+                            item.customer?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.customer?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.customer?.mobile }}</td>
+                        <td [routerLink]="[
+                            '/bellboy/bellboydetail',
+                            item.bellboy?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.bellboy?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.bellboyType?.title }}</td>
+                        <td>{{ item.totalActions }}</td>
+                        <td>{{ item.start_time | date: "mediumTime" }}</td>
+                        <td> <span *ngIf="item.end_time">{{
+                            item.end_time | date: "mediumTime"
+                          }}</span>  <span *ngIf="!item.end_time">-</span> 
+                        </td>
+                        <td>{{ item.created_at | date: "mediumDate" }}</td>
+                        <td [ngClass]="{ 'text-success ': item.isFree }">{{ item.isFree ? "Free" : item.amount }}</td>
+                        <td>
+                          <a class="p-0 text-dark" [routerLink]="[
+                              '/hiring/hiringDetail',
+                              item.hiring_id
+                            ]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="" />
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab5">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab5';
+                      getHirings(5, 1);
+                      changeTabStatus()
+                    ">Cancelled</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <tr>
+                        <th>Hiring Id</th>
+                        <th>Customer Name <i id="sortByCustName"></i>
+                        </th>
+                        <th>Cell no</th>
+                        <th>Assigned Bellboy <i id="sortByBBName"></i>
+                        </th>
+                        <th>Bellboy Type</th>
+                        <th> <a (click)="sortByNumber()">Actions <i id="sortByNumber"></i
+                          ></a> 
+                        </th>
+                        <th>Reason</th>
+                        <th>Cancelled Time</th>
+                        <th> <a (click)="sortByDate()">Date <i id="sortByDate"></i
+                          ></a> 
+                        </th>
+                        <th>Amount</th>
+                        <th>View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                      <tr *ngFor="let item of permArr">
+                        <td>{{ item.hiring_id }}</td>
+                        <td [routerLink]="[
+                            '/customers/custdetail',
+                            item.customer?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.customer?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.customer?.mobile }}</td>
+                        <td [routerLink]="[
+                            '/bellboy/bellboydetail',
+                            item.bellboy?._id
+                          ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+                            item.bellboy?.name
+                          }}</a> 
+                        </td>
+                        <td>{{ item.bellboyType?.title }}</td>
+                        <td>{{ item.totalActions }}</td>
+                        <td> <a (click)="open(reason, item.cancellation_reason)" class="text-orange">Reason</a
+                          >
+                        </td>
+                        <td>
+                          {{
+                            item.cancellation_time
+                              | date: "mediumTime"
+                              | showDashes
+                          }}
+                        </td>
+                        <td>{{ item.created_at | date: "mediumDate" }}</td>
+                        <td [ngClass]="{ 'text-success ': item.isFree }">
+                          {{ item.isFree ? "Free" : item.amount }}
+                        </td>
+                        <td>
+                          <a
+                            class="p-0 text-dark"
+                            [routerLink]="[
+                              '/hiring/hiringDetail',
+                              item.hiring_id
+                            ]"
+                            ><img
+                              src="../../../assets/img/ico/eye.png"
+                              class="img-eye"
+                          /></a> 
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- Modals -->
+<ng-template #reason let-modal>
+  <div class="modal-header justify-content-center mb-3">
+    <h3 class="card-title mb-0">Cancellation Reason</h3> 
+  </div>
+  <div class="modal-body pb-0">
+    <p class="font-weight-normal text-center">{{ cacelled_reason }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Close</button>
+  </div>
+</ng-template>
+<ng-template #cancel let-modal>
+  <div class="modal-header justify-content-center mb-3">
+    <h3 class="card-title mb-0">Cancel Hiring</h3> 
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="cancelReason" class="form-group">
+      <input type="text" class="form-control" formControlName="cuase" [placeholder]="
+          singleHiringId.status == 1 || singleHiringId.status == 2
+            ? 'Cancel Reason'
+            : 'Close Reason'
+        " />
+      <p *ngIf="
+          cancelReason.controls.cuase.hasError('required') &&
+          cancelReason.controls.cuase.touched
+        " class="text-danger">Reason Required</p>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="cancelHiring()" [innerHTML]="
+        singleHiringId.status == 1 || singleHiringId.status == 2
+          ? 'Cancel Hiring'
+          : 'Close Hiring'
+      "></button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Close</button>
+  </div>
+</ng-template>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center"> <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+      >
+      : <span class="text-secondary ml-2">{{ totalItems }}</span> 
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"> <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getHirings(status, 1)"><span aria-hidden="true">First</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === 1 }"
+        >
+          <a
+            aria-label="Prev"
+            ngbTooltip="Previous 5"
+            (click)="prev5(pager.currentPage - 5)"
+            class="ng2-smart-page-link page-link page-link-prev"
+            ><span aria-hidden="true">«</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item ng-star-inserted"
+          *ngFor="let page of pager.pages"
+          [ngClass]="{ active: pager.currentPage === page }"
+        >
+          <a
+            (click)="getHirings(status, page)"
+            class="ng2-smart-page-link page-link ng-star-inserted"
+            >{{ page }}</a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+        >
+          <a
+            ngbTooltip="Next 5"
+            (click)="next5(pager.currentPage + 5)"
+            aria-label="Next"
+            class="ng2-smart-page-link page-link page-link-next"
+            ><span aria-hidden="true">»</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+        >
+          <a
+            (click)="getHirings(status, pager.totalPages)"
+            aria-label="Last"
+            class="ng2-smart-page-link page-link"
+            ><span aria-hidden="true">Last</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>
