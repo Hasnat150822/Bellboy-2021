@@ -316,8 +316,8 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body" *ngIf="destinitions.length>0">
-        <!-- <ng-container *ngTemplateOutlet="detailHiring?.status == 4?routeHistory:false"></ng-container> -->
-        <ng-container *ngTemplateOutlet="estimatedRoute"></ng-container>
+        <ng-container *ngTemplateOutlet="detailHiring?.status == 4?routeHistory:false"></ng-container>
+        <ng-container *ngTemplateOutlet="detailHiring?.status == 1?estimatedRoute:false"></ng-container>
       </div>
     </div>
   </div>
@@ -341,7 +341,7 @@
   <h5 class="font-weight-500 mb-2">Bellboy Live Tracking</h5>
   <agm-map id="route-map" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
     <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker>
-    <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
+    <agm-direction *ngFor="let dir of destinitions" [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="dir"></agm-direction>
   </agm-map>
 </ng-template>
 <ng-template #estimatedRoute>
