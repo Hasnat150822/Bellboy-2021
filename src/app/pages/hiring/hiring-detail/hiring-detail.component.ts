@@ -31,24 +31,32 @@ export class HiringDetailComponent implements OnInit {
   spinner:boolean;
   amazonImgUrl:string = amazonUrl;
   isBigImg:true;
-  origin:Origin; destinition:Origin;
+  origin:Origin; destinitions:Array<any> = [];
   lat = 31.5204; lng =  74.3587
   public icon = {
-    url: '../../../../assets/img/ico/map-marker/cusotmer-marker.png',
+    url: '../../../../assets/img/ico/map-marker/blue-marker.png',
     scaledSize: {
-      width: 40,
-      height: 40
+      width: 16,
+      height: 16
     }
   }
   public renderOptions = {
     suppressMarkers: true,
   }
-  public markerOptions = {
+  public estimateRouteMarkers = {
+    origin:{
+      icon:'../../../../assets/img/ico/map-marker/running.png'
+    },
+    destination:{
+      icon:'../../../../assets/img/ico/map-marker/cusotmer-marker.png'
+    }
+  }
+  public historyMarkers = {
     origin: {
-      icon: '../../../../assets/img/ico/map-marker/running2.png'
+      url: '../../../../assets/img/ico/map-marker/running2.png'
     },
     destination: {
-      icon: '../../../../assets/img/ico/map-marker/running.png'
+      url: '../../../../assets/img/ico/map-marker/running.png'
     },
   }
   constructor(private route:ActivatedRoute, private hiringService:HiringService,private databse:AngularFireDatabase,
@@ -61,30 +69,29 @@ export class HiringDetailComponent implements OnInit {
     this.getMessageCollection();
     this.allBellboys();
   }
-  getDetail(){
+  subscription:Subscription;
+  async getDetail(){
     this.hiringService.getByid(this._id).subscribe((res:any)=>{
       this.detailHiring = res.data;
-      if(res.data.bellboy !==undefined){
-        let bbId = res.data.bellboy._id;
-        this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
-          this.bellboyLocation = {latitude:res[0].latitude, longitude:res[0].longitude};
-          if(this.origin == undefined || this.origin == null){
-            this.origin = {
-              lat:+res[0].latitude,
-              lng:+res[0].longitude
+      this.databse.list('/hirings/'+this.detailHiring._id).snapshotChanges().subscribe((res:any)=>{
+        res.forEach(element => {
+          element.payload.forEach((el) => {
+            if(this.origin == undefined){
+              this.origin = {
+                lat: el.child(el.key).child("latitude").toJSON(),
+                lng: el.child(el.key).child("longitude").toJSON()
+              }
             }
-            this.destinition = {
-              lat:+res[0].latitude,
-              lng:+res[0].longitude
+            if(el.child(el.key).child("latitude").toJSON()!==undefined){
+              this.destinitions.push({
+                lat:el.child(el.key).child("latitude").toJSON(),
+                lng:el.child(el.key).child("longitude").toJSON()
+              })
             }
-          }else{
-            this.destinition = {
-              lat:+res[0].latitude,
-              lng:+res[0].longitude
-            }
-          }
-        })
-      }
+          });
+        });
+        this.getEstimatedRoute(this.destinitions[0]);
+      })
     })
   }
   bigImage(url){
@@ -143,6 +150,13 @@ export class HiringDetailComponent implements OnInit {
       this.spinner = false;
       this.open(ref, this.loc);
     }, 2000);
+  }
+  getEstimatedRoute(origin){
+    let destinition = {
+      lat:this.detailHiring.location.geolocation.latitude,
+      lng:this.detailHiring.location.geolocation.longitude
+    }
+    this.hiringService.estimatedRoute(origin, destinition).subscribe()
   }
   onMouseOver(infoWindow, $event: MouseEvent) {
     infoWindow.open();

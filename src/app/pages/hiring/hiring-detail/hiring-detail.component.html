@@ -315,12 +315,9 @@
 <div class="row">
   <div class="col-12">
     <div class="card">
-      <div class="card-body">
-        <h5 class="font-weight-500 mb-2">Bellboy Live Tracking</h5>
-        <agm-map id="route-map" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
-          <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker>
-          <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
-        </agm-map>
+      <div class="card-body" *ngIf="destinitions.length>0">
+        <!-- <ng-container *ngTemplateOutlet="detailHiring?.status == 4?routeHistory:false"></ng-container> -->
+        <ng-container *ngTemplateOutlet="estimatedRoute"></ng-container>
       </div>
     </div>
   </div>
@@ -338,5 +335,40 @@
 <ng-template #chatMap let-geopoint="geopoint">
   <agm-map class="chatMap" [latitude]="geopoint.df" [fullscreenControl]="true" [zoom]="15" [longitude]="geopoint.wf">
     <agm-marker [latitude]="geopoint.df" [longitude]="geopoint.wf"></agm-marker>
+  </agm-map>
+</ng-template>
+<ng-template #liveTracking>
+  <h5 class="font-weight-500 mb-2">Bellboy Live Tracking</h5>
+  <agm-map id="route-map" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+    <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker>
+    <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
+  </agm-map>
+</ng-template>
+<ng-template #estimatedRoute>
+  <h5 class="font-weight-500 mb-2">Estimated route from Bellboy</h5>
+  <agm-map id="route-map" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+    <!-- <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" iconUrl="../../../../assets/img/ico/map-marker/cusotmer-marker.png"></agm-marker> -->
+    <agm-direction [renderOptions]="renderOptions" [markerOptions]="estimateRouteMarkers" [origin]="destinitions[0]" [destination]="{lat:detailHiring?.location?.geolocation?.latitude, lng:detailHiring?.location?.geolocation?.longitude}"></agm-direction>
+  </agm-map>
+</ng-template>
+<ng-template #routeHistory>
+  <h5 class="font-weight-500 mb-2">Bellboy Route History</h5>
+  <agm-map id="route-map" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+    <agm-marker id="marker" [latitude]="destinitions[0].lat" [longitude]="destinitions[0].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.origin">
+      <agm-info-window [isOpen]="true">Start Point</agm-info-window>
+    </agm-marker>
+    <agm-marker id="marker" [latitude]="destinitions[destinitions.length-1].lat" [longitude]="destinitions[destinitions.length-1].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.destination">
+      <agm-info-window [isOpen]="true">End Point</agm-info-window>
+    </agm-marker>
+    <agm-marker id="marker" *ngFor="let des of destinitions" [latitude]="des.lat" [longitude]="des.lng" [agmFitBounds]="true" [iconUrl]="icon">
+    </agm-marker>
+    <!-- <agm-direction *ngFor="let dir of destinitions; let i=index;" [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="dir[i]" [destination]="dir[i+1]"></agm-direction> -->
+    <agm-polyline [visible]="true" [strokeWeight]="3" [strokeColor]="'#07b57a'">
+      <agm-polyline-point
+      *ngFor="let des of destinitions; let i=index"
+      [latitude]="des.lat"
+      [longitude]="des.lng">
+    </agm-polyline-point>
+</agm-polyline>
   </agm-map>
 </ng-template>

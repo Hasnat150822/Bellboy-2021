@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { GlobalService } from 'app/shared/services/global-service.service';
 import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2'; 
 import { url } from 'app/shared/services/global';
 var getAuth;
@@ -77,6 +77,23 @@ availableBellboy(){
       sweetAlert('error', error.error.message);
     })
   )
+ }
+ estimatedRoute(Origin, destinition){
+   console.log(origin, destinition, 'asdfasdf');
+   let oLat = Origin.lat;
+   let oLng = Origin.lng;
+   let dLat = destinition.lat;
+   let dLng = destinition.lng;
+   return this.http.get('https://maps.googleapis.com/maps/api/directions/json?origin='+oLat+','+oLng+'&destination='+dLat+','+dLng+'&key=AIzaSyCGsknFpbKkEneyVmQ0luBZwaHlv4V0KUE', {
+     headers:{
+       'Content-Type':'application/json'
+     }
+   })
+   .pipe(
+     map((res:any)=>{
+       return res.routes;
+     })
+   )
  }
 }
 function sweetAlert(icon, message) {

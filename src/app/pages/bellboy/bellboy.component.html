@@ -59,6 +59,8 @@
                         <th>Cell no</th>
                         <th>CNIC</th>
                         <th>Online Status</th>
+                        <th>Total Working Hours</th>
+                        <th>Total Hirings</th>
                         <th>Block</th>
                         <th>View</th>
                       </tr>
@@ -84,6 +86,12 @@
                             class="text-success"
                             >Online</span
                           >
+                        </td>
+                        <td>
+                          {{item.total_working_hours}}
+                        </td>
+                        <td>
+                          {{item.total_hirings}}
                         </td>
                         <td>
                           <a (click)="responseApproval(item, '3')">
@@ -193,6 +201,8 @@
                         <th>Name</th>
                         <th>Cell no</th>
                         <th>CNIC</th>
+                        <th>Total Working Hours</th>
+                        <th>Total Hirings</th>
                         <th>Actions</th>
                         <th>View</th>
                       </tr>
@@ -216,6 +226,12 @@
           <td>{{ item.name }}</td>
           <td>{{ item.mobile }}</td>
           <td>{{ item.legals.nic.value }}</td>
+          <td>
+            {{item.total_working_hours}}
+          </td>
+          <td>
+            {{item.total_hirings}}
+          </td>
           <td>
             <a class="mr-2" (click)="responseApproval(item, '1')">
               <button class="btn btn-success">Accept</button>
@@ -316,6 +332,8 @@
                         <th>Name</th>
                         <th>Cell no</th>
                         <th>CNIC</th>
+                        <th>Total Working Hours</th>
+                        <th>Total Hirings</th>
                         <th>Actions</th>
                         <th>View</th>
                       </tr>
@@ -339,6 +357,12 @@
           <td>{{ item.name }}</td>
           <td>{{ item.mobile }}</td>
           <td>{{ item.legals.nic.value }}</td>
+          <td>
+            {{item.total_working_hours}}
+          </td>
+          <td>
+            {{item.total_hirings}}
+          </td>
           <td>
             <a (click)="responseApproval(item, '0')">
               <button class="btn btn-orange">Move</button>
@@ -437,6 +461,8 @@
                         <th>Name</th>
                         <th>Cell no</th>
                         <th>CNIC</th>
+                        <th>Total Working Hours</th>
+                        <th>Total Hirings</th>
                         <th>Actions</th>
                         <th>View</th>
                       </tr>
@@ -460,6 +486,12 @@
           <td>{{ item.name }}</td>
           <td>{{ item.mobile }}</td>
           <td>{{ item.legals.nic.value }}</td>
+          <td>
+            {{item.total_working_hours}}
+          </td>
+          <td>
+            {{item.total_hirings}}
+          </td>
           <td>
             <a (click)="responseApproval(item, '1')">
               <button class="btn btn-success">Unblock</button>
@@ -557,6 +589,8 @@
                         <th>Name</th>
                         <th>Cell no</th>
                         <th>CNIC</th>
+                        <th>Total Working Hours</th>
+                        <th>Total Hirings</th>
                         <th>Approval Status</th>
                         <th>View</th>
                       </tr>
@@ -580,6 +614,12 @@
           <td>{{ item.name }}</td>
           <td>{{ item.mobile }}</td>
           <td>{{ item.legals.nic.value }}</td>
+          <td>
+            {{item.total_working_hours}}
+          </td>
+          <td>
+            {{item.total_hirings}}
+          </td>
           <td class="text-orange" *ngIf="item.status == 0">
             Pending
           </td>
