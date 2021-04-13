@@ -32,6 +32,7 @@ export class HiringDetailComponent implements OnInit {
   amazonImgUrl:string = amazonUrl;
   isBigImg:true;
   origin:Origin; destinitions:Array<any> = [];
+  destinition:Origin;
   lat = 31.5204; lng =  74.3587
   public icon = {
     url: '../../../../assets/img/ico/map-marker/blue-marker.png',
@@ -42,6 +43,15 @@ export class HiringDetailComponent implements OnInit {
   }
   public renderOptions = {
     suppressMarkers: true,
+  }
+  
+  public markerOptions = {
+    origin:{
+      icon:'../../../../assets/img/ico/map-marker/running2.png'
+    },
+    destination:{
+      icon:'../../../../assets/img/ico/map-marker/running.png'
+    }
   }
   public estimateRouteMarkers = {
     origin:{
@@ -73,25 +83,46 @@ export class HiringDetailComponent implements OnInit {
   async getDetail(){
     this.hiringService.getByid(this._id).subscribe((res:any)=>{
       this.detailHiring = res.data;
-      this.databse.list('/hirings/'+this.detailHiring._id).snapshotChanges().subscribe((res:any)=>{
-        res.forEach(element => {
-          element.payload.forEach((el) => {
-            if(this.origin == undefined){
-              this.origin = {
-                lat: el.child(el.key).child("latitude").toJSON(),
-                lng: el.child(el.key).child("longitude").toJSON()
+      if(this.detailHiring.status ==2 || this.detailHiring.status ==3){
+        let bbId = res.data.bellboy._id
+        this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
+          if(this.origin == undefined || this.origin == null){
+            this.origin = {
+              lat:+res[0].latitude,
+              lng:+res[0].longitude
+            }
+            this.destinition = {
+              lat:+res[0].latitude,
+              lng:+res[0].longitude
+            }
+          }else{
+            this.destinition = {
+              lat:+res[0].latitude,
+              lng:+res[0].longitude
+            }
+          }
+        })
+
+      }else if(this.detailHiring.status == 4){
+        this.databse.list('/hirings/'+this.detailHiring._id).snapshotChanges().subscribe((res:any)=>{
+          res.forEach(element => {
+            element.payload.forEach((el) => {
+              if(this.origin == undefined && el.child(el.key).toJSON() !== 'null'){
+                this.origin = {
+                  lat:+el.child(el.key).child("latitude").toJSON() || el.child('latitude').toJSON(),
+                  lng:+el.child(el.key).child("longitude").toJSON() || el.child('longitude').toJSON()
+                }
               }
-            }
-            if(el.child(el.key).child("latitude").toJSON()!==undefined){
-              this.destinitions.push({
-                lat:el.child(el.key).child("latitude").toJSON(),
-                lng:el.child(el.key).child("longitude").toJSON()
-              })
-            }
+              if(el.child(el.key).toJSON() !== 'null'){
+                this.destinitions.push({
+                  lat:+el.child(el.key).child("latitude").toJSON(),
+                  lng:+el.child(el.key).child("longitude").toJSON()
+                })
+              }
+            });
           });
-        });
-        this.getEstimatedRoute(this.destinitions[0]);
-      })
+        })
+      }
     })
   }
   bigImage(url){
