@@ -61,7 +61,6 @@ export class CustomersComponent implements OnInit {
     this.store.subscribe((res:any)=>{
       if(res.UserData.data!==undefined){
         this.currentRole = res.UserData.data.role.title;
-        console.log(this.currentRole, 'current role')
       }
     }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getCustomers('', '', '', 1, '');

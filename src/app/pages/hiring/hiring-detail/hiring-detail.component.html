@@ -359,7 +359,11 @@
   <div class="row">
     <div class="col-sm-6 border-right">
       <h5 class="font-weight-500 mb-2">Estimated Route b/w Customer & Bellboy</h5>
-      <agm-map style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+      <div class="d-flex justify-content-between" *ngIf="estimatedTimeDistance">
+        <p><span>Estimated Time: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.time }}</span></p>
+        <p><span>Estimated Distance: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.distance }}</span></p>
+      </div>
+      <agm-map *ngIf="this.origin" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
         <agm-direction [renderOptions]="renderOptions" [markerOptions]="estimateRouteMarkers" [origin]="this.origin" [destination]="{lat:detailHiring?.location?.geolocation?.latitude, lng:detailHiring?.location?.geolocation?.longitude}"></agm-direction>
       </agm-map>
     </div>

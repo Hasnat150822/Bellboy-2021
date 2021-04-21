@@ -207,7 +207,6 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
         queryParams: { tabstatus:this.tabStatus },
         queryParamsHandling: 'merge'
       });
-
   }
   renderClass(el, value, sortby) {
     return new Promise((resolve)=>{

@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from 'app/ngrx-states/reducer';
 const route:Routes = [{
   path:'', component:AdvertisementComponent
 }]
@@ -15,7 +17,8 @@ const route:Routes = [{
     NgbModule,
     SlickCarouselModule,
     RouterModule.forChild(route),
-    ImageCropperModule
+    ImageCropperModule,
+    StoreModule.forFeature("UserData", userReducer)
   ]
 })
 export class AdvertisementModule { }

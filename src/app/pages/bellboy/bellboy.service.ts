@@ -28,8 +28,18 @@ export class BellboyService {
       }
     })
    }
-  getAllBellboy(status){
-    return this.http.get(this._url+'api/admin/bellboy/?status='+status, getAuth)
+  getAllBellboy(page, perPage, status,searchType, query){
+    let url = this._url+'api/admin/bellboy/?status='+status+'&&perPage='+perPage+'&pageNo='+page;
+    if(query!==undefined){
+      url = url+'&'+searchType+'='+query;
+    }
+    return this.http.get(url, getAuth).pipe(
+      map((res:any)=>{
+        if(res.success == true){
+          return res.data
+        }
+      })
+    );
   }
   getById(id){
     return this.http.get(this._url+'api/admin/bellboy/'+id, getAuth)

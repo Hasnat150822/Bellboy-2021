@@ -35,9 +35,8 @@ export class DashboardComponent implements OnInit  {
     }
  };
   public lineChartColors: Color[]
-  public lineChartLegend = false;
+  public lineChartLegend = true;
   public lineChartType = 'line';
-  public lineChartPlugins = [];
   // chart configuration end
   firstDay:any; lastDay:any; 
   spinner:boolean;

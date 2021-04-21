@@ -172,7 +172,7 @@
         </div>
       </td> -->
     <td>{{item.actionCount}}</td>
-    <td>
+    <td style="width: 210px !important;">
       <button (click)="open(addLabel); actionTypeId=item._id" class="btn btn-orange">Assign Label</button>
       <button *ngIf="tableContext == 'active'" (click)="changeActionStatus(false, item._id)" class="btn btn-danger ml-2">Block Action</button>
       <button *ngIf="tableContext == 'blocked'" (click)="changeActionStatus(true, item._id)" class="btn btn-success ml-2">Active Action</button>

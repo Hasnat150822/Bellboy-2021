@@ -79,15 +79,14 @@ availableBellboy(){
   )
  }
  estimatedRoute(Origin, destinition){
-   console.log(Origin, destinition, 'asdfasdf');
    let oLat = Origin.lat;
    let oLng = Origin.lng;
    let dLat = destinition.lat;
    let dLng = destinition.lng;
-   return this.http.get('https://maps.googleapis.com/maps/api/directions/json?origin=31.3767437,74.184877&destination=31.3830851,74.1972888&key=AIzaSyCGsknFpbKkEneyVmQ0luBZwaHlv4V0KUE', {headers:{}})
+   return this.http.get(url+'api/admin/hiring/estimatedDistance?origin='+oLat+','+oLng+'&destination='+dLat+','+dLng+'', getAuth)
    .pipe(
      map((res:any)=>{
-       return res.routes;
+       return res.data.distance.routes[0].legs[0];
      })
    )
  }

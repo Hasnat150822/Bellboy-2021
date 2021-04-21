@@ -69,6 +69,7 @@ export class HiringDetailComponent implements OnInit {
       url: '../../../../assets/img/ico/map-marker/running.png'
     },
   }
+  estimatedTimeDistance
   constructor(private route:ActivatedRoute, private hiringService:HiringService,private databse:AngularFireDatabase,
     private modalService:NgbModal, private db:AngularFirestore, private router:Router, private store:Store<URL>) { }
   ngOnInit() {
@@ -80,21 +81,23 @@ export class HiringDetailComponent implements OnInit {
     this.allBellboys();
   }
   subscription:Subscription;
-  async getDetail(){
+  getDetail(){
     this.hiringService.getByid(this._id).subscribe((res:any)=>{
       this.detailHiring = res.data;
       if(this.detailHiring.status ==2 || this.detailHiring.status ==3){
-        let bbId = res.data.bellboy._id
+        let bbId = res.data.bellboy._id;
         this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
+          console.log(res[1], 'response')
           if(this.origin == undefined || this.origin == null){
             this.origin = {
-              lat:+res[0].latitude,
-              lng:+res[0].longitude
+              lat:+res[1].latitude?+res[1].latitude:+res[0].latitude,
+              lng:+res[1].longitude?+res[1].longitude:+res[0].longitude
             }
             this.destinition = {
               lat:+res[0].latitude,
               lng:+res[0].longitude
             }
+            this.getEstimatedRoute(this.origin);
           }else{
             this.destinition = {
               lat:+res[0].latitude,
@@ -187,7 +190,12 @@ export class HiringDetailComponent implements OnInit {
       lat:this.detailHiring.location.geolocation.latitude,
       lng:this.detailHiring.location.geolocation.longitude
     }
-    this.hiringService.estimatedRoute(origin, destinition).subscribe()
+    this.hiringService.estimatedRoute(origin, destinition).subscribe((res:any)=>{
+      this.estimatedTimeDistance = {
+        distance:res.distance.text,
+        time:res.duration.text 
+      };
+    });
   }
   onMouseOver(infoWindow, $event: MouseEvent) {
     infoWindow.open();

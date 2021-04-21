@@ -38,35 +38,36 @@
             <div class="tab-padding">Customer by Platform</div>
           </ng-template>
           <ng-template ngbTabContent>
-            <button type="button" class="btn btn-outline-orange">Android</button>
-            <button type="button" class="btn btn-outline-orange">IOS</button>
+            <button (click)="getCustomerByDevice(1)" type="button" class="btn btn-outline-orange">Android</button>
+            <button (click)="getCustomerByDevice(2)" type="button" class="btn btn-outline-orange">IOS</button>
           </ng-template>
         </ngb-tab>
         <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Total Customers</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+          </ng-template>
+        </ngb-tab>
+        <!-- <ngb-tab>
           <ng-template ngbTabTitle>
             <div class="tab-padding">Customer with specific area</div>
           </ng-template>
           <ng-template ngbTabContent>
           </ng-template>
-        </ngb-tab>
+        </ngb-tab> -->
       </ngb-tabset>
     </div>
   </div>
 </div>
-<div class="card">
+<!-- <div class="card">
   <div class="card-header">
     <ul class="buttons">
       <li class="button-list">
         <button class="btn btn-orange">Copy</button>
       </li>
       <li class="button-list">
-        <button class="btn btn-orange">CSV</button>
-      </li>
-      <li class="button-list">
         <button class="btn btn-orange">Excel</button>
-      </li>
-      <li class="button-list">
-        <button class="btn btn-orange">PDF</button>
       </li>
       <li class="button-list">
         <button class="btn btn-orange">Print</button>
@@ -85,7 +86,7 @@
     </ul>
   </div>
   <div class="card-body">
-    <table class="table table-striped">
+    <table id="printableTable" class="table table-striped">
       <thead>
         <tr>
           <th>First</th>
@@ -139,4 +140,4 @@
       </ul>
     </nav>
   </div>
-</div>
+</div> -->

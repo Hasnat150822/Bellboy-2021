@@ -182,6 +182,9 @@ border: none;
 .modal-footer{
   border: none;
 }
+button{
+    white-space: nowrap;
+}
 button:focus{
     outline: unset;
 }
@@ -513,4 +516,11 @@ button:disabled{
 }
 .perPage{
     border-radius: .25rem !important;
+}
+table {
+    table-layout: auto !important;
+}
+
+table>th, table>td, table>thead th, table>tbody td, table>tfoot td, table>tfoot th {
+    width: auto !important;
 }

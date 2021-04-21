@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from 'app/shared/services/global-service.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import Swal from 'sweetalert2';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { url } from 'app/shared/services/global';
+import { sweetAlert, url } from 'app/shared/services/global';
 var getAuth;
 @Injectable({
   providedIn: 'root'
@@ -29,12 +28,12 @@ export class AdvertisementService {
     return this.http.post(this._url+'api/admin/advertisement', formData, getAuth).pipe(
       map((res:any)=>{
         if(res.success == true){
-          sweetalert('success', 'Added Successfully');
+          sweetAlert('success', 'Added Successfully');
         }else{
-          sweetalert('warning', res.message);
+          sweetAlert('warning', res.message);
         }
       }, error=>{
-        sweetalert('error', error.error.message);
+        sweetAlert('error', error.error.message);
       })
     )
   }
@@ -61,21 +60,24 @@ export class AdvertisementService {
     return this.http.put(this._url+'api/admin/advertisement', body, getAuth)
     .pipe(map((res:any)=>{
       if(res.success == true){
-        sweetalert('success', 'Updated Successfully');
+        sweetAlert('success', 'Updated Successfully');
       }else{
-        sweetalert('warning', res.message);
+        sweetAlert('warning', res.message);
       }
     }, error=>{
-      sweetalert('error', error.error.message);
+      sweetAlert('error', error.error.message);
     }))
   }
-}
-function sweetalert(icon, text){
-  Swal.fire({
-    icon:icon,
-    text:text,
-    width:'300px',
-    timer:2500,
-    showConfirmButton:false
-  })
+  deleteAdvert(id){
+    return this.http.delete(url+'api/admin/advertisement/5f5da805abd69550176fad6f', getAuth)
+    .pipe(
+      tap((res:any)=>{
+        if(res.success == true){
+          sweetAlert('success', 'Successfully Deleted');
+        }else{
+          sweetAlert('warning', 'Someting went Wrong');
+        }
+      }, error=>sweetAlert('error', 'Someting went Wrong'))
+    )
+  }
 }

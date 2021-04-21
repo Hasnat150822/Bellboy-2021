@@ -120,6 +120,11 @@ export function sideBarData() {
                         path:'/reports/financeReport', title:'Finance Reports', icon:'', class:'', submenu:[]
                     })
             break;
+            case "Customer Reports":
+                reports.push({
+                        path:'/reports/customerReports', title:'Customer Reports', icon:'', class:'', submenu:[]
+                    })
+            break;
             case "Monitoring Reports":
                 reports.push({
                     path:'/reports/monitoringReport', title:'Monitoring Reports', icon:'', class:'', submenu:[]

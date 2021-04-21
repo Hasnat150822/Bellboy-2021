@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'app/pages/dashboard/dashboard.service';
+import { ReportsService } from '../reports.service';
 
 @Component({
   selector: 'app-finance-reports',
@@ -10,7 +11,7 @@ import { DashboardService } from 'app/pages/dashboard/dashboard.service';
 export class FinanceReportsComponent implements OnInit {
   totalRecords:{};
   spinner:boolean;
-  constructor(private dashboardService:DashboardService) {
+  constructor(private service:ReportsService) {
 
   }
 
@@ -20,9 +21,9 @@ export class FinanceReportsComponent implements OnInit {
 
   getTotalRecord(){
     this.spinner = true;
-    this.dashboardService.getDashboardRecord('', '', '', '')
+    this.service.getFinanceREport()
     .subscribe((res:any)=>{
-      this.totalRecords = res.total;
+      this.totalRecords = res;
       this.spinner = false;
     })
   }

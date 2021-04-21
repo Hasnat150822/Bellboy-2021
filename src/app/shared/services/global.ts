@@ -58,3 +58,12 @@ export async function confirmationDialog() {
     })
     return result;
 }
+export function checkPage(page, totalPages) {
+    if(page<1){
+        return 1;
+    }else if(page>totalPages && totalPages!==0){
+        return totalPages;
+    }else{
+        return page;
+    }
+}

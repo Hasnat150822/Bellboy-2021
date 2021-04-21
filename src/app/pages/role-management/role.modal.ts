@@ -11,12 +11,13 @@ export const checkValues = [
     {id:'chk10', value:'Manage Model', viewValue:'Manage Model', selected:false},
     {id:'chk11', value:'Complaints', viewValue:'Complaints', selected:false},
     {id:'chk12', value:'Finance Reports', viewValue:'Finance Reports', selected:false},
-    {id:'chk13', value:'Monitoring Reports', viewValue:'Monitoring Reports', selected:false},
-    {id:'chk14', value:'User Management', viewValue:'User Management', selected:false},
-    {id:'chk15', value:'Roles Management', viewValue:'Roles Management', selected:false},
-    {id:'chk16', value:'Advertisement', viewValue:'Advertisement', selected:false},
-    {id:'chk17', value:'Notification', viewValue:'Notification', selected:false},
-    {id:'chk18', value:'Hiring Charges', viewValue:'Our Charges', selected:false},
-    {id:'chk19', value:'Hiring Action Types', viewValue:'Action Types', selected:false},
-    {id:'chk20', value:'Version Control', viewValue:'Version Control', selected:false}
+    {id:'chk13', value:'Customer Reports', viewValue:'Customer Reports', selected:false},
+    {id:'chk14', value:'Monitoring Reports', viewValue:'Monitoring Reports', selected:false},
+    {id:'chk15', value:'User Management', viewValue:'User Management', selected:false},
+    {id:'chk16', value:'Roles Management', viewValue:'Roles Management', selected:false},
+    {id:'chk17', value:'Advertisement', viewValue:'Advertisement', selected:false},
+    {id:'chk18', value:'Notification', viewValue:'Notification', selected:false},
+    {id:'chk19', value:'Hiring Charges', viewValue:'Our Charges', selected:false},
+    {id:'chk20', value:'Hiring Action Types', viewValue:'Action Types', selected:false},
+    {id:'chk21', value:'Version Control', viewValue:'Version Control', selected:false}
   ] 

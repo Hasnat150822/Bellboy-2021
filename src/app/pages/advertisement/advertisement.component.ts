@@ -1,10 +1,14 @@
 import { Component, OnInit  } from '@angular/core';
 import { NgbCarouselConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { USER_NAME } from 'app/ngrx-states/model/url.model';
+import { amazonUrl, confirmationDialog } from 'app/shared/services/global';
 import { dataURLtoFile, GlobalService } from 'app/shared/services/global-service.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import { Subscription } from 'rxjs';
 import { AdvertisementService } from './advertisement.service';
-declare const $:any; 
+declare const $:any;
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',
@@ -23,11 +27,18 @@ export class AdvertisementComponent implements OnInit {
   showCropper = false;
   containWithinAspectRatio = false;
   transform: ImageTransform = {};
-  constructor(private modalService:NgbModal, private service:AdvertisementService,
-    private imageCompress: NgxImageCompressService, private gs:GlobalService) {
+  subscription:Subscription;
+  amazonUrl = amazonUrl;
+  constructor(private modalService:NgbModal, private service:AdvertisementService,private gs:GlobalService, 
+    private store:Store<USER_NAME>) {
    }
-
+  currentRole
   ngOnInit() {
+    this.store.subscribe((res:any)=>{
+      if(res.UserData.data!==undefined){
+        this.currentRole = res.UserData.data.role.title;
+      }
+    }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getAdvert(null);
   }
   slideConfig = {
@@ -35,7 +46,7 @@ export class AdvertisementComponent implements OnInit {
     speed: 900,
     autoplay: false,
     slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     prevArrow: '<button class="leftRs ft-chevron-left"></button>',
     nextArrow: '<button class="rightRs ft-chevron-right"></button>',
     responsive: [
@@ -43,7 +54,7 @@ export class AdvertisementComponent implements OnInit {
         breakpoint: 1025,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
           infinite: true
         }
       },
@@ -51,14 +62,14 @@ export class AdvertisementComponent implements OnInit {
         breakpoint: 769,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1
+          slidesToScroll: 2
         }
       },
       {
         breakpoint: 605,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
           infinite: true
         }
       },
@@ -66,7 +77,7 @@ export class AdvertisementComponent implements OnInit {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
+          slidesToScroll: 2
         }
       }
     ]
@@ -74,7 +85,6 @@ export class AdvertisementComponent implements OnInit {
   getAdvert(status){
     this.service.getAdvertisement(status).subscribe((res:any)=>{
       this.allAdvert = res;
-
     });
   }
   async preview(files){
@@ -98,6 +108,17 @@ export class AdvertisementComponent implements OnInit {
        })
      }
    }
+  deleteAdvert(id){
+    confirmationDialog().then((value)=>{
+      if(value){
+        alert('asdf')
+        this.service.deleteAdvert(id)
+        .subscribe(()=>{
+          this.getAdvert(null);
+        })
+      }
+    })
+  }
   uploadImg(){
     this.submitted = true;
     if(this.imageFile != undefined){

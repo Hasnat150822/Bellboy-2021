@@ -30,6 +30,9 @@ export class ResolverService implements Resolve<any> {
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
         this.router.navigateByUrl('/');
+      }else{
+        localStorage.removeItem('Permisssions');
+        localStorage.setItem('Permissions', JSON.stringify(res.data.role.permissions));
       }
     })
    }

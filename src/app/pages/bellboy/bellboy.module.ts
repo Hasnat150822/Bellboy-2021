@@ -8,6 +8,7 @@ import { BellboyHiringsComponent } from './bellboy-hirings/bellboy-hirings.compo
 import { PipesModule } from 'app/shared/pipes/pipes.module';
 import { BigImageModule } from '../shared/big-image/big-image.module';
 import { TimeConvertModule } from 'app/shared/time-convert/time-convert.module';
+import { SeperateDecimalPipe } from './seperate-decimal.pipe';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { TimeConvertModule } from 'app/shared/time-convert/time-convert.module';
         TimeConvertModule
     ],
     declarations: [       
-        BellboyComponent, BellboydetailComponent, BellboyHiringsComponent
+        BellboyComponent, BellboydetailComponent, BellboyHiringsComponent, SeperateDecimalPipe
     ]
 })
 export class BellboyModule { }

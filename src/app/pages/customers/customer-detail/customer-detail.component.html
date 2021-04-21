@@ -1,4 +1,4 @@
-<div class="card">
+-<div class="card">
   <div class="card-body">
     <div class="row align-items-center" myMatchHeight="card">
       <div class="col-sm-4 card">
@@ -30,9 +30,9 @@
         </p>
         <p><span>Last Seen:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.last_seen | date:'mediumDate'}} at {{customerDetail?.last_seen | date:'shortTime'}}</span>
         </p>
-        <p><span>Sign Up Device:</span>  <span class="ml-3 text-secondary">{{customerDetail?.signup_device }}</span>
+        <p><span>Sign Up Device:</span>  <span class="ml-3 text-secondary">{{customerDetail?.signup_device | deviceCode}}</span>
         </p>
-        <p><span>Current Device:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.current_device}}</span>
+        <p><span>Current Device:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.current_device | deviceCode}}</span>
         </p>
         <p><span>Total Logins:</span>  <span class="ml-3 text-secondary" *ngIf="customerDetail">{{customerDetail?.total_logins}}</span>
         </p>
@@ -68,7 +68,7 @@
             <tbody>
               <tr *ngFor="let item of hiringByCust">
                 <td>{{item.hiring_id}}</td>
-                <td>{{item.totalActions}}</td>
+                <td>{{item.totalActions.length}}</td>
                 <td><a [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]">{{item.bellboy?.name}}</a>
                 </td>
                 <td><span *ngIf="item.status==1" class="text-orange">Pending</span>  <span *ngIf="item.status==2" class="text-success">Assigned</span>  <span *ngIf="item.status==3" class="text-success">In Progress / Payment Waiting</span>  <span *ngIf="item.status==4"

@@ -36,15 +36,15 @@ export class AuthGuard implements CanActivate, OnInit {
       .set('password', obj.pass)
       this.http.post(this._url+'api/admin/auth/login', body,httpOption).subscribe((res:any)=>{
         if(res.success === true){
-          localStorage.setItem('userId', res.data.user._id)
+          localStorage.setItem('userId', res.data.user._id);
           localStorage.setItem('token', res.data.token);
           resolve(res.data) 
           this.messagingService.fcmToken.subscribe((res:any)=>{
             if(res!=null){
-              this.gs.registerFcmToken(res)
+              this.gs.registerFcmToken(res);
             }
           })
-          localStorage.setItem('Permissions', JSON.stringify(res.data.user.role.permissions))
+          localStorage.setItem('Permissions', JSON.stringify(res.data.user.role.permissions));
           let permissions = res.data.user.role.permissions[0]
           let path  = getPath(permissions);
           this.router.navigateByUrl(path)

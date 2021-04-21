@@ -12,7 +12,7 @@ import { amazonUrl } from 'app/shared/services/global';
 })
 export class HiringActionsComponent implements OnInit {
   addHiringAction:FormGroup;
-  hiringActions:any = [];
+  hiringActions:any;
   assignLabel:FormGroup;
   locals:any = []
   currentImage
@@ -98,6 +98,7 @@ export class HiringActionsComponent implements OnInit {
   }
   getActions(status){
     this.spinner = true;
+    this.hiringActions = [];
     this.hirngActService.getHiringActions(status).subscribe((res:any)=>{
       this.spinner = false;
       this.hiringActions = res.data.HiringActionTypes
