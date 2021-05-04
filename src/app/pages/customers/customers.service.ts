@@ -1,45 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { sweetAlert, url } from 'app/shared/services/global';
-var getAuth; var postAuth;
+var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class CustomersService {
   _url = url;
-  constructor(private http: HttpClient, private gs: GlobalService) {
-    this.gs.token.subscribe((res: any) => {
-      let token = res;
-      getAuth = {
-        headers: new HttpHeaders({
-          'Authorization': 'bearer ' + token
-        })
-      }
-      postAuth = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'bearer ' + token
-        })
-      }
-    })
+  constructor(private http: HttpClient) {
+    postAuth = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    }
   }
   getCustomers(byName, byPhone, status, page, sortBy, perPage) {
     if (status == '') {
-      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage, getAuth)
+      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage)
     } else {
-      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&status=' + status + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage, getAuth)
+      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&status=' + status + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage)
     }
   }
   sortCustomer() {
 
   }
   searchCustomer(keyword) {
-    return this.http.get(this._url + 'api/admin/customer?search=' + keyword, getAuth)
+    return this.http.get(this._url + 'api/admin/customer?search=' + keyword)
   }
   hiringByCustomers(page, perPage, id){
-    return this.http.get(this._url+'api/admin/hiring/customer/'+id+'?perPage='+perPage+'&pageNo='+page, getAuth).
+    return this.http.get(this._url+'api/admin/hiring/customer/'+id+'?perPage='+perPage+'&pageNo='+page).
     pipe(
       map((res:any)=>{
         return res.data.hirings;
@@ -47,7 +37,7 @@ export class CustomersService {
     )
   }
   getCustById(id) {
-    return this.http.get(this._url + 'api/admin/customer/' + id, getAuth)
+    return this.http.get(this._url + 'api/admin/customer/' + id)
   }
   changeStatus(status, customer) {
     let body = new HttpParams()
@@ -72,7 +62,7 @@ export class CustomersService {
     formData.append('body', form.description);
     if(form.notificationImg)
       formData.append('notificationImg', form.notificationImg);
-    return this.http.post(this._url+'api/admin/notification/'+sendTo+'?type=3',formData, getAuth)
+    return this.http.post(this._url+'api/admin/notification/'+sendTo+'?type=3',formData)
     .pipe(
       tap((res:any)=>{
         if(res.success == true){

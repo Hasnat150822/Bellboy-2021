@@ -213,7 +213,14 @@
             )
           "><span aria-hidden="true">First</span></a>
         </li>
-        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage <= 4 }"><a aria-label="Prev" ngbTooltip="Previous 5" (click)="prev5Items(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage <= 4 }"><a aria-label="Prev" ngbTooltip="Previous 5" (click)="           
+          getCustomers(
+          apiParams.byName,
+          apiParams.byPhone,
+          apiParams.status,
+          pager.currentPage - 5,
+          sortBy
+        )" class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
         </li>
         <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }"><a (click)="
             getCustomers(
@@ -225,7 +232,14 @@
             )
           " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
         </li>
-        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"><a ngbTooltip="Next 5" (click)="next5Items(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span></a>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"><a ngbTooltip="Next 5" (click)="
+          getCustomers(
+            apiParams.byName,
+            apiParams.byPhone,
+            apiParams.status,
+            pager.currentPage +5,
+            sortBy
+          )" aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span></a>
         </li>
         <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"><a (click)="
             getCustomers(

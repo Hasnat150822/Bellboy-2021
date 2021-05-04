@@ -1,32 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { sweetAlert, url } from 'app/shared/services/global';
-var getAuth; var postAuth;
+var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class ManageVehicleService {
   _url=url;
-  constructor(private http:HttpClient, private gs:GlobalService) {
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
+  constructor(private http:HttpClient) {
       postAuth = {
         headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
+          'Content-Type':'application/x-www-form-urlencoded'
         })
       }
-    })
    }
   getVehicles(nextAddr){
-    return this.http.get(this._url+'api/admin/vehicle'+nextAddr, getAuth);
+    return this.http.get(this._url+'api/admin/vehicle'+nextAddr);
   }
   changeVehicleStatus(vehicle, approval){
     let body = new HttpParams()
@@ -46,12 +36,12 @@ export class ManageVehicleService {
     )
   }
   getVehicleById(id){
-    return this.http.get(this._url+'api/admin/vehicle/'+id, getAuth)
+    return this.http.get(this._url+'api/admin/vehicle/'+id)
   }
   searchVehicle(number){
-    return this.http.get(this._url+'api/admin/vehicle?search='+number, getAuth)
+    return this.http.get(this._url+'api/admin/vehicle?search='+number)
   }
   searchVehicleByStatus(number, approval){
-    return this.http.get(this._url+'api/admin/vehicle?approval='+approval+'&search='+number, getAuth)
+    return this.http.get(this._url+'api/admin/vehicle?approval='+approval+'&search='+number)
   }
 }

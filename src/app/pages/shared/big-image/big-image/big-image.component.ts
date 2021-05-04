@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { amazonUrl } from 'app/shared/services/global';
 import { URL } from '../../../../ngrx-states/model/url.model';
 import * as allActions from '../../../../ngrx-states/actions';
+import { zoomin, zoomout } from '../zoom-in-out';
 @Component({
   selector: 'app-big-image',
   templateUrl: './big-image.component.html',
@@ -31,6 +32,12 @@ export class BigImageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.modalService.dismissAll();
     this.currentImage = imgLink.url;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage'})
+  }
+  zoomin(){
+    zoomin('fullView');
+  }
+  zoomout(){
+    zoomout('fullView');
   }
   closeModal(){
     this.modalService.dismissAll();

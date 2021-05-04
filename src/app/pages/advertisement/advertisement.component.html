@@ -5,8 +5,11 @@
       <h3 *ngIf="headStatus == 'active'">Active Advertisement</h3>
       <h3 *ngIf="headStatus == 'deactivate'">Deactivate Advertisement</h3>
     </div>
-    <div class="col-sm-6 text-right">
-      <button [disabled]="currentRole !== 'Super Admin'" (click)="open(addAdvert)" class="btn btn-orange">Add Advertisement</button>
+    <div class="col-sm-6 d-flex align-items-center justify-content-end">
+      <div class="form-group mb-0 mr-2">
+        <input type="month" (change)="getDate($event.target.value)" class="form-control perPage" min="2020-01" max="2100-01">
+      </div>
+      <button (click)="open(addAdvert)" class="btn btn-orange float-right">Add Advertisement</button>
     </div>
   </div>
   <div class="row">
@@ -16,9 +19,9 @@
           <div class="card">
             <div class="card-body">
               <h6>
-                            <span class="font-weight-500">Advertisement Title</span>
-                            <p class="float-right"><small class="font-weight-500">Status: </small> <small class="text-success">{{item.status}}</small></p>
-                        </h6>
+                  <span class="font-weight-500">Advertisement Title</span>
+                  <p class="float-right"><small class="font-weight-500">Status: </small> <small [ngClass]="{'text-success': item.status, 'text-error':!item.status}">{{item.status?'Activated':'Deactivated'}}</small></p>
+              </h6>
               <img src="{{amazonUrl}}{{item.image}}" height="230px" width="300px" onerror="src='../../../assets/img/gallery/1.jpg'" alt="" width="100%">
               <div class="row py-2">
                 <div class="col-sm-6">
@@ -34,6 +37,9 @@
                     Delete
                   </button>
                 </div>
+                <div class="col-sm-12 text-center mt-2" *ngIf="item.actionDate">
+                  <strong>Last Action: </strong> <small>{{item.actionDate | date:'mediumDate'}}, {{item.actionDate | date:'mediumTime'}}</small>
+                </div>
               </div>
             </div>
           </div>
@@ -43,11 +49,11 @@
   </div>
   <div class="row py-2">
     <div class="col-sm-12 text-right">
-      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'active';getAdvert(true)">Total Actived Advertisements: </a> </span>
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'active';getAdvert(true, null, null)">Total Actived Advertisements: </a> </span>
       <span class="text-orange">{{allAdvert.totalActive}}</span> &nbsp;
-      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'deactivate';getAdvert(false)">Total Deactivated Advertisements: </a> </span>
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'deactivate';getAdvert(false, null, null)">Total Deactivated Advertisements: </a> </span>
       <span class="text-orange">{{allAdvert.totalDeactive}}</span> &nbsp;
-      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'all';getAdvert(null)">Total Advertisements: </a> </span>
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'all';getAdvert(null, null, null)">Total Advertisements: </a> </span>
       <span class="text-orange">{{allAdvert.total}}</span>
     </div>
   </div>
@@ -59,15 +65,15 @@
   <div class="modal-body">
     <div class="position-relative text-center">
       <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="641" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
-      [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
-      <input #file type="file" accept='image/*' (change)="fileChangeEvent($event)" class="upload-input" type="file">
+      [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="*" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+      <input #file type="file" (change)="fileChangeEvent($event)" accept="image/x-png,image/gif,image/jpeg" class="upload-input" multiple>
       <button class="camera-icon btn btn-orange">Insert Image</button>
       <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{croppedImage}}">
-      <p class="text-error mb-0" *ngIf="message">{{message}}</p>
-      <p class="text-error" *ngIf="croppedImage && submitted">
-        Image is required
-      </p>
     </div>
+    <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+    <p *ngIf="!croppedImage" class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
+    <p *ngIf="!croppedImage" class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
+    <!-- <p *ngIf="croppedImage"><strong>Height: </strong><span>{{height}}</span> <strong>Width: </strong> <span>{{width}}</span></p> -->
   </div>
   <div class="modal-footer">
     <div class="text-right">

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { PagerService } from 'app/shared/services/pager.service';
 import { Router } from '@angular/router';
 import { GlobalService } from 'app/shared/services/global-service.service';
-import { amazonUrl } from 'app/shared/services/global';
+import { amazonUrl, sweetAlert } from 'app/shared/services/global';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -91,20 +91,13 @@ export class CategoriesComponent implements OnInit {
     this.catService.updateCat('', id,'',status, '')
     .subscribe((res:any)=>{
       if(res.success == true){
-        Swal.fire({
-          icon:'success',
-          text:'Updated',
-          width:'300px',
-          timer:2500,
-          showCancelButton:false,
-          showConfirmButton:false
-        })
+        sweetAlert('success', 'Updated');
         this.getCat('', 1)
       }else{
-        this.showError(res.message)
+        sweetAlert('error',res.message)
       }
     }, error=>{
-      this.showError(error.error.message)
+      sweetAlert('error',error.error.message)
     })
   }
   submitCat(form:FormGroup){
@@ -116,34 +109,19 @@ export class CategoriesComponent implements OnInit {
           this.imageFile = undefined
           this.imgURL = undefined
           this.submitted = false
-          Swal.fire({
-            icon:'success',
-            title:'Category Added successfully',
-            width:'400px',
-            timer:2500,
-            showConfirmButton:false
-          })
+          sweetAlert('success', 'Category Added Successfully')
         }else{
-          this.showError(res.message)
+          sweetAlert('error',res.message)
         }
       },(error:any)=>{
         this.imageFile = undefined
         this.imgURL = undefined
-        this.showError(error.error.message)
+        sweetAlert('error',error.error.message)
       })
       this.submitted = false
       form.reset()
       this.modalService.dismissAll()
     }
-  }
-  showError(message){
-    Swal.fire({
-      icon:'error',
-      title:message,
-      width:'400px',
-      timer:2500,
-      showConfirmButton:false
-    })
   }
 }
 function base64(files){

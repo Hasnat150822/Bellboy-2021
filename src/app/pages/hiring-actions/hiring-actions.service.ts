@@ -1,41 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import Swal from 'sweetalert2';
 import { map, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GlobalService } from 'app/shared/services/global-service.service';
-import { url } from 'app/shared/services/global';
-var getAuth; var postAuth;
+import { sweetAlert, url } from 'app/shared/services/global';
+var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class HiringActionsService {
   _url = url;
-  constructor(private http:HttpClient, private modalService:NgbModal, private gs:GlobalService) {
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
+  constructor(private http:HttpClient, private modalService:NgbModal) {
       postAuth = {
         headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
+          'Content-Type':'application/x-www-form-urlencoded'
         })
       }
-    })
   }
   getHiringActions(status){
-    return this.http.get(this._url+'api/admin/hiring-action-type?status='+status, getAuth)
+    return this.http.get(this._url+'api/admin/hiring-action-type?status='+status)
   }
   addHiringActions(form, icon){
     let formData:FormData = new FormData();
     formData.append('title', form.title);
     formData.append('description', form.desc);
     formData.append('icon', icon);
-    return this.http.post(this._url+'api/admin/hiring-action-type', formData, getAuth)
+    return this.http.post(this._url+'api/admin/hiring-action-type', formData)
     .pipe(
       map((res:any)=>{
         if(res.success == true){
@@ -75,7 +64,7 @@ export class HiringActionsService {
     let formData:FormData = new FormData();
     formData.append('status', status)
     formData.append('action_type_id', id)
-    return this.http.put(this._url+'api/admin/hiring-action-type', formData, getAuth).pipe(
+    return this.http.put(this._url+'api/admin/hiring-action-type', formData).pipe(
       tap(()=>{
         sweetAlert('success', 'Status is Changed');
       }, error=>{
@@ -83,13 +72,4 @@ export class HiringActionsService {
       })
     )
   }
-}
-function sweetAlert(icon, message) {
-  Swal.fire({
-    icon:icon,
-    text: message,
-    width:'400px',
-    timer:2500,
-    showConfirmButton:false
-  })
 }

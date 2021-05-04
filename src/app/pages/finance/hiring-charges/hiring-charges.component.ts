@@ -43,7 +43,6 @@ export class HiringChargesComponent implements OnInit {
     })
   }
   updateCharges(input, confirm, icon , charges_type,api){
-    console.log(api, 'api')
     let value = $('#'+input).val()
     if(api.value == value){
       return false

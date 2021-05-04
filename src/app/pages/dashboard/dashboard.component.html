@@ -1,11 +1,11 @@
 <section>
   <div id="totalSec" class="row align-items-center">
     <div class="col-6">
-      <span class="card-title h2" *ngIf="!workingRecord"><strong>Today Record</strong></span>
-      <span *ngIf="workingRecord"><strong>From: </strong> {{this.startDateRecord | date:'mediumDate'}} <strong>To: </strong> {{this.endDateRecord | date:'mediumDate'}} </span>
+      <span class="card-title h2" *ngIf="!rangeRecord"><strong>Today Record</strong></span>
+      <span *ngIf="rangeRecord"><strong>From: </strong> {{this.startDateforRecord | date:'mediumDate'}} <strong>To: </strong> {{this.endDateforRecord | date:'mediumDate'}} </span>
     </div>
     <div class="col-6 text-right px-3">
-      <a (click)="getDefault();"> <i class="ft-refresh-cw font-weight-bold" ngbTooltip="Reset" placement="bottom"></i> 
+      <a (click)="defaults();"> <i class="ft-refresh-cw font-weight-bold" ngbTooltip="Reset" placement="bottom"></i> 
       </a>
       <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2">Select Range for Record</button>
     </div>
@@ -21,15 +21,15 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="recordCard card">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0 w-100"> 
-            <span>{{dashboardData?.total?.totalCurrentDayHirings}} </span>
+            <span>{{daysRecord?.totalCurrentDayHirings}} </span>
             <span class="float-right">
               <img height="25px" src="../../../assets/img/ico/confused.png">
             </span></h5>
           <hr>
           <p class="mb-0">
-            <span>{{!workingRecord?'Today':''}} Hirings</span>
+            <span>{{!rangeRecord?'Today':''}} Hirings</span>
           </p>
           <a routerLink="/hiring" class="stretched-link"></a>
         </div>
@@ -38,15 +38,15 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="recordCard card">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-            {{dashboardData?.total?.totalCurrentDayCustomers}}
+            {{daysRecord?.totalCurrentDayCustomers}}
           <span class="float-right">
             <img height="25px" src="../../../assets/img/ico/client.png">
           </span></h5>
           <hr>
           <p class="mb-0">
-            <span>{{!workingRecord?'Today':''}} Customers</span>
+            <span>{{!rangeRecord?'Today':''}} Customers</span>
           </p>
           <a routerLink="/customers" class="stretched-link"></a>
         </div>
@@ -55,16 +55,16 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="recordCard card">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-              {{dashboardData?.total?.totalCurrentDayBellBoys}}
+              {{daysRecord?.totalCurrentDayBellBoys}}
               <span class="float-right">
                 <img height="25px" src="../../../assets/img/ico/BB-PNG.png">
               </span>
             </h5>
           <hr>
           <p class="mb-0">
-            <span>{{!workingRecord?'Today':''}} Bellboy</span>
+            <span>{{!rangeRecord?'Today':''}} Bellboy</span>
           </p>
           <a routerLink="/bellboy" class="stretched-link"></a>
         </div>
@@ -73,9 +73,9 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="card recordCard">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-              {{dashboardData?.total?.totalEarningDate | number:0}}/- Rs
+              {{daysRecord?.totalEarningDate | number:0}}/- Rs
               <span class="float-right">
                 <img height="25px" src="../../../assets/img/ico/money.png">
               </span>
@@ -90,9 +90,9 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="card recordCard">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-              {{dashboardData?.total?.totalPendingHirings}}
+              {{daysRecord?.totalPendingHirings}}
               <span class="float-right">
                 <img height="25px" src="../../../assets/img/ico/pending.svg">
               </span>
@@ -107,9 +107,9 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="card recordCard">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-            {{dashboardData?.total?.totalInProgressHirings}}
+            {{daysRecord?.totalInProgressHirings}}
             <span class="float-right">
               <img height="25px" src="../../../assets/img/ico/in-progress.svg">
             </span>
@@ -124,9 +124,9 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="card recordCard">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-            {{dashboardData?.total?.totalCompletedHirings}}
+            {{daysRecord?.totalCompletedHirings}}
             <span class="float-right">
               <img height="25px" src="../../../assets/img/ico/checked-hirings.svg">
             </span>
@@ -141,9 +141,9 @@
     <div class="col-sm-6 col-md-4 col-xl-3">
       <div class="card recordCard">
         <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!spinner">
+        <div class="card-body" *ngIf="!loader">
           <h5 class="font-weight-500 mb-0">
-            {{dashboardData?.total?.totalCancelledHirings}}
+            {{daysRecord?.totalCancelledHirings}}
             <span class="float-right">
               <img height="25px" src="../../../assets/img/ico/canceled-hiring.svg">
             </span>
@@ -162,8 +162,8 @@
         <div class="card-header ">
           <div class="row">
             <div class="col-sm-6">
-              <span *ngIf="!workingGraph" class="card-title h2"><strong>Current Week Statistics</strong></span>
-              <span *ngIf="workingGraph"><strong>From: </strong> {{this.startDateGraph | date:'mediumDate'}} <strong>To: </strong> {{this.endDateGraph | date:'mediumDate'}} </span>
+              <span *ngIf="!rangeGraph" class="card-title h2"><strong>Current Week Statistics</strong></span>
+              <span *ngIf="rangeGraph"><strong>From: </strong> {{this.startDate | date:'mediumDate'}} <strong>To: </strong> {{this.endDate | date:'mediumDate'}} </span>
             </div>
             <div class="col-sm-6 text-right">
               <button (click)="showDatePick('datepicker')" class="btn btn-orange mr-2 float-right">Select Graph Range</button>
@@ -175,25 +175,12 @@
                 </span>
               </ng-template>
             </div>
-            <div class="col-12 mt-2 text-right">
-              <ul class="d-flex float-right mb-0">
-                <li class="active" id="li1" (click)="getHirings();active('li1')">
-                  <a>Hiring</a>
-                </li>
-                <li id="li2" class="" (click)="getCustomers();active('li2')">
-                  <a>Customers</a>
-                </li>
-                <li id="li3" class="" (click)="getBellboys();active('li3')">
-                  <a>Bellboys</a>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
         <div class="card-body">
           <div style="display: block;">
-            <canvas #chart baseChart height="260px" width="1024px" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
-            </canvas>
+            <canvas height="260" baseChart class="chart" [datasets]="areaChartData" [labels]="areaChartLabels" [options]="areaChartOptions" [colors]="areaChartColors"
+            [legend]="areaChartLegend" [chartType]="areaChartType" ></canvas>
           </div>
         </div>
       </div>
@@ -203,17 +190,16 @@
     <div class="col-lg-4 col-md-6">
       <div class="card  ml-auto mr-auto">
         <div class="card-body">
-          <h5 class="font-weight-500 mb-0">{{dashboardData?.totalWithDetail?.currentDayHirings?.length}}
+          <h5 class="font-weight-500 mb-0">{{hiringDetail?.length}}
           <span class="float-right">
             <img height="25px" src="../../../assets/img/ico/confused.png">
           </span></h5>
-          <p class="mb-0">{{!workingRecord?'New':''}} Hirings</p>
+          <p class="mb-0">{{!rangeRecord?'New':''}} Hirings</p>
           <hr>
           <div style="height: 190px; overflow-y: scroll;">
-            <div *ngFor="let item of pagedItems" class="media pt-0 pb-2 align-items-center">
+            <div *ngFor="let item of hiringItems" class="media pt-0 pb-2 align-items-center">
               <div class="actions position-relative">
-                <span>{{item.actions.length}}</span>
-                <!-- <span class="hide-word">Actions</span> -->
+                <span>{{item.actions}}</span>
               </div>
               <div class="media-body">
                 <h4 class="font-medium-1 mb-0">{{item.customer.name}}</h4>
@@ -241,14 +227,14 @@
     <div class="col-lg-4 col-md-6">
       <div class="card  ml-auto mr-auto">
         <div class="card-body">
-          <h5 class="font-weight-500 mb-0">{{dashboardData?.totalWithDetail?.currentDayCustomers?.length}}
+          <h5 class="font-weight-500 mb-0">{{customerDetail?.length}}
           <span class="float-right">
             <img src="../../../assets/img/ico/client.png" height="25px">
           </span></h5>
-          <p class="mb-0">{{!workingRecord?'New':''}} Customers</p>
+          <p class="mb-0">{{!rangeRecord?'New':''}} Customers</p>
           <hr>
           <div style="height: 190px; overflow-y: scroll;">
-            <div *ngFor="let item of pagedItemsCustomer" class="media pt-0 pb-2 align-items-center">
+            <div *ngFor="let item of customerItems" class="media pt-0 pb-2 align-items-center">
               <img src="{{item.avatar?.value}}" alt="Avatar" width="35" class="mr-3 avatar round" onerror="src='../../../assets/img/gallery/1.jpg'">
               <div class="media-body">
                 <h4 class="font-medium-1 mb-0">{{item.name}}</h4>
@@ -276,14 +262,14 @@
     <div class="col-lg-4 col-md-6">
       <div class="card  ml-auto mr-auto">
         <div class="card-body">
-          <h5 class="font-weight-500 mb-0">{{dashboardData?.totalWithDetail?.currentDayBellBoys?.length}}
+          <h5 class="font-weight-500 mb-0">{{bellboyDetail?.length}}
           <span class="float-right">
             <img height="25px" src="../../../assets/img/ico/BB-PNG.png">
           </span></h5>
-          <p class="mb-0">{{!workingRecord?'New':''}} Bellboys</p>
+          <p class="mb-0">{{!rangeRecord?'New':''}} Bellboys</p>
           <hr>
           <div style="height: 190px; overflow-y: scroll;">
-            <div *ngFor="let item of pagedItemsBellboy" class="media pt-0 pb-2 align-items-center">
+            <div *ngFor="let item of bellboyItems" class="media pt-0 pb-2 align-items-center">
               <img src="{{item.avatar?.value}}" alt="Avatar" width="35" class="mr-3 avatar round" onerror="src='../../../assets/img/gallery/1.jpg'">
               <div class="media-body">
                 <h4 class="font-medium-1 mb-0">{{item.name}}</h4>
@@ -311,6 +297,6 @@
   </div>
 </section>
 <ng-template #shimmer>
-  <div class="card-body" *ngIf="spinner" [ngClass]="{'shine':spinner}">
+  <div class="card-body" *ngIf="loader" [ngClass]="{'shine':loader}">
   </div>
 </ng-template>

@@ -3,8 +3,9 @@ import { AssignStatusService } from './assign-status.service';
 import { Subscription } from 'rxjs';
 import { PagerService } from 'app/shared/services/pager.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { HiringService } from '../hiring/hiring.service';
+import { checkPage } from 'app/shared/services/global';
 
 @Component({
   selector: 'app-assign-status',
@@ -30,7 +31,8 @@ export class AssignStatusComponent implements OnInit {
     this.getPendingOrder(1);
   }
   getPendingOrder(page){
-    this.spinner = true
+    page = checkPage(page, this.pager.totalPages);
+    this.spinner = true;
     // this.service.getAllHirings('1', page,this.bybbType, this.byTime, this.byId, this.byAction, this.byName, this.byPhone, this.byBBname).subscribe((response:any)=>{
     //   this.pendingOrder = response.data.hirings;
     //   this.totalItems = response.data.count;

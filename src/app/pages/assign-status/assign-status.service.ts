@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { url } from 'app/shared/services/global';
-var headers;
+import { sweetAlert, url } from 'app/shared/services/global';
 var postAuth;
 @Injectable({
   providedIn: 'root'
@@ -12,15 +11,8 @@ export class AssignStatusService {
   _url = url;
   finalArr:any[];
   constructor(private http:HttpClient) {
-    let token = localStorage.getItem('token');
-    headers ={
-      headers:new HttpHeaders({
-        'Authorization':'Bearer '+token
-      })
-    }
     postAuth ={
       headers:new HttpHeaders({
-        'Authorization':'Bearer '+token,
         'Content-Type':'application/x-www-form-urlencoded'
       })
     }
@@ -45,7 +37,7 @@ getPend_Del_Hir(){
   // })
 }
 availableBellboy(){
-  return this.http.get(this._url+'api/admin/hiring/bellboy', headers);
+  return this.http.get(this._url+'api/admin/hiring/bellboy');
  }
  assignBellboy(bellboy, hiring_id){
   let body = new HttpParams()
@@ -64,13 +56,4 @@ availableBellboy(){
     })
   )
  }
-}
-function sweetAlert(icon, message) {
-  Swal.fire({
-    icon:icon,
-    text:message,
-    width:'300px',
-    timer:2500,
-    showConfirmButton:false
-  })
 }

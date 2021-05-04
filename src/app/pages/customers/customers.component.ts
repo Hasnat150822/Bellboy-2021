@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { USER_NAME } from 'app/ngrx-states/model/url.model';
 import { Subscription } from 'rxjs';
+import { checkPage } from 'app/shared/services/global';
 interface apiParams {
   status: string,
   byName: string,
@@ -74,6 +75,7 @@ export class CustomersComponent implements OnInit {
   perPage:number = 10;
   // check all values dynamically with rendrer2
   getCustomers(byname, byphone, status, page, sortBy) {
+    page = checkPage(page, this.pager.totalPages);
     this.spinner = true;
     this.sortBy = sortBy;
     this.apiParams = { status: status, byName: byname, byPhone: byphone };
@@ -120,20 +122,6 @@ export class CustomersComponent implements OnInit {
         })
       }
     })
-  }
-  prev5Items(page) {
-    if (page < 1) {
-      this.getCustomers('', '', this.apiParams.status, 1, '');
-    } else {
-      this.getCustomers('', '', this.apiParams.status, page, '');
-    }
-  }
-  next5Items(page) {
-    if (page > this.pager.totalPages) {
-      this.getCustomers('', '', this.apiParams.status, this.pager.totalPages, '');
-    } else {
-      this.getCustomers('', '', this.apiParams.status, page, '');
-    }
   }
   onEnter(event){
     let key = event.keyCode;
@@ -256,7 +244,6 @@ export class CustomersComponent implements OnInit {
     let values = this.notificationForm.getRawValue();
     values['userId'] = this.checkedValues;
     values['notificationImg'] = this.imageFile;
-    console.log(this.notificationForm, 'form');
     if(this.selectSenderArea=='' && this.checkedValues.length>1){
       this.confirmationDialog(this.checkedValues.length+' customers').then((result:any)=>{
         if(result.value){

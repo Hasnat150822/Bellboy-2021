@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Notific } from '../model';
-import { amazonUrl } from 'app/shared/services/global';
+import { amazonUrl, checkPage } from 'app/shared/services/global';
+import * as allActions from '../../../ngrx-states/actions';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-notification-list',
   templateUrl: './notification-list.component.html',
@@ -12,19 +14,20 @@ export class NotificationListComponent implements OnInit, AfterViewInit {
   @Output() sendPageNumber = new EventEmitter<number>()
   shortDescription:boolean = false;
   amazonImgUrl:string = amazonUrl;
-  constructor() {
+  isBig:boolean = false;
+  constructor(private store:Store<URL>) {
    }
 
   ngOnInit(): void {
   }
   ngAfterViewInit(){
   }
+  bigImage(url){
+    this.isBig = true;
+    this.store.dispatch(new allActions.SendUrl(url));
+  }
   sendPage(page){
-    if(page<1){
-      page = 1;
-    }else if(page>this.pager.totalPages){
-      page = this.pager.totalPages
-    }
+    page = checkPage(page, this.pager.totalPages);
     this.sendPageNumber.emit(page);
   }
 }

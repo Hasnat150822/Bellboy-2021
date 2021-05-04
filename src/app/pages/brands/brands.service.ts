@@ -1,45 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { url } from 'app/shared/services/global';
-var getAuth;
 var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class BrandsService {
   _url=url
-  constructor(private http:HttpClient, private gs:GlobalService) { 
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
-      postAuth = {
-        headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
-        })
-      }
-    })
+  constructor(private http:HttpClient) { 
+    postAuth = {
+      headers:new HttpHeaders({
+        'Content-Type':'application/x-www-form-urlencoded'
+      })
+    }
   }
   searchBrands(keyword, page){
-    return this.http.get(this._url+'api/admin/brand?perPage=10&pageNo='+page+'&search='+keyword, getAuth)
+    return this.http.get(this._url+'api/admin/brand?perPage=10&pageNo='+page+'&search='+keyword)
   }
   createBrand(title, img){
     let formData: FormData = new FormData();
     formData.append('title', title);
     formData.append('icon', img)
-    return this.http.post(this._url+'api/admin/brand',formData, getAuth)
+    return this.http.post(this._url+'api/admin/brand',formData)
   }
   getBrand(cureentpage){
-    return this.http.get(this._url+'api/admin/brand?perPage=10&pageNo='+cureentpage+'&search='+"&locale=", getAuth)
+    return this.http.get(this._url+'api/admin/brand?perPage=10&pageNo='+cureentpage+'&search='+"&locale=")
   }
   getBrandById(id){
-    return this.http.get(this._url+'api/admin/brand/'+id+'/en', getAuth)
+    return this.http.get(this._url+'api/admin/brand/'+id+'/en')
   }
   addLabelToBrand(label, brandId, locale){
     let body = new HttpParams()
@@ -55,6 +43,6 @@ export class BrandsService {
     body.append('label_id', label_id);
     body.append('status', status);
     body.append('icon', icon);
-    return this.http.put(this._url+'api/admin/brand', body, getAuth)
+    return this.http.put(this._url+'api/admin/brand', body)
   }
 } 

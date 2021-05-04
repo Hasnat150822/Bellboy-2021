@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import Swal from 'sweetalert2'; 
-import { url } from 'app/shared/services/global';
-var getAuth;
+import { sweetAlert, url } from 'app/shared/services/global';
 var postAuth;
 @Injectable({
   providedIn: 'root'
@@ -13,21 +10,12 @@ var postAuth;
 export class HiringService {
   _url = url;
   tabStatus = new BehaviorSubject<any>('tab1')
-  constructor(private http: HttpClient, private gs:GlobalService) { 
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
+  constructor(private http: HttpClient) { 
       postAuth = {
         headers:new HttpHeaders({
-          'Authorization':'bearer '+token,
           'Content-Type':'application/x-www-form-urlencoded'
         })
       }
-    })
   }
   getAllHirings (status, page,searchType, searchValue, sortBy, perPage){
     searchType==undefined?searchType='searchById':searchType=searchType;
@@ -37,10 +25,10 @@ export class HiringService {
     else
       {searchstring='';}
     let apiUrl = "api/admin/hiring?&pageNo="+page+"&status="+status+"&sortBy="+sortBy+searchstring+'&perPage='+perPage;
-    return this.http.get(this._url+apiUrl, getAuth)
+    return this.http.get(this._url+apiUrl)
   }
   getByid(id){
-    return this.http.get(this._url+'api/admin/hiring/'+id, getAuth)
+    return this.http.get(this._url+'api/admin/hiring/'+id)
   }
   cancelHiring(id, reason){
     let body = new HttpParams()
@@ -59,7 +47,7 @@ export class HiringService {
     )
   }
 availableBellboy(){
-  return this.http.get(this._url+'api/admin/hiring/bellboy', getAuth);
+  return this.http.get(this._url+'api/admin/hiring/bellboy');
  }
  assignBellboy(bellboy, hiring_id){
   let body = new HttpParams()
@@ -83,20 +71,11 @@ availableBellboy(){
    let oLng = Origin.lng;
    let dLat = destinition.lat;
    let dLng = destinition.lng;
-   return this.http.get(url+'api/admin/hiring/estimatedDistance?origin='+oLat+','+oLng+'&destination='+dLat+','+dLng+'', getAuth)
+   return this.http.get(url+'api/admin/hiring/estimatedDistance?origin='+oLat+','+oLng+'&destination='+dLat+','+dLng+'')
    .pipe(
      map((res:any)=>{
        return res.data.distance.routes[0].legs[0];
      })
    )
  }
-}
-function sweetAlert(icon, message) {
-  Swal.fire({
-    icon:icon,
-    text:message,
-    width:'300px',
-    timer:2500,
-    showConfirmButton:false
-  })
 }

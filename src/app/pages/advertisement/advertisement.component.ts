@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { USER_NAME } from 'app/ngrx-states/model/url.model';
 import { amazonUrl, confirmationDialog } from 'app/shared/services/global';
 import { dataURLtoFile, GlobalService } from 'app/shared/services/global-service.service';
-import { NgxImageCompressService } from 'ngx-image-compress';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { Subscription } from 'rxjs';
 import { AdvertisementService } from './advertisement.service';
@@ -32,14 +31,14 @@ export class AdvertisementComponent implements OnInit {
   constructor(private modalService:NgbModal, private service:AdvertisementService,private gs:GlobalService, 
     private store:Store<USER_NAME>) {
    }
-  currentRole
+  currentRole;
   ngOnInit() {
     this.store.subscribe((res:any)=>{
       if(res.UserData.data!==undefined){
-        this.currentRole = res.UserData.data.role.title;
+        // this.currentRole = res.UserData.data.role.title;
       }
     }, err=>{}, ()=>{this.subscription.unsubscribe()});
-    this.getAdvert(null);
+    this.getAdvert(null, null,null);
   }
   slideConfig = {
     infinite: true,
@@ -61,7 +60,7 @@ export class AdvertisementComponent implements OnInit {
       {
         breakpoint: 769,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 2
         }
       },
@@ -69,7 +68,7 @@ export class AdvertisementComponent implements OnInit {
         breakpoint: 605,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
           infinite: true
         }
       },
@@ -77,13 +76,13 @@ export class AdvertisementComponent implements OnInit {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 2
+          slidesToScroll: 1
         }
       }
     ]
   };
-  getAdvert(status){
-    this.service.getAdvertisement(status).subscribe((res:any)=>{
+  getAdvert(status, year, month){
+    this.service.getAdvertisement(status, year, month).subscribe((res:any)=>{
       this.allAdvert = res;
     });
   }
@@ -111,10 +110,9 @@ export class AdvertisementComponent implements OnInit {
   deleteAdvert(id){
     confirmationDialog().then((value)=>{
       if(value){
-        alert('asdf')
         this.service.deleteAdvert(id)
         .subscribe(()=>{
-          this.getAdvert(null);
+          this.getAdvert(null, null, null);
         })
       }
     })
@@ -124,7 +122,7 @@ export class AdvertisementComponent implements OnInit {
     if(this.imageFile != undefined){
       this.service.postAdvertisement(this.imageFile).subscribe((res:any)=>{
         this.modalService.dismissAll();
-        this.getAdvert(null);
+        this.getAdvert(null, null, null);
       },error=>{
         this.modalService.dismissAll();
       });
@@ -132,7 +130,7 @@ export class AdvertisementComponent implements OnInit {
   }
   updateStatus(status,id){
     this.service.changeStatus(status, id).subscribe(()=>{
-      this.getAdvert(null);
+      this.getAdvert(null, null,null);
     })
   }
   open(content){
@@ -149,11 +147,18 @@ export class AdvertisementComponent implements OnInit {
       return
     }
   }
-
+  height:number; width:number;
   imageCropped(event: ImageCroppedEvent) {
+    this.height = event.height;
+    this.width = event.width;
     this.croppedImage = event.base64;
     this.imageFile =  dataURLtoFile(this.croppedImage, this.tempFile.name);
 }
+  getDate(event){
+    let year = event.split('-')[0];
+    let month = event.split('-')[1];
+    this.getAdvert(null,year, month )
+  }
 
   imageLoaded() {
       this.showCropper = true;

@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class="col-sm-4 border-right">
           <div class="media">
-            <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.avatar?.value)">
+            <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value)">
               <img class="align-self-center mr-3 image-size" src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
             </a>
             <div class="media-body mt-auto mb-auto">
@@ -100,14 +100,14 @@
               </p>
             </div>
             <div class="col-sm-6">
-              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.nic?.front_image)">
-                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.nic?.front_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.front_image)">
+                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.front_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
               </a>
               <figcaption class="text-center">Front</figcaption>
             </div>
             <div class="col-sm-6">
-              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.nic?.back_image)">
-                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.nic?.back_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.back_image)">
+                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.back_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
               </a>
               <figcaption class="text-center">Back</figcaption>
             </div>
@@ -141,14 +141,14 @@
               </p>
             </div>
             <div class="col-sm-6">
-              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.driving_license?.front_image)">
-                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.driving_license?.front_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.front_image)">
+                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.front_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
               </a>
               <figcaption class="text-center">Front</figcaption>
             </div>
             <div class="col-sm-6">
-              <a (click)="openModel(bigImg, detailBellboy?.bellBoy?.legals?.driving_license?.back_image)">
-                <img src="{{amazonImgUrl}}{{detailBellboy?.bellBoy?.legals?.driving_license?.back_image}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.back_image)">
+                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.back_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
               </a>
               <figcaption class="text-center">Back</figcaption>
             </div>
@@ -229,35 +229,59 @@
                           </span>
                         </p>
                       </div>
+                      <div class="col-sm-6">
+                        <p>
+                          <span>Engine Number: </span>
+                          <span class="text-secondary ml-3">
+                            -
+                          </span>
+                        </p>
+                      </div>
+                      <div class="col-sm-5">
+                        <p>
+                          <span>Registration Year: </span>
+                          <span class="text-secondary ml-3">
+                            -
+                          </span>
+                        </p>
+                      </div>
+                      <div class="col-sm-6">
+                        <p>
+                          <span>Owner Name: </span>
+                          <span class="text-secondary ml-3">
+                            -
+                          </span>
+                        </p>
+                      </div>
                       <div class="col-sm-12 row align-items-center m-0">
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.front_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.front_image}}" />
+                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.front_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.front_image}}" />
                           </a>
                           <figcaption>Front</figcaption>
                         </div>
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.back_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.back_image}}" />
+                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.back_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.back_image}}" />
                           </a>
                           <figcaption>Back</figcaption>
                         </div>
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.right_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.right_image}}" />
+                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.right_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.right_image}}" />
                           </a>
                           <figcaption>Right</figcaption>
                         </div>
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, item?.vehicle_images?.left_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.left_image}}" />
+                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.left_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.left_image}}" />
                           </a>
                           <figcaption>Left</figcaption>
                         </div>
                       </div>
                       <div class="col-sm-12 text-center">
                         <a>
-                          <img class="plate-image" (click)="openModel(bigImg, item?.plate?.plate_image)" src="{{amazonImgUrl}}{{item?.plate?.plate_image}}" alt="img" />
+                          <img class="plate-image" (click)="openModel(bigImg, amazonImgUrl+item?.plate?.plate_image)" src="{{amazonImgUrl}}{{item?.plate?.plate_image}}" alt="img" />
                         </a>
                         <figcaption>Number Plate</figcaption>
                       </div>

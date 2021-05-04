@@ -143,7 +143,7 @@
                 <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getBellboys(1, itemPerPage, status) "><span aria-hidden="true">First</span></a>
             </li>
             <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
-                <a aria-label="Prev" ngbTooltip="Previous" (click)="getBellboys(pager.currentPage - 5, itemPerPage, status) " class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+                <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getBellboys(pager.currentPage - 5, itemPerPage, status) " class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
             </li>
             <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }">
                 <a (click)="getBellboys(page, itemPerPage, status) " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
@@ -151,7 +151,7 @@
             <li
                 class="ng2-smart-page-item page-item"
                 [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
-                <a ngbTooltip="Next" (click)="getBellboys(pager.currentPage + 5, itemPerPage, status) " aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span>
+                <a ngbTooltip="Next 5" (click)="getBellboys(pager.currentPage + 5, itemPerPage, status) " aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span>
                 </a>
             </li>
             <li

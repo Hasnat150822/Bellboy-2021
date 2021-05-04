@@ -10,7 +10,6 @@ export class ShimmerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.spinner)
   }
 
 }

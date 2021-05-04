@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BellboyService } from '../bellboy.service';
-import Swal from 'sweetalert2';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManageVehicleService } from 'app/pages/vehicles/manage-vehicles/manage-vehicle.service';
-import { amazonUrl, url } from 'app/shared/services/global';
+import { amazonUrl, confirmationDialog, url } from 'app/shared/services/global';
 declare const $:any;
 @Component({
   selector: 'app-bellboydetail',
@@ -24,7 +23,7 @@ export class BellboydetailComponent implements OnInit {
     this.getBellboyDetail()
   }
   openModel(content, Url) {
-    this.currentImage  = url+Url;
+    this.currentImage  = Url;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage'})
   }
   open(content){
@@ -36,14 +35,8 @@ export class BellboydetailComponent implements OnInit {
     })
   }
   changeNIC(status){
-    Swal.fire({
-      icon:'question',
-      text:'Are You Sure!',
-      width:'300px',
-      showConfirmButton:true,
-      showCancelButton:true
-    }).then((result)=>{
-      if(result.value == true){
+    confirmationDialog().then((result)=>{
+      if(result == true){
         this.bellboyService.manageNIC(status, this._id).subscribe((res:any)=>{
             this.getBellboyDetail()
         })  
@@ -56,14 +49,8 @@ export class BellboydetailComponent implements OnInit {
     $('#'+id).prop('hidden', !$('#'+id).prop('hidden'))
   }
   changeLicense(status){
-    Swal.fire({
-      icon:'question',
-      text:'Are You Sure!',
-      width:'300px',
-      showConfirmButton:true,
-      showCancelButton:true
-    }).then((result)=>{
-      if(result.value == true){
+    confirmationDialog().then((result)=>{
+      if(result == true){
         this.bellboyService.manageLicense(status, this._id).subscribe((res:any)=>{
             this.getBellboyDetail()
           })

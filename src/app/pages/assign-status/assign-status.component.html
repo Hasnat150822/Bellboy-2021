@@ -122,7 +122,7 @@
           </a>
         </li>
         <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
-          <a aria-label="Prev" ngbTooltip="Previous" (click)="getPendingOrder(pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+          <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getPendingOrder(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev">
             <span aria-hidden="true">«</span>
           </a>
         </li>
@@ -130,7 +130,7 @@
           <a (click)="getPendingOrder(page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
         </li>
         <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-          <a ngbTooltip="Next" (click)="getPendingOrder(pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+          <a ngbTooltip="Next 5" (click)="getPendingOrder(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
             <span aria-hidden="true">»</span>
           </a>
         </li>

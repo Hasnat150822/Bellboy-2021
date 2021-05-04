@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BrandsService } from './brands.service';
-import Swal from 'sweetalert2';
 import { PagerService } from 'app/shared/services/pager.service';
 import { Router } from '@angular/router';
 import { GlobalService } from 'app/shared/services/global-service.service';
+import { sweetAlert } from 'app/shared/services/global';
 @Component({
   selector: 'app-brands',
   templateUrl: './brands.component.html',
@@ -114,24 +114,12 @@ export class BrandsComponent implements OnInit {
           this.imageFile = undefined
           this.imgURL = undefined
           this.submitted = false
-          Swal.fire({
-            icon:'success',
-            title:'Brand Added successfully',
-            width:'400px',
-            timer:2500,
-            showConfirmButton:false
-          })
+          sweetAlert('warning', 'Brand Added successfully')
         }
       },(error:any)=>{
         this.imageFile = undefined
         this.imgURL = undefined
-        Swal.fire({
-          icon:'error',
-          title:error.error.message,
-          width:'400px',
-          timer:2500,
-          showConfirmButton:false
-        })
+        sweetAlert('error', error.error.message)
       })
       this.submitted = false
       form.reset()

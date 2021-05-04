@@ -5,7 +5,7 @@ import { VehicleTypeService } from '../manage-vehicle-type/vehicle-type.service'
 import { ManageBrandService } from './manage-brand.service';
 import { GlobalService } from 'app/shared/services/global-service.service';
 import { PagerService } from 'app/shared/services/pager.service';
-import { amazonUrl } from 'app/shared/services/global';
+import { amazonUrl, checkPage } from 'app/shared/services/global';
 @Component({
   selector: 'app-manage-brand',
   templateUrl: './manage-brand.component.html',
@@ -41,13 +41,9 @@ export class ManageBrandComponent implements OnInit {
       this.setPage(1)
     })
   }
-  pagedItems:any = []
+  pagedItems:any = [];
   setPage(page){
-    if(page>this.pager.totalPages){
-      page = this.pager.totalPages
-    }else if(page<0){
-      page = 1
-    }
+    page = checkPage(page, this.pager.totalPages);
     this.pager = this.pagerService.getPager(this.tempBrands.length, page)
     this.pagedItems = this.tempBrands.slice(this.pager.startIndex, this.pager.endIndex+1)
   }

@@ -1,22 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
+  HttpHandler
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable()
-export class HttpSetHeaderInterceptor implements HttpInterceptor {
+export class HttpSetHeaderInterceptor {
 
   constructor() {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const headersConfig = {
-      'Content-Type':'application/json',
-      'Accept': '*/*'
-    }; 
+  intercept(request: HttpRequest<unknown>, next: HttpHandler)  {
+    const headersConfig = {};
     let token = localStorage.getItem('token');
     headersConfig['Authorization'] = `bearer ${token}`;
     return next.handle(request.clone({ setHeaders: headersConfig }));

@@ -1,29 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { sweetAlert, url } from 'app/shared/services/global';
-import { NgIf } from '@angular/common';
-var getAuth; var postAuth;
+var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class FinanceService {
-  constructor(private http:HttpClient, private gs:GlobalService) {
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
+  constructor(private http:HttpClient) {
       postAuth = {
         headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
+          'Content-Type':'application/x-www-form-urlencoded'
         })
       }
-    })
    }
    allData:any = {
      service:[], fuel:[], time:[], waiting:[]
@@ -33,7 +22,7 @@ export class FinanceService {
    }
    _url = url;
   getCharges(serviceType){
-    return this.http.get(this._url+'api/admin/charges?service_type='+serviceType, getAuth).pipe(
+    return this.http.get(this._url+'api/admin/charges?service_type='+serviceType).pipe(
       map((res:any)=>{
         res.data.map((data)=>{
           switch (data.charges_type) {
@@ -130,7 +119,7 @@ export class FinanceService {
     ) 
   }
   getBBType(){
-    return this.http.get(this._url+'api/admin/bellboy-type', getAuth).pipe(
+    return this.http.get(this._url+'api/admin/bellboy-type').pipe(
       map((res:any)=>{
         res.data.bellBoyTypes.map((res)=>{
           switch (res._id) {
@@ -179,7 +168,7 @@ export class FinanceService {
     }else{
       path = this._url+'api/admin/charges/all?charges_type='+chargesType+'&status='+status;
     }
-   return this.http.get(path, getAuth).pipe(
+   return this.http.get(path).pipe(
       map((res:any)=>{
         return res.data;
       })

@@ -4,7 +4,7 @@ import { HiringService } from './hiring.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
-import { confirmationDialog } from 'app/shared/services/global';
+import { checkPage, confirmationDialog } from 'app/shared/services/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-hiring',
@@ -110,6 +110,7 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
   getHirings(status, page) {
+    page = checkPage(page, this.pager.totalPages);
     this.pagedItems = [];
     this.permArr = [];
     this.totalItems = 0;
@@ -134,20 +135,6 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.hiringService.tabStatus.next(this.tabStatus);
     this.subscription.unsubscribe();
-  }
-  prev5(page) {
-    if (page < 1) {
-      this.getHirings(this.status, 1);
-    } else {
-      this.getHirings(this.status, page);
-    }
-  }
-  next5(page) {
-    if (page > this.pager.totalPages) {
-      this.getHirings(this.status, this.pager.totalPages);
-    } else {
-      this.getHirings(this.status, page);
-    }
   }
   sortByNumber() {
     this.togg = this.togg3 = this.togg4 = false;

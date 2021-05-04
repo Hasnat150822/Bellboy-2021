@@ -1,35 +1,25 @@
-import { Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { url } from 'app/shared/services/global';
-var getAuth; var postAuth;
+var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
   _url=url;
-  constructor(private http:HttpClient, private gs:GlobalService) {
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
+  constructor(private http:HttpClient) {
       postAuth = {
         headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
+          'Content-Type':'application/x-www-form-urlencoded'
         })
       }
-    })
    }
   searchProducts(keyword, page){
-    return this.http.get(this._url+'api/admin/product?perPage=10&pageNo='+page+'&search='+keyword, getAuth)
+    return this.http.get(this._url+'api/admin/product?perPage=10&pageNo='+page+'&search='+keyword)
   }
   allCatForOther(){
     return new Promise((resolve, reject)=>{
-      this.http.get(this._url+'api/admin/category/all', getAuth).subscribe((res:any)=>{
+      this.http.get(this._url+'api/admin/category/all').subscribe((res:any)=>{
         if(res.success==true)
           resolve(res.data)
       })
@@ -37,7 +27,7 @@ export class ProductsService {
   }
   allBrandsForOthers(){
     return new Promise((resolve)=>{
-      this.http.get(this._url+ 'api/admin/brand/all', getAuth).subscribe((res:any)=>{
+      this.http.get(this._url+ 'api/admin/brand/all').subscribe((res:any)=>{
         if(res.success == true){
           resolve(res.data)
         }
@@ -45,7 +35,7 @@ export class ProductsService {
     })
   }
   getProducts(page){
-    return this.http.get(this._url+'api/admin/product?perPage=10&pageNo='+page+'&search=', getAuth)
+    return this.http.get(this._url+'api/admin/product?perPage=10&pageNo='+page+'&search=')
   }
   addProduct(title, brandId, catId){
     let body = new HttpParams()

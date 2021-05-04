@@ -5,7 +5,7 @@ import { ManageBrandService } from '../manage-brand/manage-brand.service';
 import { VehicleTypeService } from '../manage-vehicle-type/vehicle-type.service';
 import { ManageModelService } from './manage-model.service';
 import { PagerService } from 'app/shared/services/pager.service';
-import { amazonUrl } from 'app/shared/services/global';
+import { amazonUrl, checkPage } from 'app/shared/services/global';
 declare const $:any;
 @Component({
   selector: 'app-manage-model',
@@ -51,11 +51,7 @@ export class ManageModelComponent implements OnInit {
     })
   }
   setPage(page){
-    if(page>this.pager.totalPages){
-      page = this.pager.totalPages
-    }else if(page<0){
-      page = 1
-    }
+    page = checkPage(page, this.pager.totalPages);
     this.pager = this.pagerService.getPager(this.tempArr.length, page)
     this.pagedItems = this.tempArr.slice(this.pager.startIndex, this.pager.endIndex+1)
   }

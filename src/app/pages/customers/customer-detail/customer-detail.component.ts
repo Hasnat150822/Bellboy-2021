@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CustomersService } from '../customers.service';
-import { amazonUrl } from 'app/shared/services/global';
+import { amazonUrl, checkPage } from 'app/shared/services/global';
 import { Store } from '@ngrx/store';
 import { URL } from '../../../ngrx-states/model/url.model';
 import * as allActions from '../../../ngrx-states/actions';
@@ -42,10 +42,10 @@ export class CustomerDetailComponent implements OnInit {
   perPage:number;
   getHiringsByCust(page, perPage){
     this.perPage = +perPage;
+    page = checkPage(page, this.pager.totalPages)
     this.customerService.hiringByCustomers(page, perPage, this._id)
     .subscribe((res:any)=>{
       this.hiringByCust = res;
-      console.log(this.customerDetail.total_hirings, 'hello bro')
       this.pager = this.pagerService.getPager(this.customerDetail.total_hirings, page, perPage);
     }, error=>this.hiringByCust = []);
     

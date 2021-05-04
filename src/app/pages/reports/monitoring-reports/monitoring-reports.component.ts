@@ -13,7 +13,6 @@ export class MonitoringReportsComponent implements OnInit {
   toDate: NgbDate | null = null;
 
   constructor(calendar: NgbCalendar) {
-    console.log(this.toDate, 'todate')
     // this.fromDate = calendar.getToday();
     // this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
   }
@@ -22,12 +21,10 @@ export class MonitoringReportsComponent implements OnInit {
     alert('ájsdk')
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
-      console.log('not selected')
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
       this.toDate = date;
       this.display = false;
     } else {
-      console.log('from date')
       this.toDate = null;
       this.fromDate = date;
     }

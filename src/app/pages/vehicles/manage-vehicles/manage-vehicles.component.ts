@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ManageVehicleService } from './manage-vehicle.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import { Subscription } from 'rxjs';
+import { checkPage } from 'app/shared/services/global';
 
 @Component({
   selector: 'app-manage-vehicles',
@@ -59,11 +60,7 @@ export class ManageVehiclesComponent implements OnInit, OnDestroy {
     })
   }
   setPage(page){
-    if(page>this.pager.totalPages){
-      page = this.pager.totalPages
-    }else if(page<0){
-      page = 1
-    } 
+    page = checkPage(page, this.pager.totalPages);
     this.pager = this.pagerService.getPager(this.tempArr.length, page);
     this.pagedItems = this.tempArr.slice(this.pager.startIndex, this.pager.endIndex+1);
   }

@@ -41,7 +41,35 @@
   </tbody>
 </table>
 <div class="text-right mr-2" *ngIf="bbHirings">
-  <span>Total Hirings: &nbsp; {{totalHirings}}</span>
-  <a><i (click)="getBellboys(currentPage-1)" ngbTooltip="Prev" class="font-weight-bold ft-chevron-left mr-2"></i></a>
-  <a><i (click)="getBellboys(currentPage+1)" ngbTooltip="Next" class="font-weight-bold ft-chevron-right"></i></a>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center">
+        <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span>
+        :
+        <span class="text-secondary ml-2">{{ totalHirings }}</span>
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+        <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+                <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getBellboyHiring(1) "><span aria-hidden="true">First</span></a>
+            </li>
+            <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+                <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getBellboyHiring(pager.currentPage - 5) " class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+            </li>
+            <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }">
+                <a (click)="getBellboyHiring(page) " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
+            </li>
+            <li
+                class="ng2-smart-page-item page-item"
+                [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+                <a ngbTooltip="Next 5" (click)="getBellboyHiring(pager.currentPage + 5) " aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span>
+                </a>
+            </li>
+            <li
+                class="ng2-smart-page-item page-item"
+                [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+                <a (click)="getBellboyHiring(pager.totalPages) " aria-label="Last" class="ng2-smart-page-link page-link"><span aria-hidden="true">Last</span></a>
+            </li>
+        </ul>
+    </nav>
+</div>
 </div>

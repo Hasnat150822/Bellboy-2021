@@ -1,30 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import Swal from 'sweetalert2';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { sweetAlert, url } from 'app/shared/services/global';
-var getAuth; var postAuth;
+var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   _url = url;
-  constructor(private http:HttpClient, private gs:GlobalService) {
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
+  constructor(private http:HttpClient) {
       postAuth = {
         headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
+          'Content-Type':'application/x-www-form-urlencoded'
         })
       }
-    })
    }
   addUser(obj){
     let body = new HttpParams()
@@ -38,21 +27,21 @@ export class UserService {
   getUsers(keyword, status, type){
     switch (type) {
       case 'Name':
-        return this.http.get(this._url+'api/admin/user?name='+keyword+'&status='+status, getAuth);
+        return this.http.get(this._url+'api/admin/user?name='+keyword+'&status='+status);
         break;
       case 'Cell No':
-        return this.http.get(this._url+'api/admin/user?contact_number='+keyword+'&status='+status, getAuth);
+        return this.http.get(this._url+'api/admin/user?contact_number='+keyword+'&status='+status);
         break;
       default:
-        return this.http.get(this._url+'api/admin/user?_id='+keyword+'&status='+status, getAuth)
+        return this.http.get(this._url+'api/admin/user?_id='+keyword+'&status='+status)
         break;
     }
   }
   getBlockeduser(){
-    return this.http.get(this._url+'api/admin/user?status=false', getAuth)
+    return this.http.get(this._url+'api/admin/user?status=false')
   }
   getById(id){
-    return this.http.get(this._url+'api/admin/user/'+id, getAuth)
+    return this.http.get(this._url+'api/admin/user/'+id)
   }
   updateUser(obj,_id, status){
     let formData = new FormData()
@@ -77,7 +66,7 @@ export class UserService {
       formData.append('_id', _id)
       formData.append('status', status)
     }
-    return this.http.put(this._url+'api/admin/user', formData, getAuth).pipe(
+    return this.http.put(this._url+'api/admin/user', formData).pipe(
       map((res:any)=>{
         if(res.success == true){
           sweetAlert('success', 'Updated');

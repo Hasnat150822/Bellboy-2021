@@ -213,15 +213,15 @@
               </p>
             </div>
             <div class="col-sm-6">
-              <p><span>Paid By Wallet: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.paidByWallet }}</span>
+              <p><span>Total Distance: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.totalDistance | number: "1.0-2" }}</span>  <span class="text-secondary">km</span>
               </p>
             </div>
             <div class="col-sm-6">
               <p><span>Total Time Spent: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.totalTime | timeConvert }}</span>
               </p>
             </div>
-            <div class="col-sm-6">
-              <p><span>Total Distance: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.totalDistance | number: "1.0-1" }}</span>  <span class="text-secondary">km</span>
+            <div class="col-sm-6" *ngIf="detailHiring?.status !== 1 &&detailHiring?.status !== 2 && detailHiring?.status !== 3">
+              <p><span>Paid By Wallet: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.paidByWallet }}</span>
               </p>
             </div>
             <div class="col-sm-6" *ngIf="detailHiring?.status == 4">
@@ -364,11 +364,14 @@
         <p><span>Estimated Distance: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.distance }}</span></p>
       </div>
       <agm-map *ngIf="this.origin" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
-        <agm-direction [renderOptions]="renderOptions" [markerOptions]="estimateRouteMarkers" [origin]="this.origin" [destination]="{lat:detailHiring?.location?.geolocation?.latitude, lng:detailHiring?.location?.geolocation?.longitude}"></agm-direction>
+        <agm-direction [renderOptions]="renderOptions" [markerOptions]="estimateRouteMarkers" [origin]="this.bellboyOrigin" [destination]="{lat:detailHiring?.location?.geolocation?.latitude, lng:detailHiring?.location?.geolocation?.longitude}"></agm-direction>
       </agm-map>
     </div>
     <div class="col-sm-6">
       <h5 class="font-weight-500 mb-2">Bellboy Live Tracking</h5>
+      <p *ngIf="detailHiring.start_time">
+        <span>Spending Time: &nbsp;</span> <span id="stopWatch" class="text-secondary stopWatch">  </span>
+      </p>
       <agm-map *ngIf="destinition" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
         <!-- <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker> -->
         <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
@@ -379,10 +382,10 @@
 <ng-template #routeHistory>
   <h5 class="font-weight-500 mb-2">Bellboy Route History</h5>
   <agm-map *ngIf="destinitions.length>0" style="height: 350px;" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
-    <agm-marker id="marker" [latitude]="destinitions[0].lat" [longitude]="destinitions[0].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.origin">
+    <agm-marker id="startMarker" [latitude]="destinitions[0].lat" [longitude]="destinitions[0].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.origin">
       <agm-info-window [isOpen]="true">Start Point</agm-info-window>
     </agm-marker>
-    <agm-marker id="marker" [latitude]="destinitions[destinitions.length-1].lat" [longitude]="destinitions[destinitions.length-1].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.destination">
+    <agm-marker id="endMarker" [latitude]="destinitions[destinitions.length-1].lat" [longitude]="destinitions[destinitions.length-1].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.destination">
       <agm-info-window [isOpen]="true">End Point</agm-info-window>
     </agm-marker>
     <agm-marker id="marker" *ngFor="let des of destinitions" [latitude]="des.lat" [longitude]="des.lng" [agmFitBounds]="true" [iconUrl]="icon">

@@ -272,7 +272,7 @@
           <a
             aria-label="Prev"
             ngbTooltip="Previous 5"
-            (click)="prev5(pager.currentPage - 5)"
+            (click)="getHirings(status, pager.currentPage-5)"
             class="ng2-smart-page-link page-link page-link-prev"
             ><span aria-hidden="true">«</span></a
           >
@@ -294,7 +294,7 @@
         >
           <a
             ngbTooltip="Next 5"
-            (click)="next5(pager.currentPage + 5)"
+            (click)="getHirings(status, pager.currentPage+5)"
             aria-label="Next"
             class="ng2-smart-page-link page-link page-link-next"
             ><span aria-hidden="true">»</span></a

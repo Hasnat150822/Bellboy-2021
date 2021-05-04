@@ -1,4 +1,4 @@
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Resolve } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate, OnInit {
   canActivate() {
     let token = localStorage.getItem('token');
     if(token!=null){
-      this.gs.getToken(token);
       return true
     }else{
       this.router.navigate(['/'])
@@ -69,7 +68,6 @@ export class AuthGuard implements CanActivate, OnInit {
   firebaseSignup(obj){
     this.fauth.auth.createUserWithEmailAndPassword(obj.email, obj.pass)
     .then((user)=>{
-      console.log(user)
     })
     .catch()
   }
@@ -77,14 +75,13 @@ export class AuthGuard implements CanActivate, OnInit {
 @Injectable()
 export class LogOutUser implements CanActivate {
 
-  constructor(private router:Router, private gs:GlobalService) {
+  constructor(private router:Router) {
   }
   canActivate() {
     let token = localStorage.getItem('token');
     if(token==null || token === undefined){
       return true
     }else{    
-      this.gs.getToken(token);
       let perm = JSON.parse(localStorage.getItem('Permissions'))
       let path = getPath(perm[0]);
       this.router.navigateByUrl(path);

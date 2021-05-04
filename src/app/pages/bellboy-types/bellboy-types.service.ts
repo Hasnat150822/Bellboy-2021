@@ -1,27 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { url } from 'app/shared/services/global';
-var getAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class BellboyTypesService {
   _url=url;
   bbTypes:any = []
-  constructor(private http:HttpClient, private gs:GlobalService) { 
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
-    })
+  constructor(private http:HttpClient) { 
    }
   getBellboyTypes(){
-  return  this.http.get(this._url+'api/admin/bellboy-type', getAuth).pipe(
+  return  this.http.get(this._url+'api/admin/bellboy-type').pipe(
       map((res:any)=>{
         res.data.bellBoyTypes.map((res:any)=>{
           switch (res._id) {
@@ -50,6 +40,6 @@ export class BellboyTypesService {
     formData.append('title', title);
     formData.append('icon', icon);
     formData.append('bellBoyType', bellBoyType)
-    return this.http.post(this._url+'api/admin/bellboy-type/update', formData, getAuth)
+    return this.http.post(this._url+'api/admin/bellboy-type/update', formData)
   }
 }

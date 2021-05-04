@@ -45,7 +45,6 @@ export class BellboyTrackingComponent implements OnInit {
     this.zoom = 15;
     if(this.isSelected === false){
       this.db.list('/bellboys/'+item.profile.id).valueChanges().subscribe((res:any)=>{
-        console.log(res[0].longitude, res[0].latitude)
         this.lng = res[0].longitude;
         this.lat = res[0].latitude;
         this.locations = [{geolocation:res[0],profile:res[1]}];

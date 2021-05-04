@@ -21,7 +21,7 @@ fcmToken = new BehaviorSubject(null);
         })
         this.messaging = firebase.messaging();
     }
-      getPermission() {
+    getPermission() {
     this.messaging.requestPermission()
     .then(() => {
       return this.messaging.getToken()

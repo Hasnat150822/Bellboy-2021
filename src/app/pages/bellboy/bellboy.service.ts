@@ -1,39 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { sweetAlert, url } from 'app/shared/services/global';
 import { BellboyHirings } from './modals/bellboy-hirings';
 import { Observable } from 'rxjs';
-var getAuth;
 var postAuth;
 @Injectable({
   providedIn: 'root'
 })
 export class BellboyService {
   _url = url;
-  constructor(private http:HttpClient, private gs:GlobalService) {
-    this.gs.token.subscribe((res:any)=>{
-      let token = res;
-      getAuth = {
-        headers:new HttpHeaders({
-          'Authorization':'bearer '+token
-        })
-      }
-      postAuth = {
-        headers:new HttpHeaders({
-          'Content-Type':'application/x-www-form-urlencoded',
-          'Authorization':'bearer '+token
-        })
-      }
-    })
+  constructor(private http:HttpClient) {
+    postAuth = {
+      headers:new HttpHeaders({
+        'Content-Type':'application/x-www-form-urlencoded'
+      })
+    }
    }
   getAllBellboy(page, perPage, status,searchType, query){
     let url = this._url+'api/admin/bellboy/?status='+status+'&&perPage='+perPage+'&pageNo='+page;
     if(query!==undefined){
       url = url+'&'+searchType+'='+query;
     }
-    return this.http.get(url, getAuth).pipe(
+    return this.http.get(url).pipe(
       map((res:any)=>{
         if(res.success == true){
           return res.data
@@ -42,7 +31,7 @@ export class BellboyService {
     );
   }
   getById(id){
-    return this.http.get(this._url+'api/admin/bellboy/'+id, getAuth)
+    return this.http.get(this._url+'api/admin/bellboy/'+id)
   }
   manageStatusbellboy(id, status){
     let body = new HttpParams()
@@ -92,7 +81,7 @@ export class BellboyService {
     )
   }
   getBellboysHirings(id, page, perpage):Observable<BellboyHirings>{
-    return this.http.get<BellboyHirings>(url+"api/admin/bellboy/completedOrder/"+id+"?pageNo="+page+"&perPage="+perpage, getAuth)
+    return this.http.get<BellboyHirings>(url+"api/admin/bellboy/completedOrder/"+id+"?pageNo="+page+"&perPage="+perpage)
     .pipe(
       map((res:any)=>{
         return res;

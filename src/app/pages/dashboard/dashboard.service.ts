@@ -15,8 +15,25 @@ export class DashboardService {
       })
     );
   }
-  getDashboardRecord(startDateGraph, endDateGraph, startDate, endDate){
-    return this.http.get(url+'api/admin/dashboard?startDateForGraph='+startDateGraph+'&endDateForGraph='+endDateGraph+'&startDateForRecords='+startDate+'&endDateForRecords='+endDate).pipe(
+  getDaysRecord(startDate, endDate){
+    let urlString = '';
+    if(startDate && endDate){
+      urlString = '?startDateForRecords='+startDate+'&endDateForRecords'+endDate;
+    }
+    return this.http.get(url+'api/admin/dashboard/days_records'+urlString)
+    .pipe(
+      map((res:any)=>{
+        return res.data.total;
+      })
+    );
+  }
+  getDetailRecord(startDate, endDate){
+    let urlString = '';
+    if(startDate && endDate){
+      urlString = '?startDateForRecords='+startDate+'&endDateForRecords'+endDate;
+    }
+    return this.http.get(url+'api/admin/dashboard/detailsData'+urlString)
+    .pipe(
       map((res:any)=>{
         return res.data;
       })

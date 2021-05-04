@@ -31,33 +31,33 @@ export class AppComponent implements OnInit {
     this.title.setTitle(`Bellboy v${this.version}`)
     this.messagingService.getPermission();
     this.messagingService.fcmToken.subscribe((res:any)=>{
-      if(res!=null){this.fcmToken = res; 
-      this.gs.token.subscribe((res:any)=>{
-        if(res!=null){
-          this.gs.registerFcmToken(this.fcmToken).subscribe();
-          this.messagingService.receiveMessages();
-          this.messagingService.currentMessage.subscribe((res:any)=>{
-            if(res!=null){
-              let message = res.notification;
-              let data = res.data
-                let audio = new Audio();
-                audio.src = '../../../assets/media/delivery_report.mp3';
-                audio.load();
-                audio.play().then(()=>{
-                  Toast.fire({
-                    icon: 'success',
-                    title: message.title+'<br>',
-                    text:message.body
-                  }).then((result)=>{
-                    if(result.value){
-                      this.viewDetail(data._id)
-                    }
-                  })
+      if(res!=null){
+      this.fcmToken = res; 
+      let token = JSON.stringify(localStorage.getItem('token'));
+      if(token!=null){
+        this.gs.registerFcmToken(this.fcmToken).subscribe();
+        this.messagingService.receiveMessages();
+        this.messagingService.currentMessage.subscribe((res:any)=>{
+          if(res!=null){
+            let message = res.notification;
+            let data = res.data
+              let audio = new Audio();
+              audio.src = '../assets/media/delivery_report.mp3';
+              audio.load();
+              audio.play().then(()=>{
+                Toast.fire({
+                  icon: 'success',
+                  title: message.title+'<br>',
+                  text:message.body
+                }).then((result)=>{
+                  if(result.value){
+                    this.viewDetail(data._id)
+                  }
                 })
-            }
-          })
-        }
-      });
+              })
+          }
+        })
+      }
       }
     });
   }

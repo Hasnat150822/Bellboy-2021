@@ -18,7 +18,7 @@
 <ng-template #content>
   <tr *ngFor="let item of lists">
     <td>
-      <a>
+      <a (click)="bigImage(amazonImgUrl+item.imageUrl.value)">
         <img class="rounded img-fluid" src="{{ amazonImgUrl }}{{ item.imageUrl.value }}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" height="64px" width="64px" />
       </a>
     </td>
@@ -87,3 +87,4 @@
     </nav>
   </div>
 </ng-template>
+<app-big-image *ngIf="isBig"></app-big-image>

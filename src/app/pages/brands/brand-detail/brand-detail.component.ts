@@ -4,14 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BrandsService } from '../brands.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { GlobalService } from 'app/shared/services/global-service.service';
-import Swal from 'sweetalert2';
-import { NgxImageCompressService } from 'ngx-image-compress';
 import { Subscription } from 'rxjs';
-interface Window {
-  webkitURL?: any;
-  URL?:any;
-}
-declare const window:Window
+import { sweetAlert } from 'app/shared/services/global';
 declare const $:any
 @Component({
   selector: 'app-brand-detail',
@@ -101,12 +95,12 @@ export class BrandDetailComponent implements OnInit {
       if(res.code == 200){
         this.getBrandDetail()
         this.modalService.dismissAll()
-        this.showSuccess('Label Added Successfully')
+        sweetAlert('success','Label Added Successfully')
       }else{
-        this.showError(res.message)
+        sweetAlert('warning',res.message)
       }
     },error=>{
-        this.showError(error.error.message)
+        sweetAlert('error',error.error.message)
     })
   }
   changeStatus(status){
@@ -115,10 +109,10 @@ export class BrandDetailComponent implements OnInit {
      if(res.success == true){
         this.brandDetail = res.data.Brand
       }else{
-        this.showError(res.message)
+        sweetAlert('warning',res.message)
       }
     }, error=>{
-      this.showError(error.error.message)
+      sweetAlert('error',error.error.message)
     })
   }
   updateImage(){
@@ -126,12 +120,12 @@ export class BrandDetailComponent implements OnInit {
     .subscribe((res:any)=>{
       if(res.success == true){
         this.brandDetail = res.data.Brand
-        this.showSuccess('Updated')
+        sweetAlert('success','Updated')
       }else{
-        this.showError(res.message)
+        sweetAlert('warning',res.message)
       }
     }, error=>{
-      this.showError(error.error.message)
+      sweetAlert('error',error.error.message)
     })
   }
   updateLabel(fieldId, item){
@@ -142,34 +136,15 @@ export class BrandDetailComponent implements OnInit {
       this.brandService.updateBrand(value, this.id, fieldId, '', '').subscribe((res:any)=>{
         if(res.success == true){
           this.brandDetail = res.data.Brand
-          this.showSuccess('Updated')
+          sweetAlert('success','Updated')
         }else{
-          this.showError(res.message)
+          sweetAlert('warning',res.message)
         }
       }, error=>{
-        this.showError(error.error.message)
+        sweetAlert('error',error.error.message)
       })
     }
   }
-showError(message){
-  Swal.fire({
-    icon:'error',
-    text:message,
-    width:'300px',
-    showConfirmButton:false,
-    showCancelButton:false,
-    timer:2500
-  })
-}
-showSuccess(message){
-  Swal.fire({
-    icon:'success',
-    text:message,
-    width:'300px',
-    timer:2500,
-    showConfirmButton:false
-  })
-}
 }
 function base64(files){
   return new Promise((resolve, reject)=>{

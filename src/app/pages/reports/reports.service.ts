@@ -11,7 +11,9 @@ export class ReportsService {
   constructor(private http:HttpClient) { }
 
   getReportsByDevice(status){
-    return this.http.get(url+'api/admin/reports/customer/reportByDevice?device='+status, {responseType: 'blob' as 'json'});
+    return this.http.get(url+'api/admin/reports/customer/reportByDevice?device='+status, {responseType: 'blob' as 'json', headers:{
+      'Content-Type':'application/json'
+    }});
   }
 
   getFinanceREport(){

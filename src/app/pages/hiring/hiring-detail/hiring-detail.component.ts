@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HiringService } from '../hiring.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +9,10 @@ import { amazonUrl } from 'app/shared/services/global';
 import { Store } from '@ngrx/store';
 import { URL } from 'app/ngrx-states/model/url.model';
 import * as allActions from '../../../ngrx-states/actions';
+var hr = 0;
+var min = 0;
+var sec = 0;
+var el; var rendrer;
 declare const $:any;
 interface Origin {
   lat:number,
@@ -19,7 +23,7 @@ interface Origin {
   templateUrl: './hiring-detail.component.html',
   styleUrls: ['./hiring-detail.component.scss']
 })
-export class HiringDetailComponent implements OnInit {
+export class HiringDetailComponent implements OnInit, AfterViewInit {
   _id
   detailHiring:any
   currentImage;
@@ -37,8 +41,8 @@ export class HiringDetailComponent implements OnInit {
   public icon = {
     url: '../../../../assets/img/ico/map-marker/blue-marker.png',
     scaledSize: {
-      width: 16,
-      height: 16
+      width: 11,
+      height: 11
     }
   }
   public renderOptions = {
@@ -71,7 +75,8 @@ export class HiringDetailComponent implements OnInit {
   }
   estimatedTimeDistance
   constructor(private route:ActivatedRoute, private hiringService:HiringService,private databse:AngularFireDatabase,
-    private modalService:NgbModal, private db:AngularFirestore, private router:Router, private store:Store<URL>) { }
+    private modalService:NgbModal, private db:AngularFirestore, private router:Router, private store:Store<URL>, 
+    private element:ElementRef, private renderer2:Renderer2) { }
   ngOnInit() {
     this.route.params.subscribe((res:any)=>{
       this._id = res.id
@@ -80,49 +85,91 @@ export class HiringDetailComponent implements OnInit {
     this.getMessageCollection();
     this.allBellboys();
   }
+  ngAfterViewInit(){
+  }
   subscription:Subscription;
+  bellboyOrigin;
   getDetail(){
     this.hiringService.getByid(this._id).subscribe((res:any)=>{
       this.detailHiring = res.data;
+      if(this.detailHiring.start_time){
+        let start_time = new Date(this.detailHiring.start_time);
+        let currentDate = new Date();
+        let result = this.showDiff(start_time, currentDate);
+        hr = result[0];
+        min = result[1];
+        sec = result[2];
+        setTimeout(() => {
+          if(this.detailHiring.status ==2 || this.detailHiring.status ==3){this.startTimer();}
+        }, 1500);
+      }
       if(this.detailHiring.status ==2 || this.detailHiring.status ==3){
         let bbId = res.data.bellboy._id;
         this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
-          console.log(res[1], 'response')
-          if(this.origin == undefined || this.origin == null){
-            this.origin = {
+          console.log(res, 'response')
+          if(this.bellboyOrigin == undefined || this.bellboyOrigin == null){
+            this.bellboyOrigin = {
               lat:+res[1].latitude?+res[1].latitude:+res[0].latitude,
               lng:+res[1].longitude?+res[1].longitude:+res[0].longitude
             }
-            this.destinition = {
-              lat:+res[0].latitude,
-              lng:+res[0].longitude
-            }
-            this.getEstimatedRoute(this.origin);
-          }else{
-            this.destinition = {
-              lat:+res[0].latitude,
-              lng:+res[0].longitude
-            }
+            this.getEstimatedRoute(this.bellboyOrigin);
+          }
+          this.destinition = {
+            lat:+res[0].latitude,
+            lng:+res[0].longitude
           }
         })
-
+        this.databse.list('/hirings/'+this.detailHiring._id+'/startTaskCoordinates/initial Location').valueChanges().subscribe((res:any)=>{
+            if(this.origin == undefined){
+              this.origin = {
+                lat:+res[9],
+                lng:+res[10]
+              }
+            }
+            console.log(this.origin, 'origin')
+            console.log(this.destinition, 'destinition')
+          // res.forEach(element => {
+          //   let response;
+          //   let key = Object.keys(element);
+          //   if(key.length !== 1){
+          //     response = element;
+          //   }else{
+          //     response = element[key[0]];
+          //   }
+          //   if(this.origin == undefined){
+          //     this.origin = {
+          //       lat:+response.latitude,
+          //       lng:+response.longitude
+          //     }
+          //     console.log(this.origin, 'origin');
+          //     this.getEstimatedRoute(this.origin);
+          //   }
+          //   this.destinition = {
+          //     lat:+response.latitude,
+          //     lng:+response.longitude
+          //   }
+          // });
+        })
       }else if(this.detailHiring.status == 4){
-        this.databse.list('/hirings/'+this.detailHiring._id).snapshotChanges().subscribe((res:any)=>{
+        this.databse.list('/hirings/'+this.detailHiring._id+'/geolocations', (query)=>query.orderByChild('time')).valueChanges().subscribe((res:any)=>{
           res.forEach(element => {
-            element.payload.forEach((el) => {
-              if(this.origin == undefined && el.child(el.key).toJSON() !== 'null'){
-                this.origin = {
-                  lat:+el.child(el.key).child("latitude").toJSON() || el.child('latitude').toJSON(),
-                  lng:+el.child(el.key).child("longitude").toJSON() || el.child('longitude').toJSON()
-                }
+            let response;
+            let key = Object.keys(element);
+            if(key.length !== 1){
+              response = element;
+            }else{
+              response = element[key[0]];
+            }
+            if(this.origin == undefined){
+              this.origin = {
+                lat:+response.latitude,
+                lng:+response.longitude
               }
-              if(el.child(el.key).toJSON() !== 'null'){
-                this.destinitions.push({
-                  lat:+el.child(el.key).child("latitude").toJSON(),
-                  lng:+el.child(el.key).child("longitude").toJSON()
-                })
-              }
-            });
+            }
+            this.destinitions.push({
+              lat:+response.latitude,
+              lng:+response.longitude
+            })
           });
         })
       }
@@ -132,6 +179,19 @@ export class HiringDetailComponent implements OnInit {
     this.isBigImg = true;
     this.store.dispatch(new allActions.SendUrl(url));
   }
+  showDiff(date1, date2){
+    var diff = (date2 - date1)/1000;
+    diff = Math.abs(Math.floor(diff));
+    var days = Math.floor(diff/(24*60*60));
+    var leftSec = diff - days * 24*60*60;
+
+    var hrs = Math.floor(leftSec/(60*60));
+    var leftSec = leftSec - hrs * 60*60;
+
+    var mins = Math.floor(leftSec/(60));
+    var leftSec = leftSec - mins * 60;
+    return [hrs, mins, leftSec];
+}
   chat:any;
   async getMessageCollection(){
     await this.db.collection('/messages/'+this._id+'/'+this._id).snapshotChanges()
@@ -203,4 +263,29 @@ export class HiringDetailComponent implements OnInit {
   onMouseOut(infoWindow, $event: MouseEvent) {
     infoWindow.close();
   }
+  //stopwatcher
+  startTimer() {
+    el = this.element.nativeElement.querySelector("p span.stopWatch");
+    rendrer = this.renderer2;
+    setInterval(this.timerCycle, 1000);
+  }
+  timerCycle() {
+    sec = sec + 1;
+    if (sec == 60) {
+      min = min + 1;
+      sec = 0;
+    }
+    if (min == 60) {
+      hr = hr + 1;
+      min = 0;
+      sec = 0;
+    }
+    let timer;
+    if(hr !== 0){
+      timer = `${hr} hrs ${min} mins ${sec} sec`;
+    }else{
+      timer = `${min} mins ${sec} sec`;
+    }
+    rendrer.setProperty(el, 'innerHTML', timer);
+}
 }

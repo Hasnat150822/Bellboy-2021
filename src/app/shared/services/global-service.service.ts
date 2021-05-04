@@ -30,9 +30,6 @@ export class GlobalService {
     })
     return [{file:imageFile, con64:base64, status:success}]
   }
-  getToken(token){
-    this.token.next(token);
-  }
   registerFcmToken(token){
     let body = new HttpParams()
     .set('token',token)

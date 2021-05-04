@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { BellboyTypesService } from '../bellboy-types.service';
-import Swal from 'sweetalert2';
-import { amazonUrl } from 'app/shared/services/global';
+import { amazonUrl, sweetAlert } from 'app/shared/services/global';
 interface Window {
   webkitURL?: any;
   URL?:any;
@@ -215,23 +214,11 @@ export class BellboyTypesComponent implements OnInit {
           }, 2500);
         }else{
           $('#'+inputId).prop('disabled', true)
-          Swal.fire({
-            icon:'error',
-            title:res.message,
-            width:'512px',
-            timer:2500,
-            showConfirmButton:false
-          })       
+          sweetAlert('warning', res.message)
         }
       }, error=>{
         $('#'+inputId).prop('disabled', true)
-        Swal.fire({
-          icon:'error',
-          title:error.error.message,
-          width:'512px',
-          timer:2500,
-          showConfirmButton:false
-        })   
+        sweetAlert('error', error.error.message)
       })
     }
   }
