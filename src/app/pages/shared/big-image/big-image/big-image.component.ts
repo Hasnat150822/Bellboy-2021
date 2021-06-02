@@ -10,21 +10,18 @@ import { zoomin, zoomout } from '../zoom-in-out';
   templateUrl: './big-image.component.html',
   styleUrls: ['./big-image.component.scss']
 })
-export class BigImageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BigImageComponent implements OnInit, OnDestroy {
   amazonImgUrl:string = amazonUrl;
   @ViewChild('bigImg', {static:true}) bigImg:ElementRef;
-  constructor(private  modalService:NgbModal, private store:Store<URL>, private rendrer2:Renderer2, private el:ElementRef) { 
+  constructor(private  modalService:NgbModal, private store:Store<URL>) { 
    }
 
   ngOnInit(): void {
     this.store.subscribe((res:any)=>{
-      if(res.BigImage.url!==undefined)
+      if(res.BigImage.url!==undefined){
         this.bigImage( this.bigImg,res.BigImage);
+      }
     })
-  }
-
-  ngAfterViewInit(){
-    this.modalService.dismissAll();
   }
 
   currentImage;

@@ -5,7 +5,9 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
       <div class="position-relative"> <i ngbTooltip="Default Data" (click)="
-			searchValue='';
+            startDate=undefined;
+            endDate=undefined;
+			      searchValue='';
             getHirings(status, 1);
             renderClass('', '', '');
             sortBy = '-created_at';
@@ -29,6 +31,22 @@
           <button type="button" class="btn btn-search" (click)="getHirings(status, 1); input.value = ''">Search</button>
         </div>
       </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-8 text-right">
+      <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2"> <i class="ft-calendar"></i> &nbsp; Select Range for Record</button>
+    </div>
+    <div class="col-12 mt-2">
+      <div *ngIf="startDate && endDate"><strong>From Date: </strong> {{startDate | date:'mediumDate'}} <strong>To Date: </strong> {{endDate | date:'mediumDate'}}</div>
+      <div *ngIf="startDate && !endDate"><strong>Date: </strong> {{startDate | date:'mediumDate'}}</div>
+    </div>
+    <div class="col-12">
+      <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
+      </ngb-datepicker>
+      <ng-template #t1 let-date let-focused="focused" class="template">
+        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
+          {{ date.day }}
+        </span>
+      </ng-template>
     </div>
   </div>
   <div class="row text-left"> 
@@ -178,15 +196,31 @@
       <th>Hiring Id</th>
       <th>Customer Name <i id="sortByCustName"></i></th>
       <th>Cell No</th>
-      <th *ngIf="status!==1">Assigned Bellboy <i id="sortByBBName"></i></th>
+      <th *ngIf="status!==1">Assigned Bellboy</th>
       <th>Bellboy Type</th>
-      <th> <a (click)="sortByNumber()">Actions <i id="sortByNumber"></i></a></th>
+      <th>
+        <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
+          <a (click)="sortByNumber()">Actions</a>
+          <div class="ml-1 mt-1">
+            <span class="ft-chevron-up d-block"></span>
+            <span class="ft-chevron-down d-block"></span>
+          </div>
+        </div>
+      </th>
       <th *ngIf="status == 1">Created Time</th>
       <th *ngIf="status == 2 || status == 3 || status == 4">Start Time</th>
       <th *ngIf="status == 4">Finish Time</th>
       <th *ngIf="status == 5">Reason</th>
       <th *ngIf="status == 5">Cancelled Time</th>
-      <th> <a (click)="sortByDate()">Date<i id="sortByDate"></i></a></th>
+      <th>
+        <div class="d-flex align-items-center justify-content-center" id="sortByDate">
+          <a (click)="sortByDate()">Date</a>
+          <div class="ml-1 mt-1">
+            <span class="ft-chevron-up d-block"></span>
+            <span class="ft-chevron-down d-block"></span>
+          </div>
+        </div>
+      </th>
       <th *ngIf="status == 4">Amount</th>
       <th *ngIf="status == 1 || status == 2">View / Cancel</th>
       <th *ngIf="status == 3">View / Close</th>

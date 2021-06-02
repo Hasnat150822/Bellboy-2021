@@ -88,4 +88,18 @@ export class BellboyService {
       })
     )
   }
+  getBellboyOnlineHistory(id, type){
+    return this.http.get(url+'api/admin/bellboy/getBellboyActivity/'+id+'?by='+type+'').pipe(
+      map((res:any)=>{
+        return res.data.activity
+      })
+    )
+  }
+  getBellboyOnlineActivity(id){
+    return this.http.get(url+'api/admin/bellboy/bellboyactivity/'+id).pipe(
+      map((res:any)=>{
+        return res
+      })
+    )
+  }
 }

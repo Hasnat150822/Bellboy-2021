@@ -80,7 +80,7 @@ figcaption{
 .hoverOrange:hover{
     color: #FA9008 !important; 
 }
-.table thead th{
+.table thead th, .table thead th select{
     vertical-align: middle !important;
     font-weight: 600 !important;
     background-color: #f4f4f4;
@@ -124,9 +124,6 @@ tbody{
     width: 95%;
     height: 150px;
     border-radius: 6px;
-}
-.modal{
-    top: 10%;
 }
 .modal-dialog{
     box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.15);
@@ -175,7 +172,7 @@ border: none;
     top:50%;
     transform: translateY(-50%);
 }
-.child:hover{
+i.child:hover{
     color: var(--bgColor);
     cursor: pointer;
 }
@@ -430,6 +427,7 @@ html {
   }
   table{
     overflow-x: auto;
+    display: table;
     th, td{
         width: auto;
         font-weight: normal !important;
@@ -523,4 +521,38 @@ table {
 
 table>th, table>td, table>thead th, table>tbody td, table>tfoot td, table>tfoot th {
     width: auto !important;
+}
+.modal-content{
+    margin-bottom: 1.75rem  !important;
+}
+#searchInput{
+    border-radius: 2rem !important;
+}
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+  }
+.ngb-dp-month{
+    background: white;
+    color: black;
+    }
+ngb-datepicker{
+    position: absolute;
+    z-index: 1050;
+    right: 0;
+    -webkit-transform: translateX(50%);
+    transform: translateX(0%);
 }

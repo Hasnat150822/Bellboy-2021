@@ -12,7 +12,7 @@
       <div class="parent">
         <i class="ft-search child"></i>
         <!-- <input type="text" class="form-control placeholder-pad w-33" *ngIf="placeVal=='Id'" (keyup)="getUsers($event.target.value, 'true', 'Id')" placeholder="Search By {{placeVal}}">  -->
-        <input type="text" class="form-control placeholder-pad w-33" *ngIf="placeVal == 'Name'" (keyup)="getUsers($event.target.value, 'true', 'Name')" placeholder="Search By {{ placeVal }}" />
+        <input type="text" id="searchInput" class="form-control placeholder-pad w-33" *ngIf="placeVal == 'Name'" (keyup)="getUsers($event.target.value, 'true', 'Name')" placeholder="Search By {{ placeVal }}" />
         <!-- <input type="text" class="form-control placeholder-pad w-33" *ngIf="placeVal=='Phone'" (keyup)="getUsers($event.target.value, 'true', 'Cell No')" placeholder="Search By {{placeVal}}"> -->
       </div>
     </div>
@@ -71,7 +71,6 @@
                         <td *ngIf="item.role._id == role._id">
                           {{ item.contact_number }}
                         </td>
-                        <td *ngIf="item.role._id == role._id" colspan="4"></td>
                         <td *ngIf="item.role._id == role._id">
                           <a>
                             <button [disabled]="loggedInUser['role']!=='Super Admin' && item.role.title=='Super Admin'" class="btn btn-danger" (click)="changeStatus(item._id, 'false')">
@@ -111,7 +110,6 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.contact_number }}</td>
-                        <td colspan="4"></td>
                         <td>
                           <a (click)="changeStatus(item._id, 'true')">
                             <button class="btn btn-success">Unblock</button>
@@ -227,10 +225,6 @@
     </th>
     <th>Email</th>
     <th>Cell no</th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
     <th>Actions</th>
     <th>View / Update</th>
   </tr>

@@ -7,6 +7,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from 'app/ngrx-states/reducer';
+import { ReactiveFormsModule } from '@angular/forms';
 const route:Routes = [{
   path:'', component:AdvertisementComponent
 }]
@@ -16,6 +17,7 @@ const route:Routes = [{
     CommonModule,
     NgbModule,
     SlickCarouselModule,
+    ReactiveFormsModule,
     RouterModule.forChild(route),
     ImageCropperModule,
     StoreModule.forFeature("UserData", userReducer)

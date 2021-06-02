@@ -16,8 +16,9 @@ export class CustomersService {
     }
   }
   getCustomers(byName, byPhone, status, page, sortBy, perPage) {
+    if(byPhone == '+92'){byPhone = ''}else{byPhone = byPhone.replace('+92', '92')}
     if (status == '') {
-      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage)
+      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&pageNo=' + page + '&mobile='+byPhone+ '&sortBy=' + sortBy+'&perPage='+perPage)
     } else {
       return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&status=' + status + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage)
     }

@@ -1,20 +1,27 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomersService } from './customers.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import Swal from 'sweetalert2';
-import { GlobalService } from 'app/shared/services/global-service.service';
+import { dataURLtoFile } from 'app/shared/services/global-service.service';
 import { flyInOutAnimation } from '../pages-animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { USER_NAME } from 'app/ngrx-states/model/url.model';
 import { Subscription } from 'rxjs';
 import { checkPage } from 'app/shared/services/global';
+import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import * as countries from '../../../assets/country-codes.json';
 interface apiParams {
   status: string,
   byName: string,
   byPhone: string
 }
+interface Countries {
+  name: string,
+  dial_code: string,
+  code: string
+}[]
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
@@ -23,7 +30,7 @@ interface apiParams {
     flyInOutAnimation
   ]
 })
-export class CustomersComponent implements OnInit {
+export class CustomersComponent implements OnInit, AfterViewInit {
   closeResult = '';
   allcustomers: any[];
   pager: any = {};
@@ -31,19 +38,19 @@ export class CustomersComponent implements OnInit {
   count: number;
   defaultArr;
   apiParams: apiParams;
-  keyword; placeVal = "Name"; sortBy: string;
-  togg = false;
-  togg2 = false;
-  togg3 = false;  
-  type:string;
+  keyword; placeVal = "Cell No"; sortBy: string;
+  togg = true;
+  togg2 = true;
+  togg3 = true;  
+  togg4 = true;  
   currentPageIds:Array<any>; selectedIds:Array<any>;
   checkedValues:Array<any>=[];
   notificationForm:FormGroup;
   subscription:Subscription;
   selectSenderArea:string = '';
   constructor(private modalService: NgbModal, private pagerService: PagerService,
-    private custservice: CustomersService, private rendrer: Renderer2, private el: ElementRef,
-    private globalService:GlobalService, private fb:FormBuilder, private store:Store<USER_NAME>) { 
+    private custservice: CustomersService, private rendrer: Renderer2, private el: ElementRef, 
+    private fb:FormBuilder, private store:Store<USER_NAME>, private changeRef:ChangeDetectorRef) { 
       this.notificationForm = this.fb.group({
         title:['', {validators:[Validators.required]}],
         description:['',{validators:[Validators.required, Validators.maxLength(250)]}]
@@ -53,11 +60,14 @@ export class CustomersComponent implements OnInit {
   public get title() {
     return this.notificationForm.controls['title'];
   }
-  
+  ngAfterViewInit(){
+    this.changeRef.detectChanges();
+  }
   public get description() {
     return this.notificationForm.controls['description'];
   }
   currentRole:string;
+  countryCodes:Countries = (countries as any).default;
   ngOnInit() {
     this.store.subscribe((res:any)=>{
       if(res.UserData.data!==undefined){
@@ -65,11 +75,12 @@ export class CustomersComponent implements OnInit {
       }
     }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getCustomers('', '', '', 1, '');
+    this.apiParams.byPhone = '+92';
   }
   setDefault(){
     this.allcustomers = []; this.count = 0; this.pager = {};
     this.changeAllChecked(false);
-    let el = this.el.nativeElement.querySelector('#input');
+    let el = this.el.nativeElement.querySelector('#searchInput');
     this.rendrer.setProperty(el, 'value', '');
   }
   perPage:number = 10;
@@ -86,6 +97,7 @@ export class CustomersComponent implements OnInit {
       this.pager = this.pagerService.getPager(this.count, page, this.perPage);
       this.defaultArr = res.data.customers;
       this.allcustomers = res.data.customers;
+      this.apiParams.byPhone = '+92';
       this.currentPageIds = this.allcustomers.map((data:any)=>{
         return data._id;
       })
@@ -94,9 +106,6 @@ export class CustomersComponent implements OnInit {
         if(index!==-1){
           this.allcustomers[index]['checked'] = true;
         }
-        // else{
-        //   this.allcustomers[index]['checked'] = false;
-        // }
       })
       this.spinner = false;
     }, error => {
@@ -155,51 +164,56 @@ export class CustomersComponent implements OnInit {
   sortByNumber() {
     this.togg = !this.togg;
     let el = this.el.nativeElement.querySelector("#sortByNumber")
-    this.renderClass(el, this.togg, 'total_hirings')
+    this.renderClass('sortByNumber', this.togg, 'total_hirings')
     .then((sortBy)=>{
       this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
     });
   }
   sortByName() {
     this.togg2 = !this.togg2;
-    let el = this.el.nativeElement.querySelector("#sortByName")
-    this.renderClass(el, this.togg2, 'name')    
+    this.renderClass('sortByName', this.togg2, 'name')    
     .then((sortBy)=>{
       this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
     });
   }
   sortByDate() {
     this.togg3 = !this.togg3;
-    let el = this.el.nativeElement.querySelector("#sortByDate")
-    this.renderClass(el, this.togg3, 'created_at')    
+    this.renderClass('sortByDate', this.togg3, 'created_at')
     .then((sortBy)=>{
       this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
     });
   }
-  renderClass(el, value, sortby) {
-    return new Promise((resolve)=>{
-          // default remove classes from tags
-    let byNumber = this.el.nativeElement.querySelector("#sortByNumber");
-    let byName = this.el.nativeElement.querySelector("#sortByName");
-    let byDate = this.el.nativeElement.querySelector("#sortByDate");
-    this.rendrer.removeClass(byNumber, "ft-chevron-down");
-    this.rendrer.removeClass(byNumber, "ft-chevron-up");
-    this.rendrer.removeClass(byName, "ft-chevron-down");
-    this.rendrer.removeClass(byName, "ft-chevron-up");
-    this.rendrer.removeClass(byDate, "ft-chevron-down");
-    this.rendrer.removeClass(byDate, "ft-chevron-up");
-    // add classes conditionally
-    if (value && sortby) {
-      sortby = sortby;
-      this.rendrer.addClass(el, "ft-chevron-up");
-      this.rendrer.removeClass(el, "ft-chevron-down");
-      resolve(sortby)
-    } else if(!value && sortby) {
-      sortby = '-'+sortby;
-      this.rendrer.addClass(el, "ft-chevron-down");
-      this.rendrer.removeClass(el, "ft-chevron-up");
-      resolve(sortby)
+  sortBySpent() {
+    this.togg4 = !this.togg4;
+    this.renderClass('sortBySpent', this.togg4, 'total_spend')
+    .then((sortBy)=>{
+      this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
+    });
+  }
+  renderClass(el, value, sortby){
+    let chev_up;
+    let chev_down
+    if(el==''){
+      chev_up = this.el.nativeElement.querySelector('span.ft-chevron-up');
+      chev_down = this.el.nativeElement.querySelector('span.ft-chevron-down');
+      this.rendrer.removeClass(chev_down, "text-orange");
+      this.rendrer.removeClass(chev_up, "text-orange");
+    }else{
+      chev_up = this.el.nativeElement.querySelector('#'+el+' span.ft-chevron-up');
+      chev_down = this.el.nativeElement.querySelector('#'+el+' span.ft-chevron-down');
     }
+    return new Promise((resolve)=>{
+      if (value && sortby) {
+        sortby = sortby;
+        this.rendrer.removeClass(chev_down, "text-orange");
+        this.rendrer.addClass(chev_up, "text-orange");
+        resolve(sortby)
+      } else if(!value && sortby) {
+        sortby = '-'+sortby;
+        this.rendrer.addClass(chev_down, "text-orange");
+        this.rendrer.removeClass(chev_up, "text-orange");
+        resolve(sortby)
+      }
     })
   }
   selectCustomers(event){
@@ -218,27 +232,36 @@ export class CustomersComponent implements OnInit {
   }
   message
   imgURL
-  imageFile:File
- async preview(files){
-   this.imageFile = files[0]
-    if(files.length===0){
-      return false
-    }else if(files[0].type.match(/image\/*/) == null){
+  tempFile
+  imageFile:File;submitted:boolean;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  canvasRotation = 0;
+  rotation = 0;
+  scale = 1;
+  showCropper = false;
+  containWithinAspectRatio = false;
+  transform: ImageTransform = {};
+  fileChangeEvent(event: any) {
+    this.tempFile = event.target.files[0];
+    this.imageChangedEvent = event;
+    if(!this.tempFile){
+      return false;
+    }else if(this.tempFile.type.match(/image\/*/) == null){
       this.message = "Only images are supported.";
       return
-    }else{
-      await base64(files).then((data)=>{
-        this.imgURL = data
-      })
-      this.globalService.compress(this.imgURL, files[0].name).then((res:any)=>{
-        let result = res[0]
-        if(result.status == true){
-          this.imageFile = result.file
-          this.imgURL = result.con64
-          return
-        }
-      })
     }
+  }
+  height:number; width:number;
+  imageCropped(event: ImageCroppedEvent) {
+    this.height = event.height;
+    this.width = event.width;
+    this.croppedImage = event.base64;
+    this.imageFile =  dataURLtoFile(this.croppedImage, this.tempFile.name);
+}
+
+  imageLoaded() {
+      this.showCropper = true;
   }
   submitNotification(){
     let values = this.notificationForm.getRawValue();
@@ -308,12 +331,12 @@ export class CustomersComponent implements OnInit {
       });
     return result;
   }
-}
-function base64(files){
-  return new Promise((resolve, reject)=>{
-    const reader = new FileReader();
-    reader.readAsDataURL(files[0])
-    reader.onload = ()=>resolve(reader.result)
-    reader.onerror = error=>reject(error)
- })
+  device:string;
+  changeDevice(value){
+    this.device = value;
+  }
+  activity:string;
+  changeActivity(value){
+    this.activity = value;
+  }
 }

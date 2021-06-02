@@ -1,156 +1,199 @@
 <section>
-  <div class="card">
-    <div class="card-body">
-      <div class="row align-items-center">
-        <div class="col-sm-4 border-right">
-          <div class="media">
-            <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value)">
-              <img class="align-self-center mr-3 image-size" src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
-            </a>
-            <div class="media-body mt-auto mb-auto">
-              <h5 class="font-weight-normal"> {{detailBellboy?.bellBoy?.name}}</h5>
-              <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.working_status == true">Online </span>
-              <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.working_status == false">Offline </span>
-              {{detailBellboy?'|':''}}
-              <span class="h6 text-orange" *ngIf="detailBellboy?.bellBoy?.status == 0">Pending </span>
-              <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.status == 1">Approved </span>
-              <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 2">Rejected </span>
-              <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 3">Blocked </span>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-sm-4">
+              <div class="media">
+                <a (click)="openModel(amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value)">
+                  <img class="align-self-center mr-3 image-size" src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.avatar?.value:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                </a>
+                <div class="media-body mt-auto mb-auto">
+                  <h5 class="font-weight-normal"> {{detailBellboy?.bellBoy?.name}}</h5>
+                  <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.working_status == true">Online </span>
+                  <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.working_status == false">Offline </span>
+                  {{detailBellboy?'|':''}}
+                  <span class="h6 text-orange" *ngIf="detailBellboy?.bellBoy?.status == 0">Pending </span>
+                  <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.status == 1">Approved </span>
+                  <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 2">Rejected </span>
+                  <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 3">Blocked </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 border-left align-self-start" >
+              <h5 class="font-weight-500">Contact Detail</h5>
+              <p>
+                <span>Cell No:</span>
+                <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.mobile}}</span>
+              </p>
+              <p>
+                <span>Email:</span>
+                <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.email}}</span>
+              </p>
+              <p>
+                <span>Joining Date:</span><span class="ml-3 text-secondary">
+                    {{detailBellboy?.bellBoy?.created_at | date:'mediumDate'}}
+                  </span>
+              </p>
+              <p class="mb-0">
+                <span>Date of Birth:</span>
+                <span class="ml-3 text-secondary">
+                    {{detailBellboy?.bellBoy?.birth_date.month}}-{{detailBellboy?.bellBoy?.birth_date.day}}-{{detailBellboy?.bellBoy?.birth_date.year}}
+                  </span>
+              </p>
+            </div>
+            <div class="col-sm-4 border-left">
+              <h5 class="font-weight-500">
+                Bellboy Stats
+                <a (click)="open(viewActivity); getOnlineActivity()"><i class="float-right ft-activity text-orange" ngbTooltip="View Activiy"></i></a>
+              </h5>
+              <p>
+                <span>Last Login:</span>
+                <span class="ml-3 text-secondary" *ngIf="detailBellboy">
+                  {{detailBellboy?.bellBoy?.last_active | date:'mediumDate'}} at {{detailBellboy?.bellBoy?.last_active | date:'shortTime'}}
+                </span>
+              </p>
+              <p>
+                <span>Last Seen:</span>
+                <span class="ml-3 text-secondary" *ngIf="detailBellboy">
+                  {{detailBellboy?.bellBoy?.last_seen | date:'mediumDate'}} at {{detailBellboy?.bellBoy?.last_seen | date:'shortTime'}}
+                </span>
+              </p>
+              <p>
+                <span>Total Online Time:</span>
+                <span class="ml-3 text-secondary" *ngIf="detailBellboy?.activity?.length>0">
+                  {{detailBellboy?.activity[0].totalTime / 60000 | timeConvert}}
+                </span>
+                <a ngbTooltip="View History" (click)="open(viewHistory); getOnlineHistory('day')"><span class="ml-2 ft-chevrons-right text-orange"></span></a>
+              </p>
+              <p>
+                <span>Total Tasks Time:</span>
+                <span class="ml-3 text-secondary" *ngIf="detailBellboy">
+                  {{ detailBellboy?.bellBoy?.total_working_hours.toString().split(".")[0] }} hours
+                  {{ ('.'+detailBellboy?.bellBoy?.total_working_hours.toString().split(".")[1])*60 | number:'1.0-0' }} mins
+                </span>
+              </p>
+              <p>
+                <span>Total Completed Hirings:</span>
+                <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.total_hirings }}</span>
+              </p>
+              <p>
+                <span>Total Earnings:</span>
+                <span class="ml-3 text-secondary" *ngIf="detailBellboy">{{detailBellboy?.bellBoy?.total_earnings | number:'1.0-0'}}/- Rs</span>
+              </p>
             </div>
           </div>
-        </div>
-        <div class="col-sm-4 border-right">
-          <h5 class="font-weight-500">Contact Detail</h5>
-          <p>
-            <span>Cell No:</span>
-            <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.mobile}}</span>
-          </p>
-          <p>
-            <span>Email:</span>
-            <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.email}}</span>
-          </p>
-          <p>
-            <span>Joining Date:</span><span class="ml-3 text-secondary">
-                {{detailBellboy?.bellBoy?.created_at | date:'mediumDate'}}
-              </span>
-          </p>
-          <p class="mb-0">
-            <span>Date of Birth:</span>
-            <span class="ml-3 text-secondary">
-                {{detailBellboy?.bellBoy?.birth_date.month}}-{{detailBellboy?.bellBoy?.birth_date.day}}-{{detailBellboy?.bellBoy?.birth_date.year}}
-              </span>
-          </p>
-        </div>
-        <div class="col-sm-4">
-          <h5 class="font-weight-500">Bellboy Stats</h5>
-          <p>
-            <span>Last online:</span>
-            <span class="ml-3 text-secondary" *ngIf="detailBellboy">
-              {{detailBellboy?.bellBoy?.last_active | date:'mediumDate'}} at {{detailBellboy?.bellBoy?.last_active | date:'shortTime'}}
-            </span>
-          </p>
-          <p>
-            <span>Total working hours:</span>
-            <span class="ml-3 text-secondary" *ngIf="detailBellboy">
-              {{ detailBellboy?.bellBoy?.total_working_hours.toString().split(".")[0] }} hours
-              {{ ('.'+detailBellboy?.bellBoy?.total_working_hours.toString().split(".")[1])*60 | number:'1.0-0' }} mins
-            </span>
-          </p>
-          <p>
-            <span>Total completed hirings:</span>
-            <span class="ml-3 text-secondary">{{detailBellboy?.bellBoy?.total_hirings }}</span>
-          </p>
-          <p>
-            <span>Total earnings:</span>
-            <span class="ml-3 text-secondary" *ngIf="detailBellboy">{{detailBellboy?.bellBoy?.total_earnings | number:'1.0-0'}}/- Rs</span>
-          </p>
         </div>
       </div>
     </div>
   </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="font-weight-500">Legals</h5>
-      <div class="row">
-        <div class="col-sm-6 border-right">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="font-weight-500">Legals</h5>
           <div class="row">
-            <div class="col-sm-6 text-left">
-              <h6 class="font-weight-500 mb-0" style="line-height: 37px;">CNIC details</h6>
-            </div>
-            <div class="col-sm-6 text-right mb-2">
-              <a>
-                <button class="btn btn-orange" *ngIf="detailBellboy?.bellBoy?.legals?.nic?.approval == 0" (click)="changeNIC(1)">Approve NIC</button>
-                <button class="btn btn-danger" *ngIf="detailBellboy?.bellBoy?.legals?.nic?.approval == 1" (click)="changeNIC(0)">Block NIC</button>
-              </a>
-            </div>
-            <div class="col-sm-6">
-              <p>
-                <span>NIC Number: </span>
-                <span class="ml-2 text-secondary">
-                  {{detailBellboy?.bellBoy?.legals?.nic?.value}}
-                </span>
-              </p>
-            </div>
-            <div class="col-sm-6">
-              <p>
-                <span>Expiry Date: </span>
-                <span class="ml-2 text-secondary">
-                  {{detailBellboy?.bellBoy?.legals?.nic?.expiry_date | date:'mediumDate'}}
-                </span>
-              </p>
-            </div>
-            <div class="col-sm-6">
-              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.front_image)">
-                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.front_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
-              </a>
-              <figcaption class="text-center">Front</figcaption>
-            </div>
-            <div class="col-sm-6">
-              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.back_image)">
-                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.back_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
-              </a>
-              <figcaption class="text-center">Back</figcaption>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="row">
-            <div class="col-sm-6 text-left">
-              <h6 class="font-weight-500 mb-0" style="line-height: 37px;">License details</h6>
-            </div>
-            <div class="col-sm-6 text-right mb-2">
-              <a>
-                <button class="btn btn-orange" *ngIf="detailBellboy?.bellBoy?.legals?.driving_license?.approval == 0" (click)="changeLicense(1)">Approve License</button>
-                <button class="btn btn-danger" *ngIf="detailBellboy?.bellBoy?.legals?.driving_license?.approval == 1" (click)="changeLicense(0)">Block License</button>
-              </a>
+            <div class="col-sm-6 border-right">
+              <div class="row">
+                <div class="col-sm-6 text-left">
+                  <h6 class="font-weight-500 mb-0" style="line-height: 37px;">CNIC details</h6>
+                </div>
+                <div class="col-sm-6 text-right mb-2">
+                  <a>
+                    <button class="btn btn-orange" *ngIf="detailBellboy?.bellBoy?.legals?.nic?.approval == 0" (click)="changeNIC(1)">Approve NIC</button>
+                    <button class="btn btn-danger" *ngIf="detailBellboy?.bellBoy?.legals?.nic?.approval == 1" (click)="changeNIC(0)">Block NIC</button>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <p>
+                    <span>NIC Number: </span>
+                    <span class="ml-2 text-secondary">
+                      {{detailBellboy?.bellBoy?.legals?.nic?.value}}
+                    </span>
+                  </p>
+                </div>
+                <div class="col-sm-6">
+                  <p>
+                    <span>Expiry Date: </span>
+                    <span class="ml-2 text-secondary">
+                      {{detailBellboy?.bellBoy?.legals?.nic?.expiry_date | date:'mediumDate'}}
+                    </span>
+                  </p>
+                </div>
+                <div class="col-sm-6">
+                  <a (click)="openModel(amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.front_image)">
+                    <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.front_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                  </a>
+                  <figcaption class="text-center">Front</figcaption>
+                </div>
+                <div class="col-sm-6">
+                  <a (click)="openModel(amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.back_image)">
+                    <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.nic?.back_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                  </a>
+                  <figcaption class="text-center">Back</figcaption>
+                </div>
+              </div>
             </div>
             <div class="col-sm-6">
-              <p>
-                <span>License Number: </span>
-                <span class="ml-2 text-secondary">
-                  {{detailBellboy?.bellBoy?.legals?.driving_license?.value}}
-                </span>
-              </p>
+              <div class="row">
+                <div class="col-sm-6 text-left">
+                  <h6 class="font-weight-500 mb-0" style="line-height: 37px;">License details</h6>
+                </div>
+                <div class="col-sm-6 text-right mb-2">
+                  <a>
+                    <button class="btn btn-orange" *ngIf="detailBellboy?.bellBoy?.legals?.driving_license?.approval == 0" (click)="changeLicense(1)">Approve License</button>
+                    <button class="btn btn-danger" *ngIf="detailBellboy?.bellBoy?.legals?.driving_license?.approval == 1" (click)="changeLicense(0)">Block License</button>
+                  </a>
+                </div>
+                <div class="col-sm-6">
+                  <p>
+                    <span>License Number: </span>
+                    <span class="ml-2 text-secondary">
+                      {{detailBellboy?.bellBoy?.legals?.driving_license?.value}}
+                    </span>
+                  </p>
+                </div>
+                <div class="col-sm-6">
+                  <p>
+                    <span>Expiry Date: </span>
+                    <span class="ml-2 text-secondary">
+                      {{detailBellboy?.bellBoy?.legals?.driving_license?.expiry_date | date:'mediumDate'}}
+                    </span>
+                  </p>
+                </div>
+                <div class="col-sm-6">
+                  <a (click)="openModel(amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.front_image)">
+                    <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.front_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                  </a>
+                  <figcaption class="text-center">Front</figcaption>
+                </div>
+                <div class="col-sm-6">
+                  <a (click)="openModel(amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.back_image)">
+                    <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.back_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                  </a>
+                  <figcaption class="text-center">Back</figcaption>
+                </div>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <p>
-                <span>Expiry Date: </span>
-                <span class="ml-2 text-secondary">
-                  {{detailBellboy?.bellBoy?.legals?.driving_license?.expiry_date | date:'mediumDate'}}
-                </span>
-              </p>
-            </div>
-            <div class="col-sm-6">
-              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.front_image)">
-                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.front_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
-              </a>
-              <figcaption class="text-center">Front</figcaption>
-            </div>
-            <div class="col-sm-6">
-              <a (click)="openModel(bigImg, amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.back_image)">
-                <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.driving_license?.back_image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
-              </a>
-              <figcaption class="text-center">Back</figcaption>
+            <div class="col-sm-12">
+              <div class="col-sm-6 text-left">
+                <h6 class="font-weight-500 mb-0" style="line-height: 37px;">Charcter Certificate</h6>
+              </div>
+              <div class="col-sm-6">
+                <p>
+                  <span>Certificate Number: </span>
+                  <span class="ml-2 text-secondary">
+                    {{detailBellboy?.bellBoy?.legals?.character_certificate?.no}}
+                  </span>
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <a (click)="openModel(amazonImgUrl+detailBellboy?.bellBoy?.legals?.character_certificate?.image)">
+                  <img src="{{detailBellboy?amazonImgUrl+detailBellboy?.bellBoy?.legals?.character_certificate?.image:'../../../../../../assets/img/ico/SVG/Ripple.svg'}}" class="front-img" alt="" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                </a>
+                <figcaption class="text-center">Certificate Image</figcaption>
+              </div>
             </div>
           </div>
         </div>
@@ -229,19 +272,19 @@
                           </span>
                         </p>
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-5">
                         <p>
                           <span>Engine Number: </span>
                           <span class="text-secondary ml-3">
-                            -
+                            {{item.engine_no}}
                           </span>
                         </p>
                       </div>
-                      <div class="col-sm-5">
+                      <div class="col-sm-6">
                         <p>
                           <span>Registration Year: </span>
                           <span class="text-secondary ml-3">
-                            -
+                            {{item.registration_year}}
                           </span>
                         </p>
                       </div>
@@ -249,39 +292,59 @@
                         <p>
                           <span>Owner Name: </span>
                           <span class="text-secondary ml-3">
-                            -
+                            {{item.owner}}
                           </span>
                         </p>
                       </div>
-                      <div class="col-sm-12 row align-items-center m-0">
+                      <div class="col-12 row align-items-center">
+                        <div class="col-sm-4 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_reg_images?.front_image)" src="{{amazonImgUrl+item?.vehicle_reg_images?.front_image}}" />
+                          </a>
+                          <figcaption>Registration</figcaption>
+                        </div>
+                        <div class="col-sm-4 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_reg_images?.back_image)" src="{{amazonImgUrl+item?.vehicle_reg_images?.back_image}}" />
+                          </a>
+                          <figcaption>Registration</figcaption>
+                        </div>
+                        <div class="col-sm-4 text-center px-1">
+                          <a>
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_reg_images?.other_image)" src="{{amazonImgUrl+item?.vehicle_reg_images?.other_image}}" />
+                          </a>
+                          <figcaption>Registration</figcaption>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 row align-items-center">
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.front_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.front_image}}" />
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_images?.front_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.front_image}}" />
                           </a>
                           <figcaption>Front</figcaption>
                         </div>
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.back_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.back_image}}" />
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_images?.back_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.back_image}}" />
                           </a>
                           <figcaption>Back</figcaption>
                         </div>
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.right_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.right_image}}" />
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_images?.right_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.right_image}}" />
                           </a>
                           <figcaption>Right</figcaption>
                         </div>
                         <div class="col-sm-3 text-center px-1">
                           <a>
-                            <img class="vehicleImage" (click)="openModel(bigImg, amazonImgUrl+item?.vehicle_images?.left_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.left_image}}" />
+                            <img class="vehicleImage" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.vehicle_images?.left_image)" src="{{amazonImgUrl}}{{item?.vehicle_images?.left_image}}" />
                           </a>
                           <figcaption>Left</figcaption>
                         </div>
                       </div>
                       <div class="col-sm-12 text-center">
                         <a>
-                          <img class="plate-image" (click)="openModel(bigImg, amazonImgUrl+item?.plate?.plate_image)" src="{{amazonImgUrl}}{{item?.plate?.plate_image}}" alt="img" />
+                          <img class="plate-image" onerror="src='../../../../assets/img/ico/bb-brand.jpg'" (click)="openModel(amazonImgUrl+item?.plate?.plate_image)" src="{{amazonImgUrl}}{{item?.plate?.plate_image}}" alt="img" />
                         </a>
                         <figcaption>Number Plate</figcaption>
                       </div>
@@ -303,11 +366,118 @@
     </div>
   </div>
 </section>
-<ng-template #bigImg let-modal>
-  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
-    <a class="mb-2"><span class="ft-x text-white" (click)="modal.close('Cancel Cick')"></span></a>
-  </div>
-  <div class="modal-body d-flex justify-content-center pt-0">
-    <img src="{{currentImage}}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit" alt="" srcset="">
+<ng-template #viewHistory let-modal>
+  <div class="model">
+    <div class="modal-header justify-content-center mb-1">
+      <h3 class="card-title mb-0">Bellboy's Online History</h3><a (click)="modal.close('Cancel Modal')"><i class="ft-x close-icon"></i></a>
+    </div>
+    <div class="model-body">
+      <table class="table table-stripped table-responsive d-table mt-2">
+        <thead>
+          <tr>
+            <th>
+              <select style="cursor: pointer;" name="" id="" class="border-0 bg-transparent" (change)=" getOnlineHistory($event.target.value)">
+                <option value="day">Day</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+              </select>
+            </th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of bellboyOnlineHistory">
+            <th *ngIf="item._id?.day">{{item._id?.year+'-'+item._id?.month+'-'+item._id?.day}}</th>
+            <th *ngIf="!item._id?.day && item._id?.month">{{item._id?.year+'-'+item._id?.month}}</th>
+            <th *ngIf="item._id?.year && !item._id?.day && !item._id?.month">{{item._id?.year}}</th>
+            <th>{{item.totalTime / 60000 | timeConvert}}</th>
+          </tr>
+          <tr *ngIf="spinner">
+            <td colspan="12" class="py-4 bg-white">
+              <div class="spinner-border text-orange" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </ng-template>
+<ng-template #viewActivity let-modal>
+  <div class="model">
+    <div class="modal-header justify-content-center mb-1">
+      <h3 class="card-title mb-0">Bellboy's Online Activity</h3><a (click)="modal.close('Cancel Modal')"><i class="ft-x close-icon"></i></a>
+    </div>
+    <div class="model-body">
+      <div class="row m-0" *ngIf="!spinner">
+        <div class="col-sm-12 text-left">
+          <h6 class="font-weight-500 mb-0" style="line-height: 37px;">Current Date</h6>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <span>Total Online Time: </span>
+            <span class="ml-2 text-secondary">
+              {{bellboyOnlineActivity?.activity?.byCurrentDay?.time / 60000 | timeConvert}}
+            </span>
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <span>Total Hirings </span>
+            <span class="ml-2 text-secondary">
+              {{bellboyOnlineActivity?.hiring?.byDay?.hiringCount}}
+            </span>
+          </p>
+        </div>
+        <div class="col-sm-12 text-left">
+          <h6 class="font-weight-500 mb-0" style="line-height: 37px;">Current Weak</h6>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <span>Total Online Time: </span>
+            <span class="ml-2 text-secondary">
+              {{bellboyOnlineActivity?.activity?.byWeek?.time / 60000 | timeConvert}}
+            </span>
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <span>Total Hirings </span>
+            <span class="ml-2 text-secondary">
+              {{bellboyOnlineActivity?.hiring?.byWeek?.hiringCount}}
+            </span>
+          </p>
+        </div>
+        <div class="col-sm-12 text-left">
+          <h6 class="font-weight-500 mb-0" style="line-height: 37px;">Current Month</h6>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <span>Total Online Time: </span>
+            <span class="ml-2 text-secondary">
+              {{bellboyOnlineActivity?.activity?.byMonth?.time / 60000 | timeConvert}}
+            </span>
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <span>Total Hirings </span>
+            <span class="ml-2 text-secondary">
+              {{bellboyOnlineActivity?.hiring?.byMonth?.hiringCount}}
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="row m-0" *ngIf="spinner">
+        <div class="col-12 text-center py-4 bg-white">
+          <div class="spinner-border text-orange" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<app-big-image *ngIf="isBigImg"></app-big-image>

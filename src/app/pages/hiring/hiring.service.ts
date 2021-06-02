@@ -17,14 +17,20 @@ export class HiringService {
         })
       }
   }
-  getAllHirings (status, page,searchType, searchValue, sortBy, perPage){
+  getAllHirings (status, page,searchType, searchValue, sortBy, perPage, startDate, endDate){
     searchType==undefined?searchType='searchById':searchType=searchType;
     var searchstring;
+    let dateRange='';
+    if(startDate!== undefined && endDate!==undefined){
+      dateRange = "&currentStartDate="+startDate+"&currentEndDate="+endDate;
+    }else if(startDate!==undefined && endDate == undefined){
+      dateRange = "&currentStartDate="+startDate;
+    }
     if(searchType!==undefined && searchValue!==undefined)
       {searchstring = "&"+searchType+"="+searchValue;}
     else
       {searchstring='';}
-    let apiUrl = "api/admin/hiring?&pageNo="+page+"&status="+status+"&sortBy="+sortBy+searchstring+'&perPage='+perPage;
+    let apiUrl = "api/admin/hiring?&pageNo="+page+"&status="+status+"&sortBy="+sortBy+searchstring+'&perPage='+perPage+dateRange;
     return this.http.get(this._url+apiUrl)
   }
   getByid(id){

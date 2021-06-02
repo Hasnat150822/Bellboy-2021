@@ -11,10 +11,12 @@ export class AdvertisementService {
   public onError: Subject<string> = new Subject();
   public allAdvert = new Subject<any>();
   constructor(private http:HttpClient) { 
-  }
-  postAdvertisement(icon){
+  } 
+  postAdvertisement(icon, title, desc){
     let formData:FormData = new FormData();
     formData.append('image', icon);
+    if(title!==''){formData.append('title', title)}
+    if(desc!==''){formData.append('description', desc)}
     return this.http.post(this._url+'api/admin/advertisement', formData).pipe(
       map((res:any)=>{
         if(res.success == true){

@@ -3,16 +3,20 @@
     <div class="col-sm-12 mb-1">
       <h3 id="id1">Manage Customers</h3>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-xs-12 col-sm-6 col-md-5">
       <div class="position-relative"><i ngbTooltip="Default Data" (click)="
           getCustomers('', '', apiParams.status, 1, '');
-          renderClass('', '', '')
+          renderClass  ('', '', '')
         " class="ft-refresh-cw child font-weight-bold"></i> 
-        <input [type]="type" id="SearchBellboy" class="form-control placeholder-pad" #input id="input" (change)="
+        <input id="searchInput" type="text" class="form-control" [ngClass]="{'px-4': placeVal=='Name','pl-5': placeVal=='Cell No'}" #input (change)="
           placeVal == 'Cell No'
-            ? (apiParams.byPhone = $event.target.value)
+            ? (apiParams.byPhone = apiParams.byPhone + $event.target.value)
             : (apiParams.byName = $event.target.value)
-        " placeholder="Search" (keyup)="onEnter($event)">
+        " placeholder="{{placeVal=='Cell No'?'1234567890':'i.e : Muhammad'}}" (keyup)="onEnter($event)">
+        <select *ngIf="placeVal=='Cell No'" (change)="apiParams.byPhone = $event.target.value" class="child ml-4 border-0">
+          <option value="+92">+92</option>
+          <option *ngFor="let item of countryCodes" value="{{item.dial_code}}">{{item.dial_code}}</option>
+        </select>
         <div class="btn-group position-absolute">
           <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
             <button class="btn border-left dropdown-toggle-split" ngbDropdownToggle>By {{ placeVal }} <i class="ft-chevron-down"></i>
@@ -20,16 +24,14 @@
             <div class="dropdown-menu" ngbDropdownMenu>
               <button ngbDropdownItem (click)="
                 placeVal = 'Name';
-                type = 'text';
                 apiParams.byPhone = '';
                 input.value = ''
-              ">Name</button>
+              "><span class="ft-user"> &nbsp;Name</span></button>
               <button ngbDropdownItem (click)="
                 placeVal = 'Cell No';
-                type = 'number';
                 apiParams.byName = '';
                 input.value = ''
-              ">Cell No</button>
+              "><span class="ft-phone">&nbsp;Cell No</span></button>
             </div>
           </div>
           <button type="button" class="btn btn-search" (click)="
@@ -44,13 +46,13 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-8 text-right" *ngIf="currentRole=='Super Admin'">
+    <div class="col-xs-12 col-sm-6 col-md-7 text-right" *ngIf="currentRole == 'Super Admin'">
       <div class="btn-group">
         <select id="choice" class="btn btn-outline-secondary pr-0 choice" (change)="allSelect($event)">
           <!-- <option value="">Registered</option>
         <option value="">Unregistered</option> -->
           <option value=" ">Select Value</option>
-          <option value="sendtoPakistaniUsers">Pakistanies</option>
+          <option value="sendtoPakistaniUsers">Pakistanis</option>
           <!-- <option value="">All</option> -->
         </select>
         <button type="button" [disabled]="checkedValues.length == 0 && selectSenderArea == ''" class="btn btn-outline-secondary" (click)="open(sendNotification)">Send Notification</button>
@@ -261,20 +263,66 @@
       <input type="checkbox" id="allSelect" class="form-control checkbox" (change)="allSelect($event)">
     </div>
   </th>
-  <th><a (click)="sortByName()">Name <i id="sortByName"></i></a>
+  <th>
+    <div class="d-flex align-items-center justify-content-center" id="sortByName">
+      <a (click)="sortByName()">
+        Name 
+      </a>
+      <div class="ml-1 mt-1">
+        <span class="ft-chevron-up d-block"></span>
+        <span class="ft-chevron-down d-block"></span>
+      </div>
+    </div>
   </th>
   <th>Cell no</th>
-  <th><a (click)="sortByDate()">Joining Date <i id="sortByDate"></i></a>
+  <th>
+    <div class="d-flex align-items-center justify-content-center" id="sortByDate">
+      <a (click)="sortByDate()">
+        Joining Date 
+      </a>
+      <div class="ml-1 mt-1">
+        <span class="ft-chevron-up d-block"></span>
+        <span class="ft-chevron-down d-block"></span>
+      </div>
+    </div>
   </th>
-  <th>Sign Up Device</th>
-  <th>Current Device</th>
-  <th>Last Login</th>
-  <th>Last Seen</th>
+  <th>
+    <select class="border-0 bg-transparent" (change)="changeDevice($event.target.value)">
+      <option value="curr_device">Current Device</option>
+      <option value="sign_up">Sign Up Device</option>
+    </select>
+  </th>
+  <th>
+    <select class="border-0 bg-transparent" (change)="changeActivity($event.target.value)">
+      <option value="last-seen">Last Seen</option>
+      <option value="last-login">Last Login</option>
+    </select>
+  </th>
   <th>Total Login</th>
-  <th><a (click)="sortByNumber()">Total Hirings <i id="sortByNumber"></i></a>
+  <th>
+    <div class="d-flex align-items-center justify-content-center" id="sortBySpent">
+      <a (click)="sortBySpent()">
+        Total Spent
+      </a>
+      <div class="ml-1 mt-1">
+        <span class="ft-chevron-up d-block"></span>
+        <span class="ft-chevron-down d-block"></span>
+      </div>
+    </div>
+  </th>
+  <th>
+    <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
+      <a (click)="sortByNumber()">
+        Total Hirings      
+      </a>
+      <div class="ml-1 mt-1">
+        <span class="ft-chevron-up d-block"></span>
+        <span class="ft-chevron-down d-block"></span>
+      </div>
+    </div>
   </th>
 </ng-template>
-<ng-template #sameValue let-id="_id" let-name="name" let-mobile="mobile" let-created_at="created_at" let-signup_device="signup_device" let-current_device="current_device" let-last_active="last_active" let-total_logins="total_logins" let-total_hirings="total_hirings"
+<ng-template #sameValue let-id="_id" let-total_spend="total_spend" let-name="name" let-mobile="mobile" let-created_at="created_at" let-signup_device="signup_device" let-current_device="current_device" let-last_active="last_active" let-total_logins="total_logins" let-total_hirings="total_hirings"
 let-checked="checked" let-last_seen="last_seen">
   <td>
     <div class="form-group mb-0">
@@ -284,13 +332,11 @@ let-checked="checked" let-last_seen="last_seen">
   <td>{{ name ? name : "-" }}</td>
   <td>{{ mobile ? mobile : "-" }}</td>
   <td>{{ created_at | date: "mediumDate" | showDashes }}</td>
-  <td><span>{{ signup_device | deviceCode }}</span>
+  <td><span>{{ (device=='sign_up'?signup_device:current_device) | deviceCode }}</span>
   </td>
-  <td><span>{{ current_device | deviceCode }}</span>
-  </td>
-  <td>{{ last_active | date: "mediumDate" }}</td>
-  <td>{{ last_seen | date: "mediumDate" | showDashes }}</td>
+  <td>{{ (activity=='last-login'?last_active:last_seen) | date: "mediumDate" }}</td>
   <td>{{ total_logins }}</td>
+  <td>{{total_spend}}</td>
   <td>{{ total_hirings }}</td>
 </ng-template>
 <ng-template #shimmer>
@@ -308,11 +354,15 @@ let-checked="checked" let-last_seen="last_seen">
     <form [formGroup]="notificationForm" class="row">
       <div class="form-group text-center col-sm-12">
         <div class="position-relative">
-          <input accept="image/*" #file type="file" accept="image/*" (change)="preview(file.files)" class="upload-input" type="file">
+          <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="641" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+          [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="*" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+          <input accept="image/*" #file type="file" accept="image/*" (change)="fileChangeEvent($event)" class="upload-input" type="file">
           <button class="camera-icon btn btn-orange">Add Image</button>
-          <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{ imgURL }}">
-          <p class="text-error mb-0" *ngIf="message">{{ message }}</p>
+          <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{ croppedImage }}">
         </div>
+        <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+        <p *ngIf="!croppedImage" class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
+        <p *ngIf="!croppedImage" class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
       </div>
       <div class="form-group col-12">
         <input type="text" class="form-control" placeholder="Title" formControlName="title">

@@ -164,6 +164,7 @@ export class DashboardComponent implements OnInit  {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      console.log(date.after(this.fromDate), 'date.after')
       this.toDate = date;
       $("#"+this.datePickerId).toggleClass('d-none');
       let fromDate = new Date;
@@ -182,7 +183,8 @@ export class DashboardComponent implements OnInit  {
         this.rangeGraph = true;
         this.getGraphData();
       }
-    } else {
+    } 
+    else {
       this.toDate = null;
       this.fromDate = date;
     }

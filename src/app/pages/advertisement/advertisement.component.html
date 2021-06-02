@@ -19,7 +19,8 @@
           <div class="card">
             <div class="card-body">
               <h6>
-                  <span class="font-weight-500">Advertisement Title</span>
+                  <span class="font-weight-500">{{item.title?item.title:'Advertisement Title'}}</span>
+                  &nbsp; <a *ngIf="item.description" class="ft-alert-circle" ngbTooltip="{{item.description}}"></a>
                   <p class="float-right"><small class="font-weight-500">Status: </small> <small [ngClass]="{'text-success': item.status, 'text-error':!item.status}">{{item.status?'Activated':'Deactivated'}}</small></p>
               </h6>
               <img src="{{amazonUrl}}{{item.image}}" height="230px" width="300px" onerror="src='../../../assets/img/gallery/1.jpg'" alt="" width="100%">
@@ -61,6 +62,9 @@
 <ng-template #addAdvert let-modal>
   <div class="modal-header justify-content-center">
     <h3>Upload File</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
   </div>
   <div class="modal-body">
     <div class="position-relative text-center">
@@ -74,11 +78,18 @@
     <p *ngIf="!croppedImage" class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
     <p *ngIf="!croppedImage" class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
     <!-- <p *ngIf="croppedImage"><strong>Height: </strong><span>{{height}}</span> <strong>Width: </strong> <span>{{width}}</span></p> -->
+    <form [formGroup]="advertForm" class="mt-2">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="title" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <textarea name="" id="" cols="30" rows="5" class="form-control" formControlName="desc" placeholder="Description"></textarea>
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
     <div class="text-right">
-      <button class="btn btn-secondary" (click)="modal.close('close click')">Close</button>
-      <button class="btn btn-success" (click)="uploadImg()">Upload Image</button>
+      <button class="btn btn-success" (click)="submitForm()">Add Advertisement</button>
     </div>
   </div>
 </ng-template>

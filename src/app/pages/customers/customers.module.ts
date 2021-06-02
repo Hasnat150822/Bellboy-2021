@@ -15,6 +15,7 @@ import { StoreModule } from '@ngrx/store';
 import { userReducer } from 'app/ngrx-states/reducer';
 import { PipesModule } from 'app/shared/pipes/pipes.module';
 import { SharedDirectivesModule } from 'app/shared/shared-directives/shared-directives.module';
+import { ImageCropperModule } from 'ngx-image-cropper';
 const routes:Routes = [
   {
     path:'',
@@ -42,6 +43,7 @@ const routes:Routes = [
     SharedDirectivesModule,
     PerfectScrollbarModule,
     TimeConvertModule,
+    ImageCropperModule,
     BigImageModule,
     PipesModule,
     RouterModule.forChild(routes),

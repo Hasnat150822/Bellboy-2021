@@ -6,10 +6,10 @@
     <div class="col-sm-12">
       <div class="position-relative">
         <i class="ft-search child"></i>
-        <input type="text" *ngIf="placeVal=='Number'" (keyup)="searchByNumber($event.target.value)" id="SearchBellboy" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
-        <input type="text" *ngIf="placeVal=='Model'" (keyup)="searchByModel($event.target.value)" id="SearchBellboy" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
-        <input type="text" *ngIf="placeVal=='Brand'" (keyup)="searchByBrand($event.target.value)" id="SearchBellboy" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
-        <input type="text" *ngIf="placeVal=='Bellboy'" (keyup)="searchByBellboy($event.target.value)" id="SearchBellboy" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Number'" (keyup)="searchByNumber($event.target.value)" id="searchInput" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Model'" (keyup)="searchByModel($event.target.value)" id="searchInput" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Brand'" (keyup)="searchByBrand($event.target.value)" id="searchInput" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Bellboy'" (keyup)="searchByBellboy($event.target.value)" id="searchInput" class="form-control placeholder-pad w-33" placeholder="Search By {{placeVal}}">
       </div>
       <div class="inputs-group">
         <div>

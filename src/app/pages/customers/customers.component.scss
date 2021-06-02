@@ -18,3 +18,10 @@ ul.nav-pills{
     cursor: pointer !important;
     font-size: 13px;
 }
+.pl-5{
+    padding-left: 7.5rem !important;
+}
+
+[class*=" ft-"], [class^=ft-]{
+    line-height: .65 !important;
+}

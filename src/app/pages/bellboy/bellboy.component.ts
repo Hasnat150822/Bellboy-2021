@@ -3,6 +3,7 @@ import { BellboyService } from './bellboy.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import { amazonUrl, checkPage, confirmationDialog, sweetAlert } from 'app/shared/services/global';
 import { Store } from '@ngrx/store';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { URL } from '../../ngrx-states/model/url.model';
 import * as allActions from '../../ngrx-states/actions';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,7 +39,7 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   bellboys:Array<any>;
   tabstatus:string;
   @ViewChild('tabset', {static:true}) tabset;
-  constructor(private bellboyService:BellboyService, private cdr:ChangeDetectorRef,
+  constructor(private bellboyService:BellboyService, private cdr:ChangeDetectorRef, private db: AngularFireDatabase,
     private pagerService:PagerService, private store:Store<URL>, private router:Router, private activatedRoute:ActivatedRoute){
   }     
   ngOnInit(){
@@ -121,6 +122,26 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       confirmationDialog().then((result)=>{
         if(result.value == true){
           this.bellboyService.manageStatusbellboy(item._id, status).subscribe((res:any)=>{
+            if(status==3){
+              this.db.list('/bellboys/'+res.data._id).remove();
+            }else if(status == 1){
+              this.db.database.ref('/bellboys/').child(res.data._id).set({
+                geolocation:{
+                  latitude:'31.377812808457396',
+                  longitude:'74.18572878868932'
+                },
+                profile:{
+                  id:res.data._id,
+                  avatar:res.data.avatar.value,
+                  name:res.data.name,
+                  mobile:res.data.mobile
+                },
+                initialLocation:{
+                  latitude:'31.377812808457396',
+                  longitude:'74.18572878868932'
+                }
+              })
+            }
             this.getBellboys(1, this.itemPerPage, this.status);
           })
         }else{

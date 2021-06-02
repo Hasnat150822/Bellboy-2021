@@ -9,8 +9,8 @@
     <div class="col-sm-12">
       <div class="position-relative">
         <i class="ft-search child"></i>
-        <input type="text" *ngIf="placeVal=='Brand'" id="SearchBellboy" (keyup)="searchByBrand($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by {{placeVal}}">
-        <input type="text" *ngIf="placeVal=='Model'" id="SearchBellboy" (keyup)="searchByModel($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Brand'" id="searchInput" (keyup)="searchByBrand($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Model'" id="searchInput" (keyup)="searchByModel($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by {{placeVal}}">
       </div>
       <div class="inputs-group">
         <div>

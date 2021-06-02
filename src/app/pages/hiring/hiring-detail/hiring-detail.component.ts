@@ -106,7 +106,7 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
       if(this.detailHiring.status ==2 || this.detailHiring.status ==3){
         let bbId = res.data.bellboy._id;
         this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
-          console.log(res, 'response')
+          console.log(res, 'bellboy start location');
           if(this.bellboyOrigin == undefined || this.bellboyOrigin == null){
             this.bellboyOrigin = {
               lat:+res[1].latitude?+res[1].latitude:+res[0].latitude,
@@ -119,15 +119,24 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
             lng:+res[0].longitude
           }
         })
-        this.databse.list('/hirings/'+this.detailHiring._id+'/startTaskCoordinates/initial Location').valueChanges().subscribe((res:any)=>{
-            if(this.origin == undefined){
+        this.databse.list('/hirings/'+this.detailHiring._id+'/initialLocation').snapshotChanges().subscribe((res:any)=>{
+          // console.log(res, 'res')
+          let latitude; let longitude;
+          res.forEach((el:any) => {
+            if(el.key == 'latitude'){
+              latitude = el.payload.toJSON();
+            }else if(el.key == 'longitude'){
+              longitude = el.payload.toJSON();
+            }
+          });
+            if(this.origin == undefined && latitude && longitude){
               this.origin = {
-                lat:+res[9],
-                lng:+res[10]
+                lat:+latitude,
+                lng:+longitude
               }
             }
-            console.log(this.origin, 'origin')
-            console.log(this.destinition, 'destinition')
+            // console.log(this.origin, 'origin')
+            // console.log(this.destinition, 'destinition')
           // res.forEach(element => {
           //   let response;
           //   let key = Object.keys(element);

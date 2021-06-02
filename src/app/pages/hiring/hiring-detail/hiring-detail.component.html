@@ -289,18 +289,18 @@
                       </a>
                     </div>
                     <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Voice Note:</h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <audio class="w-100" src="{{ amazonImgUrl }}{{ item?.voice_note?.value }}" controls></audio>
+                    </div>
+                    <div class="col-sm-12">
                       <h6 class="font-weight-bold">Bill Images:</h6>
                     </div>
                     <div *ngFor="let image of item.bill_images" class="col-sm-3 mb-2">
                       <a>
                         <img class="vehicleImage" (click)="bigImage(amazonImgUrl + image)" src="{{ amazonImgUrl }}{{ image }}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
                       </a>
-                    </div>
-                    <div class="col-sm-12">
-                      <h6 class="font-weight-bold">Voice Note:</h6>
-                    </div>
-                    <div class="col-sm-12">
-                      <audio class="w-100" src="{{ amazonImgUrl }}{{ item?.voice_note?.value }}" controls></audio>
                     </div>
                   </div>
                 </div>
@@ -363,7 +363,7 @@
         <p><span>Estimated Time: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.time }}</span></p>
         <p><span>Estimated Distance: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.distance }}</span></p>
       </div>
-      <agm-map *ngIf="this.origin" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+      <agm-map *ngIf="this.bellboyOrigin" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
         <agm-direction [renderOptions]="renderOptions" [markerOptions]="estimateRouteMarkers" [origin]="this.bellboyOrigin" [destination]="{lat:detailHiring?.location?.geolocation?.latitude, lng:detailHiring?.location?.geolocation?.longitude}"></agm-direction>
       </agm-map>
     </div>
@@ -372,10 +372,13 @@
       <p *ngIf="detailHiring.start_time">
         <span>Spending Time: &nbsp;</span> <span id="stopWatch" class="text-secondary stopWatch">  </span>
       </p>
-      <agm-map *ngIf="destinition" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
-        <!-- <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker> -->
-        <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
-      </agm-map>
+      <ng-container *ngTemplateOutlet="destinition && detailHiring.start_time?routeMap:defaultMap"></ng-container>
+      <ng-template #routeMap>
+        <agm-map style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+          <!-- <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker> -->
+          <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
+        </agm-map>
+      </ng-template>
     </div>
   </div>
 </ng-template>
@@ -399,4 +402,10 @@
     </agm-polyline-point>
 </agm-polyline>
   </agm-map>
+</ng-template>
+<ng-template #defaultMap>
+  <div class="no-chat bg-transparent">
+    <img src="../../../../assets/img/ico/BB-PNG.png" width="120px" alt="">
+    Task is not start
+  </div>
 </ng-template>

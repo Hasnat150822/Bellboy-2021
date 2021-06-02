@@ -1,4 +1,5 @@
 import { Component, OnInit  } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbCarouselConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { USER_NAME } from 'app/ngrx-states/model/url.model';
@@ -28,14 +29,19 @@ export class AdvertisementComponent implements OnInit {
   transform: ImageTransform = {};
   subscription:Subscription;
   amazonUrl = amazonUrl;
+  advertForm:FormGroup;
   constructor(private modalService:NgbModal, private service:AdvertisementService,private gs:GlobalService, 
-    private store:Store<USER_NAME>) {
+    private store:Store<USER_NAME>, private fb:FormBuilder) {
+      this.advertForm = this.fb.group({
+        'title':'',
+        'desc':''
+      })
    }
   currentRole;
   ngOnInit() {
     this.store.subscribe((res:any)=>{
       if(res.UserData.data!==undefined){
-        // this.currentRole = res.UserData.data.role.title;
+        this.currentRole = res.UserData.data.role.title;
       }
     }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getAdvert(null, null,null);
@@ -61,7 +67,7 @@ export class AdvertisementComponent implements OnInit {
         breakpoint: 769,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 2
+          slidesToScroll: 1
         }
       },
       {
@@ -86,30 +92,9 @@ export class AdvertisementComponent implements OnInit {
       this.allAdvert = res;
     });
   }
-  async preview(files){
-    this.imageFile = files[0];
-     if(files.length===0){
-       return false
-     }else if(files[0].type.match(/image\/*/) == null){
-       this.message = "Only images are supported.";
-       return
-     }else{
-       await base64(files).then((data)=>{
-         this.imgURL = data
-       })
-       this.gs.compress(this.imgURL, files[0].name).then((res:any)=>{
-         let result = res[0]
-         if(result.status == true){
-           this.imageFile = result.file
-           this.imgURL = result.con64
-           return
-         }
-       })
-     }
-   }
   deleteAdvert(id){
-    confirmationDialog().then((value)=>{
-      if(value){
+    confirmationDialog().then((result)=>{
+      if(result.value){
         this.service.deleteAdvert(id)
         .subscribe(()=>{
           this.getAdvert(null, null, null);
@@ -117,10 +102,11 @@ export class AdvertisementComponent implements OnInit {
       }
     })
   }
-  uploadImg(){
+  submitForm(){
     this.submitted = true;
+    let values = this.advertForm.getRawValue();
     if(this.imageFile != undefined){
-      this.service.postAdvertisement(this.imageFile).subscribe((res:any)=>{
+      this.service.postAdvertisement(this.imageFile, values.title, values.desc).subscribe((res:any)=>{
         this.modalService.dismissAll();
         this.getAdvert(null, null, null);
       },error=>{
@@ -154,14 +140,14 @@ export class AdvertisementComponent implements OnInit {
     this.croppedImage = event.base64;
     this.imageFile =  dataURLtoFile(this.croppedImage, this.tempFile.name);
 }
+
+  imageLoaded() {
+      this.showCropper = true;
+  }
   getDate(event){
     let year = event.split('-')[0];
     let month = event.split('-')[1];
     this.getAdvert(null,year, month )
-  }
-
-  imageLoaded() {
-      this.showCropper = true;
   }
 }
 function base64(files){
