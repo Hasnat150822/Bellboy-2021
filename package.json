@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "11.0.5",
     "@angular/platform-server": "11.0.5",
     "@angular/router": "11.0.5",
+    "@angular/service-worker": "11.0.5",
     "@ng-bootstrap/ng-bootstrap": "^5.3.0",
     "@ng-select/ng-select": "2.20.0",
     "@ngrx/store": "10.1.2",

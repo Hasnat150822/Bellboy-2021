@@ -32,6 +32,7 @@ import { AsyncPipe } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './ngrx-states/reducer';
 import { HttpSetHeaderInterceptor } from './shared/auth/http-set-header.interceptor';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -69,7 +70,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       AngularFireAuthModule,
       AngularFirestoreModule,
       PerfectScrollbarModule,
-      StoreModule.forRoot({'UserData':userReducer})
+      StoreModule.forRoot({'UserData':userReducer}),
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        enabled: environment.production,
+        // Register the ServiceWorker as soon as the app is stable
+        // or after 30 seconds (whichever comes first).
+        registrationStrategy: 'registerWhenStable:30000'
+      })
     ],
     providers: [
       AuthGuard,
