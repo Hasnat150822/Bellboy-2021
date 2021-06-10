@@ -5,14 +5,16 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-5">
       <div class="position-relative"><i ngbTooltip="Default Data" (click)="
-          getCustomers('', '', apiParams.status, 1, '');
+        getDefault();
           renderClass  ('', '', '')
         " class="ft-refresh-cw child font-weight-bold"></i> 
-        <input id="searchInput" type="text" class="form-control" [ngClass]="{'px-4': placeVal=='Name','pl-5': placeVal=='Cell No'}" #input (change)="
+        <input id="searchInput" type="text" class="form-control" [ngClass]="{'pl-4': placeVal=='Name','pl-5': placeVal=='Cell No'}" #input
+        value="{{ searchValue }}"
+         (change)="
           placeVal == 'Cell No'
             ? (apiParams.byPhone = apiParams.byPhone + $event.target.value)
             : (apiParams.byName = $event.target.value)
-        " placeholder="{{placeVal=='Cell No'?'1234567890':'i.e : Muhammad'}}" (keyup)="onEnter($event)">
+        " placeholder="{{placeVal=='Cell No'?'1234567890':'i.e : Muhammad'}}" (keyup.enter)="setQueryParams(apiParams.byName, apiParams.byPhone, apiParams.status, sortBy, perPage)">
         <select *ngIf="placeVal=='Cell No'" (change)="apiParams.byPhone = $event.target.value" class="child ml-4 border-0">
           <option value="+92">+92</option>
           <option *ngFor="let item of countryCodes" value="{{item.dial_code}}">{{item.dial_code}}</option>
@@ -34,15 +36,7 @@
               "><span class="ft-phone">&nbsp;Cell No</span></button>
             </div>
           </div>
-          <button type="button" class="btn btn-search" (click)="
-            getCustomers(
-              apiParams.byName,
-              apiParams.byPhone,
-              apiParams.status,
-              1,
-              sortBy
-            )
-          ">Search</button>
+          <button type="button" class="btn btn-search" (click)="setQueryParams(apiParams.byPhone, apiParams.byName, apiParams.status, sortBy, perPage)">Search</button>
         </div>
       </div>
     </div>
@@ -66,29 +60,16 @@
         <div class="card-content">
           <div class="card-body">
             <div class="form-group float-right perPageBlock mb-0">
-              <select class="form-control perPage" (change)="perPage = $event.target.value; getCustomers(
-              apiParams.byName,
-              apiParams.byPhone,
-              apiParams.status,
-              1,
-              sortBy)">
+              <select class="form-control perPage" (change)="perPage = $event.target.value; setQueryParams(apiParams.byName, apiParams.byPhone, apiParams.status, sortBy, perPage)">
                 <option value="10">10 / page</option>
                 <option value="25">25 / page</option>
                 <option value="50">50 / page</option>
               </select>
             </div>
-            <ngb-tabset type="pills">
-              <ngb-tab>
+            <ngb-tabset type="pills" #tabset="ngbTabset">
+              <ngb-tab id="tab1">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="
-                    getCustomers(
-                      apiParams.byName,
-                      apiParams.byPhone,
-                      '',
-                      1,
-                      sortBy
-                    )
-                  ">All Customers</div>
+                  <div class="tab-padding" (click)="setQueryParams(apiParams.byName, apiParams.byPhone, ' ', sortBy, perPage)">All Customers</div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
@@ -113,17 +94,9 @@
                   <ng-container *ngTemplateOutlet="pagination"></ng-container>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab>
+              <ngb-tab id="tab2">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="
-                    getCustomers(
-                      apiParams.byName,
-                      apiParams.byPhone,
-                      'true',
-                      1,
-                      sortBy
-                    )
-                  ">Active</div>
+                  <div class="tab-padding" (click)="setQueryParams(apiParams.byName, apiParams.byPhone, true, sortBy, perPage)">Active</div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
@@ -152,17 +125,9 @@
                   <ng-container *ngTemplateOutlet="pagination"></ng-container>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab>
+              <ngb-tab id="tab3">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="
-                    getCustomers(
-                      apiParams.byName,
-                      apiParams.byPhone,
-                      'false',
-                      1,
-                      sortBy
-                    )
-                  ">Blocked</div>
+                  <div class="tab-padding" (click)="setQueryParams(apiParams.byName, apiParams.byPhone, false, sortBy, perPage)">Blocked</div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
@@ -182,7 +147,7 @@
                         </td>
                         <td>
                           <a class="p-0 text-dark" [routerLink]="['/customers/custdetail', item._id]">
-                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye">
                           </a>
                         </td>
                       </tr>

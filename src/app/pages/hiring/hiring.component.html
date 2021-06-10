@@ -3,22 +3,17 @@
     <div class="col-sm-12 mb-1">
       <h3>Manage Hiring</h3> 
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-xs-12 col-sm-6 col-md-5">
       <div class="position-relative"> <i ngbTooltip="Default Data" (click)="
-            startDate=undefined;
-            endDate=undefined;
-			      searchValue='';
-            getHirings(status, 1);
+            defaultData();
             renderClass('', '', '');
-            sortBy = '-created_at';
             input.value = ''
           " class="ft-refresh-cw child font-weight-bold"></i>
-        <input [type]="inputType" class="form-control placeholder-pad" #input id="searchInput" (change)="searchValue = $event.target.value" placeholder="Search" (keyup)="onEnter($event)" value="{{ searchValue }}" />
+        <input [type]="inputType" class="form-control placeholder-pad" #input id="searchInput" (change)="searchValue = $event.target.value" placeholder="Search" (keyup.enter)="searchHiring()" value="{{ searchValue }}" />
         <div class="btn-group position-absolute">
           <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
             <button class="btn border-left dropdown-toggle-split" ngbDropdownToggle>By {{ placeVal }} <i class="ft-chevron-down"></i>
             </button>
-            <!-- dropdown menu start  -->
             <div class="dropdown-menu" ngbDropdownMenu>
               <button ngbDropdownItem *ngFor="let item of searchDropdown" (click)="
                   placeVal = item.fieldName;
@@ -28,11 +23,11 @@
                 ">{{ item.fieldName }}</button>
             </div>
           </div>
-          <button type="button" class="btn btn-search" (click)="getHirings(status, 1); input.value = ''">Search</button>
+          <button type="button" class="btn btn-search" (click)="searchHiring();">Search</button>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-8 text-right">
+    <div class="col-xs-12 col-sm-6 col-md-7 text-right">
       <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2"> <i class="ft-calendar"></i> &nbsp; Select Range for Record</button>
     </div>
     <div class="col-12 mt-2">

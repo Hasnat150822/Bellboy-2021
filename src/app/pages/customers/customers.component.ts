@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomersService } from './customers.service';
 import { PagerService } from 'app/shared/services/pager.service';
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { checkPage } from 'app/shared/services/global';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import * as countries from '../../../assets/country-codes.json';
+import { ActivatedRoute, Router } from '@angular/router';
 interface apiParams {
   status: string,
   byName: string,
@@ -48,9 +49,11 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   notificationForm:FormGroup;
   subscription:Subscription;
   selectSenderArea:string = '';
+  @ViewChild('tabset', {static:true}) tabset;
   constructor(private modalService: NgbModal, private pagerService: PagerService,
     private custservice: CustomersService, private rendrer: Renderer2, private el: ElementRef, 
-    private fb:FormBuilder, private store:Store<USER_NAME>, private changeRef:ChangeDetectorRef) { 
+    private fb:FormBuilder, private store:Store<USER_NAME>, private changeRef:ChangeDetectorRef, 
+    private activatedRoute:ActivatedRoute, private router:Router) { 
       this.notificationForm = this.fb.group({
         title:['', {validators:[Validators.required]}],
         description:['',{validators:[Validators.required, Validators.maxLength(250)]}]
@@ -61,12 +64,14 @@ export class CustomersComponent implements OnInit, AfterViewInit {
     return this.notificationForm.controls['title'];
   }
   ngAfterViewInit(){
+    this.tabset.select(this.tabStatus);
     this.changeRef.detectChanges();
   }
   public get description() {
     return this.notificationForm.controls['description'];
   }
   currentRole:string;
+  tabStatus:string;
   countryCodes:Countries = (countries as any).default;
   ngOnInit() {
     this.store.subscribe((res:any)=>{
@@ -74,30 +79,63 @@ export class CustomersComponent implements OnInit, AfterViewInit {
         this.currentRole = res.UserData.data.role.title;
       }
     }, err=>{}, ()=>{this.subscription.unsubscribe()});
-    this.getCustomers('', '', '', 1, '');
-    this.apiParams.byPhone = '+92';
+    this.getQueryParams();
   }
-  setDefault(){
-    this.allcustomers = []; this.count = 0; this.pager = {};
-    this.changeAllChecked(false);
-    let el = this.el.nativeElement.querySelector('#searchInput');
-    this.rendrer.setProperty(el, 'value', '');
+  searchValue;
+  getDefault(){
+    this.allcustomers = [];
+    this.router.navigate([]);
+    this.tabset.select('tab1');
+  }
+  setQueryParams(byName, byPhone, status, sortyBy, perPage){
+    this.allcustomers = [];
+    this.searchValue = byPhone || byName;
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams:{ byPhone, byName, status, sortyBy, perPage},
+      queryParamsHandling:'merge'
+    })
+  }
+  getQueryParams(){
+    this.activatedRoute.queryParams.subscribe((res:any)=>{
+      if(res.status){ 
+        this.searchValue = res.byPhone || res.byName;
+        this.sortBy = res.sortyBy;
+        this.perPage = res.perPage;
+        this.apiParams = {status:res.status, byName:res.byName, byPhone:res.byPhone};
+        console.log(res.sortyBy, 'sort by')
+        this.getCustomers(res.byName, res.byPhone, res.status, '1', res.sortyBy);
+        switch (res.status) {
+          case 'true':
+            this.tabStatus = 'tab2';
+            break;
+          case 'false':
+            this.tabStatus = 'tab3';
+            break;
+          case '':
+            this.tabStatus = 'tab1';
+            break;
+          default:
+            break;
+        }
+      }else{
+        this.getCustomers('', '', ' ', 1, '');
+      }
+    })
   }
   perPage:number = 10;
   // check all values dynamically with rendrer2
-  getCustomers(byname, byphone, status, page, sortBy) {
+  getCustomers(byName, byPhone, status, page, sortBy) {
     page = checkPage(page, this.pager.totalPages);
     this.spinner = true;
     this.sortBy = sortBy;
-    this.apiParams = { status: status, byName: byname, byPhone: byphone };
-    this.setDefault();
+    this.apiParams = { status, byName, byPhone };
     this.custservice.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, page, sortBy, this.perPage)
     .subscribe((res: any) => {
       this.count = res.data.count;
       this.pager = this.pagerService.getPager(this.count, page, this.perPage);
       this.defaultArr = res.data.customers;
       this.allcustomers = res.data.customers;
-      this.apiParams.byPhone = '+92';
       this.currentPageIds = this.allcustomers.map((data:any)=>{
         return data._id;
       })
@@ -132,13 +170,6 @@ export class CustomersComponent implements OnInit, AfterViewInit {
       }
     })
   }
-  onEnter(event){
-    let key = event.keyCode;
-    if (key === 13) {
-      event.preventDefault();
-      this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, this.sortBy)
-     }
-  }
   allSelect(event){
     this.selectSenderArea = event.target.value;
     if(event.target.checked == false){
@@ -166,28 +197,28 @@ export class CustomersComponent implements OnInit, AfterViewInit {
     let el = this.el.nativeElement.querySelector("#sortByNumber")
     this.renderClass('sortByNumber', this.togg, 'total_hirings')
     .then((sortBy)=>{
-      this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
+      this.setQueryParams(this.apiParams.byPhone, this.apiParams.byName, this.apiParams.status, sortBy, this.perPage)
     });
   }
   sortByName() {
     this.togg2 = !this.togg2;
     this.renderClass('sortByName', this.togg2, 'name')    
     .then((sortBy)=>{
-      this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
+      this.setQueryParams(this.apiParams.byPhone, this.apiParams.byName, this.apiParams.status, sortBy, this.perPage)
     });
   }
   sortByDate() {
     this.togg3 = !this.togg3;
     this.renderClass('sortByDate', this.togg3, 'created_at')
     .then((sortBy)=>{
-      this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
+      this.setQueryParams(this.apiParams.byPhone, this.apiParams.byName, this.apiParams.status, sortBy, this.perPage)
     });
   }
   sortBySpent() {
     this.togg4 = !this.togg4;
     this.renderClass('sortBySpent', this.togg4, 'total_spend')
     .then((sortBy)=>{
-      this.getCustomers(this.apiParams.byName, this.apiParams.byPhone, this.apiParams.status, 1, sortBy);
+      this.setQueryParams(this.apiParams.byPhone, this.apiParams.byName, this.apiParams.status, sortBy, this.perPage)
     });
   }
   renderClass(el, value, sortby){

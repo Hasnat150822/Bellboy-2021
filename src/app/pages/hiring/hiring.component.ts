@@ -74,21 +74,29 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
     this.markDisabled = (date: NgbDate, current: { month: number }) =>
     (date.day>this.today.day && date.month === this.today.month);
     this.activatedRoute.queryParams.subscribe((res:any)=>{
-      if(res.search || res.placeVal || res.status)
+      if(res.search || res.placeVal || res.status || res.searchType)
         {
           this.searchValue = res.search;
           this.placeVal = res.placeVal;
           this.status = res.status; 
+          this.searchType = res.searchType;
         }
         if(res.tabstatus){
           this.tabStatus = res.tabstatus;
         }else{    
-          this.subscription = this.hiringService.tabStatus.subscribe((res: any) => {
-          this.tabStatus = res;
-        })
+          this.tabStatus = 'tab1';
         }
         this.switchTap();
     })
+  }
+  defaultData(){
+    this.router.navigate([]);
+    this.startDate=undefined;
+    this.endDate=undefined;
+    this.searchValue='';
+    this.sortBy = '-created_at';
+    this.tabset.select('tab1');
+    this.getHirings(1, 1);
   }
   switchTap(){
     switch (this.tabStatus) {
@@ -138,7 +146,6 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title' })
   }
   ngOnDestroy() {
-    this.hiringService.tabStatus.next(this.tabStatus);
     this.subscription.unsubscribe();
   }
   sortByNumber() {
@@ -175,23 +182,17 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     }
   }
-  onEnter(event){   
-    let key = event.keyCode;
-    if(key === 13){
-      event.preventDefault();
-      this.router.navigate(
-        [], 
-        {
-          relativeTo: this.activatedRoute,
-          queryParams: { search: this.searchValue, status:this.status, placeVal:this.placeVal},
-          queryParamsHandling: 'merge'
-        });
+  searchHiring(){   
+    this.router.navigate(
+      [], 
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: { search: this.searchValue, status:this.status, placeVal:this.placeVal, searchType:this.searchType},
+        queryParamsHandling: 'merge'
+      });
       this.getHirings(this.status, 1);
-    }
   }
   changeTabStatus(){
-    this.startDate = undefined;
-    this.endDate = undefined;
     this.router.navigate(
       [], 
       {
