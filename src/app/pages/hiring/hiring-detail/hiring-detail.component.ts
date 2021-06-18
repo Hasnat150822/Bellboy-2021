@@ -134,6 +134,7 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
                 lat:+latitude,
                 lng:+longitude
               }
+              console.log(this.origin, 'origin', this.destinition, 'destination')
             }
             // console.log(this.origin, 'origin')
             // console.log(this.destinition, 'destinition')
