@@ -9,6 +9,7 @@ import { PipesModule } from 'app/shared/pipes/pipes.module';
 import { BigImageModule } from '../shared/big-image/big-image.module';
 import { TimeConvertModule } from 'app/shared/time-convert/time-convert.module';
 import { SeperateDecimalPipe } from './seperate-decimal.pipe';
+import { BellboyWalletComponent } from './bellboy-wallet/bellboy-wallet.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,7 @@ import { SeperateDecimalPipe } from './seperate-decimal.pipe';
         TimeConvertModule
     ],
     declarations: [       
-        BellboyComponent, BellboydetailComponent, BellboyHiringsComponent, SeperateDecimalPipe
+        BellboyComponent, BellboydetailComponent, BellboyHiringsComponent, SeperateDecimalPipe, BellboyWalletComponent
     ]
 })
 export class BellboyModule { }
