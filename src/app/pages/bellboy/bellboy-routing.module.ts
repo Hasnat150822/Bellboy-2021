@@ -17,12 +17,14 @@ const routes: Routes = [
       text: 'Bellboy Detail',
       path:'/bellboydetail/:id'
     }
-  },{
-    path:'bellboywallet', component:BellboyWalletComponent, 
+  },
+  {
+    path:'bellboywallet', 
+    component:BellboyWalletComponent, 
     resolve:{data:ResolverService},
     data: {
       text: 'Bellboy Wallet',
-      path:'/bellboywallet/:id'
+      path:'/bellboywallet'
     }
   }
 ];
