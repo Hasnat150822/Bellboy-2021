@@ -22,7 +22,7 @@ const routes: Routes = [
     resolve:{data:ResolverService},
     data: {
       text: 'Bellboy Wallet',
-      path:'/bellboywallet/:id'
+      path:'/bellboywallet'
     }
   }
 ];
