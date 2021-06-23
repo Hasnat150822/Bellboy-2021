@@ -386,10 +386,13 @@
   <h5 class="font-weight-500 mb-2">Bellboy Route History</h5>
   <agm-map *ngIf="destinitions.length>0" style="height: 350px;" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
     <agm-marker id="startMarker" [latitude]="destinitions[0].lat" [longitude]="destinitions[0].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.origin">
-      <agm-info-window [isOpen]="true">Start Point</agm-info-window>
+      <agm-info-window [isOpen]="true">Order Start</agm-info-window>
     </agm-marker>
     <agm-marker id="endMarker" [latitude]="destinitions[destinitions.length-1].lat" [longitude]="destinitions[destinitions.length-1].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.destination">
-      <agm-info-window [isOpen]="true">End Point</agm-info-window>
+      <agm-info-window [isOpen]="true">Order End</agm-info-window>
+    </agm-marker>
+    <agm-marker id="startMarker" [latitude]="origin.lat" [longitude]="origin.lng" [agmFitBounds]="true">
+      <agm-info-window [isOpen]="true">Start Task</agm-info-window>
     </agm-marker>
     <agm-marker id="marker" *ngFor="let des of destinitions" [latitude]="des.lat" [longitude]="des.lng" [agmFitBounds]="true" [iconUrl]="icon">
     </agm-marker>

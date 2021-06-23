@@ -19,17 +19,22 @@ firebase.initializeApp({
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function (payload) {
-
-  return self.registration.showNotification(payload.data.title, {
+var data;
+messaging.onBackgroundMessage(function (payload) {
+  data = payload.data;
+  const notificationTitle = payload.data.title;
+  const notificationOptions = {
     body: payload.data.body,
     icon: payload.data.icon,
     tag: payload.data.tag,
     data: payload.data.link
-  });
+  };
+  return self.registration.showNotification(notificationTitle,
+    notificationOptions);
 });
 
 self.addEventListener('notificationclick', (event)=> {
+  let url = 'https://admin.bellboy.co/#/hiring/hiringDetail/'+data._id;
   event.notification.close();
-  event.waitUntil(self.clients.openWindow(`http://admin.bellboy.co/hiring/hiringDetail`));
+  event.waitUntil(self.clients.openWindow(url));
 });

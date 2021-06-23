@@ -106,7 +106,6 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
       if(this.detailHiring.status ==2 || this.detailHiring.status ==3){
         let bbId = res.data.bellboy._id;
         this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
-          console.log(res, 'bellboy start location');
           if(this.bellboyOrigin == undefined || this.bellboyOrigin == null){
             this.bellboyOrigin = {
               lat:+res[1].latitude?+res[1].latitude:+res[0].latitude,
@@ -136,31 +135,25 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
               }
               console.log(this.origin, 'origin', this.destinition, 'destination')
             }
-            // console.log(this.origin, 'origin')
-            // console.log(this.destinition, 'destinition')
-          // res.forEach(element => {
-          //   let response;
-          //   let key = Object.keys(element);
-          //   if(key.length !== 1){
-          //     response = element;
-          //   }else{
-          //     response = element[key[0]];
-          //   }
-          //   if(this.origin == undefined){
-          //     this.origin = {
-          //       lat:+response.latitude,
-          //       lng:+response.longitude
-          //     }
-          //     console.log(this.origin, 'origin');
-          //     this.getEstimatedRoute(this.origin);
-          //   }
-          //   this.destinition = {
-          //     lat:+response.latitude,
-          //     lng:+response.longitude
-          //   }
-          // });
         })
       }else if(this.detailHiring.status == 4){
+        this.databse.list('/hirings/'+this.detailHiring._id+'/initialLocation').snapshotChanges().subscribe((res:any)=>{
+          // console.log(res, 'res')
+          let latitude; let longitude;
+          res.forEach((el:any) => {
+            if(el.key == 'latitude'){
+              latitude = el.payload.toJSON();
+            }else if(el.key == 'longitude'){
+              longitude = el.payload.toJSON();
+            }
+          });
+            if(this.origin == undefined && latitude && longitude){
+              this.origin = {
+                lat:+latitude,
+                lng:+longitude
+              }
+            }
+        });
         this.databse.list('/hirings/'+this.detailHiring._id+'/geolocations', (query)=>query.orderByChild('time')).valueChanges().subscribe((res:any)=>{
           res.forEach(element => {
             let response;
