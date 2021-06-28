@@ -57,7 +57,7 @@ export function sideBarData() {
             case "Manage Bellboy":
                 bellboy.push(
                         {
-                            path:'/bellboy', title:'Manage Bellboy', icon:'', class:'', submenu:[]
+                            path:'/bellboy', title:'Bellboys', icon:'', class:'', submenu:[]
                         })
                 break;
             case "Bellboy Types":
@@ -156,7 +156,7 @@ export function sideBarData() {
     }  
     if(bellboy.length>0){
         routes[3] = {
-            path:'', title:'Bellboys', icon:'../../../assets/img/ico/BB-PNG.png', class:'has-sub', submenu:bellboy
+            path:'', title:'Bellboy', icon:'../../../assets/img/ico/BB-PNG.png', class:'has-sub', submenu:bellboy
         }
     }
     // if(orders.length>0){

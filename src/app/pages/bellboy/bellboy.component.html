@@ -1,7 +1,7 @@
 <section id="tabs">
   <div class="row text-left mb-2 mt-2">
     <div class="col-sm-12 mb-1">
-      <h3>Manage Bellboy</h3>
+      <h3>Bellboys</h3>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
       <div class="position-relative">
@@ -228,21 +228,34 @@
         <span *ngIf="item.status == 0">Pending</span> <span *ngIf="item.status == 1">Approved</span>
       </td>
       <td>
-        <a [routerLink]="['/bellboy/bellboywallet']" class="mr-1">
-          <i class="ft-briefcase"></i>
-        </a>
-        <a
-          class="p-0 text-dark"
-          data-original-title=""
-          title=""
-          [routerLink]="['/bellboy/bellboydetail', item._id]"
-        >
-          <img
-            src="../../../assets/img/ico/eye.png"
-            class="img-eye"
-            alt=""
-          />
-        </a>
+        <div class="d-flex align-items-center">
+          <a
+            ngbTooltip="Wallet Detail"
+            class="p-1 text-dark"
+            data-original-title=""
+            title=""
+            [routerLink]="['/bellboy/bellboywallet']"
+          >
+            <img
+              src="../../../assets/img/ico/wallet.png"
+              class="img-eye"
+              alt=""
+            />
+          </a>
+          <a
+            class="p-1 text-dark"
+            data-original-title=""
+            ngbTooltip="Bellboy Detail"
+            title=""
+            [routerLink]="['/bellboy/bellboydetail', item._id]"
+          >
+            <img
+              src="../../../assets/img/ico/eye.png"
+              class="img-eye"
+              alt=""
+            />
+          </a>
+        </div>
       </td>
     </tr>
   </tbody>

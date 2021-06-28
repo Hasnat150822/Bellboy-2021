@@ -161,7 +161,11 @@
 </ng-template>
 <ng-template #cancel let-modal>
   <div class="modal-header justify-content-center mb-3">
-    <h3 class="card-title mb-0">Cancel Hiring</h3> 
+    <h3 class="card-title mb-0">{{
+      singleHiringId.status == 1 || singleHiringId.status == 2
+            ? 'Cancel Hiring'
+            : 'Close Hiring'
+          }}</h3> 
   </div>
   <div class="modal-body pb-0">
     <form [formGroup]="cancelReason" class="form-group">

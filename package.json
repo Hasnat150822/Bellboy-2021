@@ -1,6 +1,6 @@
 {
   "name": "Bellboy",
-  "version": "2.14.66",
+  "version": "2.14.72",
   "license": "",
   "scripts": {
     "ng": "ng",
@@ -11,6 +11,7 @@
     "prebuild": "npm --no-git-tag-version version patch ",
     "build": "ng build",
     "build:prod": "npm run prebuild && ng build --prod --delete-output-path --common-chunk --vendor-chunk",
+    "build:debug": "npm run prebuild && ng build --configuration debug --delete-output-path --common-chunk --vendor-chunk",
     "heroku-postbuild": "ng build --prod",
     "gulp": "gulp styles minify-html"
   },
