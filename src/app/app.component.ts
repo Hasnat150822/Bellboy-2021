@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
       if(res!=null){
       this.fcmToken = res; 
       let token = JSON.stringify(localStorage.getItem('token'));
-      if(token!=null){
+      if(token!=null || token !== undefined){
         this.gs.registerFcmToken(this.fcmToken).subscribe();
         this.messagingService.receiveMessages();
         this.messagingService.currentMessage.subscribe((res:any)=>{

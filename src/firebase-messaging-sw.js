@@ -22,19 +22,23 @@ const messaging = firebase.messaging();
 var data;
 messaging.onBackgroundMessage(function (payload) {
   data = payload.data;
-  const notificationTitle = payload.data.title;
+  const notificationTitle = data.title;
   const notificationOptions = {
-    body: payload.data.body,
-    icon: payload.data.icon,
-    tag: payload.data.tag,
-    data: payload.data.link
+    body: data.body,
+    icon: data.icon,
+    tag: data.tag,
+    data: {
+      "onActionClick": {
+        "default": {"operation": "openWindow", "url": data.link}
+      }
+    }
   };
   return self.registration.showNotification(notificationTitle,
     notificationOptions);
 });
 
-self.addEventListener('notificationclick', (event)=> {
-  let url = 'https://admin.bellboy.co/#/hiring/hiringDetail/'+data._id;
-  event.notification.close();
-  event.waitUntil(self.clients.openWindow(url));
-});
+// self.addEventListener('notificationclick', (event)=> {
+//   let url = 'https://admin.bellboy.co/#/hiring/hiringDetail/'+data._id;
+//   event.notification.close();
+//   event.waitUntil(clients.openWindow(url))
+// });

@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate, OnInit {
           localStorage.setItem('token', res.data.token);
           resolve(res.data) 
           this.messagingService.fcmToken.subscribe((res:any)=>{
-            if(res!=null){
+            if(res!=null || res !== undefined){
               this.gs.registerFcmToken(res);
             }
           })
@@ -49,13 +49,13 @@ export class AuthGuard implements CanActivate, OnInit {
           this.router.navigateByUrl(path)
         }
       }, error=>{
-        Swal.fire({
-          icon:'error',
-          title:error.error.message,
-          width:'400px',
-          timer:2500,
-          showConfirmButton:false
-        })
+        // Swal.fire({
+        //   icon:'error',
+        //   title:error.error.message,
+        //   width:'400px',
+        //   timer:2500,
+        //   showConfirmButton:false
+        // })
       })
     })
   }

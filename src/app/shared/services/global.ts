@@ -2,7 +2,7 @@ import { environment } from 'environments/environment';
 import Swal from 'sweetalert2';
 export const url = environment.apiUrl;   
 // export const url = 'http://18.188.89.46:3000/';
-// export const url = 'https://api.bellboy.co/';
+// export const url = 'https://192.168.100.5:3000';
 export const amazonUrl = 'https://bellboy-global-bucket.s3.amazonaws.com/';
 export function sweetAlert(icon, message) {
     Swal.fire({
