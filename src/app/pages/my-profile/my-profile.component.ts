@@ -27,8 +27,10 @@ interface DETAIL_USER {
 })
 export class MyProfileComponent implements OnInit {
   updateProfile:FormGroup
-  allRoles:any
-  _id:number
+  allRoles:any;
+  eyeToggle:boolean = false;
+  eyeToggle2:boolean = false;
+  _id:number;
   detailUser:DETAIL_USER = {
     name:"null",
     contact_number:"null",
@@ -51,6 +53,7 @@ export class MyProfileComponent implements OnInit {
       cellNo:[''],
       email:[''],
       pass:[''],
+      confirmpass:[''],
       selectRole:['']
     })
     this.getUser();

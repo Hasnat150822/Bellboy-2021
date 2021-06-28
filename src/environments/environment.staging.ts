@@ -1,7 +1,7 @@
 export const environment = {
     production: false,  
     appVersion: require('../../package.json').version,
-    apiUrl:'https://debugapi.bellboy.co/', 
+    apiUrl:'http://debugapi.bellboy.co/', 
     firebase:{
       apiKey: "AIzaSyBIzV2hjFaFt3enV2GfLlcsI6HwvetJRek",
       authDomain: "bellboy-280008.firebaseapp.com",

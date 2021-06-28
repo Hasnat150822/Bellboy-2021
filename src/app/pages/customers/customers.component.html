@@ -328,6 +328,9 @@ let-checked="checked" let-last_seen="last_seen">
         <p class="text-error mb-0" *ngIf="message">{{message}}</p>
         <p *ngIf="!croppedImage" class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
         <p *ngIf="!croppedImage" class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
+        <p class="text-error" *ngIf="!imageFile && notificationForm.valid">
+          Image required
+        </p>
       </div>
       <div class="form-group col-12">
         <input type="text" class="form-control" placeholder="Title" formControlName="title">
@@ -341,6 +344,6 @@ let-checked="checked" let-last_seen="last_seen">
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-orange" [disabled]="!notificationForm.valid" (click)="submitNotification()">Send Notification</button>
+    <button type="button" class="btn btn-orange" [disabled]="!notificationForm.valid ||  !imageFile" (click)="submitNotification()">Send Notification</button>
   </div>
 </ng-template>

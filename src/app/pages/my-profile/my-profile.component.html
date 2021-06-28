@@ -10,9 +10,6 @@
           <div class="media-object">
             <img src="{{amazonImgUrl}}{{imgURL}}" onerror="src='../../../assets/img/gallery/1.jpg'">
             <p class="text-error mb-0" *ngIf="message">{{message}}</p>
-            <p class="text-error" *ngIf="imgURL==undefined && submitted">
-              Image is required
-            </p>
             <input type="file" #file (change)="preview(file.files)" name="" class="input-upload" id="">
             <button class="btn btn-secondary">Change Image</button>
           </div>
@@ -34,9 +31,23 @@
                 <input type="text" formControlName="email" class="form-control" placeholder="Email">
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="password" formControlName="pass" class="form-control" placeholder="Password">
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group position-relative">
+                <input [type]="eyeToggle?'text':'password'" formControlName="pass" class="form-control" placeholder="Password">
+                <a>
+                  <i (click)="eyeToggle=!eyeToggle;" class="text-orange position-absolute" [ngClass]="{'ft-eye': !eyeToggle, 'ft-eye-off':eyeToggle}"></i>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group position-relative">
+                <input [type]="eyeToggle2?'text':'password'" formControlName="confirmpass" class="form-control" placeholder="Confirm Password">
+                <a>
+                  <i (click)="eyeToggle2=!eyeToggle2;" class="text-orange position-absolute" [ngClass]="{'ft-eye': !eyeToggle2, 'ft-eye-off':eyeToggle2}"></i>
+                </a>
+                <p class="text-error" *ngIf="updateProfile.controls.confirmpass.touched">
+                  <span *ngIf="updateProfile.controls.pass.value!=updateProfile.controls.confirmpass.value">Password not matched</span>
+                </p>
               </div>
             </div>
             <div class="col-sm-6">

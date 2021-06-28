@@ -70,13 +70,13 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   public get description() {
     return this.notificationForm.controls['description'];
   }
-  currentRole:string;
+  currentRole:string = "Super Admin";
   tabStatus:string;
   countryCodes:Countries = (countries as any).default;
   ngOnInit() {
     this.store.subscribe((res:any)=>{
       if(res.UserData.data!==undefined){
-        this.currentRole = res.UserData.data.role.title;
+        // this.currentRole = res.UserData.data.role.title;
       }
     }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getQueryParams();
