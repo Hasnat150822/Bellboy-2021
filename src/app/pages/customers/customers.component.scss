@@ -9,14 +9,11 @@ ul.nav-pills{
     height: 13px;
     width: 13px;
 }
-.btn-group{
-    button{
-        font-size: 13px;
-    }
+.choice, .btn-group>button{
+    font-size: 13px;
 }
 .choice{
     cursor: pointer !important;
-    font-size: 13px;
 }
 .pl-5{
     padding-left: 7.5rem !important;

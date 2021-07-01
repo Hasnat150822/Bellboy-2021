@@ -3,14 +3,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomersService } from './customers.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import Swal from 'sweetalert2';
-import { dataURLtoFile } from 'app/shared/services/global-service.service';
 import { flyInOutAnimation } from '../pages-animations';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { USER_NAME } from 'app/ngrx-states/model/url.model';
 import { Subscription } from 'rxjs';
 import { checkPage } from 'app/shared/services/global';
-import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import * as countries from '../../../assets/country-codes.json';
 import { ActivatedRoute, Router } from '@angular/router';
 interface apiParams {
@@ -52,33 +50,23 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   @ViewChild('tabset', {static:true}) tabset;
   constructor(private modalService: NgbModal, private pagerService: PagerService,
     private custservice: CustomersService, private rendrer: Renderer2, private el: ElementRef, 
-    private fb:FormBuilder, private store:Store<USER_NAME>, private changeRef:ChangeDetectorRef, 
+    private store:Store<USER_NAME>, private changeRef:ChangeDetectorRef, 
     private activatedRoute:ActivatedRoute, private router:Router) { 
-      this.notificationForm = this.fb.group({
-        title:['', {validators:[Validators.required]}],
-        description:['',{validators:[Validators.required, Validators.maxLength(250)]}]
-      })
     }
   
-  public get title() {
-    return this.notificationForm.controls['title'];
-  }
   ngAfterViewInit(){
     this.tabset.select(this.tabStatus);
     this.changeRef.detectChanges();
   }
-  public get description() {
-    return this.notificationForm.controls['description'];
-  }
-  currentRole:string = "Super Admin";
+  currentRole:string = 'Super Admin';
   tabStatus:string;
   countryCodes:Countries = (countries as any).default;
   ngOnInit() {
-    this.store.subscribe((res:any)=>{
-      if(res.UserData.data!==undefined){
-        // this.currentRole = res.UserData.data.role.title;
-      }
-    }, err=>{}, ()=>{this.subscription.unsubscribe()});
+    // this.store.subscribe((res:any)=>{
+    //   if(res.UserData.data!==undefined){
+    //     this.currentRole = res.UserData.data.role.title;
+    //   }
+    // }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getQueryParams();
   }
   searchValue;
@@ -103,7 +91,6 @@ export class CustomersComponent implements OnInit, AfterViewInit {
         this.sortBy = res.sortyBy;
         this.perPage = res.perPage;
         this.apiParams = {status:res.status, byName:res.byName, byPhone:res.byPhone};
-        console.log(res.sortyBy, 'sort by')
         this.getCustomers(res.byName, res.byPhone, res.status, '1', res.sortyBy);
         switch (res.status) {
           case 'true':
@@ -172,6 +159,7 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   }
   allSelect(event){
     this.selectSenderArea = event.target.value;
+    console.log(this.selectSenderArea, 'selected area')
     if(event.target.checked == false){
       this.changeAllChecked(event.target.checked);
       this.checkedValues = [];
@@ -261,95 +249,48 @@ export class CustomersComponent implements OnInit, AfterViewInit {
       this.checkedValues.length==10?this.rendrer.setProperty(el, 'checked', true):this.rendrer.setProperty(el, 'checked', false);
     }
   }
-  message
-  imgURL
-  tempFile
-  imageFile:File;submitted:boolean;
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  canvasRotation = 0;
-  rotation = 0;
-  scale = 1;
-  showCropper = false;
-  containWithinAspectRatio = false;
-  transform: ImageTransform = {};
-  fileChangeEvent(event: any) {
-    this.tempFile = event.target.files[0];
-    this.imageChangedEvent = event;
-    if(!this.tempFile){
-      return false;
-    }else if(this.tempFile.type.match(/image\/*/) == null){
-      this.message = "Only images are supported.";
-      return
-    }
-  }
-  height:number; width:number;
-  imageCropped(event: ImageCroppedEvent) {
-    this.height = event.height;
-    this.width = event.width;
-    this.croppedImage = event.base64;
-    this.imageFile =  dataURLtoFile(this.croppedImage, this.tempFile.name);
-}
-
-  imageLoaded() {
-      this.showCropper = true;
-  }
-  submitNotification(){
-    let values = this.notificationForm.getRawValue();
+  submitNotification(values){
     values['userId'] = this.checkedValues;
-    values['notificationImg'] = this.imageFile;
     if(this.selectSenderArea=='' && this.checkedValues.length>1){
       this.confirmationDialog(this.checkedValues.length+' customers').then((result:any)=>{
         if(result.value){
-          this.custservice.sendNotification(values, 'multipledevice')
+          this.custservice.sendNotification('customer', values, 'multipledevice')
           .subscribe(()=>{
-            this.notificationForm.reset();
-            this.checkedValues = [];
-            this.modalService.dismissAll();
-            this.getCustomers('','','', 1, '');
+            this.resetToDefault();
           }, error=>{
-            this.notificationForm.reset();
-            this.checkedValues = [];
-            this.modalService.dismissAll();
-            this.getCustomers('','','', 1, '');
+            this.resetToDefault();
           });
         }
       })
     }else if(this.checkedValues.length==1){
       this.confirmationDialog(' Single Customer').then((result:any)=>{
         if(result.value){
-          this.custservice.sendNotification(values, 'singledevice')
+          this.custservice.sendNotification('customer', values, 'singledevice')
           .subscribe(()=>{
-            this.notificationForm.reset();
-            this.checkedValues = [];
-            this.modalService.dismissAll();
-            this.getCustomers('','','', 1, '');
+            this.resetToDefault();
           }, error=>{
-            this.notificationForm.reset();
-            this.checkedValues = [];
-            this.modalService.dismissAll();
-            this.getCustomers('','','', 1, '');
+            this.resetToDefault();
           });
         }
       });
     }else{
       this.confirmationDialog(' Pakistani customers').then((result:any)=>{
         if(result.value){
-          this.custservice.sendNotification(values, 'sendtoPakistaniUsers')
+          this.custservice.sendNotification('customer', values, 'sendtoPakistaniUsers')
           .subscribe(()=>{
-            this.notificationForm.reset();
-            this.checkedValues = [];
-            this.modalService.dismissAll();
-            this.getCustomers('','','', 1, '');
+            this.resetToDefault();
           }, error=>{
-            this.notificationForm.reset();
-            this.checkedValues = [];
-            this.modalService.dismissAll();
-            this.getCustomers('','','', 1, '');
+            this.resetToDefault();
           });
         }
       })
     }
+  }
+  resetToDefault(){
+    this.notificationForm.reset();
+    this.checkedValues = [];
+    this.modalService.dismissAll();
+    this.getCustomers('','','', 1, '');
   }
   async confirmationDialog(value){
     const result = await Swal.fire({

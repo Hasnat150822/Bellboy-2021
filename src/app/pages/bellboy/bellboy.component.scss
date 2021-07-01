@@ -40,3 +40,13 @@ ul.nav-pills{
     line-height: unset;
     margin: 0 !important;
 }
+.checkbox{
+  height: 13px;
+  width: 13px;
+}
+.choice, .btn-group>button{
+  font-size: 13px;
+}
+.choice{
+  cursor: pointer !important;
+}

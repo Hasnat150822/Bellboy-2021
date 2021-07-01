@@ -11,8 +11,10 @@ export class NotificationService {
 
   constructor(private http:HttpClient) {
 }
-   getNotifications(perPage, page):Observable<Notific>{
-    return this.http.get<Notific>(url+'api/admin/notification/getNotification?perPage='+perPage+'&page='+page)
+   getNotifications(perPage, page, type):Observable<Notific>{
+    let decodeType;
+    type=='customer'?decodeType='notification':decodeType='bellboyNotification';
+    return this.http.get<Notific>(url+'api/admin/'+decodeType+'/getNotification?perPage='+perPage+'&page='+page)
     .pipe(
       map((res:any)=>{
         return res.data;

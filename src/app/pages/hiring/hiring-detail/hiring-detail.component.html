@@ -372,7 +372,7 @@
       <p *ngIf="detailHiring.start_time">
         <span>Spending Time: &nbsp;</span> <span id="stopWatch" class="text-secondary stopWatch">  </span>
       </p>
-      <ng-container *ngTemplateOutlet="destinition && detailHiring.start_time?routeMap:defaultMap"></ng-container>
+      <ng-container *ngTemplateOutlet="(destinition && origin) && detailHiring.start_time?routeMap:defaultMap"></ng-container>
       <ng-template #routeMap>
         <agm-map style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
           <!-- <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker> -->
@@ -409,6 +409,6 @@
 <ng-template #defaultMap>
   <div class="no-chat bg-transparent">
     <img src="../../../../assets/img/ico/BB-PNG.png" width="120px" alt="">
-    Task is not start
+    {{detailHiring.start_time?'Location is invalid':'Task is not start'}}
   </div>
 </ng-template>

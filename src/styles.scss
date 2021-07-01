@@ -561,3 +561,6 @@ ngb-datepicker{
     right: 12px;
     top: 10px;
   }
+  li, dd{
+      line-height: unset !important;
+  }

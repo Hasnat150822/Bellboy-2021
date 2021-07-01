@@ -43,7 +43,6 @@ fcmToken = new BehaviorSubject(null);
   // used to show message when app is open
   receiveMessages() {
     this.messaging.onMessage(payload => {
-      console.log(payload, 'this is payload')
      this.currentMessage.next(payload);
    });
   }

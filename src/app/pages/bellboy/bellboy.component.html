@@ -3,7 +3,7 @@
     <div class="col-sm-12 mb-1">
       <h3>Bellboys</h3>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-xs-12 col-sm-6 col-md-5">
       <div class="position-relative">
         <i ngbTooltip="Default Data" (click)="searchValue=undefined; setQueryParams(undefined, itemPerPage, status, searchType)" class="ft-refresh-cw child font-weight-bold" ></i>
         <input [type]="inputType" class="form-control placeholder-pad" #input id="searchInput" 
@@ -34,6 +34,18 @@
           </div>
           <button (click)="searchValue=input.value; getBellboys(1, this.itemPerPage, this.status);" type="button" class="btn btn-search">Search</button>
         </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-7 text-right" *ngIf="currentRole == 'Super Admin'">
+      <div class="btn-group">
+        <select id="choice" class="btn btn-outline-secondary pr-0 choice" (change)="allSelect($event)">
+          <!-- <option value="">Registered</option>
+        <option value="">Unregistered</option> -->
+          <option value=" ">Select Value</option>
+          <option value="sendtoPakistaniUsers">Pakistanis</option>
+          <!-- <option value="">All</option> -->
+        </select>
+        <button type="button" [disabled]="checkedValues.length == 0 && selectSenderArea == ' '" class="btn btn-outline-secondary" (click)="open(sendNotification)">Send Notification</button>
       </div>
     </div>
   </div>
@@ -166,6 +178,11 @@
 <ng-template #tableHead let-status="status">
   <thead>
     <tr>
+      <th>
+        <div class="form-group mb-0">
+          <input type="checkbox" id="allSelect" class="form-control checkbox" (change)="allSelect($event)">
+        </div>
+      </th>
       <th>Image</th>
       <th>Name</th>
       <th>Cell no</th>
@@ -184,6 +201,11 @@
   <tbody>
     <ng-container *ngTemplateOutlet="shimmer"></ng-container>
     <tr *ngFor="let item of bellboys">
+      <td>
+        <div class="form-group mb-0">
+          <input type="checkbox" (change)="selectBellboy($event)" [checked]="item.checked" value="{{ item._id }}" class="form-control checkbox">
+        </div>
+      </td>
       <td class="image-td">
         <div>
           <a (click)="bigImage(amazonImgUrl + item.avatar.value)">
@@ -198,7 +220,7 @@
         <span *ngIf="item.working_status == false" class="text-error">Offline</span>
         <span *ngIf="item.working_status == true" class="text-success">Online</span>
       </td>
-      <td>{{item.total_working_hours|number|seperateDecimal}}</td>
+      <td>{{item.total_working_hours|seperateDecimal}}</td>
       <td>{{item.total_hirings}}</td>
       <td *ngIf="status == 1">
         <a (click)="responseApproval(item, '3')">
@@ -259,4 +281,7 @@
       </td>
     </tr>
   </tbody>
+</ng-template>
+<ng-template #sendNotification let-modal>
+  <app-send-notification (notificationData)="submitNotification($event)"></app-send-notification>
 </ng-template>

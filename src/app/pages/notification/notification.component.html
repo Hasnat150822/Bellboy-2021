@@ -7,7 +7,26 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
-            <app-notification-list [lists]="allNotific" [pager]="pager" (sendPageNumber)=receivePageNumber($event)></app-notification-list>
+            <ul class="nav nav-pills" role="tablist">
+              <li class="nav-item" role="presentation">
+                <a (click)="getNotfic(1, 'customer')" class="nav-link p-0 active" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer" aria-selected="true">
+                  <div class="tab-padding">Customer</div>
+                </a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a (click)="getNotfic(1, 'bellboy')" class="nav-link p-0" id="bellboy-tab" data-toggle="tab" href="#bellboy" role="tab" aria-controls="bellboy" aria-selected="false">
+                  <div class="tab-padding">Bellboy</div>
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content" id="tabContent">
+              <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="customer-tab">
+                <app-notification-list [lists]="allNotific" [pager]="pager" (sendPageNumber)=receivePageNumber($event)></app-notification-list>
+              </div>
+              <div class="tab-pane fade" id="bellboy" role="tabpanel" aria-labelledby="bellboy-tab">
+                <app-notification-list [lists]="allNotific" [pager]="pager" (sendPageNumber)=receivePageNumber($event)></app-notification-list>
+              </div>
+            </div>
           </div>
         </div>
       </div>

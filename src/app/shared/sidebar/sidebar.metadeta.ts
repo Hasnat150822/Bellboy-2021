@@ -48,18 +48,18 @@ export function sideBarData() {
             //       path:'/products', title:'Products', icon:'../../../assets/img/ico/cart.png', class:'', submenu:[]
             //   }
             //     break;
-            case "Bellboy Tracking":
-                bellboy.push(
-                    {
-                        path:'/bellboytracing', title:'Bellboy Tracking', icon:'', class:'', submenu:[]
-                    })
-                break
             case "Manage Bellboy":
                 bellboy.push(
                         {
                             path:'/bellboy', title:'Bellboys', icon:'', class:'', submenu:[]
                         })
                 break;
+            case "Bellboy Tracking":
+                bellboy.push(
+                    {
+                        path:'/bellboytracing', title:'Bellboy Tracking', icon:'', class:'', submenu:[]
+                    })
+                break
             case "Bellboy Types":
                 bellboy.push({
                 path:'/bellboyTypes', title:'Bellboy Types', icon:'', class:'', submenu:[]
@@ -92,7 +92,11 @@ export function sideBarData() {
                 break;
                 case "Hiring Charges":
                     routes[8] = {
-                        path:'/finance/hiringCharges', title:'Our Charges', icon:'../../../assets/img/ico/money.png', class:'', submenu:[]
+                        path:'', title:'Our Charges', icon:'../../../assets/img/ico/money.png', class:'', submenu:[
+                            {
+                                path:'/finance/hiringCharges', title:'Rider Charges', icon:'', class:'', submenu:[]
+                            }
+                        ]
                     }
                 break;
             case "Hiring Action Types":

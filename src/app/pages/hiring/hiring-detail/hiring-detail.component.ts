@@ -105,54 +105,49 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
       }
       if(this.detailHiring.status ==2 || this.detailHiring.status ==3){
         let bbId = res.data.bellboy._id;
-        this.databse.list('/bellboys/'+bbId).valueChanges().subscribe((res:any)=>{
+        this.databse.list('/bellboys/'+bbId).snapshotChanges().subscribe((res:any)=>{ 
+          let initialLocation; let geolocation;
+          res.map((element)=>{
+            if(element.key == 'geolocation'){
+              initialLocation = element.payload.toJSON();
+            }else if(element.key == 'initialLocation'){
+              geolocation = element.payload.toJSON();
+            }
+          })
           if(this.bellboyOrigin == undefined || this.bellboyOrigin == null){
             this.bellboyOrigin = {
-              lat:+res[1].latitude?+res[1].latitude:+res[0].latitude,
-              lng:+res[1].longitude?+res[1].longitude:+res[0].longitude
+              lat:+initialLocation.latitude,
+              lng:+initialLocation.longitude
             }
             this.getEstimatedRoute(this.bellboyOrigin);
           }
           this.destinition = {
-            lat:+res[0].latitude,
-            lng:+res[0].longitude
+            lat:+geolocation.latitude,
+            lng:+geolocation.longitude
           }
         })
-        this.databse.list('/hirings/'+this.detailHiring._id+'/initialLocation').snapshotChanges().subscribe((res:any)=>{
-          // console.log(res, 'res')
-          let latitude; let longitude;
-          res.forEach((el:any) => {
-            if(el.key == 'latitude'){
-              latitude = el.payload.toJSON();
-            }else if(el.key == 'longitude'){
-              longitude = el.payload.toJSON();
-            }
-          });
-            if(this.origin == undefined && latitude && longitude){
+        this.databse.list('/hirings/'+this.detailHiring._id).snapshotChanges().subscribe((res:any)=>{
+            let location = res.find(element => {
+                return element.key == 'initialLocation';
+            });
+            if(this.origin == undefined && location){
               this.origin = {
-                lat:+latitude,
-                lng:+longitude
+                lat:+location.payload.toJSON().latitude,
+                lng:+location.payload.toJSON().longitude
               }
-              console.log(this.origin, 'origin', this.destinition, 'destination')
             }
         })
       }else if(this.detailHiring.status == 4){
-        this.databse.list('/hirings/'+this.detailHiring._id+'/initialLocation').snapshotChanges().subscribe((res:any)=>{
-          // console.log(res, 'res')
-          let latitude; let longitude;
-          res.forEach((el:any) => {
-            if(el.key == 'latitude'){
-              latitude = el.payload.toJSON();
-            }else if(el.key == 'longitude'){
-              longitude = el.payload.toJSON();
+        this.databse.list('/hirings/'+this.detailHiring._id).snapshotChanges().subscribe((res:any)=>{
+          let location = res.find(element => {
+            return element.key == 'initialLocation';
+        });
+          if(this.origin == undefined && location){
+            this.origin = {
+              lat:+location.payload.toJSON().latitude,
+              lng:+location.payload.toJSON().longitude
             }
-          });
-            if(this.origin == undefined && latitude && longitude){
-              this.origin = {
-                lat:+latitude,
-                lng:+longitude
-              }
-            }
+          }
         });
         this.databse.list('/hirings/'+this.detailHiring._id+'/geolocations', (query)=>query.orderByChild('time')).valueChanges().subscribe((res:any)=>{
           res.forEach(element => {

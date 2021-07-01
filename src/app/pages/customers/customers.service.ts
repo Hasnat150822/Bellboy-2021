@@ -56,14 +56,27 @@ export class CustomersService {
       })
     )
   }
-  sendNotification(form, sendTo){
+  sendNotification(type, form, sendTo){
+    let url;
+    let decodeType;
+    if(type=='customer'){
+      url='api/admin/notification/'
+      decodeType = 3;
+    }else{
+      url='api/admin/bellboyNotification/'
+      decodeType = 2;
+    }
     let formData: FormData = new FormData();
-    form.userId.map((id:string)=>{formData.append('userId', id);});
+    sendTo=='multipledevice'?form.userId.map((id:string)=>{
+      formData.append('userIds', id);
+    }):form.userId.map((id:string)=>{
+      formData.append('userId', id);
+    });
     formData.append('title', form.title);
     formData.append('body', form.description);
     if(form.notificationImg)
       formData.append('notificationImg', form.notificationImg);
-    return this.http.post(this._url+'api/admin/notification/'+sendTo+'?type=3',formData)
+    return this.http.post(this._url+url+sendTo+'?type='+decodeType,formData)
     .pipe(
       tap((res:any)=>{
         if(res.success == true){

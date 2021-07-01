@@ -16,6 +16,7 @@ import { userReducer } from 'app/ngrx-states/reducer';
 import { PipesModule } from 'app/shared/pipes/pipes.module';
 import { SharedDirectivesModule } from 'app/shared/shared-directives/shared-directives.module';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SendNotificationModule } from 'app/shared/shared-components/send-notification/send-notification.module';
 const routes:Routes = [
   {
     path:'',
@@ -39,11 +40,10 @@ const routes:Routes = [
     CommonModule,
     NgbModule,
     AgmCoreModule,
-    ReactiveFormsModule,
     SharedDirectivesModule,
     PerfectScrollbarModule,
     TimeConvertModule,
-    ImageCropperModule,
+    SendNotificationModule,
     BigImageModule,
     PipesModule,
     RouterModule.forChild(routes),

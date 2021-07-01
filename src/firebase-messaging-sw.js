@@ -19,26 +19,3 @@ firebase.initializeApp({
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
 const messaging = firebase.messaging();
-var data;
-messaging.onBackgroundMessage(function (payload) {
-  data = payload.data;
-  const notificationTitle = data.title;
-  const notificationOptions = {
-    body: data.body,
-    icon: data.icon,
-    tag: data.tag,
-    data: {
-      "onActionClick": {
-        "default": {"operation": "openWindow", "url": data.link}
-      }
-    }
-  };
-  return self.registration.showNotification(notificationTitle,
-    notificationOptions);
-});
-
-// self.addEventListener('notificationclick', (event)=> {
-//   let url = 'https://admin.bellboy.co/#/hiring/hiringDetail/'+data._id;
-//   event.notification.close();
-//   event.waitUntil(clients.openWindow(url))
-// });

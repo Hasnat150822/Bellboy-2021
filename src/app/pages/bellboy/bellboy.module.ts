@@ -10,6 +10,8 @@ import { BigImageModule } from '../shared/big-image/big-image.module';
 import { TimeConvertModule } from 'app/shared/time-convert/time-convert.module';
 import { SeperateDecimalPipe } from './seperate-decimal.pipe';
 import { BellboyWalletComponent } from './bellboy-wallet/bellboy-wallet.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { SendNotificationModule } from 'app/shared/shared-components/send-notification/send-notification.module';
 
 @NgModule({
     imports: [
@@ -17,6 +19,8 @@ import { BellboyWalletComponent } from './bellboy-wallet/bellboy-wallet.componen
         BellboyRoutingModule,
         PipesModule,
         BigImageModule,
+        SendNotificationModule,
+        ImageCropperModule,
         NgbModule,
         TimeConvertModule
     ],

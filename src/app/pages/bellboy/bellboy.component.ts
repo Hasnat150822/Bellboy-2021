@@ -1,12 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core'
 import { BellboyService } from './bellboy.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import { amazonUrl, checkPage, confirmationDialog, sweetAlert } from 'app/shared/services/global';
 import { Store } from '@ngrx/store';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { URL } from '../../ngrx-states/model/url.model';
 import * as allActions from '../../ngrx-states/actions';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CustomersService } from '../customers/customers.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-bellboy',
   templateUrl: './bellboy.component.html',
@@ -38,19 +42,37 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   isBigImg:boolean;
   bellboys:Array<any>;
   tabstatus:string;
+  notificationForm:FormGroup;
   @ViewChild('tabset', {static:true}) tabset;
-  constructor(private bellboyService:BellboyService, private cdr:ChangeDetectorRef, private db: AngularFireDatabase,
-    private pagerService:PagerService, private store:Store<URL>, private router:Router, private activatedRoute:ActivatedRoute){
+  constructor(private bellboyService:BellboyService, private fb:FormBuilder, private db: AngularFireDatabase,
+    private pagerService:PagerService, private store:Store<any>, private router:Router, private activatedRoute:ActivatedRoute, 
+    private modalService:NgbModal, private rendrer:Renderer2, private el:ElementRef, private custservice:CustomersService){
+      this.notificationForm = this.fb.group({
+        title:['', {validators:[Validators.required]}],
+        description:['',{validators:[Validators.required, Validators.maxLength(250)]}]
+      })
   }     
+  checkedValues:any = [];
+  currentRole:string = 'Super Admin';
+  selectSenderArea:any = ' ';
+  subscription:Subscription;
   ngOnInit(){
+    // this.store.subscribe((res:any)=>{
+    //   if(res.UserData.data!==undefined){
+    //     this.currentRole = res.UserData.data.role.title;
+    //   }
+    // }, err=>{}, ()=>{this.subscription.unsubscribe()});
     // 0 => pending, 1=> approved / active, 2=> reject , 3=> blocked, 4=>all
-    // this.getBellboys();
     this.getQueryParams();
   }
   bigImage(url){
     this.isBigImg = true;
     this.store.dispatch(new allActions.SendUrl(url));
   }
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title' })
+  }
+  currentPageIds:Array<any>;
   getBellboys(page=1, itemPerPage=10, status=1){
     this.bellboys = [];
     this.spinner = true;
@@ -62,8 +84,93 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       this.totalItems = +res.count;
       this.spinner = false
       this.bellboys = res.bellBoys;
+      this.currentPageIds = this.bellboys.map((res:any)=>{
+        return res._id;
+      })
       this.pager = this.pagerService.getPager(this.totalItems, page, itemPerPage);
     }, err=>this.spinner = false)
+  }
+  
+  allSelect(event){
+    if(event.target.value=='on'){
+      this.selectSenderArea = ' ';
+    }else{
+      this.selectSenderArea = event.target.value;
+    }
+    if(event.target.checked == false){
+      this.checkedValues = [];
+      this.changeAllChecked(event.target.checked);
+    }
+    else if(event.target.checked == true){
+      this.checkedValues = this.currentPageIds;
+      this.changeAllChecked(event.target.checked);
+    }
+    if(event.target.value=='sendtoPakistaniUsers' && event.target.checked==undefined){
+      this.changeAllChecked(false);
+      this.checkedValues = [];
+    }
+  }
+  changeAllChecked(value){
+    this.bellboys = this.bellboys.map((el) =>{
+      var o = Object.assign({}, el);
+      o.checked = value;
+      return o;
+    });
+  }
+  
+  submitNotification(values){
+    values['userId'] = this.checkedValues;
+    if(this.selectSenderArea=='' && this.checkedValues.length>1){
+      this.confirmationDialog(this.checkedValues.length+' customers').then((result:any)=>{
+        if(result.value){
+          this.custservice.sendNotification('bellboy', values, 'multipledevice')
+          .subscribe(()=>{
+            this.resetToDefault();
+          }, error=>{
+            this.resetToDefault();
+          });
+        }
+      })
+    }else if(this.checkedValues.length==1){
+      this.confirmationDialog(' Single Customer').then((result:any)=>{
+        if(result.value){
+          this.custservice.sendNotification('bellboy', values, 'singledevice')
+          .subscribe(()=>{
+            this.resetToDefault();
+          }, error=>{
+            this.resetToDefault();
+          });
+        }
+      });
+    }else{
+      this.confirmationDialog(' Pakistani customers').then((result:any)=>{
+        if(result.value){
+          this.custservice.sendNotification('bellboy', values, 'sendtoPakistaniUsers')
+          .subscribe(()=>{
+            this.resetToDefault();
+          }, error=>{
+            this.resetToDefault();
+          });
+        }
+      })
+    }
+  }
+  async confirmationDialog(value){
+    const result = await Swal.fire({
+        icon:"question",
+        title:"Are You Sure?",
+        text:"You are sending notification to "+value,
+        width:'300px',
+        showConfirmButton:true,
+        showCancelButton:true
+      });
+    return result;
+  }
+  resetToDefault(){
+    this.notificationForm.reset();
+    this.checkedValues = [];
+    this.modalService.dismissAll();
+    this.setQueryParams(this.searchValue, this.totalItems, this.status, this.searchType);
   }
   onEnter(event){
     let key = event.keyCode;
@@ -148,6 +255,21 @@ export class BellboyComponent implements OnInit, AfterViewInit{
           return false
         }
       })
+    }
+  }
+  selectBellboy(event){
+    let el = this.el.nativeElement.querySelector('#allSelect');
+    this.rendrer.setProperty(el, 'checked', false);
+    if(event.target.checked == false){
+      let index = this.checkedValues.indexOf(event.target.value);
+      this.checkedValues.splice(index, 1);
+    }else{
+      let el = this.el.nativeElement.querySelector('#choice');
+      this.rendrer.setProperty(el, 'innerHTML', 
+      '<option value="">Select Value</option><option value="sendtoPakistaniUsers">Pakistanies</option>');
+      this.checkedValues.push(event.target.value);
+      console.log(this.checkedValues, 'values of inputs')
+      this.checkedValues.length==10?this.rendrer.setProperty(el, 'checked', true):this.rendrer.setProperty(el, 'checked', false);
     }
   }
   }
