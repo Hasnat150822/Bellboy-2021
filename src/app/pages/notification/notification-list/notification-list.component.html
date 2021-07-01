@@ -29,7 +29,7 @@
     <td>{{ item.created_at | date: "mediumDate" }}</td>
     <td>{{ item.created_at | date: "mediumTime" }}</td>
     <td>
-      {{ item.customerCount }}
+      {{ item.customerCount || item.bellboyCount}}
     </td>
     <td>{{ item.admin.name }}</td>
   </tr>

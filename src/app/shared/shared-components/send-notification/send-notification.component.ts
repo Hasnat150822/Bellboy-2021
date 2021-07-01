@@ -14,7 +14,7 @@ export class SendNotificationComponent implements OnInit {
   @Output() notificationData = new EventEmitter<{}>();
   constructor(private fb:FormBuilder, private modalService:NgbModal) { 
     this.notificationForm = this.fb.group({
-      title:['', {validators:[Validators.required]}],
+      title:['', {validators:[Validators.required, Validators.maxLength(30)]}],
       description:['',{validators:[Validators.required, Validators.maxLength(250)]}]
     })
    }
@@ -59,7 +59,23 @@ export class SendNotificationComponent implements OnInit {
     this.croppedImage = event.base64;
     this.imageFile =  dataURLtoFile(this.croppedImage, this.tempFile.name);
 }
+showTitleErrors(){
+  if(this.title.errors.required){
+    return 'Title is required'
+  }
+  if(this.title.errors.maxlength){
+    return 'Maximum 30 character allowed'
+  }
+}
+showDescriptionErrors(){
+  if (this.description.errors.required) {
+    return 'Description is required';
+  }
 
+  if (this.description.errors.maxlength) {
+    return 'Maximum 250 character allowed';
+  }
+  }
   imageLoaded() {
       this.showCropper = true;
   }

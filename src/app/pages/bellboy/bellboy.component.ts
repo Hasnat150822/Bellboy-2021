@@ -169,6 +169,7 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   resetToDefault(){
     this.notificationForm.reset();
     this.checkedValues = [];
+    this.changeAllChecked(false);
     this.modalService.dismissAll();
     this.setQueryParams(this.searchValue, this.totalItems, this.status, this.searchType);
   }

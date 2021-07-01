@@ -20,12 +20,13 @@
       </div>
       <div class="form-group col-12">
         <input type="text" class="form-control" placeholder="Title" formControlName="title">
-        <p class="text-danger" *ngIf="title.errors?.required && title.touched">Title is required</p>
+        <p class="text-danger" *ngIf="title.touched">{{showTitleErrors()}}</p>
       </div>
       <div class="form-group col-12">
-        <input type="text" class="form-control" placeholder="Description" formControlName="description" maxlength="250">
-        <p class="text-danger" *ngIf="description.errors?.required && description.touched">Description is required</p>
-        <p class="text-danger" *ngIf="description.errors?.maxLength && description.touched">Maximum 250 character required</p>
+        <input type="text" class="form-control" placeholder="Description" formControlName="description">
+        <p class="text-danger" *ngIf="description.touched">
+          {{showDescriptionErrors()}}
+        </p>
       </div>
     </form>
   </div>

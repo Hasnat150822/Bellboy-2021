@@ -27,7 +27,8 @@ export class RoleManagementComponent implements OnInit {
   isHideOrder:boolean = true;
   isHideAction:boolean = true;
   isHideMedia:boolean = true;
-isHideReports:boolean = true;
+  isHideReports:boolean = true;
+  isHideCharges:boolean = true;
   constructor(private formBuilder:FormBuilder, private modalService: NgbModal, private roleService:RoleManagementService) { 
     this.createRoleForm = this.formBuilder.group({
       title:['', Validators.required]

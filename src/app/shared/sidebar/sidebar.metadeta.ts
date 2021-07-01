@@ -5,6 +5,7 @@ export function sideBarData() {
     var routes:any = [];
     var media:any = [];
     var users:any = [];
+    var charges:any = [];
     var perm = JSON.parse(localStorage.getItem('Permissions'))
     for (let i = 0; i < perm.length; i++) {
         switch (perm[i]) {
@@ -49,16 +50,14 @@ export function sideBarData() {
             //   }
             //     break;
             case "Manage Bellboy":
-                bellboy.push(
-                        {
-                            path:'/bellboy', title:'Bellboys', icon:'', class:'', submenu:[]
-                        })
+                bellboy[0] = {
+                    path:'/bellboy', title:'Bellboys', icon:'', class:'', submenu:[]
+                }
                 break;
             case "Bellboy Tracking":
-                bellboy.push(
-                    {
-                        path:'/bellboytracing', title:'Bellboy Tracking', icon:'', class:'', submenu:[]
-                    })
+                        bellboy[1] ={
+                            path:'/bellboytracing', title:'Bellboy Tracking', icon:'', class:'', submenu:[]
+                        }
                 break
             case "Bellboy Types":
                 bellboy.push({
@@ -90,14 +89,10 @@ export function sideBarData() {
                     path:'/complaints', title:'Customer Feedbacks', icon:'../../../assets/img/ico/telemarketing.png', class:'', submenu:[]
                 }
                 break;
-                case "Hiring Charges":
-                    routes[8] = {
-                        path:'', title:'Our Charges', icon:'../../../assets/img/ico/money.png', class:'', submenu:[
-                            {
-                                path:'/finance/hiringCharges', title:'Rider Charges', icon:'', class:'', submenu:[]
-                            }
-                        ]
-                    }
+                case "Rider":
+                    charges.push({
+                        path:'/finance/hiringCharges', title:'Rider Charges', icon:'', class:'', submenu:[]
+                    })
                 break;
             case "Hiring Action Types":
                 routes[9] = {
@@ -162,6 +157,11 @@ export function sideBarData() {
         routes[3] = {
             path:'', title:'Bellboy', icon:'../../../assets/img/ico/BB-PNG.png', class:'has-sub', submenu:bellboy
         }
+    }
+    if(charges.length>0){
+        routes[8] = {
+            path:'', title:'Our Charges', icon:'../../../assets/img/ico/money.png', class:'has-sub', submenu:charges
+        } 
     }
     // if(orders.length>0){
     //     routes[9] = {

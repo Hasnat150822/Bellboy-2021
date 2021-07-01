@@ -17,7 +17,10 @@ export const checkValues = [
     {id:'chk16', value:'Roles Management', viewValue:'Roles Management', selected:false},
     {id:'chk17', value:'Advertisement', viewValue:'Advertisement', selected:false},
     {id:'chk18', value:'Notification', viewValue:'Notification', selected:false},
-    {id:'chk19', value:'Hiring Charges', viewValue:'Our Charges', selected:false},
-    {id:'chk20', value:'Hiring Action Types', viewValue:'Action Types', selected:false},
-    {id:'chk21', value:'Version Control', viewValue:'Version Control', selected:false}
+    {id:'chk19', value:'Rider', viewValue:'Rider', selected:false},
+    {id:'chk20', value:'Personal Assist', viewValue:'Personal Assist', selected:false},
+    {id:'chk21', value:'House Hold', viewValue:'House Hold', selected:false},
+    {id:'chk22', value:'Deliveries', viewValue:'Deliveries', selected:false},
+    {id:'chk23', value:'Hiring Action Types', viewValue:'Action Types', selected:false},
+    {id:'chk24', value:'Version Control', viewValue:'Version Control', selected:false}
   ] 

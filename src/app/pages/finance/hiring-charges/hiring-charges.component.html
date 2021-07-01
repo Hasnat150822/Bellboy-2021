@@ -21,28 +21,12 @@
                   <div class="tab-padding">Personal Assistance</div>
                 </a>
               </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link p-0" id="household-tab" data-toggle="tab" href="#household" role="tab" aria-controls="household" aria-selected="false">
-                  <div class="tab-padding">House Hold</div>
-                </a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link p-0" id="deliveries-tab" data-toggle="tab" href="#deliveries" role="tab" aria-controls="deliveries" aria-selected="false">
-                  <div class="tab-padding">Deliveries</div>
-                </a>
-              </li>
             </ul>
             <div class="tab-content" id="tabContent">
               <div class="tab-pane fade show active" id="rider" role="tabpanel" aria-labelledby="rider-tab">
                 <ng-container *ngTemplateOutlet="tableComp"></ng-container>
               </div>
               <div class="tab-pane fade" id="personalassist" role="tabpanel" aria-labelledby="personalassist-tab">
-                <!-- <ng-container *ngTemplateOutlet="tableComp"></ng-container> -->
-              </div>
-              <div class="tab-pane fade" id="household" role="tabpanel" aria-labelledby="household-tab">
-                <!-- <ng-container *ngTemplateOutlet="tableComp"></ng-container> -->
-              </div>
-              <div class="tab-pane fade" id="deliveries" role="tabpanel" aria-labelledby="deliveries-tab">
                 <!-- <ng-container *ngTemplateOutlet="tableComp"></ng-container> -->
               </div>
             </div>
