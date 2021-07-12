@@ -10,6 +10,7 @@ import { amazonUrl } from 'app/shared/services/global';
   templateUrl: './hiring-actions.component.html',
   styleUrls: ['./hiring-actions.component.scss']
 })
+
 export class HiringActionsComponent implements OnInit {
   addHiringAction:FormGroup;
   hiringActions:any;
@@ -17,21 +18,22 @@ export class HiringActionsComponent implements OnInit {
   locals:any = []
   currentImage
   code:string
-  actionTypeId; tableContext = 'all';
-  spinner:boolean;
+  actionTypeId;
   amazonImgUrl:string = amazonUrl;
   constructor(private fb:FormBuilder, private modalService:NgbModal,
     private hirngActService:HiringActionsService, private globalService:GlobalService) { 
     this.addHiringAction = this.fb.group({
       title:['', Validators.required],
       hasLocation:[''],
-      desc:['', Validators.required]
+      desc:['', Validators.required],
+      category:['', Validators.required]
     })
     this.assignLabel = this.fb.group({
       label:['', Validators.required]
     })
   }
   ngOnInit() {
+    this.getMainAction('');
     this.getActions('');
     this.globalService.getLocals().subscribe((res:any)=>{
       if(res.code == 200){
@@ -39,8 +41,27 @@ export class HiringActionsComponent implements OnInit {
       }
     })
   }
+  mainAction = [];
+  mainActionId;
+  getMainAction(status){
+    this.mainAction = [];
+    this.hirngActService.getMainhiring(status).subscribe((res:any)=>{
+      this.mainAction = res.data.HiringActionTypes;
+      console.log(this.mainAction, 'main actions')
+    })
+  }
+  subActions = [];
+  status='';
+  getSubActions(status){
+    this.status = status;
+    this.hirngActService.getSubActions(this.mainActionId,status).subscribe((res:any)=>{
+      this.subActions = res.data.HiringActionTypes;
+    })
+  }
+  openContext;
   open(content){
-    this.modalService.open(content,{ariaLabelledBy: 'modal-basic-title' });
+    this.openContext = 'create';
+    this.modalService.open(content,{ariaLabelledBy: 'modal-basic-title',backdrop:'static', keyboard : false });
   }
   localId
   singleLocal:any[]
@@ -77,15 +98,19 @@ export class HiringActionsComponent implements OnInit {
       })
     }
   }
-  submitted
-  addAction(form:FormGroup){
-    this.submitted = true;
-    if(form.valid && this.imageFile !==undefined ){
-      let obj = form.getRawValue()
-      this.hirngActService.addHiringActions(obj, this.imageFile).subscribe((res:any)=>{
+  changeAction(){
+    if(this.addHiringAction.valid && this.imageFile !==undefined ){
+      let obj = this.addHiringAction.getRawValue()
+      let observable;
+      if(this.openContext == 'create'){
+        observable = this.hirngActService.addHiringActions(obj, this.imageFile, 'create');
+      }else{
+        observable = this.hirngActService.addHiringActions(obj, this.imageFile, 'update');
+      }
+      observable.subscribe((res:any)=>{
         if(res.success==true){
           this.modalService.dismissAll();
-          this.getActions('')
+          this.getSubActions('')
         }else{
           this.modalService.dismissAll();
         }
@@ -96,16 +121,19 @@ export class HiringActionsComponent implements OnInit {
       return false
     }
   }
+  updateAction(context, item){
+    this.openContext = 'update';
+    this.addHiringAction.controls.title.setValue(item.title)
+    this.addHiringAction.controls.desc.setValue(item.description)
+    this.open(context);
+  }
   getActions(status){
-    this.spinner = true;
     this.hiringActions = [];
     this.hirngActService.getHiringActions(status).subscribe((res:any)=>{
-      this.spinner = false;
       this.hiringActions = res.data.HiringActionTypes
     })
   }
   submitLabel(form:FormGroup){
-    this.submitted = true
     if(form.valid){
       let value = form.getRawValue();
       this.hirngActService.assignLabel(this.actionTypeId, value.label, this.localId)

@@ -70,7 +70,7 @@ export class BellboyComponent implements OnInit, AfterViewInit{
     this.store.dispatch(new allActions.SendUrl(url));
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title' })
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   currentPageIds:Array<any>;
   getBellboys(page=1, itemPerPage=10, status=1){

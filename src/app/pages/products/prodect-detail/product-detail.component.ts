@@ -94,10 +94,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy{
     this.localId = this.singleLocal[1]
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   openModel(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'my-class'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'my-class', backdrop:'static', keyboard:false})
   }
   searchResult:any = []
   searchBrand(keyword){

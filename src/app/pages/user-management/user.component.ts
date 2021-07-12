@@ -63,7 +63,7 @@ export class UserManageComponent implements OnInit{
     this.translate.use('ur');
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   getBlockUser(){
     this.userService.getBlockeduser().subscribe((res:any)=>{

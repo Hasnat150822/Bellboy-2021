@@ -12,6 +12,11 @@ html, body {
     width: 40px;
     border-radius: 100px;
     background: #ccc;
+    z-index: 1050;
+}
+.table-img-size:hover{
+    cursor: pointer;
+    transform: scale(1.05);
 }
 ngb-tabset ul li{
     line-height: normal;
@@ -564,3 +569,16 @@ ngb-datepicker{
   li, dd{
       line-height: unset !important;
   }
+.recordCard{
+    transition: box-shadow 0.3s ease-in-out;
+}
+.recordCard:hover{
+    box-shadow: 0 5px 10px rgba(255, 147, 12, 0.25), 0 0px 5px rgba(0, 0, 0, 0.22) !important;
+}
+hr{
+    border-color: var(--bgColor) !important;
+    margin: 12px 0px 12px 0px;
+}
+#totalSec hr{
+    border: 1px solid;
+}

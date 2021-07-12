@@ -87,7 +87,7 @@ export class BrandDetailComponent implements OnInit {
     }
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }  
   submitLabel(form:FormGroup){
     this.brandService.addLabelToBrand(form.value.label, this.brandDetail._id, this.localId)

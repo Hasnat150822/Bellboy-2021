@@ -89,11 +89,26 @@ export function sideBarData() {
                     path:'/complaints', title:'Customer Feedbacks', icon:'../../../assets/img/ico/telemarketing.png', class:'', submenu:[]
                 }
                 break;
-                case "Rider":
-                    charges.push({
-                        path:'/finance/hiringCharges', title:'Rider Charges', icon:'', class:'', submenu:[]
-                    })
-                break;
+            case "Rider":
+                charges.push({
+                    path:'/finance/hiringCharges', title:'Rider Charges', icon:'', class:'', submenu:[]
+                })
+            break;
+            case "Personal Assist":
+                charges.push({
+                    path:'/finance/paassist', title:'Personal Assist', icon:'', class:'', submenu:[]
+                })
+            break;
+            case "House Hold":
+                charges.push({
+                    path:'/finance/household', title:'House Hold', icon:'', class:'', submenu:[]
+                })
+            break;
+            case "Deliveries":
+                charges.push({
+                    path:'/finance/deliveryCharges', title:'Deliveries', icon:'', class:'', submenu:[]
+                })
+            break;
             case "Hiring Action Types":
                 routes[9] = {
                     path:'/hiringactiontype', title:'Action Types', icon:'../../../assets/img/ico/confused.png', class:'', submenu:[]
@@ -131,7 +146,14 @@ export function sideBarData() {
                 break;
             case "Advertisement":
                 media.push({
-                        path:'/advertisement', title:'Advertisement', icon:'', class:'', submenu:[]
+                        path:'', title:'Advertisement', icon:'', class:'has-sub', submenu:[
+                            {
+                                path:'/advertisement/customer', title:'Customer', icon:'', class:'', submenu:[]
+                            },
+                            {
+                                path:'/advertisement/bellboy', title:'Bellboy', icon:'', class:'', submenu:[]
+                            }
+                        ]
                     })
                 break;
             case "Notification":

@@ -24,7 +24,7 @@ export class VersionControlComponent implements OnInit {
     this.getVersions();
   }
   openModal(content){
-    this.modalService.open(content);
+    this.modalService.open(content, {backdrop:'static', keyboard:false});
   }
   getVersions(){
     this.service.getVersionList().subscribe((res:any)=>{

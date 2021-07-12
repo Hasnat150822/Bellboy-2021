@@ -28,7 +28,7 @@ export class BigImageComponent implements OnInit, OnDestroy {
   bigImage(content, imgLink){
     this.modalService.dismissAll();
     this.currentImage = imgLink.url;
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage', backdrop:'static', keyboard:false})
   }
   zoomin(){
     zoomin('fullView');

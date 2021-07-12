@@ -81,7 +81,7 @@ export class CategoryDetailComponent implements OnInit {
     }
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }  
   submitLabel(form:FormGroup){
     this.categoryService.addLabelToCat(form.value.label, this.catDetail._id, this.localId)

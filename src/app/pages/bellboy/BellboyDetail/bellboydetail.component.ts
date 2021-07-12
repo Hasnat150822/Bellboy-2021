@@ -32,7 +32,7 @@ export class BellboydetailComponent implements OnInit {
     this.store.dispatch(new allActions.SendUrl(Url));
   }
   open(content){
-    this.modalService.open(content, { ariaLabelledBy:'modal-basic-title'});
+    this.modalService.open(content, { ariaLabelledBy:'modal-basic-title', backdrop:'static', keyboard:false});
   }
   getBellboyDetail(){
     this.bellboyService.getById(this._id).subscribe((res:any)=>{

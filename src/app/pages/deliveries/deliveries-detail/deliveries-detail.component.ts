@@ -78,7 +78,7 @@ export class DeliveriesDetailComponent implements OnInit, AfterViewInit {
   }
   openModel(content, url) {
     this.currentImage  =  'https://api.bellboy.co/'+url
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage', backdrop:'static', keyboard:false})
   }
   // For delivery
   initMap(location){

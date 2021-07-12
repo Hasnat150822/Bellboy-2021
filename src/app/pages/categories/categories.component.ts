@@ -33,12 +33,12 @@ export class CategoriesComponent implements OnInit {
       this.getCat('', 1)
   }  
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   currentImage
   bigImage(content, imgLink){
     this.currentImage  =  'https://api.bellboy.co/'+imgLink
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   imgURL
   imageFile:File

@@ -58,12 +58,12 @@ export class ManageBrandComponent implements OnInit {
     }
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   currentImage
   bigImage(content, imgLink){
     this.currentImage  =this.amazonImgUrl+imgLink
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   } 
   imgURL
   imageFile:File

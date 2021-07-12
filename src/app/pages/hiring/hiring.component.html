@@ -139,6 +139,22 @@
                   <ng-container *ngTemplateOutlet="pagination"></ng-container>
                 </ng-template>
               </ngb-tab>
+              <ngb-tab id="tab6">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab6';
+                      getHirings(6, 1);
+                      changeTabStatus()
+                    ">Non Acceptable</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
             </ngb-tabset>
           </div>
         </div>
@@ -195,8 +211,8 @@
       <th>Hiring Id</th>
       <th>Customer Name <i id="sortByCustName"></i></th>
       <th>Cell No</th>
-      <th *ngIf="status!==1">Assigned Bellboy</th>
-      <th>Bellboy Type</th>
+      <th *ngIf="!(status==1 || status==6)">Assigned Bellboy {{status}}</th>
+      <th *ngIf="status!==6">Bellboy Type</th>
       <th>
         <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
           <a (click)="sortByNumber()">Actions</a>
@@ -206,7 +222,8 @@
           </div>
         </div>
       </th>
-      <th *ngIf="status == 1">Created Time</th>
+      <th *ngIf="status == 1 || status == 6">Created Time</th>
+      <th *ngIf="status == 1">Time Spent</th>
       <th *ngIf="status == 2 || status == 3 || status == 4">Start Time</th>
       <th *ngIf="status == 4">Finish Time</th>
       <th *ngIf="status == 5">Reason</th>
@@ -221,9 +238,10 @@
         </div>
       </th>
       <th *ngIf="status == 4">Amount</th>
+      <th>Type</th>
       <th *ngIf="status == 1 || status == 2">View / Cancel</th>
       <th *ngIf="status == 3">View / Close</th>
-      <th *ngIf="status == 4 || status == 5">View</th>
+      <th *ngIf="status == 4 || status == 5 || status == 6">View</th>
     </tr>
   </thead>
 </ng-template>
@@ -238,17 +256,18 @@
       <td class="text-nowrap"> 
         <span>{{item.customer?.mobile | showDashes}}</span>
       </td>
-      <td *ngIf="status!==1" [routerLink]="[
+      <td *ngIf="!(status==1 || status==6)" [routerLink]="[
           '/bellboy/bellboydetail',
           item.bellboy?._id
         ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
           item.bellboy?.name | showDashes
         }}</a> 
       </td>
-      <td>{{ item.bellboyType?.title | showDashes}}</td>
+      <td *ngIf="status!==6">{{ item.bellboyType?.title | showDashes}}</td>
       <td>{{ math.abs(item.totalActions) | showDashes}}</td>
       <td class="text-nowrap" *ngIf="status == 2 || status == 3 || status == 4">{{ item.start_time | date: "shortTime" | showDashes }}</td>
-      <td class="text-nowrap" *ngIf="status==1">{{ item.created_at | date: "shortTime" | showDashes}}</td>
+      <td class="text-nowrap" *ngIf="status==1 || status == 6">{{ item.created_at | date: "shortTime" | showDashes}}</td>
+      <td class="text-nowrap" *ngIf="status==1">{{showStopWatch(item.created_at)}} {{pendingCounter?pendingCounter:''}}</td>
       <td class="text-nowrap" *ngIf="status == 4"> <span *ngIf="item.end_time">{{
           item.end_time | date: "shortTime" | showDashes
         }}</span>  <span *ngIf="!item.end_time">-</span> 
@@ -265,6 +284,7 @@
       </td>
       <td class="text-nowrap">{{ item.created_at | date: "mediumDate" | showDashes}}</td>
       <td *ngIf="status == 4" [ngClass]="{ 'text-success ': item.isFree }">{{ item.isFree ? "Free" : item.amount | showDashes}}</td>
+      <td>-</td>
       <td *ngIf="status == 1 || status == 2 || status == 3">
         <a class="p-0 text-dark" [routerLink]="[
             '/hiring/hiringDetail',
@@ -276,7 +296,7 @@
           <img src="../../../assets/img/ico/forbidden.svg" class="ml-2 img-eye" />
         </a>
       </td>
-      <td *ngIf="status == 4 || status ==5">
+      <td *ngIf="status == 4 || status ==5 || status == 6">
         <a class="p-0 text-dark" [routerLink]="[
             '/hiring/hiringDetail',
             item.hiring_id

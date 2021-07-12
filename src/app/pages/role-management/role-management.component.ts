@@ -62,7 +62,7 @@ export class RoleManagementComponent implements OnInit {
     })
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass:'roleClass'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass:'roleClass', backdrop:'static', keyboard:false})
   }
   permissionVerify(item, permissions){
     this.roleTitle = item.title

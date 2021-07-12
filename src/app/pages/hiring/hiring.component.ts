@@ -6,6 +6,11 @@ import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { checkPage, confirmationDialog } from 'app/shared/services/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+var hr = 0;
+var min = 0;
+var sec = 0;
+var el; var rendrer;
 declare const $:any;
 @Component({
   selector: 'app-hiring',
@@ -16,7 +21,7 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription;
   pager: any = {};
   keyword: string = '';
-  status = { num: 2 };
+  status = 1;
   cacelled_reason: string;
   spinner: boolean;
   searchDropdown = [
@@ -98,22 +103,34 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tabset.select('tab1');
     this.getHirings(1, 1);
   }
+  interval
   switchTap(){
     switch (this.tabStatus) {
       case 'tab1':
-        this.getHirings(1, 1);
+        this.interval = setInterval(()=>{
+          this.getHirings(1, 1);
+        }, 15000)
         break;
       case 'tab2':
+        clearInterval(this.interval)
         this.getHirings(2, 1);
         break;
       case 'tab3':
+        clearInterval(this.interval)
         this.getHirings(3, 1);
         break;
       case 'tab4':
+        clearInterval(this.interval)
         this.getHirings(4, 1);
         break;
       case 'tab5':
+        clearInterval(this.interval)
         this.getHirings(5, 1);
+        break;
+      case 'tab6':
+        clearInterval(this.interval)
+        this.getHirings(6, 1);
+        break;
       default:
         break;
     }
@@ -143,7 +160,7 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   open(content, reason) {
     this.cacelled_reason = reason
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title' })
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -272,4 +289,52 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
+  pendingCounter;
+  showStopWatch(time){ 
+    let start_time = new Date(time);
+    let currentDate = new Date();
+    let result = this.showDiff(start_time, currentDate);
+    hr = result[0];
+    min = result[1];
+    sec = result[2];
+    setInterval(()=>{
+      this.timerCycle().then((result)=>{
+        this.pendingCounter = result;
+      })
+    }, 1000)
+  }
+  showDiff(date1, date2){
+    var diff = (date2 - date1)/1000;
+    diff = Math.abs(Math.floor(diff));
+    var days = Math.floor(diff/(24*60*60));
+    var leftSec = diff - days * 24*60*60;
+
+    var hrs = Math.floor(leftSec/(60*60));
+    var leftSec = leftSec - hrs * 60*60;
+
+    var mins = Math.floor(leftSec/(60));
+    var leftSec = leftSec - mins * 60;
+    return [hrs, mins, leftSec];
+}
+  timerCycle() {
+    return new Promise((resolve, reject)=>{
+      sec = sec + 1;
+      if (sec == 60) {
+        min = min + 1;
+        sec = 0;
+      }
+      if (min == 60) {
+        hr = hr + 1;
+        min = 0;
+        sec = 0;
+      }
+      let timer;
+      if(hr !== 0){
+        timer = `${hr} hrs ${min} mins ${sec} sec`;
+      }else{
+        timer = `${min} mins ${sec} sec`;
+      }
+      resolve(timer);
+    })
+}
 }

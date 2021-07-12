@@ -15,7 +15,7 @@ export class ManageBrandDetailComponent implements OnInit, OnDestroy {
   constructor(private modalService:NgbModal, private manageBrand:ManageBrandService,
     private route:ActivatedRoute) { }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   ngOnInit() {
     this.subscription = this.route.params.subscribe((result:any)=>{

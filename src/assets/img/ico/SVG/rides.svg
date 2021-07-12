@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28.724" height="54.327" viewBox="0 0 28.724 54.327">
+  <g id="ic_rides" transform="translate(-0.001 0)">
+    <path id="Path_7" data-name="Path 7" d="M221.219,293.264a4.057,4.057,0,0,0-4.053,4.053v14.722a4.053,4.053,0,1,0,8.106,0V297.317A4.057,4.057,0,0,0,221.219,293.264Z" transform="translate(-206.856 -261.765)" fill="#313131"/>
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="4.363" cy="4.363" r="4.363" transform="translate(9.108 2.007) rotate(-13.3)" fill="#fba31e"/>
+    <path id="Path_8" data-name="Path 8" d="M159.22,113.621h-6.41a8.455,8.455,0,0,0-8.445,8.445V142.84l4.467,2.366v-8.785a7.184,7.184,0,1,1,14.368,0v9.163l4.467-2.687V122.066A8.455,8.455,0,0,0,159.22,113.621Z" transform="translate(-141.652 -100.87)" fill="#fba31e"/>
+    <path id="Path_9" data-name="Path 9" d="M125.243,28.375a7.493,7.493,0,0,1,.166-1.565h-7.034v3.131h7.034a7.493,7.493,0,0,1-.166-1.566Z" transform="translate(-118.374 -23.119)" fill="#82b663"/>
+    <path id="Path_10" data-name="Path 10" d="M326.223,26.81a7.476,7.476,0,0,1,0,3.131h7.034V26.81Z" transform="translate(-304.532 -23.119)" fill="#82b663"/>
+  </g>
+</svg>

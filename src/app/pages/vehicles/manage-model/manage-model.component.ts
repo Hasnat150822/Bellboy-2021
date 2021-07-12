@@ -35,10 +35,10 @@ export class ManageModelComponent implements OnInit {
     })
    }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   open2(content){
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'my-class'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'my-class', backdrop:'static', keyboard:false})
   }
   ngOnInit() {
     this.getAllBrands()

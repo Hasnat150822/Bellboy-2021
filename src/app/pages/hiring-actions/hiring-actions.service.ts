@@ -16,15 +16,28 @@ export class HiringActionsService {
         })
       }
   }
+  getMainhiring(status){
+    return this.http.get(this._url+'api/admin/hiring-main-action-type?status='+status);
+  }
   getHiringActions(status){
     return this.http.get(this._url+'api/admin/hiring-action-type?status='+status)
   }
-  addHiringActions(form, icon){
+  getSubActions(id, status){
+    return this.http.get(this._url+'api/admin/hiring-main-action-type/'+id+'?status='+status)
+  }
+  addHiringActions(form, icon, type){
     let formData:FormData = new FormData();
+    let observable;
     formData.append('title', form.title);
     formData.append('description', form.desc);
+    formData.append('type', form.category);
     formData.append('icon', icon);
-    return this.http.post(this._url+'api/admin/hiring-action-type', formData)
+    if(type=='create'){
+      observable = this.http.post(this._url+'api/admin/hiring-action-type', formData)
+    }else{
+      observable = this.http.put(this._url+'api/admin/hiring-action-type', formData)
+    }
+    return observable
     .pipe(
       map((res:any)=>{
         if(res.success == true){

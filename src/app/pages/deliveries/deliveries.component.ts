@@ -52,6 +52,6 @@ export class DeliveriesComponent implements OnInit {
   }
   open(content, reason) {
     this.cacelled_reason = reason
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
 }

@@ -38,7 +38,7 @@ export class HiringChargesComponent implements OnInit {
     this.rendrer2.setStyle(confirmDiv, 'visibility','visible');
   }
   open(content){
-    this.modalService.open(content, { windowClass: 'my-class'});
+    this.modalService.open(content, { windowClass: 'my-class', backdrop:'static', keyboard:false});
   }
   subscription: Subscription;
   getHiringCharges(){

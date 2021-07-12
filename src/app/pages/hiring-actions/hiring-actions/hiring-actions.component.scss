@@ -25,3 +25,38 @@
     cursor: pointer;
     text-transform: capitalize;
   }
+  .w-10rem{
+    width: 10rem;
+  }
+  .wh-2rem{
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .slide-fwd-left {
+    -webkit-animation: slide-fwd-left 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-fwd-left 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+  @-webkit-keyframes slide-fwd-left {
+    0% {
+      margin-left: 0rem;
+    }
+    100% {
+      margin-left: -1.25rem;
+    }
+  }
+  @keyframes slide-fwd-left {
+    0% {
+      margin-left: 0rem;
+    }
+    100% {
+      margin-left: -1.25rem;
+    }
+  }  
+  .next-items{
+    font-size: 1.2rem;
+    text-shadow: 0px 0px 3px rgba(0,0,0,0.5)
+  }
+  .task-div{
+    height: 30px;
+    width: 30px;
+  }

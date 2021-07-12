@@ -38,7 +38,7 @@ export class ManageVehicleDetailComponent implements OnInit, OnDestroy {
   }
   openModel(content, url) {
     this.currentImage  =  this.amazonImgUrl+url
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'bigImage', backdrop:'static', keyboard:false})
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe()

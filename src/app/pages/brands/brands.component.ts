@@ -32,7 +32,7 @@ export class BrandsComponent implements OnInit {
     this.getBrands(1)
   }
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
   }
   imgURL
   imageFile:File

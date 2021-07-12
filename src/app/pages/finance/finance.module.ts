@@ -6,6 +6,8 @@ import { HiringChargesComponent } from './hiring-charges/hiring-charges.componen
 import { ResolverService } from 'app/shared/services/resolver.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewTimelineComponent } from './view-timeline/view-timeline.component';
+import { PersonalAssistComponent } from './personal-assist/personal-assist.component';
+import { HouseHoldComponent } from './house-hold/house-hold.component';
 const routes:Routes = [
   {
     path:'deliveryCharges', component:ChargesComponent,
@@ -20,10 +22,24 @@ const routes:Routes = [
       text:'Hiring Charges',
       path:'/hiringCharges'
     },resolve:{data:ResolverService},
+  },
+  {
+    path:'paassist', component:PersonalAssistComponent,
+    data:{
+      text:'Personal Assistance',
+      path:'/paassist'
+    },resolve:{data:ResolverService},
+  },
+  {
+    path:'household', component:HiringChargesComponent,
+    data:{
+      text:'House Hold',
+      path:'/household'
+    },resolve:{data:ResolverService},
   }
 ]
 @NgModule({
-  declarations: [ChargesComponent, HiringChargesComponent, ViewTimelineComponent],
+  declarations: [ChargesComponent, HiringChargesComponent, ViewTimelineComponent, PersonalAssistComponent, HouseHoldComponent],
   imports: [
     NgbModule,
     RouterModule.forChild(routes),

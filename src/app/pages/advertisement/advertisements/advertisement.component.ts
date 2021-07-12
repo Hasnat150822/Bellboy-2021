@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, Input, OnInit  } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbCarouselConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { amazonUrl, confirmationDialog } from 'app/shared/services/global';
 import { dataURLtoFile, GlobalService } from 'app/shared/services/global-service.service';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 import { Subscription } from 'rxjs';
-import { AdvertisementService } from './advertisement.service';
+import { AdvertisementService } from '../advertisement.service';
 declare const $:any;
 @Component({
   selector: 'app-advertisement',
@@ -17,6 +17,7 @@ declare const $:any;
 })
 export class AdvertisementComponent implements OnInit {
   highlighted: boolean = false;allAdvert:any=[];
+  @Input() type;
   headStatus:string = 'all';lastIndex;
   imageFile:File;message:string;submitted:boolean;imgURL;
   imageChangedEvent: any = '';
@@ -39,6 +40,7 @@ export class AdvertisementComponent implements OnInit {
    }
   currentRole;
   ngOnInit() {
+    this.service.typeComponent.next(this.type);
     this.store.subscribe((res:any)=>{
       if(res.UserData.data!==undefined){
         this.currentRole = res.UserData.data.role.title;

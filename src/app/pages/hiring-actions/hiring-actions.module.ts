@@ -4,6 +4,7 @@ import { HiringActionsComponent } from './hiring-actions/hiring-actions.componen
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { SharedDirectivesModule } from 'app/shared/shared-directives/shared-directives.module';
 const route:Routes = [{
   path:'',
   component:HiringActionsComponent
@@ -13,6 +14,7 @@ const route:Routes = [{
   imports: [
     CommonModule,
     FormsModule,
+    SharedDirectivesModule,
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forChild(route)

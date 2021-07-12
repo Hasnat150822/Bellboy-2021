@@ -1,22 +1,46 @@
 <section id="tabs">
   <div class="row text-left mt-2">
     <div class="col-sm-6 mb-1">
-      <h3 class="mb-0">Hiring Actions Types</h3>
+      <h3 class="mb-0">Actions Types</h3>
     </div>
     <div class="col-sm-6 text-right">
       <button class="btn btn-orange mb-0" (click)="open(addActionsModel)">Add Action Type</button>
     </div>
   </div>
-  <div class="row text-left">
+  <ng-container *ngTemplateOutlet="mainAction.length<0?shimmer:false"></ng-container>
+  <div class="row" *ngIf="mainAction.length>0" myMatchHeight="card">
+    <div class="col-sm-6 col-md-3" *ngFor="let item of mainAction" (click)="mainActionId=item._id; getSubActions(status);">
+      <div class="recordCard card" ngbTooltip="{{item.actionTypeCount}} Tasks Performed">
+        <div class="card-body">
+          <h5 class="font-weight-500 mb-0 w-100 d-flex justify-content-between"> 
+            <span>{{item.title}}</span>
+            <span>
+              <div>
+                  <img src="{{amazonImgUrl}}{{item.icon}}" class="task-div">
+                </div>
+            </span>
+          </h5>
+          <hr>
+          <p class="mb-0">
+            <span>
+              {{item.description}}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngTemplateOutlet="subActions.length<0?shimmer:false"></ng-container>
+  <div class="row text-left" *ngIf="subActions.length>0">
     <!--Pills Starts-->
     <div class="col-md-12 col-lg-12">
       <div class="card">
         <div class="card-content">
           <div class="card-body">
             <ngb-tabset type="pills">
-              <ngb-tab>
+              <ngb-tab id="all">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="tableContext = 'all'; getActions('')">All Actions</div>
+                  <div class="tab-padding" (click)="getSubActions('')">All Actions</div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
@@ -29,9 +53,9 @@
                   </table>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab>
+              <ngb-tab id="true">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="tableContext = 'active'; getActions('true')">Active Actions</div>
+                  <div class="tab-padding" (click)="getSubActions('true')">Active Actions</div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
@@ -44,9 +68,9 @@
                   </table>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab>
+              <ngb-tab id="false">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="tableContext='blocked'; getActions('false')">Blocked Actions</div>
+                  <div class="tab-padding" (click)="getSubActions('false')">Blocked Actions</div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
@@ -70,7 +94,7 @@
 <!-- addbrand -->
 <ng-template #addActionsModel let-modal>
   <div class="modal-header justify-content-center mb-1">
-    <h3 class="card-title mb-0">Add Vehicle Type</h3>
+    <h3 class="card-title mb-0">{{openContext=='create'?'Add':'Update'}} Action</h3>
     <a (click)="modal.close('Cancel Modal')">
       <i class="ft-x close-icon"></i>
     </a>
@@ -83,28 +107,43 @@
           <button class="camera-icon btn btn-orange">Add Image</button>
           <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{imgURL}}">
           <p class="text-error mb-0" *ngIf="message">{{message}}</p>
-          <p class="text-error" *ngIf="imgURL==undefined && submitted">
+          <p class="text-error" *ngIf="imgURL==undefined && addHiringAction.valid">
             Image is required
           </p>
         </div>
       </div>
       <div class="form-group">
         <input type="text" formControlName="title" class="form-control" placeholder="Action Title">
-        <p class="text-error" *ngIf="addHiringAction.controls.title.hasError('required') && submitted">
-          Title is required
-        </p>
+        <div *ngIf="addHiringAction.controls.title.touched">
+          <p class="text-error" *ngIf="addHiringAction.controls.title.hasError('required')">
+            Title is required
+          </p>
+        </div>
       </div>
       <div class="form-group">
         <input type="text" formControlName="desc" class="form-control" placeholder="Description">
-        <p class="text-error" *ngIf="addHiringAction.controls.desc.hasError('required') && submitted">
-          Description is required
-        </p>
+        <div *ngIf="addHiringAction.controls.desc.touched">
+          <p class="text-error" *ngIf="addHiringAction.controls.desc.hasError('required')">
+            Description is required
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <select name="" id="" class="form-control" formControlName="category">
+          <option value="">Select Category</option>
+          <option *ngFor="let item of mainAction" value="{{item._id}}">{{item.title}}</option>
+        </select>
+        <div *ngIf="addHiringAction.controls.category.touched">
+          <p class="text-error" *ngIf="addHiringAction.controls.category.hasError('required')">
+            Please select category
+          </p>
+        </div>
       </div>
     </form>
   </div>
   <div class="modal-footer mb-2">
     <div>
-      <button type="submit" class="btn btn-success" (click)="addAction(addHiringAction)">Add</button>
+      <button type="submit" [disabled]="!addHiringAction.valid" class="btn btn-success" (click)="changeAction()">{{openContext=='create'?'Add':'Update'}}</button>
     </div>
   </div>
 </ng-template>
@@ -157,8 +196,7 @@
   </tr>
 </ng-template>
 <ng-template #tableBody>
-  <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-  <tr *ngFor="let item of hiringActions">
+  <tr *ngFor="let item of subActions">
     <td class="image-td">
       <img src="{{amazonImgUrl}}{{item.icon}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="img" (click)="bigImage(bigImg, item.icon)" class="table-img-size">
     </td>
@@ -172,17 +210,17 @@
         </div>
       </td> -->
     <td>{{item.actionCount}}</td>
-    <td style="width: 210px !important;">
-      <button (click)="open(addLabel); actionTypeId=item._id" class="btn btn-orange">Assign Label</button>
-      <button *ngIf="tableContext == 'active'" (click)="changeActionStatus(false, item._id)" class="btn btn-danger ml-2">Block Action</button>
-      <button *ngIf="tableContext == 'blocked'" (click)="changeActionStatus(true, item._id)" class="btn btn-success ml-2">Active Action</button>
+    <td style="width: 230px !important;">
+      <button class="btn btn-orange" (click)="updateAction(addActionsModel, item)">Update Action</button>
+      <button *ngIf="item.status == 'true'" (click)="changeActionStatus(false, item._id)" class="btn btn-danger ml-2">Block Action</button>
+      <button *ngIf="item.status == 'false'" (click)="changeActionStatus(true, item._id)" class="btn btn-success ml-2">Active Action</button>
     </td>
   </tr>
 </ng-template>
 <ng-template #shimmer>
-  <tr *ngIf="spinner">
-    <td colspan="12">
-      <div class="py-3 shine w-100"></div>
-    </td>
-  </tr>
+  <div class="row">  
+    <div class="col-12">
+    <div class="py-3 shine w-100"></div>
+  </div>
+</div>
 </ng-template>

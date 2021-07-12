@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdvertisementComponent } from './advertisement.component';
+import { AdvertisementComponent } from './advertisements/advertisement.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
@@ -8,11 +8,15 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from 'app/ngrx-states/reducer';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BBAdvertisementsComponent } from './bb-advertisements/bb-advertisements.component';
+import { CustAdvertisementsComponent } from './cust-advertisements/cust-advertisements.component';
 const route:Routes = [{
-  path:'', component:AdvertisementComponent
+  path:'customer', component:CustAdvertisementsComponent
+},{
+  path:'bellboy', component:BBAdvertisementsComponent
 }]
 @NgModule({
-  declarations: [AdvertisementComponent],
+  declarations: [AdvertisementComponent, BBAdvertisementsComponent, CustAdvertisementsComponent],
   imports: [
     CommonModule,
     NgbModule,
