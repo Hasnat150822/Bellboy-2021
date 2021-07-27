@@ -4,8 +4,8 @@
       <div class="card-content">
         <div class="card-body">
           <div class="row py-3 bg-light">
-            <div class="col-sm-12" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">
-              <a>
+            <div class="col-sm-12">
+              <a target="_blank" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">
                 <h5 class="font-weight-500">Customer</h5>
               </a>
             </div>
@@ -20,11 +20,11 @@
                     detailHiring?.customer?.avatar?.value
                   }}" onerror="src='../../../assets/img/gallery/1.jpg'">
                 </a>
-                <div class="media-body" [routerLink]="[
-                  '/customers/custdetail',
-                  detailHiring?.customer?._id
-                ]">
-                  <h5 class="font-weight-normal"><a>{{ detailHiring?.customer?.name }}</a></h5>
+                <div class="media-body" >
+                  <h5 class="font-weight-normal"><a target="_blank" [routerLink]="[
+                    '/customers/custdetail',
+                    detailHiring?.customer?._id
+                  ]">{{ detailHiring?.customer?.name }}</a></h5>
                   <p><span>Cell No:</span><span class="ml-3 text-secondary">{{ detailHiring?.customer?.mobile }}</span>
                   </p>
                 </div>
@@ -34,21 +34,21 @@
           <div class="row mt-2 py-3 bg-light">
             <div class="col-sm-6"><span *ngIf="detailHiring && !detailHiring?.bellboy" class="text-orange">Not Assigned Yet</span>
             </div>
-            <div class="col-sm-6 text-right" [routerLink]="[
+            <div class="col-sm-6 text-right" >
+              <a target="_blank" [routerLink]="[
               '/bellboy/bellboydetail',
               detailHiring?.bellboy?._id
             ]">
-              <a>
                 <h5 class="font-weight-500">Assigned Bellboy</h5>
               </a>
             </div>
             <div class="col-sm-12">
               <div class="media align-items-center text-right">
-                <div class="media-body" [routerLink]="[
-                  '/bellboy/bellboydetail',
-                  detailHiring?.bellboy?._id
-                ]">
-                  <h5 class="font-weight-normal"><a class="text-primary">{{ detailHiring?.bellboy?.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                <div class="media-body" >
+                  <h5 class="font-weight-normal"><a class="text-primary" target="_blank" [routerLink]="[
+                    '/bellboy/bellboydetail',
+                    detailHiring?.bellboy?._id
+                  ]">{{ detailHiring?.bellboy?.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
                   <p class="mb-0"><span>Cell No:</span><span class="ml-3 text-secondary">{{ detailHiring?.bellboy?.mobile }}</span>
                   </p>
                 </div>
@@ -205,7 +205,7 @@
               </p>
             </div>
             <div class="col-sm-6">
-              <p><span>Bellboy Type: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.bellboyType?.title }}</span>
+              <p><span>Order Type: &nbsp;</span>  <span class="text-secondary"> - </span>
               </p>
             </div>
             <div class="col-sm-6">

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { sweetAlert, url } from 'app/shared/services/global';
 var postAuth;
 @Injectable({
@@ -22,7 +22,17 @@ export class RoleManagementService {
     let body = new HttpParams()
     .set('title', title)
     .set('permissions', permission);
-    return this.http.post(this._url+'api/admin/role', body.toString(), postAuth)
+    return this.http.post(this._url+'api/admin/role', body.toString(), postAuth).pipe(
+      tap((res:any)=>{
+        if(res.status == true){
+          sweetAlert('success', 'Role Added Successfully');
+        }else{
+          sweetAlert('warning', res.message);
+        }
+      }, error=>{
+        sweetAlert('error', error.error.message);
+      })
+    )
   }
   updateRole(id, title, permissions){
     let body = new HttpParams()

@@ -1,10 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { startDateWeek } from 'app/shared/services/global';
 import { PagerService } from 'app/shared/services/pager.service';
-import { ChartDataSets } from 'chart.js';
-import { Color } from 'ng2-charts';
-import { chartColors, chartOptions } from './chart.setting';
-import { dashboard } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 declare const $:any;
 @Component({
@@ -16,14 +13,8 @@ declare const $:any;
 export class DashboardComponent implements OnInit  {
   today; 
   markDisabled;
-  areaChartColors = chartColors;
-  areaChartLegend = true;
-  areaChartType = 'line';
-  areaChartOptions = chartOptions;
   startDate:any; endDate:any;
-  areaChartLabels;
   loader:boolean = false;
-  areaChartData;
   daysRecord;
   hiringDetail;
   customerDetail;
@@ -38,6 +29,7 @@ export class DashboardComponent implements OnInit  {
   startDateforRecord; endDateforRecord;
   rangeRecord:boolean;
   rangeGraph:boolean;
+  daysData:any = [];
   constructor(private calendar:NgbCalendar, private service:DashboardService, private pagerService:PagerService){}
   ngOnInit(){
     this.defaults();
@@ -49,72 +41,27 @@ export class DashboardComponent implements OnInit  {
     this.markDisabled = (date: NgbDate, current: { month: number }) =>
     (date.day>this.today.day && date.month === this.today.month);
     var curr = new Date;
-    this.startDate = new Date(curr.setDate(curr.getDate() - curr.getDay())); //first day
-    this.endDate = new Date(curr.setDate(curr.getDate() - curr.getDay()+6)); // last weekend day
+    this.startDate = new Date(curr.setDate(curr.getDate() - curr.getDay()+1)); //first day
+    this.endDate = new Date(curr.setDate(curr.getDate() - curr.getDay()+7)); // last weekend day
     this.rangeRecord = false;
     this.rangeGraph = false;
     this.getDaysData();
     this.getGraphData();
     this.getDetailData();
   }
-  assignChartLabels(startDateGraph, endDateGraph){
-    this.areaChartLabels = [];
-    for (var d = new Date(startDateGraph); d <= new Date(endDateGraph); d.setDate(d.getDate() + 1)) {
-      this.areaChartLabels.push(d.toDateString());
-    }
-  }
+  sendStartDate;
+  sendEndDate;
   getGraphData(){
-    this.areaChartData = [
-      {data: [], label:'' },
-      {data: [], label:'' },
-      {data: [], label:'' }
-    ];
-    this.assignChartLabels(this.startDate, this.endDate);
     let startDate = this.startDate.toISOString();
     let endDate = this.endDate.toISOString();
     this.service.getGraphRecord(startDate, endDate)
     .subscribe((res:any)=>{
       this.fromDate = null;
       this.toDate = null;
-      this.areaChartData[0]['label'] = 'Hirings';
-      this.areaChartData[1]['label'] = 'Customers';
-      this.areaChartData[2]['label'] = 'Bellboys';
-      this.areaChartLabels.map((value)=>{
-        let d = new Date(value);
-        let date = d.getDate();
-        let month = d.getMonth()+1;
-        let year = d.getFullYear();
-        let hiringCount = this.returnCount(res.hiringData, date, month, year);
-        let customerCount = this.returnCount(res.customerData, date, month, year);
-        let bellboyCount = this.returnCount(res.bellboyData, date, month, year);
-        if(hiringCount!== undefined){
-          this.areaChartData[0].data.push(hiringCount);
-        }else{
-          this.areaChartData[0].data.push(0);
-        }
-        if(customerCount!== undefined){
-          this.areaChartData[1].data.push(customerCount);
-        }else{
-          this.areaChartData[1].data.push(0);
-        }
-        if(bellboyCount!== undefined){
-          this.areaChartData[2].data.push(bellboyCount);
-        }else{
-          this.areaChartData[2].data.push(0);
-        }
-      })
+      this.graphData = res;
+      this.sendStartDate = this.startDate;
+      this.sendEndDate = this.endDate;
     })
-  }
-  returnCount(response, date, month, year){
-    let count;
-    response.map((e)=>{
-      if(date == e.date.day &&
-        month == e.date.month &&
-        year == e.date.year){
-          count = e.count;
-      }
-    })
-    return count;
   }
   getDaysData(){
     this.loader = true;
@@ -123,7 +70,16 @@ export class DashboardComponent implements OnInit  {
       this.fromDate = null;
       this.toDate = null;
       this.loader = false;
-      this.daysRecord = res;
+      let data = [];
+      data[0] = res.totalCurrentDayHirings;
+      data[1] = res.totalCurrentDayCustomers;
+      data[2] = res.totalCurrentDayBellBoys;
+      data[3] = res.totalEarningDate;
+      data[4] = res.totalPendingHirings;
+      data[5] = res.totalInProgressHirings;
+      data[6] = res.totalCompletedHirings;
+      data[7] = res.totalCancelledHirings;
+      this.daysData = data;
     })
   }
   getDetailData(){
@@ -177,8 +133,6 @@ export class DashboardComponent implements OnInit  {
         this.getDetailData();
         this.rangeRecord = true;
       }else{
-        this.startDate = fromDate; 
-        this.endDate = toDate; 
         this.rangeGraph = true;
         this.getGraphData();
       }
@@ -188,7 +142,24 @@ export class DashboardComponent implements OnInit  {
       this.fromDate = date;
     }
   }
-  //ngb date selection area
+  selectMonth(event){
+    let year = event.target.value.split('-')[0];
+    let month = event.target.value.split('-')[1];
+    let nextMonth = +month+1;
+    this.endDate = new Date(year+'-0'+nextMonth+'-01T00:00:00Z');
+    this.endDate.setDate(this.endDate.getDate()-1)
+    this.startDate = new Date(year+'-'+month+'-01T00:00:00Z')
+    this.getGraphData();
+  }
+  selectWeek(event){
+    let year = event.target.value.split('-')[0];
+    let week = event.target.value.split('-')[1].split('W')[1];
+    this.startDate = startDateWeek(year, week);
+    this.endDate = startDateWeek(year, week);
+    this.endDate.setDate(startDateWeek(year, week).getDate()+6);
+    this.getGraphData();
+  }
+  //ngb date selection line
   isHovered(date: NgbDate) {
     return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
   }

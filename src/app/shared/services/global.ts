@@ -68,3 +68,17 @@ export function checkPage(page, totalPages) {
         return page;
     }
 }
+export function startDateWeek(year, week) {
+    var d = new Date(year+'-01-01T12:00:00Z');
+    var dayNum = d.getDay();
+    var diff = --week * 7;
+  
+    // If 1 Jan is Friday to Sunday, go to next week
+    if (!dayNum || dayNum > 4) {
+      diff += 7;
+    }
+  
+    // Add required number of days
+    d.setDate(d.getDate() - d.getDay() + ++diff);
+    return d;
+  }

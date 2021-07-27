@@ -17,8 +17,8 @@
                   <img alt="100x100" class="object-fit d-flex mr-3 bg-primary rounded-circle" src="{{amazonImgUrl}}{{detailHiring?.customer?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'">
                 </a>
                 <div class="media-body">
-                  <h5 class="font-weight-normal" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">
-                    <a class="hoverOrange">{{detailHiring?.customer?.name}}</a>
+                  <h5 class="font-weight-normal">
+                    <a class="hoverOrange" target="_blank" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">{{detailHiring?.customer?.name}}</a>
                   </h5>
                   <p><span>Cell No:</span><span class="ml-3 text-secondary">{{detailHiring?.customer?.mobile}}</span>
                   </p>

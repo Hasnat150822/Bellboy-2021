@@ -31,10 +31,10 @@ const routes:Routes = [
     },resolve:{data:ResolverService},
   },
   {
-    path:'household', component:HiringChargesComponent,
+    path:'b2b', component:HouseHoldComponent,
     data:{
-      text:'House Hold',
-      path:'/household'
+      text:'B2B',
+      path:'/b2b'
     },resolve:{data:ResolverService},
   }
 ]

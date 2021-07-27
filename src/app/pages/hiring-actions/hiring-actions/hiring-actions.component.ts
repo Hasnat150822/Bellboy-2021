@@ -47,7 +47,6 @@ export class HiringActionsComponent implements OnInit {
     this.mainAction = [];
     this.hirngActService.getMainhiring(status).subscribe((res:any)=>{
       this.mainAction = res.data.HiringActionTypes;
-      console.log(this.mainAction, 'main actions')
     })
   }
   subActions = [];
@@ -60,7 +59,6 @@ export class HiringActionsComponent implements OnInit {
   }
   openContext;
   open(content){
-    this.openContext = 'create';
     this.modalService.open(content,{ariaLabelledBy: 'modal-basic-title',backdrop:'static', keyboard : false });
   }
   localId
@@ -99,13 +97,17 @@ export class HiringActionsComponent implements OnInit {
     }
   }
   changeAction(){
-    if(this.addHiringAction.valid && this.imageFile !==undefined ){
+    if(this.addHiringAction.valid && this.imgURL !==undefined ){
       let obj = this.addHiringAction.getRawValue()
       let observable;
       if(this.openContext == 'create'){
         observable = this.hirngActService.addHiringActions(obj, this.imageFile, 'create');
-      }else{
+      }else if(this.openContext == 'update'){
+        obj.category = this.actionTypeId;
         observable = this.hirngActService.addHiringActions(obj, this.imageFile, 'update');
+      }else{
+        obj.category = this.actionTypeId;
+        observable = this.hirngActService.addHiringActions(obj, this.imageFile, 'updateMain');
       }
       observable.subscribe((res:any)=>{
         if(res.success==true){
@@ -121,10 +123,15 @@ export class HiringActionsComponent implements OnInit {
       return false
     }
   }
-  updateAction(context, item){
-    this.openContext = 'update';
-    this.addHiringAction.controls.title.setValue(item.title)
-    this.addHiringAction.controls.desc.setValue(item.description)
+  updateAction(context, item, openContext){
+    this.openContext = openContext;
+    this.addHiringAction.controls.title.setValue(item.title);
+    this.addHiringAction.controls.desc.setValue(item.description);
+    if(openContext=='updateMain'){
+      this.addHiringAction.controls.category.setValue(item._id);
+    }
+    this.actionTypeId = item._id;
+    this.imgURL = this.amazonImgUrl+item.icon;
     this.open(context);
   }
   getActions(status){
@@ -133,17 +140,17 @@ export class HiringActionsComponent implements OnInit {
       this.hiringActions = res.data.HiringActionTypes
     })
   }
-  submitLabel(form:FormGroup){
-    if(form.valid){
-      let value = form.getRawValue();
-      this.hirngActService.assignLabel(this.actionTypeId, value.label, this.localId)
-      .subscribe((res:any)=>{
-        if(res.code == 200){
-          this.getActions('');
-        }
-      })
-    }
-  }
+  // submitLabel(form:FormGroup){
+  //   if(form.valid){
+  //     let value = form.getRawValue();
+  //     this.hirngActService.assignLabel(this.actionTypeId, value.label, this.localId)
+  //     .subscribe((res:any)=>{
+  //       if(res.code == 200){
+  //         this.getActions('');
+  //       }
+  //     })
+  //   }
+  // }
   changeActionStatus(status:boolean, id){
     this.hirngActService.changeStatus(status, id).subscribe(()=>{
       this.getActions(!status);

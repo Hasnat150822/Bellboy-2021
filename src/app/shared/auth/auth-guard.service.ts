@@ -49,13 +49,13 @@ export class AuthGuard implements CanActivate, OnInit {
           this.router.navigateByUrl(path)
         }
       }, error=>{
-        // Swal.fire({
-        //   icon:'error',
-        //   title:error.error.message,
-        //   width:'400px',
-        //   timer:2500,
-        //   showConfirmButton:false
-        // })
+        Swal.fire({
+          icon:'error',
+          title:error.error.message,
+          width:'400px',
+          timer:2500,
+          showConfirmButton:false
+        })
       })
     })
   }

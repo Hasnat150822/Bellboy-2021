@@ -84,6 +84,11 @@ export function sideBarData() {
                         path:'/managemodel', title:'Model', icon:'', class:'', submenu:[]
                     })
             break;
+            case "Commissions":
+                routes[6] = {
+                    path:'/commissions', title:'Commissions', icon:'../../../assets/img/ico/commission.png', class:'', submenu:[]
+                }
+            break;
             case "Complaints":
                 routes[4] = {
                     path:'/complaints', title:'Customer Feedbacks', icon:'../../../assets/img/ico/telemarketing.png', class:'', submenu:[]
@@ -99,9 +104,9 @@ export function sideBarData() {
                     path:'/finance/paassist', title:'Personal Assist', icon:'', class:'', submenu:[]
                 })
             break;
-            case "House Hold":
+            case "B2B":
                 charges.push({
-                    path:'/finance/household', title:'House Hold', icon:'', class:'', submenu:[]
+                    path:'/finance/b2b', title:'B2B', icon:'', class:'', submenu:[]
                 })
             break;
             case "Deliveries":
@@ -110,7 +115,7 @@ export function sideBarData() {
                 })
             break;
             case "Hiring Action Types":
-                routes[9] = {
+                routes[11] = {
                     path:'/hiringactiontype', title:'Action Types', icon:'../../../assets/img/ico/confused.png', class:'', submenu:[]
                     }
             break;
@@ -191,12 +196,12 @@ export function sideBarData() {
     //     }
     // }
     if(users.length>0){
-        routes[6] = {
+        routes[7] = {
             path:'', title:'Bellboy Staff', icon:'../../../assets/img/ico/users.png', class:'has-sub', submenu:users
         }
     }
     if(media.length>0){
-        routes[7] = {
+        routes[8] = {
             path:'', title:'Media', icon:'../../../assets/img/ico/campaign.png', class:'has-sub', submenu:media
         }
     }
@@ -205,8 +210,5 @@ export function sideBarData() {
             path:'', title:'Reports', icon:'../../../assets/img/ico/reports.png', class:'has-sub', submenu:reports
         }
     }
-    routes[10] = {
-        path:'/versionControl', title:'Version Control', icon:'../../../assets/img/ico/SVG/version.svg', class:'', submenu:[]
-        }
     return routes;
 }

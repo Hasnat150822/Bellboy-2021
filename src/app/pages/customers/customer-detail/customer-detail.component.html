@@ -64,7 +64,7 @@
                     <th>No of Tasks</th>
                     <th>Bellboy Name</th>
                     <th>Status</th>
-                    <th>Amount</th>
+                    <th>Paid Amount</th>
                     <th>Time</th>
                     <th>Date</th>
                     <th>Detail View</th>
@@ -74,7 +74,7 @@
                   <tr *ngFor="let item of hiringByCust">
                     <td>{{item.hiring_id}}</td>
                     <td>{{item.actions?.length}}</td>
-                    <td><a [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]">{{item.bellboy?.name}}</a>
+                    <td><a target="_blank" [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]">{{item.bellboy?.name}}</a>
                     </td>
                     <td><span *ngIf="item.status==1" class="text-orange">Pending</span>  <span *ngIf="item.status==2" class="text-success">Assigned</span>  <span *ngIf="item.status==3" class="text-success">In Progress / Payment Waiting</span>  <span *ngIf="item.status==4"
                       class="text-success">Completed</span>  <span *ngIf="item.status==5" class="text-error">Cancelled</span>
@@ -83,7 +83,7 @@
                     <td>{{item.charges?.totalTime | timeConvert}}</td>
                     <td>{{item.created_at | date:'mediumDate'}}</td>
                     <td>
-                      <a class="p-0 text-dark" [routerLink]="['/hiring/hiringDetail', item.hiring_id]">
+                      <a target="_blank" class="p-0 text-dark" [routerLink]="['/hiring/hiringDetail', item.hiring_id]">
                         <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
                       </a>
                     </td>

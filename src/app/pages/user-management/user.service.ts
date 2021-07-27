@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { sweetAlert, url } from 'app/shared/services/global';
 var postAuth;
 @Injectable({
@@ -22,7 +22,17 @@ export class UserService {
     .set('contact_number', obj.cellno)
     .set('password', obj.pass)
     .set('role', obj.role)
-    return this.http.post(this._url+'api/admin/auth/register', body, postAuth)
+    return this.http.post(this._url+'api/admin/auth/register', body, postAuth).pipe(
+      tap((res:any)=>{
+        if(res.status == true){
+          sweetAlert('success', 'User successfully created')
+        }else{
+          sweetAlert('warning', res.message)
+        }
+      }, error=>{
+        sweetAlert('error', error.error.message)
+      })
+    )
   }
   getUsers(keyword, status, type){
     switch (type) {

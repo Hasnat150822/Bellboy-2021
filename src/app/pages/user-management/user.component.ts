@@ -114,22 +114,7 @@ export class UserManageComponent implements OnInit{
           this.getUsers('', true, 'Id')
           form.reset()
           this.modalService.dismissAll()
-          Swal.fire({
-            icon:'success',
-            title:'User successfully created',
-            width:'400px',
-            showConfirmButton:false,
-            timer:2500        
-          })
         }
-      },error=>{
-        Swal.fire({
-          icon:'error',
-          title:error.error.message,
-          width:'400px',
-          showConfirmButton:false,
-          timer:2500
-        })
       })
     }
   }

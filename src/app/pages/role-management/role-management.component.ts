@@ -93,25 +93,10 @@ export class RoleManagementComponent implements OnInit {
           this.isHideMedia = true
           this.isHideAction = true
           this.getRole()
-          Swal.fire({
-            icon:'success',
-            title:'Role Added Successfully',
-            width:'400px',
-            timer:2500,
-            showConfirmButton:false
-          })
           this.checkedValues = []
           this.roleSubmitted = false
           this.modalService.dismissAll()
         }
-      },error=>{
-        Swal.fire({
-          icon:'error',
-          title:error.error.message,
-          width:'400px',
-          timer:2500,
-          showConfirmButton:false
-        })
       })
     }
   }

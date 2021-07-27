@@ -26,41 +26,27 @@ export var chartColors: Array<any> = [
     },
   
   ];
-  export var chartOptions: any = {
-    animation: {
-      duration: 1000, // general animation time
-      easing: 'easeOutBack'
-    },
-    legend: {
-      position: 'top',
-    },
-    hover: {
-      mode: 'label',
-      animationDuration: 1000, // duration of animations when hovering an item
-    },
-    responsiveAnimationDuration: 1000, // animation duration after a resize
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: true,
-        gridLines: {
-          color: "#F5F5F5",
-          lineWidth: 0.5
-        },
-        scaleLabel: {
-          display: true
-        }
-      }],
-      yAxes: [{
-        display: true,
-        gridLines: {
-          color: "#F5F5F5",
-          lineWidth: 0
-        },
-        scaleLabel: {
-          display: true
-        }
-      }]
+export var barChartColors:Array<any> = [
+  {
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
     }
-  };
+]
+export const barChartLabels = ["Today Hirings", "Today Customers", "Today Bellboys","Today Earning", "Pending Hirings", "In Progress Hirings","Completed Hirings", "Cancelled Hirings"];

@@ -59,7 +59,7 @@
               </select>
             </div>
             <ngb-tabset type="pills" #tabset="ngbTabset">
-              <ngb-tab id="tab1">
+              <!-- <ngb-tab id="tab1">
                 <ng-template ngbTabTitle>
                   <div class="tab-padding" (click)="
                       this.tabStatus = 'tab1';
@@ -74,7 +74,7 @@
                   </table>
                   <ng-container *ngTemplateOutlet="pagination"></ng-container>
                 </ng-template>
-              </ngb-tab>
+              </ngb-tab> -->
               <ngb-tab id="tab2">
                 <ng-template ngbTabTitle>
                   <div class="tab-padding" (click)="
@@ -91,7 +91,7 @@
                   <ng-container *ngTemplateOutlet="pagination"></ng-container>
                 </ng-template>
               </ngb-tab>
-              <ngb-tab id="tab3">
+              <!-- <ngb-tab id="tab3">
                 <ng-template ngbTabTitle>
                   <div class="tab-padding" (click)="
                       this.tabStatus = 'tab3';
@@ -106,7 +106,7 @@
                   </table>
                   <ng-container *ngTemplateOutlet="pagination"></ng-container>
                 </ng-template>
-              </ngb-tab>
+              </ngb-tab> -->
               <ngb-tab id="tab4">
                 <ng-template ngbTabTitle>
                   <div class="tab-padding" (click)="
@@ -211,7 +211,7 @@
       <th>Hiring Id</th>
       <th>Customer Name <i id="sortByCustName"></i></th>
       <th>Cell No</th>
-      <th *ngIf="!(status==1 || status==6)">Assigned Bellboy {{status}}</th>
+      <th *ngIf="!(status==1 || status==6)">Assigned Bellboy</th>
       <th *ngIf="status!==6">Bellboy Type</th>
       <th>
         <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
@@ -256,10 +256,10 @@
       <td class="text-nowrap"> 
         <span>{{item.customer?.mobile | showDashes}}</span>
       </td>
-      <td *ngIf="!(status==1 || status==6)" [routerLink]="[
-          '/bellboy/bellboydetail',
-          item.bellboy?._id
-        ]"> <a class="hoverOrange" ngbTooltip="View Detail">{{
+      <td *ngIf="!(status==1 || status==6)" > <a [routerLink]="[
+        '/bellboy/bellboydetail',
+        item.bellboy?._id
+      ]" target="_blank" class="hoverOrange" ngbTooltip="View Detail">{{
           item.bellboy?.name | showDashes
         }}</a> 
       </td>
@@ -286,7 +286,7 @@
       <td *ngIf="status == 4" [ngClass]="{ 'text-success ': item.isFree }">{{ item.isFree ? "Free" : item.amount | showDashes}}</td>
       <td>-</td>
       <td *ngIf="status == 1 || status == 2 || status == 3">
-        <a class="p-0 text-dark" [routerLink]="[
+        <a class="p-0 text-dark" target="_blank" [routerLink]="[
             '/hiring/hiringDetail',
             item.hiring_id
           ]">
@@ -297,7 +297,7 @@
         </a>
       </td>
       <td *ngIf="status == 4 || status ==5 || status == 6">
-        <a class="p-0 text-dark" [routerLink]="[
+        <a class="p-0 text-dark" target="_blank" [routerLink]="[
             '/hiring/hiringDetail',
             item.hiring_id
           ]">

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { checkPage } from 'app/shared/services/global';
 import { PagerService } from 'app/shared/services/pager.service';
@@ -14,7 +15,8 @@ export class BellboyHiringsComponent implements OnInit {
   spinner:boolean;
   totalHirings;
   pager:any = {};
-  constructor(private bbService:BellboyService, private modalService:NgbModal, private pagerService:PagerService) { }
+  constructor(private bbService:BellboyService, private modalService:NgbModal, private pagerService:PagerService,
+    private router:Router) { }
   @Input() bbId;
   ngOnInit() {
     this.getBellboyHiring(1);
@@ -30,6 +32,12 @@ export class BellboyHiringsComponent implements OnInit {
       this.pager = this.pagerService.getPager(this.totalHirings, page, 6);
       this.spinner = false;
     })
+  }
+  hiringDetail(id){
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([`/hiring/hiringDetail/${id}`])
+    );
+    window.open(url, '_blank')
   }
   closeModal(){
     this.modalService.dismissAll();

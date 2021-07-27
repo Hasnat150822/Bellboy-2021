@@ -43,11 +43,11 @@
                     <tbody>
                       <tr *ngFor="let item of allOrders">
                         <td>{{item.order_id}}</td>
-                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
-                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        <td >
+                          <a [routerLink]="['/customers/custdetail', item.customer?._id]" class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
                         </td>
                         <td>{{item.customer?.mobile}}</td>
-                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        <td ><a [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]" class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
                         </td>
                         <td>{{item.bellboyType?.title}}</td>
                         <td>{{item.category?.title}}</td>
@@ -120,11 +120,12 @@
                     <tbody>
                       <tr *ngFor="let item of allOrders">
                         <td>{{item.order_id}}</td>
-                        <td [routerLink]="['/customers/custdetail', item.customer?._id]">
-                          <a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
+                        <td>
+                          <a [routerLink]="['/customers/custdetail', item.customer?._id]" class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name}}</a>
                         </td>
                         <td>{{item.customer?.mobile}}</td>
-                        <td [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]"><a class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
+                        <td >
+                          <a [routerLink]="['/bellboy/bellboydetail', item.bellboy?._id]" class="hoverOrange" ngbTooltip="View Detail">{{item.bellboy?.name}}</a>
                         </td>
                         <td>{{item.bellboyType?.title}}</td>
                         <td>{{item.category?.title}}</td>

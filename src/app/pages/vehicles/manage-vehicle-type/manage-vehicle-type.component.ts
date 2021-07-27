@@ -69,38 +69,14 @@ export class ManageVehicleTypeComponent implements OnInit {
         if(res.success === true){
           this.getVehicleType()
           form.reset()
-          Swal.fire({
-            icon:'success',
-            text:'Added',
-            width:'400px',
-            timer:2500,
-            showCancelButton:false,
-            showConfirmButton:false
-          })
           this.modalService.dismissAll()
         }else{
           form.reset()
-          Swal.fire({
-            icon:'error',
-            text:res.message,
-            width:'400px',
-            timer:2500,
-            showCancelButton:false,
-            showConfirmButton:false
-          })
           this.modalService.dismissAll()
         }
       },error=>{
         this.modalService.dismissAll()
         form.reset()
-        Swal.fire({
-          icon:'error',
-          text:error.error.message,
-          width:'400px',
-          timer:2500,
-          showCancelButton:false,
-          showConfirmButton:false
-        })
       })
     }else{
       return false

@@ -207,5 +207,13 @@ export const allRoutes=[
         path:'/versionControl'
       },
       loadChildren:()=>import('../../pages/version-control/version-control.module').then(m=>m.VersionControlModule)
+    },
+    {
+      path: 'commissions',resolve:{data:ResolverService}, useHash: true ,
+      data: {
+        text: 'Commissions',
+        path:'/commissions'
+      },
+      loadChildren:()=>import('../../pages/commissions/commissions.module').then(m=>m.CommissionsModule)
     }
   ]

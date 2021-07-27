@@ -1,7 +1,7 @@
 <section id="tabs">
   <div class="row text-left mb-2 mt-2">
     <div class="col-sm-12 mb-0">
-      <h3 class="mb-0">Charges</h3>
+      <h3 class="mb-0">{{category}} {{category==undefined?'Rider':''}} Charges</h3>
     </div>
   </div>
   <div class="row text-left">
@@ -10,7 +10,7 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
-            <ul class="nav nav-pills" role="tablist">
+            <ul class="nav nav-pills" role="tablist" *ngIf="category == 'B2B' || category=='Personal Assistance'">
               <li class="nav-item" role="presentation">
                 <a class="nav-link p-0 active" id="formula-tab" data-toggle="tab" href="#formula" role="tab" aria-controls="formula" aria-selected="true">
                   <div class="tab-padding">Formula</div>
@@ -38,7 +38,7 @@
   </div>
 </section>
 <ng-template #tableComp>
-  <table class="table table-responsive-md table-striped">
+  <table class="table table-responsive-md table-striped text-center">
     <thead>
       <tr>
         <th>Charges</th>
@@ -50,7 +50,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>Hourly Charges</td>
+        <td>Service Charges</td>
         <td>
           <div class="d-flex align-items-center justify-content-center">
             <span class="w-50">

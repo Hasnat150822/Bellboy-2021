@@ -17,7 +17,7 @@ declare const $:any;
   templateUrl: './hiring.component.html',
   styleUrls: ['./hiring.component.scss']
 })
-export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HiringComponent implements OnInit, AfterViewInit {
   subscription: Subscription;
   pager: any = {};
   keyword: string = '';
@@ -89,7 +89,7 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
         if(res.tabstatus){
           this.tabStatus = res.tabstatus;
         }else{    
-          this.tabStatus = 'tab1';
+          this.tabStatus = 'tab2';
         }
         this.switchTap();
     })
@@ -100,17 +100,12 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
     this.endDate=undefined;
     this.searchValue='';
     this.sortBy = '-created_at';
-    this.tabset.select('tab1');
-    this.getHirings(1, 1);
+    this.tabset.select('tab2');
+    this.getHirings(2, 1);
   }
   interval
   switchTap(){
     switch (this.tabStatus) {
-      case 'tab1':
-        this.interval = setInterval(()=>{
-          this.getHirings(1, 1);
-        }, 15000)
-        break;
       case 'tab2':
         clearInterval(this.interval)
         this.getHirings(2, 1);
@@ -156,14 +151,13 @@ export class HiringComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }, error => {
         this.spinner = false
+      }, ()=>{
+        this.subscription.unsubscribe();
       })
   }
   open(content, reason) {
     this.cacelled_reason = reason
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop:'static', keyboard:false})
-  }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
   sortByNumber() {
     this.togg = this.togg3 = this.togg4 = false;

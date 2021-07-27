@@ -4,7 +4,7 @@
       <h3 class="mb-0">Actions Types</h3>
     </div>
     <div class="col-sm-6 text-right">
-      <button class="btn btn-orange mb-0" (click)="open(addActionsModel)">Add Action Type</button>
+      <button class="btn btn-orange mb-0" (click)="openContext='create'; open(addActionsModel)">Add Action Type</button>
     </div>
   </div>
   <ng-container *ngTemplateOutlet="mainAction.length<0?shimmer:false"></ng-container>
@@ -27,63 +27,28 @@
             </span>
           </p>
         </div>
+        <div class="card-footer text-right">
+          <button class="btn btn-orange" (click)="updateAction(addActionsModel, item, 'updateMain')">Update Action</button>
+        </div>
       </div>
     </div>
   </div>
   <ng-container *ngTemplateOutlet="subActions.length<0?shimmer:false"></ng-container>
-  <div class="row text-left" *ngIf="subActions.length>0">
+  <div class="row text-left">
     <!--Pills Starts-->
     <div class="col-md-12 col-lg-12">
       <div class="card">
         <div class="card-content">
           <div class="card-body">
-            <ngb-tabset type="pills">
-              <ngb-tab id="all">
-                <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="getSubActions('')">All Actions</div>
-                </ng-template>
-                <ng-template ngbTabContent>
-                  <table class="table table-responsive-md table-striped">
-                    <thead>
-                      <ng-container *ngTemplateOutlet="tableHeader"></ng-container>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngTemplateOutlet="tableBody"></ng-container>
-                    </tbody>
-                  </table>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab id="true">
-                <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="getSubActions('true')">Active Actions</div>
-                </ng-template>
-                <ng-template ngbTabContent>
-                  <table class="table table-responsive-md table-striped">
-                    <thead>
-                      <ng-container *ngTemplateOutlet="tableHeader"></ng-container>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngTemplateOutlet="tableBody"></ng-container>
-                    </tbody>
-                  </table>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab id="false">
-                <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="getSubActions('false')">Blocked Actions</div>
-                </ng-template>
-                <ng-template ngbTabContent>
-                  <table class="table table-responsive-md table-striped">
-                    <thead>
-                      <ng-container *ngTemplateOutlet="tableHeader"></ng-container>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngTemplateOutlet="tableBody"></ng-container>
-                    </tbody>
-                  </table>
-                </ng-template>
-              </ngb-tab>
-            </ngb-tabset>
+            <table *ngIf="subActions.length>0" class="table table-responsive-md table-striped">
+              <thead>
+                <ng-container *ngTemplateOutlet="tableHeader"></ng-container>
+              </thead>
+              <tbody>
+                <ng-container *ngTemplateOutlet="tableBody"></ng-container>
+              </tbody>
+            </table>
+            <h3 *ngIf="subActions.length==0" class="text-center text-orange">  There is no action for </h3>
           </div>
         </div>
       </div>
@@ -128,7 +93,7 @@
           </p>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="openContext==='update'">
         <select name="" id="" class="form-control" formControlName="category">
           <option value="">Select Category</option>
           <option *ngFor="let item of mainAction" value="{{item._id}}">{{item.title}}</option>
@@ -202,16 +167,9 @@
     </td>
     <td>{{item.title}}</td>
     <td class="desc">{{item.description}}</td>
-    <!-- <td>
-        <div *ngFor="let label of item.labels">
-          <p *ngIf="label?.locale?.code == 'ur'">
-            {{label?.label}} 
-          </p>
-        </div>
-      </td> -->
     <td>{{item.actionCount}}</td>
     <td style="width: 230px !important;">
-      <button class="btn btn-orange" (click)="updateAction(addActionsModel, item)">Update Action</button>
+      <button class="btn btn-orange" (click)="updateAction(addActionsModel, item, 'update')">Update Action</button>
       <button *ngIf="item.status == 'true'" (click)="changeActionStatus(false, item._id)" class="btn btn-danger ml-2">Block Action</button>
       <button *ngIf="item.status == 'false'" (click)="changeActionStatus(true, item._id)" class="btn btn-success ml-2">Active Action</button>
     </td>

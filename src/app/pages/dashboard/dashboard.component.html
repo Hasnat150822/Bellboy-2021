@@ -1,157 +1,33 @@
 <section>
-  <div id="totalSec" class="row align-items-center">
-    <div class="col-6">
-      <span class="card-title h2" *ngIf="!rangeRecord"><strong>Today Record</strong></span>
-      <span *ngIf="rangeRecord"><strong>From: </strong> {{this.startDateforRecord | date:'mediumDate'}} <strong>To: </strong> {{this.endDateforRecord | date:'mediumDate'}} </span>
-    </div>
-    <div class="col-6 text-right px-3">
-      <a (click)="defaults();"> <i class="ft-refresh-cw font-weight-bold" ngbTooltip="Reset" placement="bottom"></i> 
-      </a>
-      <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2">Select Range for Record</button>
-    </div>
-    <div class="col-12">
-      <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
-      </ngb-datepicker>
-      <ng-template #t1 let-date let-focused="focused" class="template">
-        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
-          {{ date.day }}
-        </span>
-      </ng-template>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="recordCard card">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0 w-100"> 
-            <span>{{daysRecord?.totalCurrentDayHirings}} </span>
-            <span class="float-right">
-              <img height="25px" src="../../../assets/img/ico/confused.png">
-            </span></h5>
-          <hr>
-          <p class="mb-0">
-            <span>{{!rangeRecord?'Today':''}} Hirings</span>
-          </p>
-          <a routerLink="/hiring" class="stretched-link"></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="recordCard card">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-            {{daysRecord?.totalCurrentDayCustomers}}
-          <span class="float-right">
-            <img height="25px" src="../../../assets/img/ico/client.png">
-          </span></h5>
-          <hr>
-          <p class="mb-0">
-            <span>{{!rangeRecord?'Today':''}} Customers</span>
-          </p>
-          <a routerLink="/customers" class="stretched-link"></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="recordCard card">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-              {{daysRecord?.totalCurrentDayBellBoys}}
-              <span class="float-right">
-                <img height="25px" src="../../../assets/img/ico/BB-PNG.png">
-              </span>
-            </h5>
-          <hr>
-          <p class="mb-0">
-            <span>{{!rangeRecord?'Today':''}} Bellboy</span>
-          </p>
-          <a routerLink="/bellboy" class="stretched-link"></a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="card recordCard">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-              {{daysRecord?.totalEarningDate | number:0}}/- Rs
-              <span class="float-right">
-                <img height="25px" src="../../../assets/img/ico/money.png">
-              </span>
-            </h5>
-          <hr>
-          <p class="mb-0">
-            <span>Today Earnings</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="card recordCard">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-              {{daysRecord?.totalPendingHirings}}
-              <span class="float-right">
-                <img height="25px" src="../../../assets/img/ico/pending.svg">
-              </span>
-            </h5>
-          <hr>
-          <p class="mb-0">
-            <span>Pending Hirings</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="card recordCard">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-            {{daysRecord?.totalInProgressHirings}}
-            <span class="float-right">
-              <img height="25px" src="../../../assets/img/ico/in-progress.svg">
-            </span>
-          </h5>
-          <hr>
-          <p class="mb-0">
-            <span>In Progress Hirings</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="card recordCard">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-            {{daysRecord?.totalCompletedHirings}}
-            <span class="float-right">
-              <img height="25px" src="../../../assets/img/ico/checked-hirings.svg">
-            </span>
-          </h5>
-          <hr>
-          <p class="mb-0">
-            <span>Completed Hirings</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-xl-3">
-      <div class="card recordCard">
-        <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-        <div class="card-body" *ngIf="!loader">
-          <h5 class="font-weight-500 mb-0">
-            {{daysRecord?.totalCancelledHirings}}
-            <span class="float-right">
-              <img height="25px" src="../../../assets/img/ico/canceled-hiring.svg">
-            </span>
-          </h5>
-          <hr>
-          <p class="mb-0">
-            <span>Cancelled Hirings</span>
-          </p>
+  <div id="totalSec">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header ">
+            <div class="row">
+              <div class="col-6">
+                <span class="card-title h2" *ngIf="!rangeRecord"><strong>Today Record</strong></span>
+                <span *ngIf="rangeRecord"><strong>From: </strong> {{this.startDateforRecord | date:'mediumDate'}} <strong>To: </strong> {{this.endDateforRecord | date:'mediumDate'}} </span>
+              </div>
+              <div class="col-6 text-right px-3">
+                <a (click)="defaults();"> <i class="ft-refresh-cw font-weight-bold" ngbTooltip="Reset" placement="bottom"></i> 
+                </a>
+                <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2">Select Range for Record</button>
+              </div>
+              <div class="col-12">
+                <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
+                </ngb-datepicker>
+                <ng-template #t1 let-date let-focused="focused" class="template">
+                  <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="daysData.length>0">
+            <app-bar-chart [data]="daysData"></app-bar-chart>
+          </div>
         </div>
       </div>
     </div>
@@ -165,23 +41,28 @@
               <span *ngIf="!rangeGraph" class="card-title h2"><strong>Current Week Statistics</strong></span>
               <span *ngIf="rangeGraph"><strong>From: </strong> {{this.startDate | date:'mediumDate'}} <strong>To: </strong> {{this.endDate | date:'mediumDate'}} </span>
             </div>
-            <div class="col-sm-6 text-right">
-              <button (click)="showDatePick('datepicker')" class="btn btn-orange mr-2 float-right">Select Graph Range</button>
+            <div class="col-sm-6 text-right position-relative">
+              <input type="week" (change)="selectWeek($event)" id="week" name="week" class="btn-orange float-right border-0 rounded ml-2" style="
+              z-index: 1050;
+              width: 100px;">
+              <button class="btn btn-orange mr-2 float-right position-absolute ml-2">By Week</button>
+              <input type="month" (change)="selectMonth($event)" id="month" name="month" class="btn-orange float-right border-0 rounded" style="
+              z-index: 1050;
+              width: 100px;">
+              <button class="btn btn-orange mr-2 float-right position-absolute">By Month</button>
+              <!-- <button (click)="showDatePick('datepicker')" class="btn btn-orange mr-2 float-right">Select Graph Range</button>
               <ngb-datepicker #dp id="datepicker" class="d-none mr-2" style="top:30px" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t" outsideDays="hidden">
               </ngb-datepicker>
               <ng-template #t let-date let-focused="focused" class="template">
                 <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
                   {{ date.day }}
                 </span>
-              </ng-template>
+              </ng-template> -->
             </div>
           </div>
         </div>
-        <div class="card-body">
-          <div style="display: block;">
-            <canvas height="260" baseChart class="chart" [datasets]="areaChartData" [labels]="areaChartLabels" [options]="areaChartOptions" [colors]="areaChartColors"
-            [legend]="areaChartLegend" [chartType]="areaChartType" ></canvas>
-          </div>
+        <div class="card-body" *ngIf="graphData">
+          <app-line-chart [data]="graphData" [startDate]="sendStartDate" [endDate]="sendEndDate"></app-line-chart>
         </div>
       </div>
     </div>
@@ -207,7 +88,7 @@
               </div>
               <div class="media-body">
                 <div class="text-right text-dark">
-                  <a routerLink="/hiring/hiringDetail/{{item.hiring_id}}">
+                  <a target="_blank" routerLink="/hiring/hiringDetail/{{item.hiring_id}}">
                     <img src="../../../assets/img/ico/eye.png" class="img-eye" />
                   </a>
                 </div>
@@ -242,7 +123,7 @@
               </div>
               <div class="media-body">
                 <div class="text-right text-dark">
-                  <a routerLink="/customers/custdetail/{{item._id}}">
+                  <a target="_blank" routerLink="/customers/custdetail/{{item._id}}">
                     <img src="../../../assets/img/ico/eye.png" class="img-eye" />
                   </a>
                 </div>
@@ -277,7 +158,7 @@
               </div>
               <div class="media-body">
                 <div class="text-right text-dark">
-                  <a routerLink="/bellboy/bellboydetail/{{item._id}}">
+                  <a target="_blank" routerLink="/bellboy/bellboydetail/{{item._id}}">
                     <img src="../../../assets/img/ico/eye.png" class="img-eye" />
                   </a>
                 </div>

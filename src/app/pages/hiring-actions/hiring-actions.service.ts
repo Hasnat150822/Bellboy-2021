@@ -30,12 +30,16 @@ export class HiringActionsService {
     let observable;
     formData.append('title', form.title);
     formData.append('description', form.desc);
-    formData.append('type', form.category);
-    formData.append('icon', icon);
+    if(icon!==undefined){formData.append('icon', icon);}
     if(type=='create'){
       observable = this.http.post(this._url+'api/admin/hiring-action-type', formData)
-    }else{
+      formData.append('type', form.category);
+    }else if(type == 'update'){
       observable = this.http.put(this._url+'api/admin/hiring-action-type', formData)
+      formData.append('action_type_id', form.category);
+    }else{
+      observable = this.http.put(this._url+'api/admin/hiring-main-action-type', formData)
+      formData.append('action_type_id', form.category);
     }
     return observable
     .pipe(

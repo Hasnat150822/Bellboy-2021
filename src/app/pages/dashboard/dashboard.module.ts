@@ -4,6 +4,8 @@ import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { DashboardComponent } from './dashboard.component';
 import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 @NgModule({
     imports: [
@@ -13,7 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule
     ],
     declarations: [       
-        DashboardComponent
+        DashboardComponent, BarChartComponent, LineChartComponent
     ],
     providers:[DatePipe]
 })
