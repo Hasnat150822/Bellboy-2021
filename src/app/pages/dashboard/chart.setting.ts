@@ -49,4 +49,116 @@ export var barChartColors:Array<any> = [
     borderWidth: 1
     }
 ]
+export const barChartOptions = {
+  layout:{
+    padding:20
+  },
+  animation: {
+    duration: 1000, // general animation time
+    easing: 'easeOutBack'
+  },
+  legend: {
+    position: 'top',
+  },
+  tooltips:{
+    callbacks:{
+      label:(context)=>{
+        if(typeof context.value === 'string' && context.value.includes('.')){
+          return +context.value*1000;
+        }else{
+          return context.value
+        }
+      }
+    }
+  },
+  hover: {
+    mode: 'label',
+    animationDuration: 1000, // duration of animations when hovering an item
+  },
+  responsiveAnimationDuration: 1000, // animation duration after a resize
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    xAxes: [{
+      display: true,
+      gridLines: {
+        color: "#F5F5F5",
+        lineWidth: 1
+      },
+      scaleLabel: {
+        display: true
+      }
+    }],
+    yAxes: [{
+      display: true,
+      gridLines: {
+        color: "#F5F5F5",
+        lineWidth: 1
+      },
+      scaleLabel: {
+        display: true
+      },
+      ticks:{
+        display: false,
+        min:0
+      }
+    }]
+  },
+  plugins:{
+    datalabels: {
+      anchor: 'end',
+      align: 'end',
+      font: {
+        size: 12,
+      },
+      formatter: (value, ctx) => {
+        let valueType = typeof value;
+        if(valueType==='string' && value.includes('.')){
+          return value+'k'
+        }
+      }
+    }
+  }
+};
+export const lineChartOptions = {
+  animation: {
+    duration: 1000, // general animation time
+    easing: 'easeOutBack'
+  },
+  legend: {
+    position: 'top',
+  },
+  hover: {
+    mode: 'label',
+    animationDuration: 1000, // duration of animations when hovering an item
+  },
+  responsiveAnimationDuration: 1000, // animation duration after a resize
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    xAxes: [{
+      display: true,
+      gridLines: {
+        color: "#F5F5F5",
+        lineWidth: 0.5
+      },
+      scaleLabel: {
+        display: true
+      }
+    }],
+    yAxes: [{
+      display: true,
+      gridLines: {
+        color: "#F5F5F5",
+        lineWidth: 0
+      },
+      scaleLabel: {
+        display: true,
+      },
+      ticks:{
+        min:0
+      }
+    }]
+  }
+};
 export const barChartLabels = ["Today Hirings", "Today Customers", "Today Bellboys","Today Earning", "Pending Hirings", "In Progress Hirings","Completed Hirings", "Cancelled Hirings"];

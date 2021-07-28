@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit  {
       data[0] = res.totalCurrentDayHirings;
       data[1] = res.totalCurrentDayCustomers;
       data[2] = res.totalCurrentDayBellBoys;
-      data[3] = res.totalEarningDate;
+      data[3] = (res.totalEarningDate/1000).toFixed(1);
       data[4] = res.totalPendingHirings;
       data[5] = res.totalInProgressHirings;
       data[6] = res.totalCompletedHirings;

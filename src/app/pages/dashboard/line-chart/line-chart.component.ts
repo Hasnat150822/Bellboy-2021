@@ -1,5 +1,5 @@
   import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { chartColors } from '../chart.setting';
+import { chartColors, lineChartOptions } from '../chart.setting';
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
@@ -12,47 +12,7 @@ export class LineChartComponent implements OnInit, AfterViewInit {
   @Input() endDate;
   lineChartColors = chartColors;
   lineChartLegend = true;
-  lineChartOptions = {
-    animation: {
-      duration: 1000, // general animation time
-      easing: 'easeOutBack'
-    },
-    legend: {
-      position: 'top',
-    },
-    hover: {
-      mode: 'label',
-      animationDuration: 1000, // duration of animations when hovering an item
-    },
-    responsiveAnimationDuration: 1000, // animation duration after a resize
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: true,
-        gridLines: {
-          color: "#F5F5F5",
-          lineWidth: 0.5
-        },
-        scaleLabel: {
-          display: true
-        }
-      }],
-      yAxes: [{
-        display: true,
-        gridLines: {
-          color: "#F5F5F5",
-          lineWidth: 0
-        },
-        scaleLabel: {
-          display: true,
-        },
-        ticks:{
-          min:0
-        }
-      }]
-    }
-  };
+  lineChartOptions = lineChartOptions;
   lineChartLabels;
   lineChartData;
   constructor() { }
