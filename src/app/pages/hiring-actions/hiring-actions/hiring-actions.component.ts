@@ -19,6 +19,7 @@ export class HiringActionsComponent implements OnInit {
   currentImage
   code:string
   actionTypeId;
+  selectedCategory:string;
   amazonImgUrl:string = amazonUrl;
   constructor(private fb:FormBuilder, private modalService:NgbModal,
     private hirngActService:HiringActionsService, private globalService:GlobalService) { 

@@ -5,7 +5,7 @@
         <div class="card-body">
           <div class="row py-3 bg-light">
             <div class="col-sm-12">
-              <a target="_blank" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">
+              <a target="_blank" class="text-dark" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">
                 <h5 class="font-weight-500">Customer</h5>
               </a>
             </div>
@@ -35,7 +35,7 @@
             <div class="col-sm-6"><span *ngIf="detailHiring && !detailHiring?.bellboy" class="text-orange">Not Assigned Yet</span>
             </div>
             <div class="col-sm-6 text-right" >
-              <a target="_blank" [routerLink]="[
+              <a target="_blank" class="text-dark" [routerLink]="[
               '/bellboy/bellboydetail',
               detailHiring?.bellboy?._id
             ]">

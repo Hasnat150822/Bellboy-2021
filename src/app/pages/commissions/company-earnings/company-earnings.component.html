@@ -1,0 +1,147 @@
+<div class="d-flex text-left mb-2 mt-2 justify-content-between">
+    <h3>Company's Earnings</h3>
+    <small class="py-1 px-2 info-button">420k Total Earning</small>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <ngb-tabset type="pills" #tabset="ngbTabset">
+                <ngb-tab id="tab1">
+                    <ng-template ngbTabTitle>
+                        <div class="tab-padding">All</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <table class="table table-responsive-md table-striped">
+                            <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                            <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                        </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab2">
+                    <ng-template ngbTabTitle>
+                    <div class="tab-padding">TopUp</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                    <table class="table table-responsive-md table-striped">
+                        <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                        <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                    </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab3">
+                    <ng-template ngbTabTitle>
+                        <div class="tab-padding">Withdraw</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <table class="table table-responsive-md table-striped">
+                            <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                            <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                        </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab4">
+                    <ng-template ngbTabTitle>
+                    <div class="tab-padding">Recieved</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                    <table class="table table-responsive-md table-striped">
+                        <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                        <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                    </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab5">
+                    <ng-template ngbTabTitle>
+                    <div class="tab-padding">Transfer</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                    <table class="table table-responsive-md table-striped">
+                        <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                        <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                    </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
+</div>
+<ng-template #tableHead let-status="status">
+  <thead>
+    <tr>
+      <th>Hiring Id</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Hiring Type</th>
+      <th>Date</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+</ng-template>
+<ng-template #tableBody let-status="status">
+  <tbody>
+    <tr>
+        <td>Hiring Id</td>
+        <td>Amount</td>
+        <td>Type</td>
+        <td>Hiring Type</td>
+        <td>Date</td>
+        <td>Time</td>
+    </tr>
+  </tbody>
+</ng-template>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center"> <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+      >
+      : <span class="text-secondary ml-2">120</span> 
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination">
+        <li class="ng2-smart-page-item page-item"> <a aria-label="First" class="ng2-smart-page-link page-link"><span aria-hidden="true">First</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item">
+          <a
+            aria-label="Prev"
+            ngbTooltip="Previous 5"
+            class="ng2-smart-page-link page-link page-link-prev"
+            ><span aria-hidden="true">«</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item ng-star-inserted"
+        >
+          <a
+            class="ng2-smart-page-link page-link ng-star-inserted"
+            >1</a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+        >
+          <a
+            ngbTooltip="Next 5"
+            aria-label="Next"
+            class="ng2-smart-page-link page-link page-link-next"
+            ><span aria-hidden="true">»</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+        >
+          <a
+            aria-label="Last"
+            class="ng2-smart-page-link page-link"
+            ><span aria-hidden="true">Last</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-template>

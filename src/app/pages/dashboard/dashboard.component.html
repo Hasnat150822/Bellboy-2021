@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
-          <div class="card-header ">
+          <div class="card-header">
             <div class="row">
               <div class="col-6">
                 <span class="card-title h2" *ngIf="!rangeRecord"><strong>Today Record</strong></span>
@@ -25,8 +25,11 @@
               </div>
             </div>
           </div>
-          <div class="card-body" *ngIf="daysData.length>0">
+          <div class="card-body" *ngIf="daysData">
             <app-bar-chart [data]="daysData"></app-bar-chart>
+          </div>
+          <div class="card-body" *ngIf="!daysData">
+            <ng-container *ngTemplateOutlet="shimmer"></ng-container>
           </div>
         </div>
       </div>
@@ -35,7 +38,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="card">
-        <div class="card-header ">
+        <div class="card-header">
           <div class="row">
             <div class="col-sm-6">
               <span *ngIf="!rangeGraph" class="card-title h2"><strong>Current Week Statistics</strong></span>
@@ -63,6 +66,9 @@
         </div>
         <div class="card-body" *ngIf="graphData">
           <app-line-chart [data]="graphData" [startDate]="sendStartDate" [endDate]="sendEndDate"></app-line-chart>
+        </div>
+        <div class="card-body" *ngIf="!graphData">
+          <ng-container *ngTemplateOutlet="shimmer"></ng-container>
         </div>
       </div>
     </div>
@@ -178,6 +184,6 @@
   </div>
 </section>
 <ng-template #shimmer>
-  <div class="card-body" *ngIf="loader" [ngClass]="{'shine':loader}">
-  </div>
+  <div class="shine w-100">
+  </div>    
 </ng-template>

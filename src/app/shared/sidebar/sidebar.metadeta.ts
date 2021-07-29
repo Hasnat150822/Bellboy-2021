@@ -86,7 +86,11 @@ export function sideBarData() {
             break;
             case "Commissions":
                 routes[6] = {
-                    path:'/commissions', title:'Commissions', icon:'../../../assets/img/ico/commission.png', class:'', submenu:[]
+                    path:'', title:'Commissions', icon:'../../../assets/img/ico/commission.png', class:'has-sub', submenu:[{
+                        path:'/commissions/percentage', title:'Manage Percentage', icon:'', class:'', submenu:[]
+                    },{
+                        path:'/commissions/companyEarnings', title:"Company's Earning", icon:'', class:'', submenu:[]
+                    }]
                 }
             break;
             case "Complaints":
@@ -186,7 +190,7 @@ export function sideBarData() {
         }
     }
     if(charges.length>0){
-        routes[8] = {
+        routes[9] = {
             path:'', title:'Our Charges', icon:'../../../assets/img/ico/money.png', class:'has-sub', submenu:charges
         } 
     }

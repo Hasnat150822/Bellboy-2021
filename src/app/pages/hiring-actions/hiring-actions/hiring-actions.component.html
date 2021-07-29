@@ -9,7 +9,7 @@
   </div>
   <ng-container *ngTemplateOutlet="mainAction.length<0?shimmer:false"></ng-container>
   <div class="row" *ngIf="mainAction.length>0" myMatchHeight="card">
-    <div class="col-sm-6 col-md-3" *ngFor="let item of mainAction" (click)="mainActionId=item._id; getSubActions(status);">
+    <div class="col-sm-6 col-md-3" *ngFor="let item of mainAction" (click)="mainActionId=item._id; selectedCategory=item.title; getSubActions(status);">
       <div class="recordCard card" ngbTooltip="{{item.actionTypeCount}} Tasks Performed">
         <div class="card-body">
           <h5 class="font-weight-500 mb-0 w-100 d-flex justify-content-between"> 
@@ -48,7 +48,7 @@
                 <ng-container *ngTemplateOutlet="tableBody"></ng-container>
               </tbody>
             </table>
-            <h3 *ngIf="subActions.length==0" class="text-center text-orange">  There is no action for </h3>
+            <h3 *ngIf="subActions.length==0" class="text-center text-orange">  There is no action for {{selectedCategory}} </h3>
           </div>
         </div>
       </div>

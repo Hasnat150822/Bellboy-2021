@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit  {
   startDateforRecord; endDateforRecord;
   rangeRecord:boolean;
   rangeGraph:boolean;
-  daysData:any = [];
+  daysData:any;
   constructor(private calendar:NgbCalendar, private service:DashboardService, private pagerService:PagerService){}
   ngOnInit(){
     this.defaults();
@@ -52,10 +52,12 @@ export class DashboardComponent implements OnInit  {
   sendStartDate;
   sendEndDate;
   getGraphData(){
+    this.loader = true;
     let startDate = this.startDate.toISOString();
     let endDate = this.endDate.toISOString();
     this.service.getGraphRecord(startDate, endDate)
     .subscribe((res:any)=>{
+      this.loader = false;
       this.fromDate = null;
       this.toDate = null;
       this.graphData = res;
@@ -67,9 +69,9 @@ export class DashboardComponent implements OnInit  {
     this.loader = true;
     this.service.getDaysRecord(this.startDateforRecord, this.endDateforRecord)
     .subscribe((res:any)=>{
+      this.loader = false;
       this.fromDate = null;
       this.toDate = null;
-      this.loader = false;
       let data = [];
       data[0] = res.totalCurrentDayHirings;
       data[1] = res.totalCurrentDayCustomers;
@@ -126,16 +128,11 @@ export class DashboardComponent implements OnInit  {
       fromDate.setFullYear(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
       let toDate = new Date;
       toDate.setFullYear(this.toDate.year,this.toDate.month-1,this.toDate.day);
-      if(this.datePickerId == 'datepicker1'){
-        this.startDateforRecord = fromDate;
-        this.endDateforRecord = toDate;
-        this.getDaysData();
-        this.getDetailData();
-        this.rangeRecord = true;
-      }else{
-        this.rangeGraph = true;
-        this.getGraphData();
-      }
+      this.startDateforRecord = fromDate;
+      this.endDateforRecord = toDate;
+      this.getDaysData();
+      this.getDetailData();
+      this.rangeRecord = true;
     } 
     else {
       this.toDate = null;
@@ -149,6 +146,7 @@ export class DashboardComponent implements OnInit  {
     this.endDate = new Date(year+'-0'+nextMonth+'-01T00:00:00Z');
     this.endDate.setDate(this.endDate.getDate()-1)
     this.startDate = new Date(year+'-'+month+'-01T00:00:00Z')
+    this.rangeGraph = true; 
     this.getGraphData();
   }
   selectWeek(event){
@@ -157,6 +155,7 @@ export class DashboardComponent implements OnInit  {
     this.startDate = startDateWeek(year, week);
     this.endDate = startDateWeek(year, week);
     this.endDate.setDate(startDateWeek(year, week).getDate()+6);
+    this.rangeGraph = true;
     this.getGraphData();
   }
   //ngb date selection line

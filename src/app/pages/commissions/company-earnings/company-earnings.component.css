@@ -1,0 +1,8 @@
+.info-button{
+    background-color: rgba(210,223,234,.90);
+    border-radius: 9999px !important;
+    color: rgba(74,85,104,1);
+    font-size: 1rem;
+    height: 2rem;
+    line-height: 1rem;
+}

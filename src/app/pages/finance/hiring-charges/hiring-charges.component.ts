@@ -46,7 +46,7 @@ export class HiringChargesComponent implements OnInit {
     this.hiringCharges = [];
     this.subscription =  this.financeService.getCharges(2)
     .subscribe((res:any)=>{
-      this.hiringCharges = res
+      this.hiringCharges = res;
     })
   }
   updateCharges(input, confirm, icon , charges_type,api){
@@ -58,12 +58,12 @@ export class HiringChargesComponent implements OnInit {
       let icon_el = this.el.nativeElement.querySelector('#'+icon);
       let confirmDiv = this.el.nativeElement.querySelector('#'+confirm);
       let viewIcon = this.el.nativeElement.querySelector('#viewIcon');
+      this.rendrer2.setAttribute(input_el, 'disabled', 'true');
+      this.rendrer2.setStyle(icon_el, 'display', 'flex');
+      this.rendrer2.setStyle(viewIcon, 'display', 'flex');
+      this.rendrer2.setStyle(confirmDiv, 'display','none');
       this.financeService.updateDelCharges(value, 2, charges_type, api.bellboy_type._id)
       .subscribe((res:any)=>{
-        this.rendrer2.setAttribute(input_el, 'disabled', 'true');
-        this.rendrer2.setStyle(icon_el, 'display', 'flex');
-        this.rendrer2.setStyle(viewIcon, 'display', 'flex');
-        this.rendrer2.setStyle(confirmDiv, 'display','none');
         this.getHiringCharges()
       }, error=>{
         return this.rendrer2.setValue(input_el, api.value);
