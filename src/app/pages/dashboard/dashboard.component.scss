@@ -31,5 +31,91 @@ ul .active, ul>li:hover{
     cursor: pointer;
 }
 .shine{
-    padding: 1.5rem;
+  padding: 1.5rem;
+}  
+
+//   another card
+
+  .card{
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0), 0 0 6px rgba(0, 0, 0, 0);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    // padding: 12px 60px 15px 30px;
+    cursor: pointer;
+  
+    
+    
+  }
+
+  h3{
+    text-align: left;
+    margin-top: 3rem;
+    
+  }
+
+  
+  .scale:hover{
+       transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0), 0 4px 8px rgba(0, 0, 0, 0);
+  }
+  
+  .card h3{
+    font-weight: 600;
+  }
+  
+  .card img{
+    position: absolute;
+    top: 11px;
+    left: 15px;
+    max-height:50px;
+    border-radius: 14px;
+    
+  }
+  
+  .card-1{
+    
+      background-size: 10px;
+      border-radius: 14px;
+      justify-content: space-around;
+      
+  }
+  
+  .card-2{
+    
+      background-size: 10px;
+      border-radius: 14px;
+      justify-content: space-around;
+  
+      
+  }
+  
+  .card-3{
+    
+      background-size: 10px;
+      border-radius: 14px;
+      justify-content: space-around;
+  }
+  
+  .card-4{
+    
+    background-size: 10px;
+    border-radius: 14px;
+    justify-content: space-around;
 }
+
+  @media(max-width: 990px){
+    .card{
+      margin:2rem;
+    }
+  } 
+
+  .button2 {
+      
+    background-color: #FA9008;
+     border-radius: 14px;
+      border: #FA9008;
+margin-top: 2rem;
+float:right;
+
+  }
