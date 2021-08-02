@@ -22,9 +22,9 @@ export class DashboardComponent implements OnInit  {
   pager:any = {};
   pager2:any = {};
   pager3:any = {}; 
-  hiringItems;
-  customerItems;
-  bellboyItems;
+  hiringItems = [];
+  customerItems = [];
+  bellboyItems = [];
   datePickerId;
   startDateforRecord; endDateforRecord;
   rangeRecord:boolean;
@@ -92,23 +92,30 @@ export class DashboardComponent implements OnInit  {
       this.hiringDetail = res.currentDayHirings;
       this.customerDetail = res.currentDayCustomers;
       this.bellboyDetail = res.currentDayBellBoys;
-      this.setPage(1);
-      this.setPageCustomer(1);
-      this.setPageBellboy(1);
+      this.setPage(1, 'hiring');
+      this.setPage(1, 'customer');
+      this.setPage(1, 'bellboy');
     })
   }
   // pagination
-  setPage(page){
-    this.pager = this.pagerService.getPager(this.hiringDetail.length, page, 4);
-    this.hiringItems = this.hiringDetail.slice(this.pager.startIndex, this.pager.endIndex+1);
-  }
-  setPageCustomer(page){
-    this.pager2 = this.pagerService.getPager(this.customerDetail.length, page, 4);
-    this.customerItems = this.customerDetail.slice(this.pager2.startIndex, this.pager2.endIndex+1);
-  }
-  setPageBellboy(page){
-    this.pager3 = this.pagerService.getPager(this.bellboyDetail.length, page, 4);
-    this.bellboyItems = this.bellboyDetail.slice(this.pager3.startIndex, this.pager3.endIndex+1);
+  setPage(page, type){
+    if(page>this.pager.totalPages){
+      return;
+    }
+    else if(page<1){
+      return
+    }
+    if(type=='hiring'){
+      console.log(type, page, 'type', 'page')
+      this.pager = this.pagerService.getPager(this.hiringDetail.length, page, 4);
+      this.hiringItems = this.hiringDetail.slice(this.pager.startIndex, this.pager.endIndex+1);
+    }else if(type=='customer'){
+      this.pager2 = this.pagerService.getPager(this.customerDetail.length, page, 4);
+      this.customerItems = this.customerDetail.slice(this.pager2.startIndex, this.pager2.endIndex+1);
+    }else{
+      this.pager3 = this.pagerService.getPager(this.bellboyDetail.length, page, 4);
+      this.bellboyItems = this.bellboyDetail.slice(this.pager3.startIndex, this.pager3.endIndex+1);
+    }
   }
   showDatePick(id){
     this.datePickerId = id;

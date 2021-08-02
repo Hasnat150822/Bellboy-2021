@@ -1,14 +1,15 @@
 ul>li{
+    padding-block: .25rem;
     list-style: none;
     padding: 0px 12px 0px 12px;
     border-radius: 3px;
-    background: rgba(250, 144,8,0.2);
     margin: 0px 10px 0px 10px;
     color: rgba(0,0,0,0.8);
 }
 ul .active, ul>li:hover{
     background: #fa9008;
     color: white;
+    border-radius: 360px;
 }
 .actions{
     padding: 6px 13px;
@@ -43,9 +44,6 @@ ul .active, ul>li:hover{
         transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
     // padding: 12px 60px 15px 30px;
     cursor: pointer;
-  
-    
-    
   }
 
   h3{
@@ -55,9 +53,12 @@ ul .active, ul>li:hover{
   }
 
   
-  .scale:hover{
-       transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0), 0 4px 8px rgba(0, 0, 0, 0);
+  .small-card:hover{
+    --tw-ring-offset-shadow:0 0 transparent;
+    --tw-ring-shadow:0 0 transparent;
+    --tw-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
+    transform: scale(1.05);
+    box-shadow:var(--tw-ring-offset-shadow,0 0 transparent),var(--tw-ring-shadow,0 0 transparent),var(--tw-shadow)
   }
   
   .card h3{
@@ -65,44 +66,14 @@ ul .active, ul>li:hover{
   }
   
   .card img{
-    position: absolute;
-    top: 11px;
-    left: 15px;
-    max-height:50px;
-    border-radius: 14px;
-    
+    max-height:40px;
   }
-  
-  .card-1{
-    
-      background-size: 10px;
-      border-radius: 14px;
-      justify-content: space-around;
-      
-  }
-  
-  .card-2{
-    
-      background-size: 10px;
-      border-radius: 14px;
-      justify-content: space-around;
-  
-      
-  }
-  
-  .card-3{
-    
-      background-size: 10px;
-      border-radius: 14px;
-      justify-content: space-around;
-  }
-  
-  .card-4{
-    
+  .small-card{
     background-size: 10px;
-    border-radius: 14px;
-    justify-content: space-around;
-}
+    justify-content: space-between;
+    padding-inline: 1rem;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.04); //4% 4/100=0.04
+  }
 
   @media(max-width: 990px){
     .card{
@@ -110,12 +81,9 @@ ul .active, ul>li:hover{
     }
   } 
 
-  .button2 {
-      
-    background-color: #FA9008;
-     border-radius: 14px;
-      border: #FA9008;
-margin-top: 2rem;
-float:right;
-
-  }
+.rounded-full{
+  border-radius: 14px;
+}
+.font-weight-600{
+  font-weight: 600;
+}

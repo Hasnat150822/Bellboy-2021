@@ -51,7 +51,7 @@ export var barChartColors:Array<any> = [
 ]
 export const barChartOptions = {
   layout:{
-    padding:20
+    padding:25
   },
   animation: {
     duration: 1000, // general animation time
@@ -109,7 +109,8 @@ export const barChartOptions = {
       anchor: 'end',
       align: 'end',
       font: {
-        size: 12,
+        size: 13,
+        weight:600
       },
       formatter: (value, ctx) => {
         let valueType = typeof value;

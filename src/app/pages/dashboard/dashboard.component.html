@@ -6,19 +6,62 @@
           <div class="card-header">
             <div class="row">
               <div class="col-6">
-                <span class="card-title h2" *ngIf="!rangeRecord"><strong>Today Record</strong></span>
-                <span *ngIf="rangeRecord"><strong>From: </strong> {{this.startDateforRecord | date:'mediumDate'}} <strong>To: </strong> {{this.endDateforRecord | date:'mediumDate'}} </span>
+                <h3 class="mt-0" *ngIf="!rangeRecord">Today Record</h3>
+                <span *ngIf="rangeRecord"
+                  ><strong>From: </strong>
+                  {{ this.startDateforRecord | date: "mediumDate" }}
+                  <strong>To: </strong>
+                  {{ this.endDateforRecord | date: "mediumDate" }}
+                </span>
               </div>
               <div class="col-6 text-right px-3">
-                <a (click)="defaults();"> <i class="ft-refresh-cw font-weight-bold" ngbTooltip="Reset" placement="bottom"></i> 
+                <a (click)="defaults()">
+                  <i
+                    class="ft-refresh-cw font-weight-bold"
+                    ngbTooltip="Reset"
+                    placement="bottom"
+                  ></i>
                 </a>
-                <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2">Select Range for Record</button>
+                <button
+                  (click)="showDatePick('datepicker1')"
+                  class="btn btn-orange mx-2"
+                >
+                  Select Range for Record
+                </button>
               </div>
               <div class="col-12">
-                <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
+                <ngb-datepicker
+                  #dp1
+                  id="datepicker1"
+                  class="d-none"
+                  [maxDate]="today"
+                  [markDisabled]="markDisabled"
+                  [displayMonths]="1"
+                  (dateSelect)="onDateSelection($event)"
+                  [dayTemplate]="t1"
+                  outsideDays="hidden"
+                >
                 </ngb-datepicker>
-                <ng-template #t1 let-date let-focused="focused" class="template">
-                  <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
+                <ng-template
+                  #t1
+                  let-date
+                  let-focused="focused"
+                  class="template"
+                >
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                    [ngClass]="{
+                      'text-muted':
+                        date.day > today.day &&
+                        date.month === today.month &&
+                        date.year === today.year
+                    }"
+                  >
                     {{ date.day }}
                   </span>
                 </ng-template>
@@ -26,7 +69,7 @@
             </div>
           </div>
           <div class="card-body" *ngIf="daysData">
-            <app-bar-chart [data]="daysData"></app-bar-chart>
+            <app-bar-chart [data]="daysData" [isRange]="rangeRecord"></app-bar-chart>
           </div>
           <div class="card-body" *ngIf="!daysData">
             <ng-container *ngTemplateOutlet="shimmer"></ng-container>
@@ -41,31 +84,47 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-6">
-              <span *ngIf="!rangeGraph" class="card-title h2"><strong>Current Week Statistics</strong></span>
-              <span *ngIf="rangeGraph"><strong>From: </strong> {{this.startDate | date:'mediumDate'}} <strong>To: </strong> {{this.endDate | date:'mediumDate'}} </span>
+              <h3 class="mt-0" *ngIf="!rangeGraph">Current Week Statistics</h3>
+              <span *ngIf="rangeGraph"
+                ><strong>From: </strong>
+                {{ this.startDate | date: "mediumDate" }} <strong>To: </strong>
+                {{ this.endDate | date: "mediumDate" }}
+              </span>
             </div>
             <div class="col-sm-6 text-right position-relative">
-              <input type="week" (change)="selectWeek($event)" id="week" name="week" class="btn-orange float-right border-0 rounded ml-2" style="
-              z-index: 1050;
-              width: 100px;">
-              <button class="btn btn-orange mr-2 float-right position-absolute ml-2">By Week</button>
-              <input type="month" (change)="selectMonth($event)" id="month" name="month" class="btn-orange float-right border-0 rounded" style="
-              z-index: 1050;
-              width: 100px;">
-              <button class="btn btn-orange mr-2 float-right position-absolute">By Month</button>
-              <!-- <button (click)="showDatePick('datepicker')" class="btn btn-orange mr-2 float-right">Select Graph Range</button>
-              <ngb-datepicker #dp id="datepicker" class="d-none mr-2" style="top:30px" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t" outsideDays="hidden">
-              </ngb-datepicker>
-              <ng-template #t let-date let-focused="focused" class="template">
-                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
-                  {{ date.day }}
-                </span>
-              </ng-template> -->
+              <input
+                type="week"
+                (change)="selectWeek($event)"
+                id="week"
+                name="week"
+                class="btn-orange float-right border-0 rounded ml-2"
+                style="z-index: 1050; width: 100px"
+              />
+              <button
+                class="btn btn-orange mr-2 float-right position-absolute ml-2"
+              >
+                By Week
+              </button>
+              <input
+                type="month"
+                (change)="selectMonth($event)"
+                id="month"
+                name="month"
+                class="btn-orange float-right border-0 rounded"
+                style="z-index: 1050; width: 100px"
+              />
+              <button class="btn btn-orange mr-2 float-right position-absolute">
+                By Month
+              </button>
             </div>
           </div>
         </div>
         <div class="card-body" *ngIf="graphData">
-          <app-line-chart [data]="graphData" [startDate]="sendStartDate" [endDate]="sendEndDate"></app-line-chart>
+          <app-line-chart
+            [data]="graphData"
+            [startDate]="sendStartDate"
+            [endDate]="sendEndDate"
+          ></app-line-chart>
         </div>
         <div class="card-body" *ngIf="!graphData">
           <ng-container *ngTemplateOutlet="shimmer"></ng-container>
@@ -73,730 +132,119 @@
       </div>
     </div>
   </div>
-  <!-- <div class="row">
-    <div class="col-lg-4 col-md-6">
-      <div class="card  ml-auto mr-auto">
-        <div class="card-body">
-          <h5 class="font-weight-500 mb-0">{{hiringDetail?.length}}
-          <span class="float-right">
-            <img height="25px" src="../../../assets/img/ico/confused.png">
-          </span></h5>
-          <p class="mb-0">{{!rangeRecord?'New':''}} Hirings</p>
-          <hr>
-          <div style="height: 190px; overflow-y: scroll;">
-            <div *ngFor="let item of hiringItems" class="media pt-0 pb-2 align-items-center">
-              <div class="actions position-relative">
-                <span>{{item.actions}}</span>
-              </div>
-              <div class="media-body">
-                <h4 class="font-medium-1 mb-0">{{item.customer.name}}</h4>
-                <small class=" m-0">{{item.hiring_id}}</small>
-              </div>
-              <div class="media-body">
-                <div class="text-right text-dark">
-                  <a target="_blank" routerLink="/hiring/hiringDetail/{{item.hiring_id}}">
-                    <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="text-right">
-            <a>
-              <button [disabled]="pager.currentPage === 1 || pager.currentPage<1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPage(pager.currentPage - 1)"></button>
-              <button [disabled]="pager.currentPage === pager.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPage(pager.currentPage + 1)"></button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="card  ml-auto mr-auto">
-        <div class="card-body">
-          <h5 class="font-weight-500 mb-0">{{customerDetail?.length}}
-          <span class="float-right">
-            <img src="../../../assets/img/ico/client.png" height="25px">
-          </span></h5>
-          <p class="mb-0">{{!rangeRecord?'New':''}} Customers</p>
-          <hr>
-          <div style="height: 190px; overflow-y: scroll;">
-            <div *ngFor="let item of customerItems" class="media pt-0 pb-2 align-items-center">
-              <img src="{{item.avatar?.value}}" alt="Avatar" width="35" class="mr-3 avatar round" onerror="src='../../../assets/img/gallery/1.jpg'">
-              <div class="media-body">
-                <h4 class="font-medium-1 mb-0">{{item.name}}</h4>
-                <small class=" m-0">{{item.mobile}}</small>
-              </div>
-              <div class="media-body">
-                <div class="text-right text-dark">
-                  <a target="_blank" routerLink="/customers/custdetail/{{item._id}}">
-                    <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="text-right">
-            <a>
-              <button [disabled]="pager2.currentPage === 1 || pager2.currentPage<1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPageCustomer(pager2.currentPage - 1)"></button>
-              <button [disabled]="pager2.currentPage === pager2.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPageCustomer(pager2.currentPage + 1)"></button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="card  ml-auto mr-auto">
-        <div class="card-body">
-          <h5 class="font-weight-500 mb-0">{{bellboyDetail?.length}}
-          <span class="float-right">
-            <img height="25px" src="../../../assets/img/ico/BB-PNG.png">
-          </span></h5>
-          <p class="mb-0">{{!rangeRecord?'New':''}} Bellboys</p>
-          <hr>
-          <div style="height: 190px; overflow-y: scroll;">
-            <div *ngFor="let item of bellboyItems" class="media pt-0 pb-2 align-items-center">
-              <img src="{{item.avatar?.value}}" alt="Avatar" width="35" class="mr-3 avatar round" onerror="src='../../../assets/img/gallery/1.jpg'">
-              <div class="media-body">
-                <h4 class="font-medium-1 mb-0">{{item.name}}</h4>
-                <small class=" m-0">{{item.mobile}}</small>
-              </div>
-              <div class="media-body">
-                <div class="text-right text-dark">
-                  <a target="_blank" routerLink="/bellboy/bellboydetail/{{item._id}}">
-                    <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr>
-          <div class="text-right">
-            <a>
-              <button [disabled]="pager3.currentPage === 1 || pager3.currentPage<1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPageBellboy(pager3.currentPage - 1)"></button>
-              <button [disabled]="pager3.currentPage === pager3.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPageBellboy(pager3.currentPage + 1)"></button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="row">
+  
+  <div class="row mt-3">
     <!-- FIRST CARD -->
-    
-    <div class="col-lg-4 col-md-6">
- 
-       <h3>New Hirings
-        <img src="../../../assets/img/ico/confused.png" class="rounded float-right" alt=""  style="width: 3.5rem;
-        height: 2rem;"/>
-       </h3>
-<hr>
-      <div class="card card-1 scale flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div style="margin-top: 0.5rem;">        
-          <h4>Bellboy 1</h4>
-          <p>1234</p>
-        </div>
-        <div>
-          <button class="button button2">View detail</button>
-        </div>
-      </div>
-  
-    
-      <div class="card card-2 scale flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div style="margin-top: 0.5rem;">
 
-        <h4>Bellboy 2</h4>
-        <p>234</p>
-      </div>
+    <div class="col-lg-4 col-md-6 mb-3">
+      <h5 class="font-weight-600">
+        <span>
+          <img height="25px" src="../../../assets/img/ico/confused.png" />
+        </span>
+        {{ !rangeRecord ? "Today" : "" }} Hirings
+      </h5>
+      <div class="card small-card flex-row align-items-center" *ngFor="let item of hiringItems">
+        <div class="media my-2">
+          <div class="actions position-relative" ngbTooltip="Actions">
+            <span>{{ item.actions }}</span>
+          </div>
+          <div class="media-body">
+            <small class="font-weight-600 text-nowrap">{{ item.customer.name }}</small> <br>
+            <small>{{ item.hiring_id }}</small>
+          </div>
+        </div> 
         <div>
-          <button class="button button2">View detail</button>
+          <a class="ml-1" routerLink="/hiring/hiringDetail/{{ item.hiring_id }}" target="_blank" rel="noopener noreferrer">
+            <button class="btn btn-orange rounded-full">View detail</button>
+          </a>
         </div>
-      
+      </div>
+      <ng-container *ngTemplateOutlet="hiringItems.length?pagination:noValue; context:{'context':'hiring'}"></ng-container>
     </div>
-  
-      <div class="card card-3 scale  flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div style="margin-top: 0.5rem;">
-        <h4>Bellboy 3</h4>
-        <p>23345</p>
-      </div>
-        <div>
-          <button class="button button2">View detail</button>
-        </div>
-      </div>
 
-
-      <div class="card card-4 scale flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div style="margin-top: 0.5rem;">
-        <h4>Bellboy 4</h4>
-        <p>23345</p>
-      </div>
-        <div>
-          <button class="button button2">View detail</button>
-        </div>
-      </div>
-    </div>
-      
-      
-     
-      <!-- <div class="card  ml-auto mr-auto">
-    
-       <center> <h3 style="margin-top: 3rem;">New Hiring Bellboys</h3></center> 
-      
-        <div class="cards">
-          
-   <div class="outer">
-   
-            <div class="card" style="--delay: -1;">
-              <div class="header">
-                <div class="profile">
-                  <div class="img">
-                    <img
-                      src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="details">
-                    <h4>Bellboy 1</h4>
-                    <p>1234</p>
-                  </div>
-                </div>
-                <div class="media-body">
-                  <div class="text-right text-dark">
-                    
-                      <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-            <div class="card" style="--delay: 0;">
-              <div class="header">
-                <div class="profile">
-                  <div class="img">
-                    <img
-                      src="https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="details">
-                    <h4>Bellboy 2</h4>
-                    <p>234</p>
-                  </div>
-                </div>
-                <div class="media-body">
-                  <div class="text-right text-dark">
-                    
-                      <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-            <div class="card" style="--delay: 1;">
-              <div class="header">
-                <div class="profile">
-                  <div class="img">
-                    <img
-                      src="https://images.unsplash.com/photo-1475823678248-624fc6f85785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="details">
-                    <h4>Bellboy 3</h4>
-                    <p>234</p>
-                  </div>
-                </div>
-                <div class="media-body">
-                  <div class="text-right text-dark">
-                    
-                      <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-            <div class="card" style="--delay: 2;">
-              <div class="header">
-                <div class="profile">
-                  <div class="img">
-                    <img
-                      src="https://images.unsplash.com/photo-1484588168347-9d835bb09939?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="details">
-                    <h4>Bellboy 3</h4>
-                    <p>2345</p>
-                  </div>
-                </div>
-                <div class="media-body">
-                  <div class="text-right text-dark">
-                    
-                      <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  
-                  </div>
-                </div>
-              </div>
-             
-            </div>
-            <div class="card" style="--delay: 2;">
-              <div class="header">
-                <div class="profile">
-                  <div class="img">
-                    <img
-                      src="https://images.unsplash.com/photo-1511546395756-590dffdcdbd1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div class="details">
-                    <h4>Bellboy 4</h4>
-                    <p>567</p>
-                  </div>
-                </div>
-                <div class="media-body">
-                  <div class="text-right text-dark">
-                    
-                      <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-                  
-                  </div>
-                </div>
-              </div>
-              
-            </div>
+    <div class="col-lg-4 col-md-6 mb-3">
+      <h5 class="font-weight-600">
+        <span>
+          <img height="25px" src="../../../assets/img/ico/client.png"/>
+        </span>
+        {{ !rangeRecord ? "Today" : "" }} Customers
+      </h5>
+      <div class="card small-card flex-row align-items-center" *ngFor="let item of customerItems">
+        <div class="media my-2">
+          <img
+            src="{{ item.avatar?.value }}"
+            class="avatar rounded-circle"
+            alt="..."
+            onerror="src='../../../assets/img/gallery/1.jpg'"
+          />
+          <div class="media-body">
+            <small class="font-weight-600 text-nowrap">{{ item.name }}</small> <br>
+            <small>{{ item.mobile }}</small>
           </div>
         </div>
-      </div>
-        
-      </div>
-      
-    </div> -->
-  
-<!-- SCEOND CARD -->
-
-
-
-<div class="col-lg-4 col-md-6">
- 
-   <h3>New Customers
-
-    <img src="../../../assets/img/ico/client.png" class="rounded float-right" alt=""  style="width: 3.5rem;
-    height: 2rem;" />
-   </h3> 
-<hr>
-  <div class="card card-1  scale flex-row">
-    <div>
-      <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-    </div>
-    <div style="margin-top: 0.5rem;">        
-      <h4>Bellboy 1</h4>
-      <p>1234</p>
-    </div>
-    <div>
-      <button class="button button2">View detail</button>
-    </div>
-  </div>
-
-
-  <div class="card card-2  scale flex-row">
-    <div>
-      <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-    </div>
-    <div style="margin-top: 0.5rem;">
-
-    <h4>Bellboy 2</h4>
-    <p>234</p>
-  </div>
-    <div>
-      <button class="button button2">View detail</button>
-    </div>
-  
-</div>
-
-  <div class="card card-3  scale flex-row">
-    <div>
-      <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-    </div>
-    <div style="margin-top: 0.5rem;">
-    <h4>Bellboy 3</h4>
-    <p>23345</p>
-  </div>
-    <div>
-      <button class="button button2">View detail</button>
-    </div>
-  </div>
-
-
-  <div class="card card-4 scale flex-row">
-    <div>
-      <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-    </div>
-    <div style="margin-top: 0.5rem;">
-    <h4>Bellboy 4</h4>
-    <p>23345</p>
-  </div>
-    <div>
-      <button class="button button2">View detail</button>
-    </div>
-  </div>
-</div>
-  
-  
-<!-- <div class="col-lg-4 col-md-6">
-  <div class="card  ml-auto mr-auto">
-    <center> <h3 style="margin-top: 3rem;">New Customers</h3></center> 
-    <div class="cards">
-      <div class="outer">
-        <div class="card" style="--delay: -1;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 1</h4>
-                <p>1234</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="card" style="--delay: 0;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 2</h4>
-                <p>234</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="card" style="--delay: 1;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1475823678248-624fc6f85785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 3</h4>
-                <p>234</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="card" style="--delay: 2;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1484588168347-9d835bb09939?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 3</h4>
-                <p>2345</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-         
-        </div>
-        <div class="card" style="--delay: 2;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1511546395756-590dffdcdbd1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 4</h4>
-                <p>567</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    
-    
-  </div>
-  
-</div> -->
- 
-    
-<!-- 3RD CARD -->
- <div class="col-lg-4 col-md-6">
- 
-    <h3>New Bellboys
-      <img src="../../../assets/img/ico/BB-PNG.png" class="rounded float-right" alt=""  style="width: 3.5rem;
-    height: 2rem;" />
-    </h3>
-      <hr> 
-
-      <div class="card card-1  scale flex-row">
         <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div style="margin-top: 0.5rem;">        
-          <h4>Bellboy 1</h4>
-          <p>1234</p>
-        </div>
-        <div>
-          <button class="button button2">View detail</button>
+          <a class="ml-1" routerLink="/customers/custdetail/{{ item._id }}" target="_blank" rel="noopener noreferrer">
+            <button class="btn btn-orange rounded-full">View detail</button>
+          </a>
         </div>
       </div>
-  
-    
-      <div class="card card-2 scale flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div style="margin-top: 0.5rem;">
-
-        <h4>Bellboy 2</h4>
-        <p>234</p>
-      </div>
-        <div>
-          <button class="button button2">View detail</button>
-        </div>
-      
+      <ng-container *ngTemplateOutlet="customerItems.length?pagination:noValue; context:{'context':'customer'}"></ng-container>
     </div>
-  
-      <div class="card card-3 scale flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
+    <!-- 3RD CARD -->
+    <div class="col-lg-4 col-md-6 mb-3">
+      <h5 class="font-weight-600">
+        <span>
+          <img height="25px" src="../../../assets/img/ico/BB-PNG.png" />
+        </span>
+        {{ !rangeRecord ? "Today" : "" }} Bellboys
+      </h5>
+      <div class="card small-card flex-row align-items-center" *ngFor="let item of bellboyItems">
+      <div class="media my-2">
+        <img
+          src="{{ item.avatar?.value }}"
+          class="rounded-circle"
+          alt="..."
+          onerror="src='../../../assets/img/gallery/1.jpg'"
+        />
+        <div class="media-body">
+          <small class="font-weight-600 text-nowrap">{{ item.name }}</small> <br>
+          <small>{{ item.mobile }}</small>
         </div>
-        <div style="margin-top: 0.5rem;">
-        <h4>Bellboy 3</h4>
-        <p>23345</p>
+      </div> 
+      <div>
+        <a class="ml-1" routerLink="/bellboy/bellboydetail/{{ item._id }}" target="_blank" rel="noopener noreferrer">
+          <button class="btn btn-orange rounded-full">View detail</button>
+        </a>
       </div>
-        <div>
-          <button class="button button2">View detail</button>
-        </div>
       </div>
-
-
-      <div class="card card-4 scale flex-row">
-        <div>
-          <img src="https://www.pethub.com/sites/default/files/home-page/bt-tag-orange-back.png" class="rounded float-left" alt="...">
-        </div>
-        <div  style="margin-top: 0.5rem;">
-        <h4>Bellboy 4</h4>
-        <p>23345</p>
-      </div>
-        <div>
-          <button class="button button2">View detail</button>
-        </div>
-      </div>
+      <ng-container *ngTemplateOutlet="bellboyItems.length?pagination:noValue; context:{'context':'bellboy'}"></ng-container>
     </div>
-      
-      
-
-
-<!-- <div class="col-lg-4 col-md-6">
-  <div class="card  ml-auto mr-auto">
-    <center> <h3 style="margin-top: 3rem;">New Bellboys</h3></center> 
-    <div class="cards">
-      <div class="outer">
-        <div class="card" style="--delay: -1;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 1</h4>
-                <p>1234</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="card" style="--delay: 0;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 2</h4>
-                <p>234</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="card" style="--delay: 1;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1475823678248-624fc6f85785?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 3</h4>
-                <p>234</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <div class="card" style="--delay: 2;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1484588168347-9d835bb09939?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 3</h4>
-                <p>2345</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-         
-        </div>
-        <div class="card" style="--delay: 2;">
-          <div class="header">
-            <div class="profile">
-              <div class="img">
-                <img
-                  src="https://images.unsplash.com/photo-1511546395756-590dffdcdbd1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="details">
-                <h4>Bellboy 4</h4>
-                <p>567</p>
-              </div>
-            </div>
-            <div class="media-body">
-              <div class="text-right text-dark">
-                
-                  <img src="../../../assets/img/ico/eye.png" class="img-eye" />
-              
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-
-    
-  </div>
-  
-</div> -->
-
   </div>
 </section>
+<ng-template #pagination let-context="context">
+  <ul *ngIf="pager.pages && pager.pages.length" class="nav paginate justify-content-center font-weight-bold">
+    <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
+      <a (click)="setPage(1, context)">First</a>
+    </li>
+    <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
+      <a (click)="setPage(pager.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+    </li>
+    <li [ngClass]="{active:pager.currentPage === page}">
+      <a (click)="setPage(page, context)">{{pager.currentPage}}</a>
+    </li>
+    <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+    </li>
+    <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
+      <a (click)="setPage(pager.totalPages, context)">Last</a>
+    </li>
+  </ul>
+</ng-template>
+<ng-template #noValue let-context="context">
+  <div class="card small-card py-3">
+    There are no {{context}}s
+  </div>
+</ng-template>
 <ng-template #shimmer>
-  <div class="shine w-100">
-  </div>    
+  <div class="shine w-100"></div>
 </ng-template>

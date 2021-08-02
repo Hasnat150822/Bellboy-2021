@@ -586,3 +586,14 @@ hr{
     line-height: unset;
     margin: 0 !important;
   }
+  
+.btn-outline-orange{
+    border-color: #FA9008 !important;
+    color: #FA9008 !important;
+    border-radius: 360px;
+    margin-left: .75rem;
+    font-size: 13px !important;
+}
+.btn-outline-orange:hover{
+    color: white !important;
+}
