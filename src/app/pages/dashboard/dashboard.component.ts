@@ -1,10 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { PagerService } from 'app/shared/services/pager.service';
-import { ChartDataSets } from 'chart.js';
-import { Color } from 'ng2-charts';
 import { chartColors, chartOptions } from './chart.setting';
-import { dashboard } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 declare const $:any;
 @Component({
