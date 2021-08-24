@@ -18,7 +18,7 @@ export class DashboardService {
   getDaysRecord(startDate, endDate){
     let urlString = '';
     if(startDate && endDate){
-      urlString = '?startDateForRecords='+startDate+'&endDateForRecords'+endDate;
+      urlString = '?startDateForRecords='+startDate+'&endDateForRecords='+endDate;
     }
     return this.http.get(url+'api/admin/dashboard/days_records'+urlString)
     .pipe(
@@ -30,7 +30,7 @@ export class DashboardService {
   getDetailRecord(startDate, endDate){
     let urlString = '';
     if(startDate && endDate){
-      urlString = '?startDateForRecords='+startDate+'&endDateForRecords'+endDate;
+      urlString = '?startDateForRecords='+startDate+'&endDateForRecords='+endDate;
     }
     return this.http.get(url+'api/admin/dashboard/detailsData'+urlString)
     .pipe(

@@ -2,85 +2,38 @@ import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FinanceService } from '../finance.service';
 import { Subscription } from 'rxjs';
-declare const $:any;
+import { HiringActionsService } from 'app/pages/hiring-actions/hiring-actions.service';
 @Component({
   selector: 'app-hiring-charges',
   templateUrl: './hiring-charges.component.html',
   styleUrls: ['./hiring-charges.component.scss']
 })
 export class HiringChargesComponent implements OnInit {
-  inputId;
-  isDisable:boolean = true
   hiringCharges:any = [];
-  singleId;
+  serviceType:string;
   @Input() category;
   constructor(private financeService:FinanceService, private modalService:NgbModal, 
-    private el:ElementRef, private rendrer2:Renderer2) { 
+    private el:ElementRef, private rendrer2:Renderer2, private hiringAction:HiringActionsService) { 
      }
   ngOnInit() {
-    this.getHiringCharges()
+    this.hiringAction.getMainhiring('').subscribe((res:any)=>{
+      res.data.HiringActionTypes.map((response:any)=>{
+        if(response.title == 'Ride'){
+          this.serviceType = response._id;
+          this.getHiringCharges();
+        }
+      })
+    })
   }
   ngAfterViewInit(){
-    for (let i = 1; i <=16; i++) {
-      let confirmDiv = this.el.nativeElement.querySelector('#confirm'+i);
-      let inputs = this.el.nativeElement.querySelector('.input'+i);
-      this.rendrer2.setStyle(confirmDiv, 'display','none');
-      this.rendrer2.setAttribute(inputs, 'disabled', 'true');
-    }
-  }
-  changeDisable(input, icon, confirm){
-    let input_el = this.el.nativeElement.querySelector('.'+input);
-    let icon_el = this.el.nativeElement.querySelector('#'+icon);
-    let confirmDiv = this.el.nativeElement.querySelector('#'+confirm);
-    let viewIcon = this.el.nativeElement.querySelector('#viewIcon');
-    this.rendrer2.removeAttribute(input_el, 'disabled');
-    this.rendrer2.setStyle(icon_el, 'display', 'none');
-    this.rendrer2.setStyle(viewIcon, 'display', 'none');
-    this.rendrer2.setStyle(confirmDiv, 'display','flex');
-  }
-  open(content){
-    this.modalService.open(content, { windowClass: 'my-class', backdrop:'static', keyboard:false});
   }
   subscription: Subscription;
   getHiringCharges(){
     this.hiringCharges = [];
-    this.subscription =  this.financeService.getCharges(2)
+    this.subscription =  this.financeService.getCharges(this.serviceType)
     .subscribe((res:any)=>{
       this.hiringCharges = res;
     })
-  }
-  updateCharges(input, confirm, icon , charges_type,api){
-    let value = this.el.nativeElement.querySelector('.'+input).value;
-    if(api.value == value){
-      return false
-    }else{
-      let input_el = this.el.nativeElement.querySelector('.'+input);
-      let icon_el = this.el.nativeElement.querySelector('#'+icon);
-      let confirmDiv = this.el.nativeElement.querySelector('#'+confirm);
-      let viewIcon = this.el.nativeElement.querySelector('#viewIcon');
-      this.rendrer2.setAttribute(input_el, 'disabled', 'true');
-      this.rendrer2.setStyle(icon_el, 'display', 'flex');
-      this.rendrer2.setStyle(viewIcon, 'display', 'flex');
-      this.rendrer2.setStyle(confirmDiv, 'display','none');
-      this.financeService.updateDelCharges(value, 2, charges_type, api.bellboy_type._id)
-      .subscribe((res:any)=>{
-        this.getHiringCharges()
-      }, error=>{
-        return this.rendrer2.setValue(input_el, api.value);
-      })
-    }
-  }
-  crossClick(input, confirm,icon, api){
-        let input_el = this.el.nativeElement.querySelector('.'+input);
-        let icon_el = this.el.nativeElement.querySelector('#'+icon);
-        let confirmDiv = this.el.nativeElement.querySelector('#'+confirm);
-        let viewIcon = this.el.nativeElement.querySelector('#viewIcon');
-        this.rendrer2.setAttribute(input_el, 'disabled', 'true');
-        this.rendrer2.setStyle(icon_el, 'display', 'flex');
-        this.rendrer2.setStyle(viewIcon, 'display', 'flex');
-        this.rendrer2.setStyle(confirmDiv, 'display','none');
-        if(api!==undefined)
-          return $('#'+input).val(api.value);
   }
   ngOnDestroy() {
     this.subscription.unsubscribe()    

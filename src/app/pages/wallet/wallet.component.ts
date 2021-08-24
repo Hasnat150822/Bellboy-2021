@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { PagerService } from 'app/shared/services/pager.service';
 import { WalletService } from './wallet.service';
 interface topupWithdraw {
