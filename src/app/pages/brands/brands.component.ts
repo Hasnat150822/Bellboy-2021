@@ -119,7 +119,7 @@ export class BrandsComponent implements OnInit {
       },(error:any)=>{
         this.imageFile = undefined
         this.imgURL = undefined
-        sweetAlert('error', error.error.message)
+        sweetAlert('error', error)
       })
       this.submitted = false
       form.reset()

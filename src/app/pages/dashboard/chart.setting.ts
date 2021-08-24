@@ -162,4 +162,4 @@ export const lineChartOptions = {
     }]
   }
 };
-export const barChartLabels = ["Today Hirings", "Today Customers", "Today Bellboys","Today Earning", "Pending Hirings", "In Progress Hirings","Completed Hirings", "Cancelled Hirings"];
+export const barChartLabels = ["Today Earning", "Today Hirings", "Today Customers", "Today Bellboys", "Non-Accept Hirings", "In Progress Hirings","Completed Hirings", "Cancelled Hirings"];

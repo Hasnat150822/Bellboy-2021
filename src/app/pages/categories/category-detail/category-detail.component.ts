@@ -115,7 +115,7 @@ export class CategoryDetailComponent implements OnInit {
         this.showError(res.message)
       }
     }, error=>{
-      this.showError(error.error.message)
+      this.showError(error)
     })
   }
   updateLabel(fieldId, item){
@@ -131,7 +131,7 @@ export class CategoryDetailComponent implements OnInit {
           this.showError(res.message)
         }
       }, error=>{
-        this.showError(error.error.message)
+        this.showError(error)
       })
     }
   }
@@ -145,7 +145,7 @@ export class CategoryDetailComponent implements OnInit {
         this.showError(res.message)
       }
     }, error=>{
-      this.showError(error.error.message)
+      this.showError(error)
     })
   }
   showError(message){

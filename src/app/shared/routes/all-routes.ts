@@ -1,8 +1,8 @@
-import { ResolverService } from '../services/resolver.service';
+import { Routes } from '@angular/router';
 
-export const allRoutes=[
+export const allRoutes:Routes=[
     {
-      path: 'dashboard',resolve:{data:ResolverService}, useHash: true ,
+      path: 'dashboard', 
     data:{
         text:'Dashoboard',
         path:'/dashboard'
@@ -10,7 +10,7 @@ export const allRoutes=[
       loadChildren: ()=>import('../../pages/dashboard/dashboard.module').then(m=>m.DashboardModule)
     },
     {
-      path: 'bellboy',resolve:{data:ResolverService}, useHash: true ,
+      path: 'bellboy', 
       data: {
         text: 'Bellboy',
         path:'/bellboy'
@@ -18,7 +18,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/bellboy/bellboy.module').then(m=>m.BellboyModule)
     },
     {
-      path: 'usermanage',resolve:{data:ResolverService}, useHash: true,
+      path: 'usermanage', 
       data: {
         text: 'User Management',
         path:'/usermanage'
@@ -26,7 +26,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/user-management/user.module').then(m=>m.UserManageModule)
     },
     {
-      path: 'rolemanage',resolve:{data:ResolverService}, useHash: true,
+      path: 'rolemanage', 
       data: {
         text: 'Roles Management',
         path:'/rolemanage'
@@ -34,7 +34,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/role-management/role-management.module').then(m=>m.RoleManagementModule)
     },
     {
-      path: 'categories',resolve:{data:ResolverService}, useHash: true,
+      path: 'categories', 
       data: {
         text: 'Categories',
         path:'/categories'
@@ -42,7 +42,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/categories/categories.module').then(m=>m.CategoriesModule)
     },
     {
-      path: 'brands',resolve:{data:ResolverService}, useHash: true,
+      path: 'brands', 
       data: {
         text: 'Brands',
         path:'/brands'
@@ -50,7 +50,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/brands/brands.module').then(m=>m.BrandsModule)
     },
     {
-      path: 'products',resolve:{data:ResolverService}, useHash: true,
+      path: 'products', 
       data: {
         text: 'Products',
         path:'/products'
@@ -58,7 +58,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/products/products.module').then(m=>m.ProductsModule)
     },
     {
-      path: 'customers',resolve:{data:ResolverService}, useHash: true,
+      path: 'customers', 
       data: {
         animation: 'customers',
         text: 'Customers',
@@ -67,7 +67,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/customers/customers.module').then(m=>m.CustomersModule)
     },
     {
-      path: 'deliveries',resolve:{data:ResolverService}, useHash: true,
+      path: 'deliveries', 
       data: { 
         text: 'Deliveries',
         path:'/deliveries'
@@ -75,7 +75,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/deliveries/deliveries.module').then(m=>m.DeliveriesModule)
     },
     {
-      path: 'hiring',resolve:{data:ResolverService}, useHash: true,
+      path: 'hiring', 
       data: {
         animation: 'hiring',
         text: 'Hiring',
@@ -84,7 +84,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/hiring/hiring.module').then(m=>m.HiringModule)
     },
     {
-      path: 'locals',resolve:{data:ResolverService}, useHash: true,
+      path: 'locals', 
       data: {
         text: 'Locals',
         path:'/locals'
@@ -93,7 +93,7 @@ export const allRoutes=[
     },
     {
       path:'managevehicle',
-      resolve:{data:ResolverService}, useHash: true,
+       
       data: {
         text: 'Manage Vehicles',
         path:'/managevehicle'
@@ -101,7 +101,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/vehicles/manage-vehicles/manage-vehicles.module').then(m=>m.ManageVehiclesModule)
     },
     {
-      path:'managevehicletype',resolve:{data:ResolverService}, useHash: true,
+      path:'managevehicletype', 
       data: {
         text: 'Manage Vehicle Type',
         path:'/managevehicletype'
@@ -109,7 +109,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/vehicles/manage-vehicle-type/manage-vehicle-type.module').then(m=>m.ManageVehicleTypeModule)
     },
     {
-      path:'managebrand', resolve:{data:ResolverService}, useHash: true,
+      path:'managebrand',  
       data: {
         text: 'Manage Brand',
         path:'/managebrand'
@@ -117,7 +117,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/vehicles/manage-brand/manage-brand.module').then(m=>m.ManageBrandModule)
     },
     {
-      path:'managemodel',resolve:{data:ResolverService},  useHash: true,   
+      path:'managemodel',     
       data: {
         text: 'Manage Model',
         path:'/managemodel'
@@ -125,7 +125,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/vehicles/manage-model/manage-model.module').then(m=>m.ManageModelModule)
     },
     {
-      path:'assignstatus',resolve:{data:ResolverService}, useHash: true,
+      path:'assignstatus', 
       data:{
         text: 'Assign Status',
         path:'/assignstatus'
@@ -134,12 +134,11 @@ export const allRoutes=[
     },
     {
       path:'finance',
-      useHash: true,
       loadChildren:()=>import('../../pages/finance/finance.module').then(m=>m.FinanceModule)
     },
     {
-      path:'bellboyTypes',resolve:{data:ResolverService},
-      useHash: true,
+      path:'bellboyTypes',
+      
       data:{
         text: 'Bellboy Types',
         path:'/bellboyTypes'
@@ -147,8 +146,8 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/bellboy-types/bellboy-types.module').then(m=>m.BellboyTypesModule)
     },
     {
-      path:'bellboytracing',resolve:{data:ResolverService},
-      useHash: true,
+      path:'bellboytracing',
+      
       data:{
         text: 'Bellboy Tracking',
         path:'/bellboytracing'
@@ -156,7 +155,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/bellboy-tracking/bellboy-tracking.module').then(m=>m.BellboyTrackingModule)
     },
     {
-      path:'hiringactiontype',resolve:{data:ResolverService}, useHash: true,
+      path:'hiringactiontype', 
       data:{
         text:'Hiring Action Types',
         path:'/hiringactiontype'
@@ -164,8 +163,8 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/hiring-actions/hiring-actions.module').then(m=>m.HiringActionsModule)
     },
     {
-      path:'myprofile/:id',resolve:{data:ResolverService},
-      useHash: true,
+      path:'myprofile/:id',
+      
       data:{
         text:'My Profile',
         path:'/myprofile/:id'
@@ -177,7 +176,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/reports/reports.module').then(m=>m.ReportsModule)
     },
     {
-      path:'advertisement' ,resolve:{data:ResolverService}, useHash: true,
+      path:'advertisement' , 
       data:{
         text:'Advertisement',
         path:'/advertisement'
@@ -185,7 +184,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/advertisement/advertisement.module').then(m=>m.AdvertisementModule)
     },
     {
-      path:'notification',resolve:{data:ResolverService}, useHash: true,
+      path:'notification', 
       data:{
         text:'Notification',
         path:'/notification'
@@ -193,7 +192,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/notification/notification.module').then(m=>m.NotificationModule)
     },
     {
-      path:'complaints',resolve:{data:ResolverService}, useHash: true,
+      path:'complaints', 
       data:{
         text:'Complaints',
         path:'/complains'
@@ -201,7 +200,7 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/complains/complaints.module').then(m=>m.ComplainsModule)
     },
     {
-      path:'versionControl',resolve:{data:ResolverService}, useHash: true,
+      path:'versionControl', 
       data:{
         text:'Version Control',
         path:'/versionControl'
@@ -209,11 +208,26 @@ export const allRoutes=[
       loadChildren:()=>import('../../pages/version-control/version-control.module').then(m=>m.VersionControlModule)
     },
     {
-      path: 'commissions',resolve:{data:ResolverService}, useHash: true ,
+      path: 'commissions', 
       data: {
         text: 'Commissions',
         path:'/commissions'
       },
       loadChildren:()=>import('../../pages/commissions/commissions.module').then(m=>m.CommissionsModule)
+    },{
+      path: 'wallet', 
+      data: {
+        text: 'Wallet',
+        path:'/wallet'
+      },
+      loadChildren:()=>import('../../pages/wallet/wallet.module').then(m=>m.WalletModule)
+    },
+    {
+      path: 'wallet', 
+      data: {
+        text: 'Wallet',
+        path:'/wallet'
+      },
+      loadChildren:()=>import('../../pages/wallet/wallet.module').then(m=>m.WalletModule)
     }
   ]

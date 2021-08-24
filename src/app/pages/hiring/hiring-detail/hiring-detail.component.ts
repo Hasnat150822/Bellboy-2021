@@ -109,9 +109,9 @@ export class HiringDetailComponent implements OnInit, AfterViewInit {
           let initialLocation; let geolocation;
           res.map((element)=>{
             if(element.key == 'geolocation'){
-              initialLocation = element.payload.toJSON();
-            }else if(element.key == 'initialLocation'){
               geolocation = element.payload.toJSON();
+            }else if(element.key == 'initialLocation'){
+              initialLocation = element.payload.toJSON();
             }
           })
           if(this.bellboyOrigin == undefined || this.bellboyOrigin == null){

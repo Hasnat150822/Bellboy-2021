@@ -6,7 +6,7 @@ export const environment = {
   // apiUrl:'https://api.bellboy.co/',
   firebase: {
       apiKey: "AIzaSyBIzV2hjFaFt3enV2GfLlcsI6HwvetJRek",
-      authDomain: "bellboy-280008.firebaseapp.com",
+      authDomain: "bellboy-280008.firebaseapp.com", 
       databaseURL: "https://bellboy-280008.firebaseio.com",
       projectId: "bellboy-280008",
       storageBucket: "bellboy-280008.appspot.com",

@@ -52,7 +52,7 @@ availableBellboy(){
         sweetAlert('warning', res.message);
       }
     },error=>{
-      sweetAlert('error', error.error.message);
+      sweetAlert('error', error);
     })
   )
  }

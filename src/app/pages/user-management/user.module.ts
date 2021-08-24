@@ -10,7 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from 'app/ngrx-states/reducer';
-import { BigImageModule } from '../shared/big-image/big-image.module';
+import { BigImageModule } from '../../shared/shared-components/big-image/big-image.module';
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
   }

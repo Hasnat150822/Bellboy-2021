@@ -16,8 +16,7 @@ export class CustomersService {
     }
   }
   getCustomers(byName, byPhone, status, page, sortBy, perPage) {
-    if(byPhone == '+92'){byPhone = ''}else{byPhone = byPhone.replace('+92', '92')}
-    if (status == '') {
+    if (status == ' ') {
       return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&pageNo=' + page + '&mobile='+byPhone+ '&sortBy=' + sortBy+'&perPage='+perPage)
     } else {
       return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&status=' + status + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage)
@@ -29,8 +28,14 @@ export class CustomersService {
   searchCustomer(keyword) {
     return this.http.get(this._url + 'api/admin/customer?search=' + keyword)
   }
-  hiringByCustomers(page, perPage, id){
-    return this.http.get(this._url+'api/admin/hiring/customer/'+id+'?perPage='+perPage+'&pageNo='+page).
+  hiringByCustomers(page, perPage, id, status){
+    let url = "api/admin/hiring/customer/"+id+"?";
+    if(status!==null){
+      url = url+"status="+status+'&perPage='+perPage+'&pageNo='+page;
+    }else{
+      url = url+'perPage='+perPage+'&pageNo='+page;
+    }
+    return this.http.get(this._url+url).
     pipe(
       map((res:any)=>{
         return res.data.hirings;
@@ -52,7 +57,7 @@ export class CustomersService {
           sweetAlert('error', res.message);
         }
       }, error => {
-        sweetAlert('error', error.error.message);
+        sweetAlert('error', error);
       })
     )
   }
@@ -85,7 +90,7 @@ export class CustomersService {
           sweetAlert('error', res.message);
         }
       }, error=>{
-        sweetAlert('error', error.error.message);
+        sweetAlert('error', error);
       })
     )
   }

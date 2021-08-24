@@ -97,7 +97,7 @@ export class CategoriesComponent implements OnInit {
         sweetAlert('error',res.message)
       }
     }, error=>{
-      sweetAlert('error',error.error.message)
+      sweetAlert('error',error)
     })
   }
   submitCat(form:FormGroup){
@@ -116,7 +116,7 @@ export class CategoriesComponent implements OnInit {
       },(error:any)=>{
         this.imageFile = undefined
         this.imgURL = undefined
-        sweetAlert('error',error.error.message)
+        sweetAlert('error',error)
       })
       this.submitted = false
       form.reset()

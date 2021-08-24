@@ -68,7 +68,7 @@
     <form [formGroup]="addHiringAction">
       <div class="form-group text-center col-sm-12">
         <div class="position-relative">
-          <input accept="image/*" #file type="file" accept='image/*' (change)="preview(file.files)" class="upload-input" type="file">
+          <input accept="image/*" #file type="file" accept='image/*, .svg' (change)="preview(file.files)" class="upload-input" type="file">
           <button class="camera-icon btn btn-orange">Add Image</button>
           <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{imgURL}}">
           <p class="text-error mb-0" *ngIf="message">{{message}}</p>

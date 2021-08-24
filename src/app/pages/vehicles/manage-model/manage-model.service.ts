@@ -32,7 +32,7 @@ export class ManageModelService {
           sweetAlert('warning', res.message);
         }
       },error=>{
-        sweetAlert('error', error.error.message)
+        sweetAlert('error', error)
       })
     );
   }

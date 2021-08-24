@@ -47,6 +47,7 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   notificationForm:FormGroup;
   subscription:Subscription;
   selectSenderArea:string = '';
+  countryCodeValue:string = "+92";
   @ViewChild('tabset', {static:true}) tabset;
   constructor(private modalService: NgbModal, private pagerService: PagerService,
     private custservice: CustomersService, private rendrer: Renderer2, private el: ElementRef, 
@@ -62,30 +63,33 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   tabStatus:string;
   countryCodes:Countries = (countries as any).default;
   ngOnInit() {
-    // this.store.subscribe((res:any)=>{
-    //   if(res.UserData.data!==undefined){
-    //     this.currentRole = res.UserData.data.role.title;
-    //   }
-    // }, err=>{}, ()=>{this.subscription.unsubscribe()});
+    this.store.subscribe((res:any)=>{
+      if(res.UserData.data!==undefined){
+        this.currentRole = res.UserData.data.role.title;
+      }
+    }, err=>{}, ()=>{this.subscription.unsubscribe()});
     this.getQueryParams();
   }
   searchValue;
   getDefault(){
+    this.searchValue = '';
     this.allcustomers = [];
     this.router.navigate([]);
     this.tabset.select('tab1');
   }
   setQueryParams(byName, byPhone, status, sortyBy, perPage){
-    this.allcustomers = [];
+    if(byPhone[0]==0)
+      byPhone = byPhone.slice(1);
     this.searchValue = byPhone || byName;
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
-      queryParams:{ byPhone, byName, status, sortyBy, perPage},
+      queryParams:{ byPhone:byPhone, byName:byName, status, sortyBy, perPage},
       queryParamsHandling:'merge'
     })
   }
   getQueryParams(){
     this.activatedRoute.queryParams.subscribe((res:any)=>{
+      this.allcustomers = [];
       if(res.status){ 
         this.searchValue = res.byPhone || res.byName;
         this.sortBy = res.sortyBy;
@@ -113,6 +117,7 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   perPage:number = 10;
   // check all values dynamically with rendrer2
   getCustomers(byName, byPhone, status, page, sortBy) {
+    this.allcustomers = [];
     page = checkPage(page, this.pager.totalPages);
     this.spinner = true;
     this.sortBy = sortBy;
@@ -159,7 +164,6 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   }
   allSelect(event){
     this.selectSenderArea = event.target.value;
-    console.log(this.selectSenderArea, 'selected area')
     if(event.target.checked == false){
       this.changeAllChecked(event.target.checked);
       this.checkedValues = [];

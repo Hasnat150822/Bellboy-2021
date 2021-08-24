@@ -1,0 +1,118 @@
+<div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-1 d-flex justify-content-between">
+      <h3>
+        Wallet History
+      </h3> 
+      <div class="d-flex text-center">
+        <div class="pr-3">
+          <div class="label"> <b>{{totlaTopupWithdraw?.totalTopUp}} /- Rs</b></div>
+          <div>Topup</div>
+        </div>
+        <div>
+          <div class="label"><b>{{totlaTopupWithdraw?.totalWithDraw}} /- Rs</b></div>
+          <div>Withdraw</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Name</th>
+                            <th>Admin</th>
+                            <th>Mobile</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Balance</th>  
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of transactionDetail">
+                            <td>{{item.created_at | date:'shortDate'}}</td>
+                            <td>{{item.created_at | date:'shortTime'}}</td>
+                            <td>
+                              <a [routerLink]="[item.transferTo=='1'?'/bellboy/bellboydetail/':'/customers/custdetail/', item.transferTo=='1'?item.bellboy._id:item.customer._id]" target="_blank">{{item.transferTo=='1'?item.bellboy.name:item.customer.name}}</a>
+                            </td>
+                            <td>
+                              <a [routerLink]="['/myprofile/', item.admin._id]">{{item.admin.name}}</a>
+                            </td>
+                            <td>{{item.bellboy.mobile}}</td>
+                            <td>{{item.transactionType==1?'TopUp':'WithDraw'}}</td>
+                            <td>{{item.amount | number}}</td>
+                            <td>{{item.available_balance | number}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #pagination>
+    <div class="d-flex justify-content-end px-3">
+      <p class="mr-3 d-flex align-items-center"> <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+        >
+        : <span class="text-secondary ml-2">{{ totalItems }}</span> 
+      </p>
+      <nav class="ng2-smart-pagination-nav ng-star-inserted">
+        <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+          <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"> <a aria-label="First" class="ng2-smart-page-link page-link" (click)="setPage(1)"><span aria-hidden="true">First</span></a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item"
+            [ngClass]="{ disabled: pager.currentPage === 1 }"
+          >
+            <a
+              aria-label="Prev"
+              ngbTooltip="Previous 5"
+              (click)="setPage(pager.currentPage-5)"
+              class="ng2-smart-page-link page-link page-link-prev"
+              ><span aria-hidden="true">«</span></a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item ng-star-inserted"
+            *ngFor="let page of pager.pages"
+            [ngClass]="{ active: pager.currentPage === page }"
+          >
+            <a
+              (click)="setPage(page)"
+              class="ng2-smart-page-link page-link ng-star-inserted"
+              >{{ page }}</a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item"
+            [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+          >
+            <a
+              ngbTooltip="Next 5"
+              (click)="setPage(pager.currentPage+5)"
+              aria-label="Next"
+              class="ng2-smart-page-link page-link page-link-next"
+              ><span aria-hidden="true">»</span></a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item"
+            [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+          >
+            <a
+              (click)="setPage(pager.totalPages)"
+              aria-label="Last"
+              class="ng2-smart-page-link page-link"
+              ><span aria-hidden="true">Last</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </ng-template>

@@ -4,6 +4,7 @@ import { CommissionsComponent } from './commissions.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CompanyEarningsComponent } from './company-earnings/company-earnings.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes:Routes = [{
   path:'percentage', component:CommissionsComponent
@@ -16,6 +17,7 @@ const routes:Routes = [{
   imports: [
     CommonModule,
     NgbModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ]
 })

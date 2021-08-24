@@ -257,7 +257,8 @@
             data-original-title=""
             title=""
             target="_blank"
-            [routerLink]="['/bellboy/bellboywallet']"
+            [routerLink]="['/bellboy/bellboywallet', item._id]"
+            [queryParams]="{type: 'bellboy'}"
           >
             <img
               src="../../../assets/img/ico/wallet.png"

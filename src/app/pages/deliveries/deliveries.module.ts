@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { DeliveriesDetailComponent } from './deliveries-detail/deliveries-detail.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { ResolverService } from 'app/shared/services/resolver.service';
 const routes:Routes = [
   {
     path:'',
@@ -14,7 +13,6 @@ const routes:Routes = [
   {
     path:'deliverydetail/:id',
     component:DeliveriesDetailComponent,
-    resolve:{data:ResolverService},
     data:{
       text:'Delivery Detail',
       path:'/deliverydetail/:id',

@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ManageModelDetailComponent } from './manage-model-detail/manage-model-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ResolverService } from 'app/shared/services/resolver.service';
 const routes:Routes = [
   {
     path:'',
@@ -14,7 +13,6 @@ const routes:Routes = [
   {
     path:'manageModel/:id',
     component:ManageModelDetailComponent,
-    resolve:{data:ResolverService},
     data:{
       text: 'Manage Model Detail',
       path:'/manageModel/:id'

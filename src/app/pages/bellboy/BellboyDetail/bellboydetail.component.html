@@ -18,6 +18,16 @@
                   <span class="h6 text-success" *ngIf="detailBellboy?.bellBoy?.status == 1">Approved </span>
                   <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 2">Rejected </span>
                   <span class="h6 text-error" *ngIf="detailBellboy?.bellBoy?.status == 3">Blocked </span>
+                  <p class="mt-2">
+                    <span>Wallet Cash:</span>
+                    <span class="ml-2 text-nowrap text-secondary">{{detailBellboy?.bellboy_wallet?.cash | number:'1.0-0'}}/- Rs</span>
+                  </p>
+                  <div class="text-center">
+                    
+                  <button class="btn btn-orange" [routerLink]="['/bellboy/bellboywallet', this._id]">
+                    View Wallet
+                  </button>
+                  </div>
                 </div>
               </div>
             </div>

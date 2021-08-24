@@ -2,8 +2,9 @@ import { Component, OnInit, ElementRef, Inject, Renderer2, AfterViewInit, ViewCh
 import { ConfigService } from 'app/shared/services/config.service';
 import { DOCUMENT } from '@angular/common';
 import { UserService } from 'app/pages/user-management/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, ResolveEnd, Router, RoutesRecognized } from '@angular/router';
 import { routeAnimations } from '../animations/router-animations';
+import { filter } from 'rxjs/operators';
 @Component({
     selector: 'app-full-layout',
     templateUrl: './full-layout.component.html',
@@ -30,10 +31,16 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     public config: any = {};
     constructor(private elementRef: ElementRef, private configService: ConfigService,
         @Inject(DOCUMENT) private document: Document, private userService:UserService,
-        private renderer: Renderer2, private router:Router) {
+        private renderer: Renderer2) {
     }
 
     ngOnInit() {
+      
+    // this.router.events.pipe(
+    //   filter(event => event instanceof ResolveEnd)
+    // ).subscribe((value)=>{
+    //   console.log(this.route, 'value')
+    // })
       this.config = this.configService.templateConf;
       this.bgColor = this.config.layout.sidebar.backgroundColor;
       if (!this.config.layout.sidebar.backgroundImage) {
@@ -101,7 +108,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
 
     }
     viewDetail(){
-      this.router.navigate(['/assignstatus/assigndetailhiring','45f481'])
+      // this.router.navigate(['/assignstatus/assigndetailhiring','45f481'])
     }
     directionEvent(dir){
       this.options.direction = dir

@@ -1,0 +1,274 @@
+<div class="wrapper d-flex">
+    <div class="content">
+      <main>
+        <div class="card my-3 bg-orange">
+          <div class="row m-2">
+            <div class="col-sm-6">
+              <div class="media align-items-center">
+                <img
+                  class="mr-3 bb-image-border rounded-circle"
+                  src=""
+                  onerror="src='../../../../assets/img/ico/bb-brand.jpg'"
+                  height="250px"
+                  width="250px"
+                />
+                <div class="media-body">
+                  <h5><strong>Name</strong> : {{walletDetail?.bellboy?.name}}</h5>
+                  <h5><strong>Cell no</strong> :{{walletDetail?.bellboy?.mobile}}</h5>
+                  <h5><strong>Joining Date</strong> : {{walletDetail?.bellboy?.created_at | date:'shortDate'}}</h5>
+                  <h5 *ngIf="walletType=='customer'"><strong>Balance</strong> : {{walletDetail?.cash}}/- Rs</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 d-inline-flex" *ngIf="walletType=='bellboy'">
+              <div class="align-self-center">
+                <h5><b>Total Earning :</b>/- Rs</h5>
+                <h5><b>Balance : </b>{{walletDetail?.cash}}/- Rs</h5> 
+              </div>
+            </div>
+            <div class="col-sm-3 d-inline-flex" *ngIf="walletType=='bellboy'">
+              <div class="align-self-center" [formGroup]="transactionForm">
+                <div class="form-group">
+                  <input type="number" id="topup" placeholder="Write Amount" class="form-control" formControlName="topupAmount">
+                  <p class="text-error mb-0" *ngIf="topupAmount.touched">
+                    <span *ngIf="topupAmount.hasError('required')">Please Write an Amount</span>
+                  </p>
+                  <button type="button" (click)="topUp()" [disabled]="topupAmount.hasError('required') || loader==true" class="btn btn-outline-success w-100 mt-2">
+                    <span [ngClass]="{'spinner-border': loader && !topupAmount.hasError('required')}">
+                      <span [ngClass]="{'sr-only': loader && !topupAmount.hasError('required')}"><i class="ft ft-pocket"></i> Top up</span>
+                    </span> 
+                  </button>
+                </div>
+                <div class="form-group">
+                  <input type="number" id="withdraw" placeholder="Write Amount" class="form-control" formControlName="withDrawAmount">
+                  <p class="text-error mb-0" *ngIf="withDrawAmount.hasError('required') && withDrawAmount.touched">
+                    Please write an Amount
+                  </p>
+                  <button type="button" (click)="withDraw()" [disabled]="withDrawAmount.hasError('required') || loader==true" class="btn btn-outline-success w-100 mt-2">
+                    <span [ngClass]="{'spinner-border': loader && !withDrawAmount.hasError('required')}">
+                      <span [ngClass]="{'sr-only': loader && !withDrawAmount.hasError('required')}"><i class="ft ft-download"></i> Withdraw</span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <br />
+      <div class="container">
+        <div id="tabs">
+          <ul
+            class="nav nav-tabs border-0 justify-content-center"
+            id="catTab"
+            role="tablist"
+          >
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded active"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+                (click)="getByStatus('')"
+              >
+                <i class="ft ft-home"></i>
+                All
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+                (click)="getByStatus(3)"
+              >
+                <i class="ft ft-home"></i>
+                TopUp
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+                (click)="getByStatus(4)"
+              >
+                <i class="ft ft-home"></i>
+                WithDraw
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+                (click)="getByStatus(1)"
+              >
+                <i class="ft ft-home"></i>
+                Spent
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+                (click)="getByStatus(2)"
+              >
+                <i class="ft ft-home"></i>
+                Recieved
+              </a>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded active"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+              >
+                <i class="ft ft-home"></i>
+                All
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded"
+                id="sent-tab"
+                data-toggle="tab"
+                href="#sent"
+                role="tab"
+                aria-controls="sent"
+                aria-selected="false"
+                ><i class="ft ft-credit-card"></i> Sent</a
+              >
+            </li> -->
+          </ul>
+          <div class="tab-content" id="catTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="all"
+              role="tabpanel"
+              aria-labelledby="all-tab"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>From</th>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of transactionDetail">
+                    <td>{{item.created_at | date:'shortDate'}}</td>
+                    <td>{{item.created_at | date:'shortTime'}}</td>
+                    <td>
+                      <a [routerLink]="[item.admin?'/myprofile/':'/hiring/hiringDetail/', item.admin?item.admin?._id:item.hiring?.hiring_id]" target="_blank">{{item.admin?item.admin?.name:item.hiring?.hiring_id || '-'}}</a>
+                    </td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.amount | number}}</td>
+                    <td>{{item.available_balance | number}}</td>
+                  </tr>
+                  <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                </tbody>
+              </table>
+              <ng-container *ngTemplateOutlet="pagination"></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #pagination>
+    <div class="d-flex justify-content-end px-3">
+      <p class="mr-3 d-flex align-items-center"> <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+        >
+        : <span class="text-secondary ml-2">{{ totalItems }}</span> 
+      </p>
+      <nav class="ng2-smart-pagination-nav ng-star-inserted">
+        <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+          <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"> <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getByPage(1)"><span aria-hidden="true">First</span></a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item"
+            [ngClass]="{ disabled: pager.currentPage === 1 }"
+          >
+            <a
+              aria-label="Prev"
+              ngbTooltip="Previous 5"
+              (click)="getByPage(pager.currentPage-5)"
+              class="ng2-smart-page-link page-link page-link-prev"
+              ><span aria-hidden="true">«</span></a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item ng-star-inserted"
+            *ngFor="let page of pager.pages"
+            [ngClass]="{ active: pager.currentPage === page }"
+          >
+            <a
+              (click)="getByPage(page)"
+              class="ng2-smart-page-link page-link ng-star-inserted"
+              >{{ page }}</a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item"
+            [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+          >
+            <a
+              ngbTooltip="Next 5"
+              (click)="getByPage(pager.currentPage+5)"
+              aria-label="Next"
+              class="ng2-smart-page-link page-link page-link-next"
+              ><span aria-hidden="true">»</span></a
+            >
+          </li>
+          <li
+            class="ng2-smart-page-item page-item"
+            [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+          >
+            <a
+              (click)="getByPage(pager.totalPages)"
+              aria-label="Last"
+              class="ng2-smart-page-link page-link"
+              ><span aria-hidden="true">Last</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </ng-template>
+  <ng-template #shimmer>
+    <tr *ngIf="transactionDetail.length==0">
+      <td colspan="12">
+        <div class="py-3 shine w-100"></div>
+      </td>
+    </tr>
+  </ng-template>

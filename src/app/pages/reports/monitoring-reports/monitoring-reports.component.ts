@@ -18,7 +18,6 @@ export class MonitoringReportsComponent implements OnInit {
   }
   ngOnInit(){}
   onDateSelection(date: NgbDate) {
-    alert('ájsdk')
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {

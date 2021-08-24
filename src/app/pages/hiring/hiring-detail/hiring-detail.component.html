@@ -209,7 +209,7 @@
               </p>
             </div>
             <div class="col-sm-6">
-              <p><span>Price Per Min: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.pricePerHour }}</span>
+              <p><span>Price Per Min: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.price_per_min }}</span>
               </p>
             </div>
             <div class="col-sm-6">
@@ -225,7 +225,23 @@
               </p>
             </div>
             <div class="col-sm-6" *ngIf="detailHiring?.status == 4">
-              <p><span>Amount: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.amount }}/- Rs</span>
+                <p><span>Bellboy Earning: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.bellboyEarning }}/- Rs</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Paid By Cash: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.paidByCash}}</span>  <span class="text-secondary">/- Rs</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Actual Bill: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.totalBill }}/- Rs</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Bill Time: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.billingTime | date:'mediumTime'}}</span>  <span class="text-secondary"></span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Paid By Customer: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.totalBillShowToCustomer | number }}/- Rs</span>
               </p>
             </div>
           </div>

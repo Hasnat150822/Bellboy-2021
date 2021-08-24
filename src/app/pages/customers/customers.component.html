@@ -4,52 +4,127 @@
       <h3 id="id1">Manage Customers</h3>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-5">
-      <div class="position-relative"><i ngbTooltip="Default Data" (click)="
-        getDefault();
-          renderClass  ('', '', '')
-        " class="ft-refresh-cw child font-weight-bold"></i> 
-        <input id="searchInput" type="text" class="form-control" [ngClass]="{'pl-4': placeVal=='Name','pl-5': placeVal=='Cell No'}" #input
-        value="{{ searchValue }}"
-         (change)="
-          placeVal == 'Cell No'
-            ? (apiParams.byPhone = apiParams.byPhone + $event.target.value)
-            : (apiParams.byName = $event.target.value)
-        " placeholder="{{placeVal=='Cell No'?'1234567890':'i.e : Muhammad'}}" (keyup.enter)="setQueryParams(apiParams.byName, apiParams.byPhone, apiParams.status, sortBy, perPage)">
-        <select *ngIf="placeVal=='Cell No'" (change)="apiParams.byPhone = $event.target.value" class="child ml-4 border-0">
+      <div class="position-relative">
+        <i
+          ngbTooltip="Default Data"
+          (click)="getDefault(); renderClass('', '', '')"
+          class="ft-refresh-cw child font-weight-bold"
+        ></i>
+        <input
+          id="searchInput"
+          type="text"
+          class="form-control"
+          [ngClass]="{
+            'pl-4': placeVal == 'Name',
+            'pl-5': placeVal == 'Cell No'
+          }"
+          #input
+          value="{{ searchValue }}"
+          (change)="
+            placeVal == 'Cell No'
+              ? (apiParams.byPhone = $event.target.value)
+              : (apiParams.byName = $event.target.value)
+          "
+          placeholder="{{
+            placeVal == 'Cell No' ? '1234567890' : 'i.e : Muhammad'
+          }}"
+          (keyup.enter)="
+            setQueryParams(
+              apiParams.byName,
+              apiParams.byPhone,
+              apiParams.status,
+              sortBy,
+              perPage
+            )
+          "
+        />
+        <select
+          *ngIf="placeVal == 'Cell No'"
+          (change)="countryCodeValue = $event.target.value"
+          class="child ml-4 border-0"
+        >
           <option value="+92">+92</option>
-          <option *ngFor="let item of countryCodes" value="{{item.dial_code}}">{{item.dial_code}}</option>
+          <option
+            *ngFor="let item of countryCodes"
+            value="{{ item.dial_code }}"
+          >
+            {{ item.dial_code }}
+          </option>
         </select>
         <div class="btn-group position-absolute">
-          <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-            <button class="btn border-left dropdown-toggle-split" ngbDropdownToggle>By {{ placeVal }} <i class="ft-chevron-down"></i>
+          <div
+            class="btn-group"
+            ngbDropdown
+            role="group"
+            aria-label="Button group with nested dropdown"
+          >
+            <button
+              class="btn border-left dropdown-toggle-split"
+              ngbDropdownToggle
+            >
+              By {{ placeVal }} <i class="ft-chevron-down"></i>
             </button>
             <div class="dropdown-menu" ngbDropdownMenu>
-              <button ngbDropdownItem (click)="
-                placeVal = 'Name';
-                apiParams.byPhone = '';
-                input.value = ''
-              "><span class="ft-user"> &nbsp;Name</span></button>
-              <button ngbDropdownItem (click)="
-                placeVal = 'Cell No';
-                apiParams.byName = '';
-                input.value = ''
-              "><span class="ft-phone">&nbsp;Cell No</span></button>
+              <button
+                ngbDropdownItem
+                (click)="
+                  placeVal = 'Name'; apiParams.byPhone = ''; input.value = ''
+                "
+              >
+                <span class="ft-user"> &nbsp;Name</span>
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="
+                  placeVal = 'Cell No'; apiParams.byName = ''; input.value = ''
+                "
+              >
+                <span class="ft-phone">&nbsp;Cell No</span>
+              </button>
             </div>
           </div>
-          <button type="button" class="btn btn-search" (click)="setQueryParams(apiParams.byPhone, apiParams.byName, apiParams.status, sortBy, perPage)">Search</button>
+          <button
+            type="button"
+            class="btn btn-search"
+            (click)="
+              setQueryParams(
+                apiParams.byName,
+                apiParams.byPhone,
+                apiParams.status,
+                sortBy,
+                perPage
+              )
+            "
+          >
+            Search
+          </button>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-7 text-right" *ngIf="currentRole == 'Super Admin'">
+    <div
+      class="col-xs-12 col-sm-6 col-md-7 text-right"
+      *ngIf="currentRole == 'Super Admin'"
+    >
       <div class="btn-group">
-        <select id="choice" class="btn btn-outline-secondary pr-0 choice" (change)="allSelect($event)">
+        <select
+          id="choice"
+          class="btn btn-outline-secondary pr-0 choice"
+          (change)="allSelect($event)"
+        >
           <!-- <option value="">Registered</option>
         <option value="">Unregistered</option> -->
           <option value=" ">Select Value</option>
           <option value="sendtoPakistaniUsers">Pakistanis</option>
           <!-- <option value="">All</option> -->
         </select>
-        <button type="button" [disabled]="checkedValues.length == 0 && selectSenderArea == ''" class="btn btn-outline-secondary" (click)="open(sendNotification)">Send Notification</button>
+        <button
+          type="button"
+          [disabled]="checkedValues.length == 0 && selectSenderArea == ''"
+          class="btn btn-outline-secondary"
+          (click)="open(sendNotification)"
+        >
+          Send Notification
+        </button>
       </div>
     </div>
   </div>
@@ -60,7 +135,19 @@
         <div class="card-content">
           <div class="card-body">
             <div class="form-group float-right perPageBlock mb-0">
-              <select class="form-control perPage" (change)="perPage = $event.target.value; setQueryParams(apiParams.byName, apiParams.byPhone, apiParams.status, sortBy, perPage)">
+              <select
+                class="form-control perPage"
+                (change)="
+                  perPage = $event.target.value;
+                  setQueryParams(
+                    apiParams.byName,
+                    apiParams.byPhone,
+                    apiParams.status,
+                    sortBy,
+                    perPage
+                  )
+                "
+              >
                 <option value="10">10 / page</option>
                 <option value="25">25 / page</option>
                 <option value="50">50 / page</option>
@@ -69,23 +156,61 @@
             <ngb-tabset type="pills" #tabset="ngbTabset">
               <ngb-tab id="tab1">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="setQueryParams(apiParams.byName, apiParams.byPhone, ' ', sortBy, perPage)">All Customers</div>
+                  <div
+                    class="tab-padding"
+                    (click)="
+                      setQueryParams(
+                        apiParams.byName,
+                        apiParams.byPhone,
+                        ' ',
+                        sortBy,
+                        perPage
+                      )
+                    "
+                  >
+                    All Customers
+                  </div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
                     <thead>
                       <tr>
-                        <ng-container *ngTemplateOutlet="sameHeads"></ng-container>
+                        <ng-container
+                          *ngTemplateOutlet="sameHeads"
+                        ></ng-container>
                         <th>View</th>
                       </tr>
                     </thead>
                     <tbody>
                       <ng-container *ngTemplateOutlet="shimmer"></ng-container>
                       <tr @flyInOut *ngFor="let item of allcustomers">
-                        <ng-container *ngTemplateOutlet="sameValue; context: item"></ng-container>
+                        <ng-container
+                          *ngTemplateOutlet="sameValue; context: item"
+                        ></ng-container>
                         <td>
-                          <a class="p-0 text-dark" [routerLink]="['/customers/custdetail', item._id]">
-                            <img src="../../../assets/img/ico/eye.png" class="img-eye">
+                          <a
+                            ngbTooltip="Wallet Detail"
+                            class="p-1 text-dark"
+                            data-original-title=""
+                            title=""
+                            target="_blank"
+                            [routerLink]="['/customers/customerwallet', item._id]"
+                            [queryParams]="{type: 'customer'}"
+                          >
+                            <img
+                              src="../../../assets/img/ico/wallet.png"
+                              class="img-eye"
+                              alt=""
+                            />
+                          </a>
+                          <a
+                            class="p-0 text-dark"
+                            [routerLink]="['/customers/custdetail', item._id]"
+                          >
+                            <img
+                              src="../../../assets/img/ico/eye.png"
+                              class="img-eye"
+                            />
                           </a>
                         </td>
                       </tr>
@@ -96,13 +221,28 @@
               </ngb-tab>
               <ngb-tab id="tab2">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="setQueryParams(apiParams.byName, apiParams.byPhone, true, sortBy, perPage)">Active</div>
+                  <div
+                    class="tab-padding"
+                    (click)="
+                      setQueryParams(
+                        apiParams.byName,
+                        apiParams.byPhone,
+                        true,
+                        sortBy,
+                        perPage
+                      )
+                    "
+                  >
+                    Active
+                  </div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
                     <thead>
                       <tr>
-                        <ng-container *ngTemplateOutlet="sameHeads"></ng-container>
+                        <ng-container
+                          *ngTemplateOutlet="sameHeads"
+                        ></ng-container>
                         <th>Block</th>
                         <th>View</th>
                       </tr>
@@ -110,13 +250,27 @@
                     <tbody>
                       <ng-container *ngTemplateOutlet="shimmer"></ng-container>
                       <tr @flyInOut *ngFor="let item of allcustomers">
-                        <ng-container *ngTemplateOutlet="sameValue; context: item"></ng-container>
+                        <ng-container
+                          *ngTemplateOutlet="sameValue; context: item"
+                        ></ng-container>
                         <td>
-                          <button class="btn btn-danger" (click)="changeStatus('false', item._id)">Block</button>
+                          <button
+                            class="btn btn-danger"
+                            (click)="changeStatus('false', item._id)"
+                          >
+                            Block
+                          </button>
                         </td>
                         <td>
-                          <a class="p-0 text-dark" [routerLink]="['/customers/custdetail', item._id]">
-                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                          <a
+                            class="p-0 text-dark"
+                            [routerLink]="['/customers/custdetail', item._id]"
+                          >
+                            <img
+                              src="../../../assets/img/ico/eye.png"
+                              class="img-eye"
+                              alt=""
+                            />
                           </a>
                         </td>
                       </tr>
@@ -127,27 +281,73 @@
               </ngb-tab>
               <ngb-tab id="tab3">
                 <ng-template ngbTabTitle>
-                  <div class="tab-padding" (click)="setQueryParams(apiParams.byName, apiParams.byPhone, false, sortBy, perPage)">Blocked</div>
+                  <div
+                    class="tab-padding"
+                    (click)="
+                      setQueryParams(
+                        apiParams.byName,
+                        apiParams.byPhone,
+                        false,
+                        sortBy,
+                        perPage
+                      )
+                    "
+                  >
+                    Blocked
+                  </div>
                 </ng-template>
                 <ng-template ngbTabContent>
                   <table class="table table-responsive-md table-striped">
                     <thead>
                       <tr>
-                        <ng-container *ngTemplateOutlet="sameHeads"></ng-container>
+                        <ng-container
+                          *ngTemplateOutlet="sameHeads"
+                        ></ng-container>
                         <th>Unblock</th>
                         <th>View</th>
                       </tr>
                     </thead>
                     <tbody>
                       <ng-container *ngTemplateOutlet="shimmer"></ng-container>
-                      <tr @flyInOut *ngFor="let item of allcustomers; let ind = index">
-                        <ng-container *ngTemplateOutlet="sameValue; context: item"></ng-container>
+                      <tr
+                        @flyInOut
+                        *ngFor="let item of allcustomers; let ind = index"
+                      >
+                        <ng-container
+                          *ngTemplateOutlet="sameValue; context: item"
+                        ></ng-container>
                         <td>
-                          <button class="btn btn-success" (click)="changeStatus('true', item._id)">Unblock</button>
+                          <button
+                            class="btn btn-success"
+                            (click)="changeStatus('true', item._id)"
+                          >
+                            Unblock
+                          </button>
                         </td>
                         <td>
-                          <a class="p-0 text-dark" [routerLink]="['/customers/custdetail', item._id]">
-                            <img src="../../../assets/img/ico/eye.png" class="img-eye">
+                          <a
+                            ngbTooltip="Wallet Detail"
+                            class="p-1 text-dark"
+                            data-original-title=""
+                            title=""
+                            target="_blank"
+                            [routerLink]="['/customers/customerwallet', item._id]"
+                            [queryParams]="{type: 'customer'}"
+                          >
+                            <img
+                              src="../../../assets/img/ico/wallet.png"
+                              class="img-eye"
+                              alt=""
+                            />
+                          </a>
+                          <a
+                            class="p-0 text-dark"
+                            [routerLink]="['/customers/custdetail', item._id]"
+                          >
+                            <img
+                              src="../../../assets/img/ico/eye.png"
+                              class="img-eye"
+                            />
                           </a>
                         </td>
                       </tr>
@@ -166,57 +366,113 @@
 </section>
 <ng-template #pagination>
   <div class="d-flex justify-content-end">
-    <p class="mr-3 d-flex align-items-center"><span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> : <span class="text-secondary ml-2">{{ this.count }}</span>
+    <p class="mr-3 d-flex align-items-center">
+      <span class="text-shadow h6 mb-0 font-weight-normal text-orange"
+        >Total Items</span
+      >
+      : <span class="text-secondary ml-2">{{ this.count }}</span>
     </p>
     <nav class="ng2-smart-pagination-nav ng-star-inserted">
-      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
-        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"><a aria-label="First" class="ng2-smart-page-link page-link" (click)="
-            getCustomers(
-              apiParams.byName,
-              apiParams.byPhone,
-              apiParams.status,
-              1,
-              sortBy
-            )
-          "><span aria-hidden="true">First</span></a>
+      <ul
+        class="ng2-smart-pagination pagination"
+        *ngIf="pager.pages && pager.pages.length"
+      >
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === 1 }"
+        >
+          <a
+            aria-label="First"
+            class="ng2-smart-page-link page-link"
+            (click)="
+              getCustomers(
+                apiParams.byName,
+                apiParams.byPhone,
+                apiParams.status,
+                1,
+                sortBy
+              )
+            "
+            ><span aria-hidden="true">First</span></a
+          >
         </li>
-        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage <= 4 }"><a aria-label="Prev" ngbTooltip="Previous 5" (click)="           
-          getCustomers(
-          apiParams.byName,
-          apiParams.byPhone,
-          apiParams.status,
-          pager.currentPage - 5,
-          sortBy
-        )" class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage <= 4 }"
+        >
+          <a
+            aria-label="Prev"
+            ngbTooltip="Previous 5"
+            (click)="
+              getCustomers(
+                apiParams.byName,
+                apiParams.byPhone,
+                apiParams.status,
+                pager.currentPage - 5,
+                sortBy
+              )
+            "
+            class="ng2-smart-page-link page-link page-link-prev"
+            ><span aria-hidden="true">«</span></a
+          >
         </li>
-        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }"><a (click)="
-            getCustomers(
-              apiParams.byName,
-              apiParams.byPhone,
-              apiParams.status,
-              page,
-              sortBy
-            )
-          " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
+        <li
+          class="ng2-smart-page-item page-item ng-star-inserted"
+          *ngFor="let page of pager.pages"
+          [ngClass]="{ active: pager.currentPage === page }"
+        >
+          <a
+            (click)="
+              getCustomers(
+                apiParams.byName,
+                apiParams.byPhone,
+                apiParams.status,
+                page,
+                sortBy
+              )
+            "
+            class="ng2-smart-page-link page-link ng-star-inserted"
+            >{{ page }}</a
+          >
         </li>
-        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"><a ngbTooltip="Next 5" (click)="
-          getCustomers(
-            apiParams.byName,
-            apiParams.byPhone,
-            apiParams.status,
-            pager.currentPage +5,
-            sortBy
-          )" aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span></a>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"
+        >
+          <a
+            ngbTooltip="Next 5"
+            (click)="
+              getCustomers(
+                apiParams.byName,
+                apiParams.byPhone,
+                apiParams.status,
+                pager.currentPage + 5,
+                sortBy
+              )
+            "
+            aria-label="Next"
+            class="ng2-smart-page-link page-link page-link-next"
+            ><span aria-hidden="true">»</span></a
+          >
         </li>
-        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"><a (click)="
-            getCustomers(
-              apiParams.byName,
-              apiParams.byPhone,
-              apiParams.status,
-              pager.totalPages,
-              sortBy
-            )
-          " aria-label="Last" class="ng2-smart-page-link page-link"><span aria-hidden="true">Last</span></a>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+        >
+          <a
+            (click)="
+              getCustomers(
+                apiParams.byName,
+                apiParams.byPhone,
+                apiParams.status,
+                pager.totalPages,
+                sortBy
+              )
+            "
+            aria-label="Last"
+            class="ng2-smart-page-link page-link"
+            ><span aria-hidden="true">Last</span></a
+          >
         </li>
       </ul>
     </nav>
@@ -225,14 +481,20 @@
 <ng-template #sameHeads>
   <th>
     <div class="form-group mb-0">
-      <input type="checkbox" id="allSelect" class="form-control checkbox" (change)="allSelect($event)">
+      <input
+        type="checkbox"
+        id="allSelect"
+        class="form-control checkbox"
+        (change)="allSelect($event)"
+      />
     </div>
   </th>
   <th>
-    <div class="d-flex align-items-center justify-content-center" id="sortByName">
-      <a (click)="sortByName()">
-        Name 
-      </a>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      id="sortByName"
+    >
+      <a (click)="sortByName()"> Name </a>
       <div class="ml-1 mt-1">
         <span class="ft-chevron-up d-block"></span>
         <span class="ft-chevron-down d-block"></span>
@@ -241,10 +503,11 @@
   </th>
   <th>Cell no</th>
   <th>
-    <div class="d-flex align-items-center justify-content-center" id="sortByDate">
-      <a (click)="sortByDate()">
-        Joining Date 
-      </a>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      id="sortByDate"
+    >
+      <a (click)="sortByDate()"> Joining Date </a>
       <div class="ml-1 mt-1">
         <span class="ft-chevron-up d-block"></span>
         <span class="ft-chevron-down d-block"></span>
@@ -252,23 +515,30 @@
     </div>
   </th>
   <th>
-    <select class="border-0 bg-transparent" (change)="changeDevice($event.target.value)">
+    <select
+      class="border-0 bg-transparent"
+      (change)="changeDevice($event.target.value)"
+    >
       <option value="curr_device">Current Device</option>
       <option value="sign_up">Sign Up Device</option>
     </select>
   </th>
   <th>
-    <select class="border-0 bg-transparent" (change)="changeActivity($event.target.value)">
+    <select
+      class="border-0 bg-transparent"
+      (change)="changeActivity($event.target.value)"
+    >
       <option value="last-seen">Last Seen</option>
       <option value="last-login">Last Login</option>
     </select>
   </th>
   <th>Total Login</th>
   <th>
-    <div class="d-flex align-items-center justify-content-center" id="sortBySpent">
-      <a (click)="sortBySpent()">
-        Total Spent
-      </a>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      id="sortBySpent"
+    >
+      <a (click)="sortBySpent()"> Total Spent </a>
       <div class="ml-1 mt-1">
         <span class="ft-chevron-up d-block"></span>
         <span class="ft-chevron-down d-block"></span>
@@ -276,10 +546,11 @@
     </div>
   </th>
   <th>
-    <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
-      <a (click)="sortByNumber()">
-        Total Hirings      
-      </a>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      id="sortByNumber"
+    >
+      <a (click)="sortByNumber()"> Total Hirings </a>
       <div class="ml-1 mt-1">
         <span class="ft-chevron-up d-block"></span>
         <span class="ft-chevron-down d-block"></span>
@@ -287,21 +558,47 @@
     </div>
   </th>
 </ng-template>
-<ng-template #sameValue let-id="_id" let-total_spend="total_spend" let-name="name" let-mobile="mobile" let-created_at="created_at" let-signup_device="signup_device" let-current_device="current_device" let-last_active="last_active" let-total_logins="total_logins" let-total_hirings="total_hirings"
-let-checked="checked" let-last_seen="last_seen">
+<ng-template
+  #sameValue
+  let-id="_id"
+  let-total_spend="total_spend"
+  let-name="name"
+  let-mobile="mobile"
+  let-created_at="created_at"
+  let-signup_device="signup_device"
+  let-current_device="current_device"
+  let-last_active="last_active"
+  let-total_logins="total_logins"
+  let-total_hirings="total_hirings"
+  let-checked="checked"
+  let-last_seen="last_seen"
+>
   <td>
     <div class="form-group mb-0">
-      <input type="checkbox" (change)="selectCustomers($event)" [checked]="checked" value="{{ id }}" class="form-control checkbox">
+      <input
+        type="checkbox"
+        (change)="selectCustomers($event)"
+        [checked]="checked"
+        value="{{ id }}"
+        class="form-control checkbox"
+      />
     </div>
   </td>
   <td>{{ name ? name : "-" }}</td>
   <td>{{ mobile ? mobile : "-" }}</td>
   <td>{{ created_at | date: "mediumDate" | showDashes }}</td>
-  <td><span>{{ (device=='sign_up'?signup_device:current_device) | deviceCode }}</span>
+  <td>
+    <span>{{
+      (device == "sign_up" ? signup_device : current_device) | deviceCode
+    }}</span>
   </td>
-  <td>{{ (activity=='last-login'?last_active:last_seen) | date: "mediumDate" }}</td>
+  <td>
+    {{
+      (activity == "last-login" ? last_active : last_seen) | date: "mediumDate"
+    }}
+  </td>
   <td>{{ total_logins }}</td>
-  <td>{{total_spend}}</td>
+  <td>{{ total_spend }}</td>
   <td>{{ total_hirings }}</td>
 </ng-template>
 <ng-template #shimmer>
@@ -312,5 +609,7 @@ let-checked="checked" let-last_seen="last_seen">
   </tr>
 </ng-template>
 <ng-template #sendNotification let-modal>
-  <app-send-notification (notificationData)="submitNotification($event)"></app-send-notification>
+  <app-send-notification
+    (notificationData)="submitNotification($event)"
+  ></app-send-notification>
 </ng-template>

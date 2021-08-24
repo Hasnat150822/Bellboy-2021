@@ -16,9 +16,9 @@ export class DashboardComponent implements OnInit  {
   startDate:any; endDate:any;
   loader:boolean = false;
   daysRecord;
-  hiringDetail;
-  customerDetail;
-  bellboyDetail;
+  hiringDetail = [];
+  customerDetail = [];
+  bellboyDetail = [];
   pager:any = {};
   pager2:any = {};
   pager3:any = {}; 
@@ -73,11 +73,11 @@ export class DashboardComponent implements OnInit  {
       this.fromDate = null;
       this.toDate = null;
       let data = [];
-      data[0] = res.totalCurrentDayHirings;
+      data[0] = (res.totalEarningDate/1000).toFixed(1);
       data[1] = res.totalCurrentDayCustomers;
       data[2] = res.totalCurrentDayBellBoys;
-      data[3] = (res.totalEarningDate/1000).toFixed(1);
-      data[4] = res.totalPendingHirings;
+      data[3] = res.totalCurrentDayHirings;
+      data[4] = res.totalNonAccepted;
       data[5] = res.totalInProgressHirings;
       data[6] = res.totalCompletedHirings;
       data[7] = res.totalCancelledHirings;
@@ -99,17 +99,16 @@ export class DashboardComponent implements OnInit  {
   }
   // pagination
   setPage(page, type){
-    if(page>this.pager.totalPages){
-      return;
-    }
-    else if(page<1){
-      return
-    }
-    if(type=='hiring'){
-      console.log(type, page, 'type', 'page')
+    // if(page>this.pager.totalPages && this.pager.totalPages!==0){
+    //   return;
+    // }
+    // else if(page<1){
+    //   return
+    // }
+    if(type==="hiring"){
       this.pager = this.pagerService.getPager(this.hiringDetail.length, page, 4);
       this.hiringItems = this.hiringDetail.slice(this.pager.startIndex, this.pager.endIndex+1);
-    }else if(type=='customer'){
+    }else if(type==="customer"){
       this.pager2 = this.pagerService.getPager(this.customerDetail.length, page, 4);
       this.customerItems = this.customerDetail.slice(this.pager2.startIndex, this.pager2.endIndex+1);
     }else{

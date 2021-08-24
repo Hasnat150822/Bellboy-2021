@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError, filter, map, retry, tap } from 'rxjs/operators';
 import { sweetAlert, url } from 'app/shared/services/global';
 import { BellboyHirings } from './modals/bellboy-hirings';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 var postAuth;
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class BellboyService {
         sweetAlert('warning', res.message);
       }
     }, error=>{
-      sweetAlert('error', error.error.message);
+      sweetAlert('error', error);
     }));
   }
   manageNIC(status, userId){
@@ -60,7 +60,7 @@ export class BellboyService {
           sweetAlert('warning', res.message)
         }
       }, error=>{
-          sweetAlert('error', error.error.message)
+          sweetAlert('error', error)
       })
     )
   }
@@ -76,7 +76,7 @@ export class BellboyService {
           sweetAlert('warning', res.message)
         }
       }, error=>{
-          sweetAlert('error', error.error.message)
+          sweetAlert('error', error)
       })
     )
   }

@@ -7,12 +7,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ResolverService } from 'app/shared/services/resolver.service';
 import { PipesModule } from 'app/shared/pipes/pipes.module';
 import { TimeConvertModule } from 'app/shared/time-convert/time-convert.module';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from 'app/ngrx-states/reducer';
-import { BigImageModule } from '../shared/big-image/big-image.module';
+import { BigImageModule } from '../../shared/shared-components/big-image/big-image.module';
 import { SharedDirectivesModule } from 'app/shared/shared-directives/shared-directives.module';
 import { AgmDirectionModule } from 'agm-direction';
 import { DecodeTimestampPipe } from './decode-timestamp.pipe';
@@ -24,7 +23,6 @@ const routes:Routes = [
   {
     path:'hiringDetail/:id',
     component:HiringDetailComponent,
-    resolve:{data:ResolverService},
     data:{
       text: 'Hiring Detail',
       path:'/hiringDetail/:id'

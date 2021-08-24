@@ -160,6 +160,25 @@
         </div>
       </div>
       <ng-container *ngTemplateOutlet="hiringItems.length?pagination:noValue; context:{'context':'hiring'}"></ng-container>
+      <ng-template #pagination let-context="context">
+        <ul *ngIf="pager.pages && pager.pages.length" class="nav paginate justify-content-center font-weight-bold">
+          <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
+            <a (click)="setPage(1, context)">First</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+          </li>
+          <li [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page, context)">{{pager.currentPage}}</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages, context)">Last</a>
+          </li>
+        </ul>
+      </ng-template>
     </div>
 
     <div class="col-lg-4 col-md-6 mb-3">
@@ -188,7 +207,26 @@
           </a>
         </div>
       </div>
-      <ng-container *ngTemplateOutlet="customerItems.length?pagination:noValue; context:{'context':'customer'}"></ng-container>
+      <ng-container *ngTemplateOutlet="customerItems.length?paginationc:noValue; context:{'context':'customer'}"></ng-container>
+      <ng-template #paginationc let-context="context">
+        <ul *ngIf="pager2.pages && pager2.pages.length" class="nav paginate justify-content-center font-weight-bold">
+          <li [ngClass]="{'text-secondary':pager2.currentPage === 1}">
+            <a (click)="setPage(1, context)">First</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager2.currentPage === 1}">
+            <a (click)="setPage(pager2.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+          </li>
+          <li [ngClass]="{active:pager2.currentPage === page}">
+            <a (click)="setPage(page, context)">{{pager2.currentPage}}</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager2.currentPage === pager2.totalPages}">
+            <a (click)="setPage(pager2.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager2.currentPage === pager2.totalPages}">
+            <a (click)="setPage(pager2.totalPages, context)">Last</a>
+          </li>
+        </ul>
+      </ng-template>
     </div>
     <!-- 3RD CARD -->
     <div class="col-lg-4 col-md-6 mb-3">
@@ -217,29 +255,29 @@
         </a>
       </div>
       </div>
-      <ng-container *ngTemplateOutlet="bellboyItems.length?pagination:noValue; context:{'context':'bellboy'}"></ng-container>
+      <ng-container *ngTemplateOutlet="bellboyItems.length?paginationb:noValue; context:{'context':'bellboy'}"></ng-container>
+      <ng-template #paginationb let-context="context">
+        <ul *ngIf="pager3.pages && pager3.pages.length" class="nav paginate justify-content-center font-weight-bold">
+          <li [ngClass]="{'text-secondary':pager3.currentPage === 1}">
+            <a (click)="setPage(1, context)">First</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager3.currentPage === 1}">
+            <a (click)="setPage(pager3.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+          </li>
+          <li [ngClass]="{active:pager3.currentPage === page}">
+            <a (click)="setPage(page, context)">{{pager3.currentPage}}</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager3.currentPage === pager3.totalPages}">
+            <a (click)="setPage(pager3.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager3.currentPage === pager3.totalPages}">
+            <a (click)="setPage(pager3.totalPages, context)">Last</a>
+          </li>
+        </ul>
+      </ng-template>
     </div>
   </div>
 </section>
-<ng-template #pagination let-context="context">
-  <ul *ngIf="pager.pages && pager.pages.length" class="nav paginate justify-content-center font-weight-bold">
-    <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
-      <a (click)="setPage(1, context)">First</a>
-    </li>
-    <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
-      <a (click)="setPage(pager.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
-    </li>
-    <li [ngClass]="{active:pager.currentPage === page}">
-      <a (click)="setPage(page, context)">{{pager.currentPage}}</a>
-    </li>
-    <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
-      <a (click)="setPage(pager.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
-    </li>
-    <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
-      <a (click)="setPage(pager.totalPages, context)">Last</a>
-    </li>
-  </ul>
-</ng-template>
 <ng-template #noValue let-context="context">
   <div class="card small-card py-3">
     There are no {{context}}s

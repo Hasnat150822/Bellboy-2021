@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MessagingService } from './shared/services/messaging.service';
 import { GlobalService } from './shared/services/global-service.service';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { environment } from 'environments/environment';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { ResolverService } from './shared/services/resolver.service';
 var Toast = Swal.mixin({
   toast:true,
   position:'top-end',
@@ -24,9 +27,20 @@ var Toast = Swal.mixin({
 export class AppComponent implements OnInit {
   fcmToken
   version:string;
+  subscription: Subscription;
   constructor(private messagingService: MessagingService, private gs:GlobalService, private router:Router,
-    private title:Title) { }
+    private title:Title, private route:ActivatedRoute, private resolver:ResolverService) { }
   ngOnInit() {
+    this.subscription = this.router.events
+        .pipe(
+            filter(event => event instanceof NavigationEnd)
+        )
+        .subscribe(() => {
+          let _root = this.route.root.children[0].children[0];
+          this.resolver.sendRouteData(_root)
+          this.resolver.currentUserCheck();
+          return window.scrollTo(0, 0)
+        });
     this.version = environment.appVersion;
     this.title.setTitle(`Bellboy v${this.version}`)
     this.messagingService.getPermission();

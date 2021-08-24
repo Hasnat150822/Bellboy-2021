@@ -95,7 +95,7 @@ export class AdvertisementComponent implements OnInit {
     });
   }
   deleteAdvert(id){
-    confirmationDialog().then((result)=>{
+    confirmationDialog('').then((result)=>{
       if(result.value){
         this.service.deleteAdvert(id)
         .subscribe(()=>{
@@ -122,7 +122,7 @@ export class AdvertisementComponent implements OnInit {
     })
   }
   open(content){
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', keyboard:false });
   }
   tempFile
   fileChangeEvent(event: any) {

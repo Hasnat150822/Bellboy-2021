@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ManageBrandDetailComponent } from './manage-brand-detail/manage-brand-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ResolverService } from 'app/shared/services/resolver.service';
 const routes:Routes = [
   {
     path:'',component:ManageBrandComponent
@@ -13,7 +12,6 @@ const routes:Routes = [
   {
     path:'manageBrandDetail/:id',
     component:ManageBrandDetailComponent,
-    resolve:{data:ResolverService},
     data:{
       text: 'Manage Vehicle Brand',
       path:'/manageBrandDetail/:id'

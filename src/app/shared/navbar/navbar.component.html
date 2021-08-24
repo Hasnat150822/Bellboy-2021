@@ -35,7 +35,7 @@
             <!-- <mc-breadcrumbs></mc-breadcrumbs> -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li *ngIf="parent?.text" class="breadcrumb-item"><a target="_blank" routerLink="{{parent?.path}}" (click)="routeParent(parent)">{{parent?.text}}</a></li>
+                  <li *ngIf="parent?.text" class="breadcrumb-item"><a routerLink="{{parent?.path}}" (click)="routeParent(parent)">{{parent?.text}}</a></li>
                   <li *ngIf="child?.text" class="breadcrumb-item active" aria-current="page">{{child?.text}}</li>
                 </ol>
               </nav>

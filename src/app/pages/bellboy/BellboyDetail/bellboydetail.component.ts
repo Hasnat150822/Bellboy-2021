@@ -41,7 +41,7 @@ export class BellboydetailComponent implements OnInit {
     })
   }
   changeNIC(status){
-    confirmationDialog().then((result)=>{
+    confirmationDialog('').then((result)=>{
       if(result.value == true){
         this.bellboyService.manageNIC(status, this._id).subscribe((res:any)=>{
             this.getBellboyDetail()
@@ -55,7 +55,7 @@ export class BellboydetailComponent implements OnInit {
     $('#'+id).prop('hidden', !$('#'+id).prop('hidden'))
   }
   changeLicense(status){
-    confirmationDialog().then((result)=>{
+    confirmationDialog('').then((result)=>{
       if(result.value == true){
         this.bellboyService.manageLicense(status, this._id).subscribe((res:any)=>{
             this.getBellboyDetail()

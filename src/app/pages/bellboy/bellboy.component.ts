@@ -227,7 +227,7 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       sweetAlert('warning', 'NIC not Approved');
       return false;
     }else{
-      confirmationDialog().then((result)=>{
+      confirmationDialog('').then((result)=>{
         if(result.value == true){
           this.bellboyService.manageStatusbellboy(item._id, status).subscribe((res:any)=>{
             if(status==3){
@@ -269,7 +269,6 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       this.rendrer.setProperty(el, 'innerHTML', 
       '<option value="">Select Value</option><option value="sendtoPakistaniUsers">Pakistanies</option>');
       this.checkedValues.push(event.target.value);
-      console.log(this.checkedValues, 'values of inputs')
       this.checkedValues.length==10?this.rendrer.setProperty(el, 'checked', true):this.rendrer.setProperty(el, 'checked', false);
     }
   }

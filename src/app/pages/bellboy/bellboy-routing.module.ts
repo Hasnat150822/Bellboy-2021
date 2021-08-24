@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ResolverService } from 'app/shared/services/resolver.service';
-import { BellboyWalletComponent } from './bellboy-wallet/bellboy-wallet.component';
 import { BellboyComponent } from './bellboy.component';
 import { BellboydetailComponent } from './BellboyDetail/bellboydetail.component';
 const routes: Routes = [
@@ -12,19 +10,17 @@ const routes: Routes = [
   {
     path:'bellboydetail/:id',
     component:BellboydetailComponent,
-    resolve:{data:ResolverService},
     data: {
       text: 'Bellboy Detail',
       path:'/bellboydetail/:id'
     }
   },
   {
-    path:'bellboywallet', 
-    component:BellboyWalletComponent, 
-    resolve:{data:ResolverService},
-    data: {
+    path:'bellboywallet/:id',
+    loadChildren:()=>import('../../shared/shared-components/wallet-detail/wallet-detail.module').then(m=>m.WalletDetailModule),
+    data:{
       text: 'Bellboy Wallet',
-      path:'/bellboywallet'
+      path:'/bellboywallet/:id'
     }
   }
 ];

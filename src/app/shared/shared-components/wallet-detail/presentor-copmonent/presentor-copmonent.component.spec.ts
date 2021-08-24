@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShimmerComponent } from './shimmer.component';
+import { PresentorCopmonentComponent } from './presentor-copmonent.component';
 
-describe('ShimmerComponent', () => {
-  let component: ShimmerComponent;
-  let fixture: ComponentFixture<ShimmerComponent>;
+describe('PresentorCopmonentComponent', () => {
+  let component: PresentorCopmonentComponent;
+  let fixture: ComponentFixture<PresentorCopmonentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShimmerComponent ]
+      declarations: [ PresentorCopmonentComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShimmerComponent);
+    fixture = TestBed.createComponent(PresentorCopmonentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

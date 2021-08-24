@@ -100,7 +100,7 @@ export class BrandDetailComponent implements OnInit {
         sweetAlert('warning',res.message)
       }
     },error=>{
-        sweetAlert('error',error.error.message)
+        sweetAlert('error',error)
     })
   }
   changeStatus(status){
@@ -112,7 +112,7 @@ export class BrandDetailComponent implements OnInit {
         sweetAlert('warning',res.message)
       }
     }, error=>{
-      sweetAlert('error',error.error.message)
+      sweetAlert('error',error)
     })
   }
   updateImage(){
@@ -125,7 +125,7 @@ export class BrandDetailComponent implements OnInit {
         sweetAlert('warning',res.message)
       }
     }, error=>{
-      sweetAlert('error',error.error.message)
+      sweetAlert('error',error)
     })
   }
   updateLabel(fieldId, item){
@@ -141,7 +141,7 @@ export class BrandDetailComponent implements OnInit {
           sweetAlert('warning',res.message)
         }
       }, error=>{
-        sweetAlert('error',error.error.message)
+        sweetAlert('error',error)
       })
     }
   }

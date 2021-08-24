@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { HiringService } from './hiring.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ResolveEnd, Router, RoutesRecognized } from '@angular/router';
 import { checkPage, confirmationDialog } from 'app/shared/services/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 
 var hr = 0;
 var min = 0;
@@ -75,6 +76,11 @@ export class HiringComponent implements OnInit, AfterViewInit {
     private rendrer:Renderer2, private el:ElementRef, private router:Router, private activatedRoute:ActivatedRoute) {
   }
   ngOnInit() {
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        console.log(data.state.root.firstChild.data, 'data of hiring route  ');
+      }
+    });
     this.today = this.calendar.getToday(); //date in object formate
     this.markDisabled = (date: NgbDate, current: { month: number }) =>
     (date.day>this.today.day && date.month === this.today.month);
@@ -134,6 +140,7 @@ export class HiringComponent implements OnInit, AfterViewInit {
     this.tabset.select(this.tabStatus);
     this.cdr.detectChanges();
   }
+  errorMessage;
   getHirings(status, page) {
     page = checkPage(page, this.pager.totalPages);
     this.pagedItems = [];
@@ -145,8 +152,12 @@ export class HiringComponent implements OnInit, AfterViewInit {
       .subscribe((res: any) => {
         if (res.success == true) {
           this.permArr = res.data.hirings;
+          if(this.permArr.length == 0)
+            this.errorMessage = "No Data Found";
+          else
+            this.errorMessage = undefined;
           this.spinner = false;
-          this.totalItems = res.data.count;
+          this.totalItems = res.data.count; 
           this.pager = this.pagerService.getPager(res.data.count, page, this.perPage);
         }
       }, error => {
@@ -183,7 +194,7 @@ export class HiringComponent implements OnInit, AfterViewInit {
   cancelHiring() {
     let reason = this.cancelReason.controls.cuase.value;
     if (reason) {
-      confirmationDialog().then((result:any)=>{
+      confirmationDialog('').then((result:any)=>{
           if(result.value){
             this.hiringService.cancelHiring(this.singleHiringId._id, reason).subscribe(() => {
             this.modalService.dismissAll();

@@ -128,6 +128,14 @@
             </div>
           </div>
         </div>
+        <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:15:16; let i=index">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 15)" type="checkbox">
+              <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+            </div>
+          </div>
+        </div>
         <div class="col-sm-4">
           <div class="form-group">
             <div class="custom-control custom-checkbox">
@@ -136,8 +144,8 @@
                 <label class="custom-control-label fill-check text-orange" for="orderSec" (click)="isHideOrder=!isHideOrder">Bellboy Staff</label>
               </a>
               <div [hidden]="isHideOrder">
-                <div *ngFor="let item of checkboxValue | slice:15:17; let i=index" class="ml-3">
-                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 15)" type="checkbox">
+                <div *ngFor="let item of checkboxValue | slice:16:18; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 16)" type="checkbox">
                   <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
                 </div>
               </div>
@@ -152,8 +160,8 @@
                 <label class="custom-control-label fill-check text-orange" for="mediaSec" (click)="isHideMedia = !isHideMedia">Media</label>
               </a>
               <div [hidden]="isHideMedia">
-                <div *ngFor="let item of checkboxValue | slice:17:19; let i=index" class="ml-3">
-                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 17)" type="checkbox">
+                <div *ngFor="let item of checkboxValue | slice:18:20; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 18)" type="checkbox">
                   <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
                 </div>
               </div>
@@ -168,18 +176,18 @@
                 <label class="custom-control-label fill-check text-orange" for="chargesSec" (click)="isHideCharges = !isHideCharges">Charges</label>
               </a>
               <div [hidden]="isHideCharges">
-                <div *ngFor="let item of checkboxValue | slice:19:23; let i=index" class="ml-3">
-                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 19)" type="checkbox">
+                <div *ngFor="let item of checkboxValue | slice:20:24; let i=index" class="ml-3">
+                  <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 20)" type="checkbox">
                   <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:23:25; let i=index">
+        <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:24:26; let i=index">
           <div class="form-group">
             <div class="custom-control custom-checkbox">
-              <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 23)" type="checkbox">
+              <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" (change)="changeCheck($event, i, 24)" type="checkbox">
               <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
             </div>
           </div>
@@ -277,6 +285,14 @@
           </div>
         </div>
       </div>
+      <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:15:16; let i=index">
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 15)" type="checkbox">
+            <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
+          </div>
+        </div>
+      </div>
       <div class="col-sm-4">
         <div class="form-group">
           <div class="custom-control custom-checkbox">
@@ -285,8 +301,8 @@
               <label class="custom-control-label fill-check text-orange" for="orderSec" (click)="isHideOrder=!isHideOrder">Bellboy Staff</label>
             </a>
             <div [hidden]="isHideOrder">
-              <div *ngFor="let item of checkboxValue | slice:15:17; let i=index" class="ml-3">
-                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 15)" type="checkbox">
+              <div *ngFor="let item of checkboxValue | slice:16:18; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 16)" type="checkbox">
                 <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
               </div>
             </div>
@@ -301,8 +317,8 @@
               <label class="custom-control-label fill-check text-orange" for="mediaSec" (click)="isHideMedia = !isHideMedia">Media</label>
             </a>
             <div [hidden]="isHideMedia">
-              <div *ngFor="let item of checkboxValue | slice:17:19; let i=index" class="ml-3">
-                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 17)" type="checkbox">
+              <div *ngFor="let item of checkboxValue | slice:18:20; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 18)" type="checkbox">
                 <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
               </div>
             </div>
@@ -317,18 +333,18 @@
               <label class="custom-control-label fill-check text-orange" for="chargesSec" (click)="isHideCharges = !isHideCharges">Charges</label>
             </a>
             <div [hidden]="isHideCharges">
-              <div *ngFor="let item of checkboxValue | slice:19:23; let i=index" class="ml-3">
-                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 19)" type="checkbox">
+              <div *ngFor="let item of checkboxValue | slice:20:24; let i=index" class="ml-3">
+                <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 20)" type="checkbox">
                 <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:23:25; let i=index">
+      <div class="col-sm-4" *ngFor="let item of checkboxValue | slice:24:26; let i=index">
         <div class="form-group">
           <div class="custom-control custom-checkbox">
-            <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 18)" type="checkbox">
+            <input class="custom-control-input text-dark" [value]="item.value" [id]="item.id" [checked]="item.selected" (change)="changeCheck($event, i, 24)" type="checkbox">
             <label class="custom-control-label" [for]="item.id">{{item.viewValue}}</label>
           </div>
         </div>

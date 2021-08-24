@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ResolverService } from 'app/shared/services/resolver.service';
 const routes:Routes = [
   {
     path:'',
@@ -14,7 +13,6 @@ const routes:Routes = [
   {
     path:'categorydetail/:id',
     component:CategoryDetailComponent,
-    resolve:{data:ResolverService},
     data:{
       text:'Category Detail',
       path:'/categorydetail/:id',

@@ -6,6 +6,7 @@ export function sideBarData() {
     var media:any = [];
     var users:any = [];
     var charges:any = [];
+    var transactions:any = [];
     var perm = JSON.parse(localStorage.getItem('Permissions'))
     for (let i = 0; i < perm.length; i++) {
         switch (perm[i]) {
@@ -85,12 +86,17 @@ export function sideBarData() {
                     })
             break;
             case "Commissions":
-                routes[6] = {
+                transactions[1] = {
                     path:'', title:'Commissions', icon:'../../../assets/img/ico/commission.png', class:'has-sub', submenu:[{
                         path:'/commissions/percentage', title:'Manage Percentage', icon:'', class:'', submenu:[]
                     },{
                         path:'/commissions/companyEarnings', title:"Company's Earning", icon:'', class:'', submenu:[]
                     }]
+                }
+            break;
+            case "Wallet":
+                transactions[0]={
+                    path:'/wallet', title:'Wallet', icon:'../../../assets/img/ico/SVG/wallet.svg', class:'', submenu:[]
                 }
             break;
             case "Complaints":
@@ -212,6 +218,11 @@ export function sideBarData() {
     if(reports.length>0){
         routes[5] = {
             path:'', title:'Reports', icon:'../../../assets/img/ico/reports.png', class:'has-sub', submenu:reports
+        }
+    }
+    if(transactions.length>0){
+        routes[6] = {
+            path:'', title:'Transactions', icon:'../../../assets/img/ico/SVG/transaction.svg', class:'has-sub', submenu:transactions
         }
     }
     return routes;

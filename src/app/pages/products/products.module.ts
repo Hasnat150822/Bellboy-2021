@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductDetailComponent } from './prodect-detail/product-detail.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ResolverService } from 'app/shared/services/resolver.service';
 const routes:Routes = [
   {
     path:'',
@@ -14,7 +13,6 @@ const routes:Routes = [
   {
     path:'productdetail/:id',
     component:ProductDetailComponent,
-    resolve:{data:ResolverService},
     data:{
       text: 'Product Detail',
       path:'/productdetail/:id'

@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ChargesComponent } from './delivery-charges/deliver-charges.component';
-import { HiringChargesComponent } from './hiring-charges/hiring-charges.component';
-import { ResolverService } from 'app/shared/services/resolver.service';
+import { HiringChargesComponent } from './hiring-charges/hiring-charges.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ViewTimelineComponent } from './view-timeline/view-timeline.component';
 import { PersonalAssistComponent } from './personal-assist/personal-assist.component';
@@ -14,28 +13,28 @@ const routes:Routes = [
     data:{
       text: 'Delivery Charges',
       path:'/deliveryCharges'
-    },resolve:{data:ResolverService},
+    }
   },
   {
     path:'hiringCharges', component:HiringChargesComponent,
     data:{
       text:'Hiring Charges',
       path:'/hiringCharges'
-    },resolve:{data:ResolverService},
+    }
   },
   {
     path:'paassist', component:PersonalAssistComponent,
     data:{
       text:'Personal Assistance',
       path:'/paassist'
-    },resolve:{data:ResolverService},
+    }
   },
   {
     path:'b2b', component:HouseHoldComponent,
     data:{
       text:'B2B',
       path:'/b2b'
-    },resolve:{data:ResolverService},
+    }
   }
 ]
 @NgModule({

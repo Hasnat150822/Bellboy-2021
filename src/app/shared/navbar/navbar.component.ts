@@ -43,8 +43,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.resolver.routeInfo.subscribe((route:any)=>{
+      this.parent = {}
       this.child = route.data
-      if(route['parent'] !== undefined )
+      if(route['parent'] !== undefined && route.url.length>0)
         this.parent = route['parent'].data
     })
     this.config = this.configService.templateConf;

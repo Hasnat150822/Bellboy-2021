@@ -51,7 +51,7 @@ export class AuthGuard implements CanActivate, OnInit {
       }, error=>{
         Swal.fire({
           icon:'error',
-          title:error.error.message,
+          title:error,
           width:'400px',
           timer:2500,
           showConfirmButton:false

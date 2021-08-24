@@ -49,10 +49,11 @@ export var sort = function (prop, arr) {
     });
     return arr;
 };
-export async function confirmationDialog() {
+export async function confirmationDialog(text) {
     const result = await Swal.fire({
         icon:'question',
-        text:'Are You Sure?',
+        title:'Are You Sure?',
+        text:text,
         width:'300px',
         showConfirmButton:true,
         showCancelButton:true
@@ -81,4 +82,15 @@ export function startDateWeek(year, week) {
     // Add required number of days
     d.setDate(d.getDate() - d.getDay() + ++diff);
     return d;
+  }
+  export function emptyCheck(array){
+      return new Promise((reject, resolve)=>{
+          let result = array.forEach((singleObject:any)=>{
+            let keys = Object.keys(singleObject);
+            keys.map((key:any)=>{
+              singleObject[key] = singleObject[key]?singleObject[key]:'-';
+            })
+          })
+        resolve(result)
+      })
   }

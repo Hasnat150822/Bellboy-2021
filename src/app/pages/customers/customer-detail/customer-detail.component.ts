@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { URL } from '../../../ngrx-states/model/url.model';
 import * as allActions from '../../../ngrx-states/actions';
 import { PagerService } from 'app/shared/services/pager.service';
+import { NumberLiteralType } from 'typescript';
 @Component({
   selector: 'app-customer-detail',
   templateUrl: './customer-detail.component.html',
@@ -36,18 +37,26 @@ export class CustomerDetailComponent implements OnInit {
   getSingleCust(){
     this.customerService.getCustById(this._id).subscribe((res:any)=>{
       this.customerDetail = res.data.customer;
-      this.getHiringsByCust(1, 10);
+      this.getHiringsByCust(null, 1, 10);
     })
   }
   perPage:number;
-  getHiringsByCust(page, perPage){
+  status;
+  page:number;
+  getHiringsByCust(status, page, perPage){
+    this.status = status;
     this.perPage = +perPage;
+    this.page = page;
     page = checkPage(page, this.pager.totalPages)
-    this.customerService.hiringByCustomers(page, perPage, this._id)
+    this.customerService.hiringByCustomers(page, perPage, this._id, this.status)
     .subscribe((res:any)=>{
       this.hiringByCust = res;
       this.pager = this.pagerService.getPager(this.customerDetail.total_hirings, page, perPage);
     }, error=>this.hiringByCust = []);
     
+  }
+  getWithStatus(value){
+    this.status = value;
+    this.getHiringsByCust(value, this.page, this.perPage);
   }
 }

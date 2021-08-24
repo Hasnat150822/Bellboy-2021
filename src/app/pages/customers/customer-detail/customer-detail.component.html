@@ -55,7 +55,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-sm-12">
-              <h5 class="font-weight-500">Hiring<div class="form-group float-right perPageBlock mb-0"><select class="form-control perPage" (change)="getHiringsByCust(1, $event.target.value)"><option value="10">10 / page</option><option value="25">25 / page</option><option value="50">50 / page</option></select></div></h5>
+              <h5 class="font-weight-500">Hiring<div class="form-group float-right perPageBlock mb-0"><select class="form-control perPage" (change)="getHiringsByCust(status, 1, $event.target.value)"><option value="10">10 / page</option><option value="25">25 / page</option><option value="50">50 / page</option></select></div></h5>
               <br>
               <table class="table table-responsive-md table-striped">
                 <thead>
@@ -63,7 +63,12 @@
                     <th>Hiring Id</th>
                     <th>No of Tasks</th>
                     <th>Bellboy Name</th>
-                    <th>Status</th>
+                    <th>
+                      <select class="border-0 bg-transparent" (change)="getWithStatus($event.target.value)">
+                        <option value="4">Completed</option>
+                        <option value="5">Cancelled</option>
+                      </select>
+                    </th>
                     <th>Paid Amount</th>
                     <th>Time</th>
                     <th>Date</th>
@@ -101,12 +106,13 @@
 <app-big-image *ngIf="isBigImg"></app-big-image>
 <ng-template #pagination>
   <div class="d-flex justify-content-end" *ngIf="pager.pages && pager.pages.length">
-    <p class="mr-3 d-flex align-items-center"><span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> : <span class="text-secondary ml-2">{{ this.customerDetail?.total_hirings }}</span>
-    </p>
+    <!-- <p class="mr-3 d-flex align-items-center"><span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> : <span class="text-secondary ml-2">{{ this.customerDetail?.total_hirings }}</span>
+    </p> -->
     <nav class="ng2-smart-pagination-nav ng-star-inserted">
       <ul class="ng2-smart-pagination pagination">
         <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"><a aria-label="First" class="ng2-smart-page-link page-link" (click)="
             getHiringsByCust(
+              status,
               1,
               perPage
             )
@@ -114,12 +120,14 @@
         </li>
         <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage <= 4 }"><a aria-label="Prev" ngbTooltip="Previous 5" (click)="
           getHiringsByCust(
+            status,
               pager.currentPage - 5,
               perPage
             )" class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
         </li>
         <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }"><a (click)="
             getHiringsByCust(
+              status,
               page,
               perPage
             )
@@ -127,12 +135,14 @@
         </li>
         <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"><a ngbTooltip="Next 5" (click)="
           getHiringsByCust(
+            status,
               pager.currentPage + 5,
               perPage
             )" aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span></a>
         </li>
         <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"><a (click)="
             getHiringsByCust(
+              status,
               pager.totalPages,
               perPage
             )

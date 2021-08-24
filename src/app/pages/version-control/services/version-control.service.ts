@@ -37,7 +37,7 @@ export class VersionControlService {
         }else{
           sweetAlert('warning', res.message);
         }
-      }, error=>sweetAlert('error', error.error.message))
+      }, error=>sweetAlert('error', error))
     );
   }
 
@@ -49,7 +49,7 @@ export class VersionControlService {
         else  
           sweetAlert('warning', res.message);
       }, error=>{
-        sweetAlert('error', error.error.message);
+        sweetAlert('error', error);
       })
     )
   }

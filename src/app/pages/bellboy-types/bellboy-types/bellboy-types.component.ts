@@ -218,7 +218,7 @@ export class BellboyTypesComponent implements OnInit {
         }
       }, error=>{
         $('#'+inputId).prop('disabled', true)
-        sweetAlert('error', error.error.message)
+        sweetAlert('error', error)
       })
     }
   }

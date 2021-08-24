@@ -5,11 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ManageVehicleDetailComponent } from './manage-vehicle-detail/manage-vehicle-detail.component';
-import { ResolverService } from 'app/shared/services/resolver.service';
 const routes: Routes = [
   { path: '', component: ManageVehiclesComponent },
-  { path:'vehicleDetail/:id', component:ManageVehicleDetailComponent, 
-  resolve:{data:ResolverService},
+  { path:'vehicleDetail/:id', component:ManageVehicleDetailComponent,
   data:{
     text: 'Vehicle Detail',
     path:'/vehicleDetail/:id'

@@ -30,7 +30,7 @@ export class RoleManagementService {
           sweetAlert('warning', res.message);
         }
       }, error=>{
-        sweetAlert('error', error.error.message);
+        sweetAlert('error', error);
       })
     )
   }
@@ -48,7 +48,7 @@ export class RoleManagementService {
           sweetAlert('warning', res.message)
         }
       }, error=>{
-        sweetAlert('error', error.error.message)
+        sweetAlert('error', error)
       })
     )
   }

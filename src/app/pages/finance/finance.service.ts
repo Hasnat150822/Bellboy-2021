@@ -40,7 +40,6 @@ export class FinanceService {
                     this.allData.service['car'] = res
                     break;
                   case '5f5da852abd69550176fad72':
-                    console.log(res, 'res')
                     this.allData.service['biker']= res
                     break;
                   default:
