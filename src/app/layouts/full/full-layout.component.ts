@@ -35,6 +35,15 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+<<<<<<< HEAD
+=======
+      
+    // this.router.events.pipe(
+    //   filter(event => event instanceof ResolveEnd)
+    // ).subscribe((value)=>{
+    //   console.log(this.route, 'value')
+    // })
+>>>>>>> webfix/bellboy-copy
       this.config = this.configService.templateConf;
       this.bgColor = this.config.layout.sidebar.backgroundColor;
       if (!this.config.layout.sidebar.backgroundImage) {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,18 +8,31 @@ declare const $: any;
 var map: google.maps.Map;
 var center: google.maps.LatLngLiteral = {lat: 31.5204, lng: 74.3587};
 const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+=======
+import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { Router, ActivatedRoute } from '@angular/router';
+import { amazonUrl } from 'app/shared/services/global';
+import { BellboyService } from '../bellboy/bellboy.service';
+declare const $: any;
+>>>>>>> webfix/bellboy-copy
 @Component({
   selector: 'app-bellboy-tracking',
   templateUrl: './bellboy-tracking.component.html',
   styleUrls: ['./bellboy-tracking.component.scss']
 })
 export class BellboyTrackingComponent implements OnInit {
+<<<<<<< HEAD
   locations = [];
+=======
+  locations;
+>>>>>>> webfix/bellboy-copy
   lat = 31.5204;
   lng = 74.3587;
   zoom: Number = 10;
   bellboys: any = [];
   hiring_id: string;
+<<<<<<< HEAD
   spinner: boolean; 
   isSelected: boolean = false;
   amazonImgUrl: string = amazonUrl;
@@ -29,11 +43,18 @@ export class BellboyTrackingComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute,
     private el:ElementRef) {
+=======
+  spinner: boolean; isSelected: boolean = true;
+  amazonImgUrl: string = amazonUrl;
+  constructor(private db: AngularFireDatabase, private router: Router, private route: ActivatedRoute,
+    private bellboyService: BellboyService) {
+>>>>>>> webfix/bellboy-copy
   }
   ngOnInit() {
     this.route.params.subscribe((res: any) => {
       this.hiring_id = res.queryParams;
     })
+<<<<<<< HEAD
     loader.load().then(()=>{
       this.defaultMap();
     })
@@ -174,6 +195,41 @@ export class BellboyTrackingComponent implements OnInit {
   resetMap() {
     this.isSelected = false;
     this.initMap();
+=======
+    this.defaultMap();
+  }
+  onMouseOver(infoWindow, $event: MouseEvent) {
+    infoWindow.open();
+  }
+  onMouseOut(infoWindow, $event: MouseEvent) {
+    infoWindow.close();
+  }
+  defaultMap() {
+    if (this.isSelected === true) {
+      this.db.list('/bellboys').valueChanges().subscribe((res:any)=>{
+        this.bellboys = res;
+      })
+    }
+  }
+  zoomCurrent(item) {
+    this.isSelected = false;
+    this.zoom = 18;
+    if (this.isSelected === false) {
+      this.db.list('/bellboys/' + item.profile.id).valueChanges().subscribe((res: any) => {
+        this.locations = { geolocation: {
+          latitude:+res[0].latitude,
+          longitude:+res[0].longitude
+        }, profile: res[2] };
+      })
+    }
+  }
+  resetMap() {
+    this.isSelected = true;
+    this.lat = 31.5204;
+    this.lng = 74.3587;
+    this.zoom = 10;
+    this.defaultMap();
+>>>>>>> webfix/bellboy-copy
   }
   detailView(id) {
     this.router.navigate(['/bellboy/bellboydetail', id]);

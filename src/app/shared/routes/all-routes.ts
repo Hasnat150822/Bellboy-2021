@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
+<<<<<<< HEAD
 import { DashboardComponent } from 'app/layouts/full/dashboard/dashboard.component';
+=======
+>>>>>>> webfix/bellboy-copy
 
 export const allRoutes:Routes=[
     {
@@ -8,7 +11,11 @@ export const allRoutes:Routes=[
         text:'Dashoboard',
         path:'/dashboard'
       },
+<<<<<<< HEAD
       component:DashboardComponent
+=======
+      loadChildren: ()=>import('../../pages/dashboard/dashboard.module').then(m=>m.DashboardModule)
+>>>>>>> webfix/bellboy-copy
     },
     {
       path: 'bellboy', 
@@ -79,7 +86,11 @@ export const allRoutes:Routes=[
       path: 'hiring', 
       data: {
         animation: 'hiring',
+<<<<<<< HEAD
         text: 'Hirings',
+=======
+        text: 'Hiring',
+>>>>>>> webfix/bellboy-copy
         path:'/hiring'
       },
       loadChildren:()=>import('../../pages/hiring/hiring.module').then(m=>m.HiringModule)
@@ -135,7 +146,11 @@ export const allRoutes:Routes=[
     },
     {
       path:'finance',
+<<<<<<< HEAD
       loadChildren:()=>import('../../pages/finance/charges.module').then(m=>m.ChargesModule)
+=======
+      loadChildren:()=>import('../../pages/finance/finance.module').then(m=>m.FinanceModule)
+>>>>>>> webfix/bellboy-copy
     },
     {
       path:'bellboyTypes',
@@ -177,6 +192,7 @@ export const allRoutes:Routes=[
       loadChildren:()=>import('../../pages/reports/reports.module').then(m=>m.ReportsModule)
     },
     {
+<<<<<<< HEAD
       path:'advertisement' ,
       loadChildren:()=>import('../../pages/advertisement/advertisement.module').then(m=>m.AdvertisementModule)
     },
@@ -192,6 +208,19 @@ export const allRoutes:Routes=[
       path:'notification?type=bellboy', 
       data:{
         text:'Bellboy Notification',
+=======
+      path:'advertisement' , 
+      data:{
+        text:'Advertisement',
+        path:'/advertisement'
+      },
+      loadChildren:()=>import('../../pages/advertisement/advertisement.module').then(m=>m.AdvertisementModule)
+    },
+    {
+      path:'notification', 
+      data:{
+        text:'Notification',
+>>>>>>> webfix/bellboy-copy
         path:'/notification'
       },
       loadChildren:()=>import('../../pages/notification/notification.module').then(m=>m.NotificationModule)
@@ -234,6 +263,7 @@ export const allRoutes:Routes=[
         path:'/wallet'
       },
       loadChildren:()=>import('../../pages/wallet/wallet.module').then(m=>m.WalletModule)
+<<<<<<< HEAD
     },
     {
       path: 'customerOffers', 
@@ -250,5 +280,7 @@ export const allRoutes:Routes=[
         path:'/bellboyOffers'
       },
       loadChildren:()=>import('../../pages/offers/offers.module').then(m=>m.OffersModule)
+=======
+>>>>>>> webfix/bellboy-copy
     }
   ]

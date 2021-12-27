@@ -26,8 +26,12 @@ export class ComplainsComponent implements OnInit {
       title:'Are You Sure?',
       width:'300px'
     }).then((result)=>{
+<<<<<<< HEAD
       console.log(result, 'result')
       if(result.value)
+=======
+      if(result)
+>>>>>>> webfix/bellboy-copy
         this.service.deleteComp(id).subscribe(()=>this.getComp());
     })
   }

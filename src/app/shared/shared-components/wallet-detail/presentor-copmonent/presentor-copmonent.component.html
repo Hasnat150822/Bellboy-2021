@@ -7,7 +7,11 @@
               <div class="media align-items-center">
                 <img
                   class="mr-3 bb-image-border rounded-circle"
+<<<<<<< HEAD
                   src="{{amazonImgUrl+walletDetail?.bellboy?.avatar?.value}}"
+=======
+                  src=""
+>>>>>>> webfix/bellboy-copy
                   onerror="src='../../../../assets/img/ico/bb-brand.jpg'"
                   height="250px"
                   width="250px"
@@ -16,7 +20,11 @@
                   <h5><strong>Name</strong> : {{walletDetail?.bellboy?.name}}</h5>
                   <h5><strong>Cell no</strong> :{{walletDetail?.bellboy?.mobile}}</h5>
                   <h5><strong>Joining Date</strong> : {{walletDetail?.bellboy?.created_at | date:'shortDate'}}</h5>
+<<<<<<< HEAD
                   <h5 *ngIf="walletType=='customer'"><strong>Balance</strong> : {{walletDetail?.cash | number}}/- Rs</h5>
+=======
+                  <h5 *ngIf="walletType=='customer'"><strong>Balance</strong> : {{walletDetail?.cash}}/- Rs</h5>
+>>>>>>> webfix/bellboy-copy
                 </div>
               </div>
             </div>
@@ -26,7 +34,11 @@
                 <h5><b>Balance : </b>{{walletDetail?.cash}}/- Rs</h5> 
               </div>
             </div>
+<<<<<<< HEAD
             <div class="col-sm-3 d-inline-flex ml-auto">
+=======
+            <div class="col-sm-3 d-inline-flex" *ngIf="walletType=='bellboy'">
+>>>>>>> webfix/bellboy-copy
               <div class="align-self-center" [formGroup]="transactionForm">
                 <div class="form-group">
                   <input type="number" id="topup" placeholder="Write Amount" class="form-control" formControlName="topupAmount">
@@ -59,7 +71,11 @@
       <div class="container">
         <div id="tabs">
           <ul
+<<<<<<< HEAD
             class="nav nav-tabs border-0 px-3 d-inline-block align-middle"
+=======
+            class="nav nav-tabs border-0 justify-content-center"
+>>>>>>> webfix/bellboy-copy
             id="catTab"
             role="tablist"
           >
@@ -135,6 +151,7 @@
                 (click)="getByStatus(2)"
               >
                 <i class="ft ft-home"></i>
+<<<<<<< HEAD
                 Earning
               </a>
             </li>          </ul>
@@ -167,6 +184,39 @@
             </div>
           </div>
           <div class="tab-content p-3" id="catTabContent">
+=======
+                Recieved
+              </a>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded active"
+                id="all-tab"
+                data-toggle="tab"
+                href="#all"
+                role="tab"
+                aria-controls="all"
+                aria-selected="true"
+              >
+                <i class="ft ft-home"></i>
+                All
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link border border-warning rounded"
+                id="sent-tab"
+                data-toggle="tab"
+                href="#sent"
+                role="tab"
+                aria-controls="sent"
+                aria-selected="false"
+                ><i class="ft ft-credit-card"></i> Sent</a
+              >
+            </li> -->
+          </ul>
+          <div class="tab-content" id="catTabContent">
+>>>>>>> webfix/bellboy-copy
             <div
               class="tab-pane fade show active"
               id="all"
@@ -189,23 +239,34 @@
                     <td>{{item.created_at | date:'shortDate'}}</td>
                     <td>{{item.created_at | date:'shortTime'}}</td>
                     <td>
+<<<<<<< HEAD
                       <a class="text-primary" (click)="routeToMain(item)" target="_blank">{{item.admin?item.admin?.name:whichId(item) || '-'}}</a>
                     </td>
                     <td>{{item.title}}</td>
                     <td>{{item.amount | number}}</td>
                     <td>{{+item.available_balance | number}}</td>
+=======
+                      <a [routerLink]="[item.admin?'/myprofile/':'/hiring/hiringDetail/', item.admin?item.admin?._id:item.hiring?.hiring_id]" target="_blank">{{item.admin?item.admin?.name:item.hiring?.hiring_id || '-'}}</a>
+                    </td>
+                    <td>{{item.title}}</td>
+                    <td>{{item.amount | number}}</td>
+                    <td>{{item.available_balance | number}}</td>
+>>>>>>> webfix/bellboy-copy
                   </tr>
                   <ng-container *ngTemplateOutlet="shimmer"></ng-container>
                 </tbody>
               </table>
               <ng-container *ngTemplateOutlet="pagination"></ng-container>
             </div>
+<<<<<<< HEAD
             <div
               class="tab-pane fade"
               id="filterOpt"
               role="tabpanel"
               aria-labelledby="filter-tab"
             >
+=======
+>>>>>>> webfix/bellboy-copy
           </div>
         </div>
       </div>
@@ -273,9 +334,17 @@
     </div>
   </ng-template>
   <ng-template #shimmer>
+<<<<<<< HEAD
     <!-- <tr *ngIf="transactionDetail.length==0">
       <td colspan="12">
         <div class="py-3 shine w-100"></div>
       </td>
     </tr> -->
+=======
+    <tr *ngIf="transactionDetail.length==0">
+      <td colspan="12">
+        <div class="py-3 shine w-100"></div>
+      </td>
+    </tr>
+>>>>>>> webfix/bellboy-copy
   </ng-template>

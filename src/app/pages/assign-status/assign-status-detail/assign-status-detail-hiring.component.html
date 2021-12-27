@@ -130,10 +130,17 @@
             <div class="col-sm-12 ">
               <div class="map">
                 <img *ngIf="detailHiring?.location?.geolocation?.longitude==0 && detailHiring?.location?.geolocation?.latitude==0" width="100%" src="../../../../assets/img/gallery/map-not-load.png" alt="">
+<<<<<<< HEAD
                 <!-- <agm-map style="height: 250px;" *ngIf="detailHiring?.location?.geolocation?.longitude!==0 && detailHiring?.location?.geolocation?.latitude!==0" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
                   <agm-marker [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
                   </agm-marker>
                 </agm-map> -->
+=======
+                <agm-map style="height: 250px;" *ngIf="detailHiring?.location?.geolocation?.longitude!==0 && detailHiring?.location?.geolocation?.latitude!==0" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
+                  <agm-marker [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
+                  </agm-marker>
+                </agm-map>
+>>>>>>> webfix/bellboy-copy
               </div>
               <br>
             </div>
@@ -275,9 +282,16 @@
     <a class="mb-2"><span class="ft-x text-white" (click)="model.close('Cancel Cick')"></span></a>
   </div>
   <div class="modal-body d-flex justify-content-center pt-0">
+<<<<<<< HEAD
     <!-- <agm-map style="width: 95%; height: 305px;" [latitude]="loc?.latitude" [zoom]="loc?.zoom" [longitude]="loc?.longitude">
       <agm-marker [latitude]="loc?.latitude" [longitude]="loc?.longitude">
       </agm-marker>
     </agm-map> -->
+=======
+    <agm-map style="width: 95%; height: 305px;" [latitude]="loc?.latitude" [zoom]="loc?.zoom" [longitude]="loc?.longitude">
+      <agm-marker [latitude]="loc?.latitude" [longitude]="loc?.longitude">
+      </agm-marker>
+    </agm-map>
+>>>>>>> webfix/bellboy-copy
   </div>
 </ng-template>

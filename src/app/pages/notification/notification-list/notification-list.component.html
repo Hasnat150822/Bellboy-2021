@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="card">
   <div class="card-content">
     <div class="card-body">
@@ -20,6 +21,24 @@
     </div>
   </div>
 </div>
+=======
+<table class="table table-responsive-md table-striped text-left">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Total Coustomers</th>
+      <th>Send By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngTemplateOutlet="lists ? content : shimmer"></ng-container>
+  </tbody>
+</table>
+>>>>>>> webfix/bellboy-copy
 <ng-container *ngTemplateOutlet="pagination"></ng-container>
 <ng-template #content>
   <tr *ngFor="let item of lists">
@@ -93,4 +112,8 @@
     </nav>
   </div>
 </ng-template>
+<<<<<<< HEAD
 <app-big-image *ngIf="isBig"></app-big-image> 
+=======
+<app-big-image *ngIf="isBig"></app-big-image>
+>>>>>>> webfix/bellboy-copy

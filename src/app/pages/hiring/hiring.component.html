@@ -1,9 +1,13 @@
 <section id="tabs">
   <div class="row text-left mb-2 mt-2">
     <div class="col-sm-12 mb-1">
+<<<<<<< HEAD
       <h3>
         {{getPageTitle()}}
       </h3> 
+=======
+      <h3>Manage Hiring</h3> 
+>>>>>>> webfix/bellboy-copy
     </div>
     <div class="col-xs-12 col-sm-6 col-md-5">
       <div class="position-relative"> <i ngbTooltip="Default Data" (click)="
@@ -40,7 +44,11 @@
       <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
       </ngb-datepicker>
       <ng-template #t1 let-date let-focused="focused" class="template">
+<<<<<<< HEAD
         <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date?.day>today?.day) && (date?.month === today?.month) && (date?.year === today?.year)}">
+=======
+        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date.day>today.day) && (date.month === today.month) && (date.year === today.year)}">
+>>>>>>> webfix/bellboy-copy
           {{ date.day }}
         </span>
       </ng-template>
@@ -52,6 +60,7 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
+<<<<<<< HEAD
             <div class="form-group float-right perPageBlock mb-0 d-flex">
               <select class="hiring-type form-control perPage mr-2" (change)="
                 hiringType=$event.target.value;
@@ -67,6 +76,9 @@
                 hiringType=='pa'
                 ">Personal Assistance</option>
               </select>
+=======
+            <div class="form-group float-right perPageBlock mb-0">
+>>>>>>> webfix/bellboy-copy
               <select class="form-control perPage" (change)="
                   perPage = $event.target.value; getHirings(this.status, 1)">
                 <option value="10">10 / page</option>
@@ -229,7 +241,11 @@
       <th>Cell No</th>
       <th *ngIf="!(status==1 || status==6)">Assigned Bellboy</th>
       <th *ngIf="status!==6">Bellboy Type</th>
+<<<<<<< HEAD
       <th *ngIf="hiringType=='hiring'">
+=======
+      <th>
+>>>>>>> webfix/bellboy-copy
         <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
           <a (click)="sortByNumber()">Actions</a>
           <div class="ml-1 mt-1">
@@ -254,6 +270,10 @@
         </div>
       </th>
       <th *ngIf="status == 4">Amount</th>
+<<<<<<< HEAD
+=======
+      <th>Type</th>
+>>>>>>> webfix/bellboy-copy
       <th *ngIf="status == 1 || status == 2">View / Cancel</th>
       <th *ngIf="status == 3">View / Close</th>
       <th *ngIf="status == 4 || status == 5 || status == 6">View</th>
@@ -279,7 +299,11 @@
         }}</a> 
       </td>
       <td *ngIf="status!==6">{{ item.bellboyType?.title | showDashes}}</td>
+<<<<<<< HEAD
       <td *ngIf="hiringType=='hiring'">{{ math.abs(item.totalActions) | showDashes}}</td>
+=======
+      <td>{{ math.abs(item.totalActions) | showDashes}}</td>
+>>>>>>> webfix/bellboy-copy
       <td class="text-nowrap" *ngIf="status == 2 || status == 3 || status == 4">{{ item.start_time | date: "shortTime" | showDashes }}</td>
       <td class="text-nowrap" *ngIf="status==1 || status == 6">{{ item.created_at | date: "shortTime" | showDashes}}</td>
       <td class="text-nowrap" *ngIf="status==1">{{showStopWatch(item.created_at)}} {{pendingCounter?pendingCounter:''}}</td>
@@ -299,11 +323,19 @@
       </td>
       <td class="text-nowrap">{{ item.created_at | date: "mediumDate" | showDashes}}</td>
       <td *ngIf="status == 4" [ngClass]="{ 'text-success ': item.isFree }">{{ item.isFree ? "Free" : item.amount | showDashes}}</td>
+<<<<<<< HEAD
+=======
+      <td>-</td>
+>>>>>>> webfix/bellboy-copy
       <td *ngIf="status == 1 || status == 2 || status == 3">
         <a class="p-0 text-dark" target="_blank" [routerLink]="[
             '/hiring/hiringDetail',
             item.hiring_id
+<<<<<<< HEAD
           ]" [queryParams]="{'hiringType':hiringType}">
+=======
+          ]">
+>>>>>>> webfix/bellboy-copy
           <img src="../../../assets/img/ico/eye.png" class="img-eye" />
         </a>
         <a *ngIf="status!==4 || status!==5" [ngbTooltip]="status==1 || status == 2?'Cancel Hiring':status==3?'Close Hiring':false" class="p-0 text-dark" (click)="singleHiringId = item; open(cancel, '')">
@@ -314,7 +346,11 @@
         <a class="p-0 text-dark" target="_blank" [routerLink]="[
             '/hiring/hiringDetail',
             item.hiring_id
+<<<<<<< HEAD
           ]" [queryParams]="{'hiringType':hiringType}">
+=======
+          ]">
+>>>>>>> webfix/bellboy-copy
           <img src="../../../assets/img/ico/eye.png" class="img-eye" />
         </a>
       </td>

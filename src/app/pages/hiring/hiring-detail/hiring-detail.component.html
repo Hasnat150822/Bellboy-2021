@@ -1,0 +1,430 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row py-3 bg-light">
+            <div class="col-sm-12">
+              <a target="_blank" class="text-dark" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">
+                <h5 class="font-weight-500">Customer</h5>
+              </a>
+            </div>
+            <div class="col-sm-12">
+              <div class="media align-items-center">
+                <a (click)="
+                  bigImage(
+                    amazonImgUrl + detailHiring?.customer?.avatar?.value
+                  )
+                ">
+                  <img alt="100x100" class="object-fit d-flex mr-3 bg-primary rounded-circle" src="{{ amazonImgUrl }}{{
+                    detailHiring?.customer?.avatar?.value
+                  }}" onerror="src='../../../assets/img/gallery/1.jpg'">
+                </a>
+                <div class="media-body" >
+                  <h5 class="font-weight-normal"><a target="_blank" [routerLink]="[
+                    '/customers/custdetail',
+                    detailHiring?.customer?._id
+                  ]">{{ detailHiring?.customer?.name }}</a></h5>
+                  <p><span>Cell No:</span><span class="ml-3 text-secondary">{{ detailHiring?.customer?.mobile }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2 py-3 bg-light">
+            <div class="col-sm-6"><span *ngIf="detailHiring && !detailHiring?.bellboy" class="text-orange">Not Assigned Yet</span>
+            </div>
+            <div class="col-sm-6 text-right" >
+              <a target="_blank" class="text-dark" [routerLink]="[
+              '/bellboy/bellboydetail',
+              detailHiring?.bellboy?._id
+            ]">
+                <h5 class="font-weight-500">Assigned Bellboy</h5>
+              </a>
+            </div>
+            <div class="col-sm-12">
+              <div class="media align-items-center text-right">
+                <div class="media-body" >
+                  <h5 class="font-weight-normal"><a class="text-primary" target="_blank" [routerLink]="[
+                    '/bellboy/bellboydetail',
+                    detailHiring?.bellboy?._id
+                  ]">{{ detailHiring?.bellboy?.name }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                  <p class="mb-0"><span>Cell No:</span><span class="ml-3 text-secondary">{{ detailHiring?.bellboy?.mobile }}</span>
+                  </p>
+                </div>
+                <a (click)="
+                  bigImage(
+                    amazonImgUrl + detailHiring?.bellboy?.avatar?.value
+                  )
+                ">
+                  <img alt="100x100" class="object-fit d-flex mr-3 bg-primary rounded-circle" src="{{ amazonImgUrl }}{{
+                    detailHiring?.bellboy?.avatar?.value
+                  }}" onerror="src='../../../assets/img/gallery/1.jpg'">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div *ngIf="detailHiring?.status !== 1" [perfectScrollbar] class="card chat-card box-warning direct-chat direct-chat-warning">
+      <!-- /.box-header -->
+      <div class="card-body">
+        <h5 class="font-weight-500">Order Chat</h5>
+        <!-- Conversations are loaded here -->
+        <div *ngIf="chat?.length == 0" class="no-chat">No Conversation Yet</div>
+        <div class="direct-chat-messages" *ngFor="let item of chat">
+          <!-- Message. Default to the left -->
+          <div class="direct-chat-msg" *ngIf="item.from == 'customer'">
+            <div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">{{ detailHiring?.customer?.name }}</span>
+            </div>
+            <!-- /.direct-chat-info -->
+            <img class="direct-chat-img" src="{{amazonImgUrl}}{{detailHiring?.customer?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="Message User Image">
+            <!-- /.direct-chat-img -->
+            <div class="direct-chat-text"><span *ngIf="item.type == 0">{{ item.content }}</span>
+              <audio controls *ngIf="item.type == 4">
+                <source src="{{item.content}}" type="audio/mp3">
+                  <source src="{{item.content}}" type="audio/m4a">Your browser does not support the audio element.
+              </audio>
+              <div class="text-center">
+                <img class="fire-img" (click)="bigImage(item.content)" *ngIf="item.type == 1" src="{{ item.content }}" alt="">
+              </div>
+              <ng-container *ngTemplateOutlet="item.type==3?chatMap:false; context:item.content"></ng-container><small>{{item.timestamp | decodeTimestamp | date:'shortTime'}}</small>
+            </div>
+            <!-- /.direct-chat-text -->
+          </div>
+          <!-- /.direct-chat-msg -->
+          <!-- Message to the right -->
+          <div class="direct-chat-msg right" *ngIf="item.from == 'bellboy'">
+            <div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">{{detailHiring?.bellboy.name}}</span>
+            </div>
+            <!-- /.direct-chat-info -->
+            <img class="direct-chat-img" src="{{amazonImgUrl}}{{detailHiring?.bellboy?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="Message User Image">
+            <!-- /.direct-chat-img -->
+            <div class="direct-chat-text">
+              <span *ngIf="item.type == 0">{{ item.content }}</span>
+              <audio controls *ngIf="item.type == 4">
+                <source src="{{item.content}}" type="audio/mp3">
+                  <source src="{{item.content}}" type="audio/m4a">Your browser does not support the audio element.
+              </audio>
+              <div class="text-center">
+                <img class="fire-img" (click)="bigImage(item.content)" *ngIf="item.type == 1" src="{{ item.content }}" alt="">
+              </div>
+              <ng-container *ngTemplateOutlet="item.type==3?chatMap:false; context:item.content"></ng-container><small>{{item.timestamp | decodeTimestamp | date:'shortTime'}}</small>
+            </div>
+            <!-- /.direct-chat-text -->
+          </div>
+          <!-- /.direct-chat-msg -->
+        </div>
+        <!--/.direct-chat-messages-->
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <div *ngIf="detailHiring?.status == 1" class="card" style="height: 410.75px" [perfectScrollbar]>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title">Available Bellboy</h4>
+              <br>
+            </div>
+            <div class="col-sm-12">
+              <div class="row-area px-2">
+                <div style="height: 295px">
+                  <div *ngFor="let item of bellboys" class="row align-items-center mb-2">
+                    <div class="col-sm-5">
+                      <div class="media">
+                        <img class="table-img-size" src="{{ amazonImgUrl }}{{ item.avatar?.value }}">
+                        <div class="media-body">
+                          <article class="font-weight-500">{{ item.name }}</article><small>{{ item.mobile }}</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-7 text-center">
+                      <button class="btn btn-orange mx-1" (click)="trackBellboy(item._id, map)">Track Bellboy</button>
+                      <button class="btn btn-success mx-1" (click)="assignBellboy(item._id)">Assign Bellboy</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" myMatchHeight="card">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-8">
+              <h5 class="font-weight-500 mb-2">Hiring Detail ( Id# &nbsp;<small>{{ detailHiring?.hiring_id }}</small>)</h5>
+            </div>
+            <div class="col-sm-4 text-right"><span>Status: </span><span class="text-orange">{{ detailHiring?.status | hiringStatus }}</span>
+            </div>
+            <div class="col-sm-12" *ngIf="detailHiring?.status == 5">
+              <p><span class="font-weight-normal">Cancelled Reason: </span><span class="text-secondary ml-3">{{ detailHiring?.cancellation_reason }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="row row-area" [ngClass]="detailHiring?.isFree ? 'pt-0' : ''">
+            <div *ngIf="detailHiring?.isFree" class="col-12 text-right">
+              <img height="30px" width="30px" src="../../../../../../assets/img/ico/free.svg">
+            </div>
+            <div class="col-sm-6">
+              <p><span>Order Date: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.created_at | date: "mediumDate" }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Order Time: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.created_at | date: "mediumTime" }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Start Date: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.start_time | date: "mediumDate" }},</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Start Time: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.start_time | date: "mediumTime" }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p *ngIf="detailHiring?.status == 4"><span>End Date: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.end_time | date: "mediumDate" }}</span>
+              </p>
+              <p *ngIf="detailHiring?.status == 5"><span>Cancelled Date: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.cancellation_time | date: "mediumDate" }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p *ngIf="detailHiring?.status == 4"><span>End Time: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.end_time | date: "mediumTime" }}</span>
+              </p>
+              <p *ngIf="detailHiring?.status == 5"><span>Cancelled Time: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.cancellation_time | date: "mediumTime" }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Order Type: &nbsp;</span>  <span class="text-secondary"> - </span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Price Per Min: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.price_per_min }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Total Distance: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.totalDistance | number: "1.0-2" }}</span>  <span class="text-secondary">km</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Total Time Spent: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.totalTime | timeConvert }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6" *ngIf="detailHiring?.status !== 1 &&detailHiring?.status !== 2 && detailHiring?.status !== 3">
+              <p><span>Paid By Wallet: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.paidByWallet }}</span>
+              </p>
+            </div>
+            <div class="col-sm-6" *ngIf="detailHiring?.status == 4">
+                <p><span>Bellboy Earning: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.bellboyEarning }}/- Rs</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Paid By Cash: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.paidByCash}}</span>  <span class="text-secondary">/- Rs</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Actual Bill: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.totalBill }}/- Rs</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Bill Time: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.charges?.billingTime | date:'mediumTime'}}</span>  <span class="text-secondary"></span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p><span>Paid By Customer: &nbsp;</span>  <span class="text-secondary">{{ detailHiring?.totalBillShowToCustomer | number }}/- Rs</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body mb-0">
+          <div class="row mb-3 justify-content-center">
+            <div class="col-sm-12">
+              <h5 class="font-weight-500">Actions</h5>
+            </div>
+            <div class="col-sm-12">
+              <div *ngFor="let item of detailHiring?.actions; let i = index" class="row align-items-center bg-light1 py-2">
+                <div class="col-sm-5">
+                  <div *ngFor="let label of item.actionType?.labels"><span class="actionLabel" *ngIf="label.locale?.code == 'en'">{{ label.label }}</span>
+                  </div>
+                </div>
+                <div class="col-sm-4 text-right"><span>Staus: </span><span class="text-orange">{{ detailHiring?.status | hiringStatus }}</span>
+                </div>
+                <div class="col-sm-3 text-right">
+                  <a (click)="showDetail(item._id, i)">
+                    <button id="{{ i }}" class="btn btn-orange">View Detail</button>
+                  </a>
+                </div>
+                <div id="{{ item._id }}" hidden="true" class="col-sm-12 mt-2">
+                  <div class="row m-0 v-detail mb-2 py-2">
+                    <div class="col-sm-8"><span class="font-weight-bold">Cancellation Status: &nbsp; </span>{{ item.isCancelled ? "Cancelled" : "Not Cancelled" }}</div>
+                    <div class="col-sm-4 text-right" *ngIf="item.isCancelled == true"><a><i (click)="cancelledReason()" id="icon" class="ft-eye font-weight-bold"></i></a>
+                    </div>
+                    <section id="iconDetail" *ngIf="item.isCancelled == true" class="d-none" style="line-height: 2rem">
+                      <div class="col-sm-12"><span class="font-weight-bold">Cancelled By: &nbsp; </span><span *ngIf="item.cancelledBy == 1">By Customer</span><span *ngIf="item.cancelledBy == 2">By Bellboy</span>
+                      </div>
+                      <div class="col-sm-12"><span class="font-weight-bold">Cancellation Reason: &nbsp; </span><span>{{ item.cancellationReason }}</span>
+                      </div>
+                    </section>
+                    <div class="col-sm-12 mt-2">
+                      <h6 class="font-weight-bold">Instructions:</h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <p>{{ item.instruction }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <h6 class="font-weight-bold">Location:</h6>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <button class="btn btn-orange" (click)="open(map, item.location?.geolocation)">View Map</button>
+                    </div>
+                    <div class="col-sm-12">
+                      <p>{{ item.location?.address }}</p>
+                    </div>
+                    <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Refrence Images:</h6>
+                    </div>
+                    <div *ngFor="let image of item.images" class="col-sm-3 mb-2">
+                      <a>
+                        <img class="vehicleImage" (click)="bigImage(amazonImgUrl + image)" src="{{ amazonImgUrl }}{{ image }}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                      </a>
+                    </div>
+                    <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Voice Note:</h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <audio class="w-100" src="{{ amazonImgUrl }}{{ item?.voice_note?.value }}" controls></audio>
+                    </div>
+                    <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Bill Images:</h6>
+                    </div>
+                    <div *ngFor="let image of item.bill_images" class="col-sm-3 mb-2">
+                      <a>
+                        <img class="vehicleImage" (click)="bigImage(amazonImgUrl + image)" src="{{ amazonImgUrl }}{{ image }}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <ng-container *ngTemplateOutlet="detailHiring?.status == 1?customerLocation:false"></ng-container>
+        <ng-container *ngTemplateOutlet="detailHiring?.status == 4 || detailHiring?.status == 5?routeHistory:false"></ng-container>
+        <!-- <ng-container *ngTemplateOutlet="detailHiring?.status == 2?estimatedRoute:false"></ng-container> -->
+        <ng-container *ngTemplateOutlet="detailHiring?.status == 2 || detailHiring?.status == 3?liveTracking:false"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<app-big-image *ngIf="isBigImg"></app-big-image>
+<ng-template #map let-model>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2"><a class="mb-2"><span class="ft-x text-white" (click)="model.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <agm-map style="width: 95%; height: 305px" [latitude]="loc.latitude" [zoom]="loc.zoom" [longitude]="loc.longitude">
+      <agm-marker [latitude]="loc.latitude" [longitude]="loc.longitude"></agm-marker>
+    </agm-map>
+  </div>
+</ng-template>
+<ng-template #chatMap let-geopoint="geopoint">
+  <agm-map class="chatMap" [latitude]="geopoint.df" [fullscreenControl]="true" [zoom]="15" [longitude]="geopoint.wf">
+    <agm-marker [latitude]="geopoint.df" [longitude]="geopoint.wf"></agm-marker>
+  </agm-map>
+</ng-template>
+<ng-template #customerLocation>
+  <h5 class="font-weight-500 mb-2">Customer Location</h5>
+  <agm-map style="height: 350px;" *ngIf="detailHiring?.location?.geolocation?.longitude!==0 && detailHiring?.location?.geolocation?.latitude!==0" 
+  [longitude]="detailHiring?.location?.geolocation?.longitude" [mapTypeControl]="true"
+  [latitude]="detailHiring?.location?.geolocation?.latitude" [zoom]="15">
+    <agm-marker [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
+    <agm-info-window [disableAutoPan]="false" #infoWindow>
+      <div class="row align-items-center">
+        <div class="col-sm-12">
+          {{detailHiring?.location?.address}}
+        </div>
+      </div>
+    </agm-info-window>
+    </agm-marker>
+  </agm-map>
+</ng-template>
+<ng-template #liveTracking>
+  <div class="row">
+    <div class="col-sm-6 border-right">
+      <h5 class="font-weight-500 mb-2">Estimated Route b/w Customer & Bellboy</h5>
+      <div class="d-flex justify-content-between" *ngIf="estimatedTimeDistance">
+        <p><span>Estimated Time: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.time }}</span></p>
+        <p><span>Estimated Distance: &nbsp;</span>  <span class="text-secondary">{{ estimatedTimeDistance.distance }}</span></p>
+      </div>
+      <agm-map *ngIf="this.bellboyOrigin" style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+        <agm-direction [renderOptions]="renderOptions" [markerOptions]="estimateRouteMarkers" [origin]="this.bellboyOrigin" [destination]="{lat:detailHiring?.location?.geolocation?.latitude, lng:detailHiring?.location?.geolocation?.longitude}"></agm-direction>
+      </agm-map>
+    </div>
+    <div class="col-sm-6">
+      <h5 class="font-weight-500 mb-2">Bellboy Live Tracking</h5>
+      <p *ngIf="detailHiring.start_time">
+        <span>Spending Time: &nbsp;</span> <span id="stopWatch" class="text-secondary stopWatch">  </span>
+      </p>
+      <ng-container *ngTemplateOutlet="(destinition && origin) && detailHiring.start_time?routeMap:defaultMap"></ng-container>
+      <ng-template #routeMap>
+        <agm-map style="height:350px" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+          <!-- <agm-marker id="marker" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude" [agmFitBounds]="true" [iconUrl]="icon"></agm-marker> -->
+         <agm-direction [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="origin" [destination]="destinition"></agm-direction>
+        </agm-map>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+<ng-template #routeHistory>
+  <h5 class="font-weight-500 mb-2">Bellboy Route History</h5>
+  <agm-map *ngIf="destinitions.length>0" style="height: 350px;" [latitude]="lat" [longitude]="lng" [fullscreenControl]="true" [fitBounds]="true" [zoom]="1">
+    <agm-marker id="startMarker" [latitude]="destinitions[0].lat" [longitude]="destinitions[0].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.origin">
+      <agm-info-window [isOpen]="true">Order Start</agm-info-window>
+    </agm-marker>
+    <agm-marker id="endMarker" [latitude]="destinitions[destinitions.length-1].lat" [longitude]="destinitions[destinitions.length-1].lng" [agmFitBounds]="true" [iconUrl]="historyMarkers.destination">
+      <agm-info-window [isOpen]="true">Order End</agm-info-window>
+    </agm-marker>
+    <agm-marker id="startMarker" [latitude]="origin.lat" [longitude]="origin.lng" [agmFitBounds]="true">
+      <agm-info-window [isOpen]="true">Start Task</agm-info-window>
+    </agm-marker>
+    <agm-marker id="marker" *ngFor="let des of destinitions" [latitude]="des.lat" [longitude]="des.lng" [agmFitBounds]="true" [iconUrl]="icon">
+    </agm-marker>
+    <!-- <agm-direction *ngFor="let dir of destinitions; let i=index;" [renderOptions]="renderOptions" [markerOptions]="markerOptions" [origin]="dir[i]" [destination]="dir[i+1]"></agm-direction> -->
+    <agm-polyline [visible]="true" [strokeWeight]="3" [strokeColor]="'#07b57a'">
+      <agm-polyline-point
+      *ngFor="let des of destinitions; let i=index"
+      [latitude]="des.lat"
+      [longitude]="des.lng">
+    </agm-polyline-point>
+</agm-polyline>
+  </agm-map>
+</ng-template>
+<ng-template #defaultMap>
+  <div class="no-chat bg-transparent">
+    <img src="../../../../assets/img/ico/BB-PNG.png" width="120px" alt="">
+    {{detailHiring.start_time?'Location is invalid':'Task is not start'}}
+  </div>
+</ng-template>

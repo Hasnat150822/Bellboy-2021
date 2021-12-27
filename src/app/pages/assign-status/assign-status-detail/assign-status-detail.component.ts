@@ -1,6 +1,10 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+<<<<<<< HEAD
+=======
+import { MapsAPILoader } from '@agm/core';
+>>>>>>> webfix/bellboy-copy
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeliveriesService } from '../../deliveries/deliveries.service';
 import { HiringService } from 'app/pages/hiring/hiring.service';
@@ -25,6 +29,10 @@ export class AssignStatusDetailComponent implements OnInit, AfterViewInit {
   address: string;
   constructor(private route:ActivatedRoute, 
     private deliveries:DeliveriesService,
+<<<<<<< HEAD
+=======
+    private mapsAPILoader: MapsAPILoader,
+>>>>>>> webfix/bellboy-copy
     private modalService:NgbModal) { }
     map;
     service;
@@ -32,7 +40,13 @@ export class AssignStatusDetailComponent implements OnInit, AfterViewInit {
     currentImage;
     type; amazonImgUrl:string = amazonUrl;
   ngOnInit() {
+<<<<<<< HEAD
     this.getSingleorder()
+=======
+    this.mapsAPILoader.load().then(()=>{
+      this.getSingleorder()
+    })
+>>>>>>> webfix/bellboy-copy
     this.subscription = this.route.params.subscribe((res:any)=>{
       this._id = res.id
     })
@@ -147,7 +161,11 @@ export class AssignDetailHiringComponent implements OnInit{
     this.allBellboys();
   }
   getDetail(){
+<<<<<<< HEAD
     this.hiringService.getByid(this._id, '').subscribe((res:any)=>{
+=======
+    this.hiringService.getByid(this._id).subscribe((res:any)=>{
+>>>>>>> webfix/bellboy-copy
       this.detailHiring = res.data;
     })
   }

@@ -6,8 +6,49 @@
   <div class="row">
     <div id="mapView" class="col-sm-8 p-0 position-relative">
       <a (click)="maximize()"><i ngbTooltip="Full View" class="ft-maximize"></i></a>
+<<<<<<< HEAD
       <div [ngClass]="{'d-none':isSelected}" id="map" style="width: auto; height: 500px; position: relative; overflow: hidden;"></div>
       <div [ngClass]="{'d-none':!isSelected}" id="map2" style="width: auto; height: 500px; position: relative; overflow: hidden;"></div>
+=======
+      <agm-map *ngIf="isSelected === true" style="height: 500px;" [zoom]="zoom" [scaleControl]="true" [latitude]="+lat" [longitude]="+lng">
+        <agm-marker *ngFor="let item of bellboys" [latitude]="+item?.geolocation?.latitude" [longitude]="+item?.geolocation?.longitude" [iconUrl]="'../../../assets/img/ico/marker.png'" (mouseOver)="onMouseOver(infoWindow, $event)" (mouseOut)="onMouseOut(infoWindow, $event)"
+        (markerClick)="detailView(item?.profile?.id)">
+          <agm-info-window [disableAutoPan]="false" #infoWindow>
+            <div class="row align-items-center">
+              <div class="col-sm-4">
+                <img class="window-img" src="{{amazonImgUrl}}{{item?.profile?.avatar}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="">
+              </div>
+              <div class="col-sm-8">
+                <h5 class="font-weight-500">{{item?.profile?.name}}</h5>
+                <p>
+                  <span class="font-weight-500">Mobile: &nbsp;</span>
+                  <span>{{item?.profile?.mobile}}</span>
+                </p>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+      <agm-map *ngIf="isSelected == false && locations" style="height: 500px;" [zoom]="zoom" [latitude]="locations?.geolocation?.latitude" [longitude]="locations?.geolocation?.longitude">
+        <agm-marker [latitude]="locations?.geolocation?.latitude" [longitude]="locations?.geolocation?.longitude" [iconUrl]="'../../../assets/img/ico/marker.png'" (mouseOver)="onMouseOver(infoWindow, $event)" (mouseOut)="onMouseOut(infoWindow, $event)"
+        (markerClick)="detailView(locations?.profile?.id)">
+          <agm-info-window [disableAutoPan]="false" #infoWindow>
+            <div class="row align-items-center">
+              <div class="col-sm-4">
+                <img class="window-img" src="{{amazonImgUrl}}{{locations?.profile?.avatar}}" onerror="src='../../../assets/img/gallery/1.jpg'" alt="">
+              </div>
+              <div class="col-sm-8">
+                <h5 class="font-weight-500">{{locations?.profile?.name}}</h5>
+                <p>
+                  <span class="font-weight-500">Mobile: &nbsp;</span>
+                  <span>{{locations?.profile?.mobile}}</span>
+                </p>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+>>>>>>> webfix/bellboy-copy
     </div>
     <div id="bellboy" class="col-sm-4 p-0">
       <div class="card rounded-0 pb-0 m-0" style="height: 500px;">
@@ -22,10 +63,22 @@
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
           </div>
         </div>
         <div class="text-right border-top">
           <button class="btn btn-orange mt-3 mb-3 mr-2" (click)="resetMap()">Reset Map</button>
+=======
+            <!-- <div class="col-sm-5 text-right">
+              <button class="btn btn-orange" (click)="assignBellboy(item._id)">
+                Assign Bellboy
+              </button>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button class="mb-3 btn btn-orange" (click)="resetMap()">Reset Map</button>
+>>>>>>> webfix/bellboy-copy
         </div>
       </div>
     </div>

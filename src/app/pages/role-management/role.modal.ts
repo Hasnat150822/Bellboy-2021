@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 export const checkValues =[
   {id:'chk1', value:'Dashboard', viewValue:'Dashboard', selected:false},
@@ -30,3 +31,33 @@ export const checkValues =[
   {id:'chk28', value:'Hiring Action Types', viewValue:'Action Types', selected:false},
   {id:'chk29', value:'Version Control', viewValue:'Version Control', selected:false}
 ] 
+=======
+export const checkValues = [
+    {id:'chk1', value:'Dashboard', viewValue:'Dashboard', selected:false},
+    {id:'chk2', value:'Hiring', viewValue:'Hiring Orders', selected:false},
+    {id:'chk3', value:'Customers', viewValue:'Customers', selected:false},
+    {id:'chk4', value:'Bellboy Tracking', viewValue:'Bellboy Tracking', selected:false},
+    {id:'chk5', value:'Manage Bellboy', viewValue:'Manage Bellbo', selected:false},
+    {id:'chk6', value:'Bellboy Types', viewValue:'Bellboy Types', selected:false},
+    {id:'chk7', value:'Manage Vehicles', viewValue:'Manage Vehicles', selected:false},
+    {id:'chk8', value:'Manage Vehicles Type', viewValue:'Manage Vehicles Type', selected:false},
+    {id:'chk9', value:'Manage Brand', viewValue:'Manage Brand', selected:false},
+    {id:'chk10', value:'Manage Model', viewValue:'Manage Model', selected:false},
+    {id:'chk11', value:'Complaints', viewValue:'Complaints', selected:false},
+    {id:'chk12', value:'Finance Reports', viewValue:'Finance Reports', selected:false},
+    {id:'chk13', value:'Customer Reports', viewValue:'Customer Reports', selected:false},
+    {id:'chk14', value:'Monitoring Reports', viewValue:'Monitoring Reports', selected:false},
+    {id:'chk15', value:'Commissions', viewValue:'Commissions', selected:false},
+    {id:'chk16', value:'Wallet', viewValue:'Wallet', selected:false},
+    {id:'chk17', value:'User Management', viewValue:'User Management', selected:false},
+    {id:'chk18', value:'Roles Management', viewValue:'Roles Management', selected:false},
+    {id:'chk19', value:'Advertisement', viewValue:'Advertisement', selected:false},
+    {id:'chk20', value:'Notification', viewValue:'Notification', selected:false},
+    {id:'chk21', value:'Rider', viewValue:'Rider', selected:false},
+    {id:'chk22', value:'Deliveries', viewValue:'Deliveries', selected:false},
+    {id:'chk23', value:'Personal Assist', viewValue:'Personal Assist', selected:false},
+    {id:'chk24', value:'B2B', viewValue:'B2B', selected:false},
+    {id:'chk25', value:'Hiring Action Types', viewValue:'Action Types', selected:false},
+    {id:'chk26', value:'Version Control', viewValue:'Version Control', selected:false}
+  ] 
+>>>>>>> webfix/bellboy-copy

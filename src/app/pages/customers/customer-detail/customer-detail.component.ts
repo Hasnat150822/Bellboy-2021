@@ -21,7 +21,10 @@ export class CustomerDetailComponent implements OnInit {
   isBigImg:boolean;
   hiringByCust:Array<any>;
   pager:any = {};
+<<<<<<< HEAD
   type:string = 'hiring';
+=======
+>>>>>>> webfix/bellboy-copy
   constructor(private route:ActivatedRoute, private customerService:CustomersService, private store:Store<URL>,
     private pagerService:PagerService) { }
 
@@ -49,7 +52,11 @@ export class CustomerDetailComponent implements OnInit {
     this.perPage = +perPage;
     this.page = page;
     page = checkPage(page, this.pager.totalPages)
+<<<<<<< HEAD
     this.customerService.hiringByCustomers(page, perPage, this._id, this.status, this.type)
+=======
+    this.customerService.hiringByCustomers(page, perPage, this._id, this.status)
+>>>>>>> webfix/bellboy-copy
     .subscribe((res:any)=>{
       this.hiringByCust = res;
       this.pager = this.pagerService.getPager(this.customerDetail.total_hirings, page, perPage);
@@ -60,9 +67,12 @@ export class CustomerDetailComponent implements OnInit {
     this.status = value;
     this.getHiringsByCust(value, this.page, this.perPage);
   }
+<<<<<<< HEAD
 
   getByStatus(value){
     this.type = value;
     this.getHiringsByCust(this.status, this.page, this.perPage)
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

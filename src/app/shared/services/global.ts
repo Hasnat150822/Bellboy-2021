@@ -1,5 +1,6 @@
 import { environment } from 'environments/environment';
 import Swal from 'sweetalert2';
+<<<<<<< HEAD
 import { Loader } from "@googlemaps/js-api-loader";``
 export const url = environment.apiUrl;   
 // export const url = 'http://18.188.89.46:3000/';
@@ -9,6 +10,11 @@ export const loader = new Loader({
     version: "weekly",
     libraries:["places"]
   });
+=======
+export const url = environment.apiUrl;   
+// export const url = 'http://18.188.89.46:3000/';
+// export const url = 'https://192.168.100.5:3000';
+>>>>>>> webfix/bellboy-copy
 export const amazonUrl = 'https://bellboy-global-bucket.s3.amazonaws.com/';
 export function sweetAlert(icon, message) {
     Swal.fire({
@@ -76,7 +82,11 @@ export function checkPage(page, totalPages) {
     }
 }
 export function startDateWeek(year, week) {
+<<<<<<< HEAD
     var d = new Date(year+'-01-01T00:00:00Z');
+=======
+    var d = new Date(year+'-01-01T12:00:00Z');
+>>>>>>> webfix/bellboy-copy
     var dayNum = d.getDay();
     var diff = --week * 7;
   
@@ -89,6 +99,7 @@ export function startDateWeek(year, week) {
     d.setDate(d.getDate() - d.getDay() + ++diff);
     return d;
   }
+<<<<<<< HEAD
 export function emptyCheck(array){
     return new Promise((reject, resolve)=>{
         let result = array.forEach((singleObject:any)=>{
@@ -109,4 +120,16 @@ export function downLoadFile(data: any, name) {
     downloadLink.setAttribute('download', `${name} Report`);
     document.body.appendChild(downloadLink);
     downloadLink.click();
+=======
+  export function emptyCheck(array){
+      return new Promise((reject, resolve)=>{
+          let result = array.forEach((singleObject:any)=>{
+            let keys = Object.keys(singleObject);
+            keys.map((key:any)=>{
+              singleObject[key] = singleObject[key]?singleObject[key]:'-';
+            })
+          })
+        resolve(result)
+      })
+>>>>>>> webfix/bellboy-copy
   }

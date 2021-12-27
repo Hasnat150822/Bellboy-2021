@@ -16,6 +16,12 @@ const route:Route = {
         CommonModule,
         ReactiveFormsModule,
         RouterModule.forChild([route])
+<<<<<<< HEAD
+=======
+    ],
+    exports:[
+        WalletDetailComponent
+>>>>>>> webfix/bellboy-copy
     ]
 })
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h5 class="font-weight-500">
   Hiring Detail
   <div class="dropdown float-right d-flex">
@@ -42,6 +43,9 @@
     </div>
   </div>
 </h5>
+=======
+<h5 class="font-weight-500">Hiring Detail</h5>
+>>>>>>> webfix/bellboy-copy
 <table class="table table-responsive-md table-hover">
   <thead>
     <tr>
@@ -65,9 +69,15 @@
         {{item.hours | timeConvert}}
       </td>
       <td [ngClass]="{
+<<<<<<< HEAD
       'text-warning':item?.status == 1||2||3, 
       'text-success':item?.status == 4, 
       'text-danger':item?.status == 5}">
+=======
+      'text-warning':item.status == 1||2||3, 
+      'text-success':item.status == 4, 
+      'text-danger':item.status == 5}">
+>>>>>>> webfix/bellboy-copy
         {{item.status | hiringStatus | showDashes}}
       </td>
       <td>

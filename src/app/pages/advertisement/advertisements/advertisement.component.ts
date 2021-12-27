@@ -31,9 +31,13 @@ export class AdvertisementComponent implements OnInit {
   subscription:Subscription;
   amazonUrl = amazonUrl;
   advertForm:FormGroup;
+<<<<<<< HEAD
   constructor(
     private modalService:NgbModal, 
     private service:AdvertisementService,private gs:GlobalService, 
+=======
+  constructor(private modalService:NgbModal, private service:AdvertisementService,private gs:GlobalService, 
+>>>>>>> webfix/bellboy-copy
     private store:Store<USER_NAME>, private fb:FormBuilder) {
       this.advertForm = this.fb.group({
         'title':'',

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { sweetAlert, url } from 'app/shared/services/global';
@@ -6,6 +7,13 @@ import { BellboyHirings } from './modals/bellboy-hirings';
 import { NewBellboy } from "./modals/bellboy-hirings";
 import { Observable } from 'rxjs';
 import { AddVehicle } from './modals/add-vehicle.modal';
+=======
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError, filter, map, retry, tap } from 'rxjs/operators';
+import { sweetAlert, url } from 'app/shared/services/global';
+import { BellboyHirings } from './modals/bellboy-hirings';
+import { Observable, throwError } from 'rxjs';
+>>>>>>> webfix/bellboy-copy
 var postAuth;
 @Injectable({
   providedIn: 'root'
@@ -19,6 +27,7 @@ export class BellboyService {
       })
     }
    }
+<<<<<<< HEAD
   getAllBellboy(page, perPage, status,searchType, query, fromdate, todate, otherParams){
     let url = this._url+'api/admin/bellboy/?status='+status+'&perPage='+perPage+'&pageNo='+page;
     if(query!==undefined){
@@ -29,6 +38,12 @@ export class BellboyService {
     }
     if(otherParams){
       url = url+'&'+otherParams
+=======
+  getAllBellboy(page, perPage, status,searchType, query){
+    let url = this._url+'api/admin/bellboy/?status='+status+'&&perPage='+perPage+'&pageNo='+page;
+    if(query!==undefined){
+      url = url+'&'+searchType+'='+query;
+>>>>>>> webfix/bellboy-copy
     }
     return this.http.get(url).pipe(
       map((res:any)=>{
@@ -88,12 +103,17 @@ export class BellboyService {
       })
     )
   }
+<<<<<<< HEAD
   getBellboysHirings(id, page, perpage, startdate, enddate, type):Observable<BellboyHirings>{
     let _url = `api/admin/bellboy/${type}/`+id+"?pageNo="+page+"&perPage="+perpage;
     if(startdate && enddate){
       _url = _url+'&startdate='+startdate+'&enddate='+enddate;
     }
     return this.http.get<BellboyHirings>(url+_url)
+=======
+  getBellboysHirings(id, page, perpage):Observable<BellboyHirings>{
+    return this.http.get<BellboyHirings>(url+"api/admin/bellboy/completedOrder/"+id+"?pageNo="+page+"&perPage="+perpage)
+>>>>>>> webfix/bellboy-copy
     .pipe(
       map((res:any)=>{
         return res;
@@ -114,6 +134,7 @@ export class BellboyService {
       })
     )
   }
+<<<<<<< HEAD
   postTimeForOnlineHistory(object){
     let params = new HttpParams()
     .set('startHour', object.startHour)
@@ -335,4 +356,6 @@ export class BellboyService {
 
 
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BBAdvertisementsComponent } from './bb-advertisements/bb-advertisements.component';
 import { CustAdvertisementsComponent } from './cust-advertisements/cust-advertisements.component';
 const route:Routes = [{
+<<<<<<< HEAD
   path:'customer', component:CustAdvertisementsComponent,data:{
     text:'Customer Advertisements',
     path:'/customer'
@@ -20,6 +21,11 @@ const route:Routes = [{
     text:'Bellboy Advertisements',
     path:'/bellboy'
   }
+=======
+  path:'customer', component:CustAdvertisementsComponent
+},{
+  path:'bellboy', component:BBAdvertisementsComponent
+>>>>>>> webfix/bellboy-copy
 }]
 @NgModule({
   declarations: [AdvertisementComponent, BBAdvertisementsComponent, CustAdvertisementsComponent],

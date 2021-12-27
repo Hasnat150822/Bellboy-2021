@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { HttpClient } from '@angular/common/http';
+=======
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+>>>>>>> webfix/bellboy-copy
 import { Injectable } from '@angular/core';
 import { url } from 'app/shared/services/global';
 import { map } from 'rxjs/operators';
@@ -10,6 +14,15 @@ export class ReportsService {
 
   constructor(private http:HttpClient) { }
 
+<<<<<<< HEAD
+=======
+  getReportsByDevice(status){
+    return this.http.get(url+'api/admin/reports/customer/reportByDevice?device='+status, {responseType: 'blob' as 'json', headers:{
+      'Content-Type':'application/json'
+    }});
+  }
+
+>>>>>>> webfix/bellboy-copy
   getFinanceREport(){
     return this.http.get(url+'api/admin/dashboard/totalRecords').pipe(
       map((res:any)=>{
@@ -17,6 +30,7 @@ export class ReportsService {
       })
     )
   }
+<<<<<<< HEAD
   getBellboyTotalReports(status, fromDate, toDate, otherParams){
     let baseUrl = 'api/admin/reports/bellboy/total?'+status;
     if(fromDate && toDate)
@@ -65,4 +79,6 @@ export class ReportsService {
       })
     )
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

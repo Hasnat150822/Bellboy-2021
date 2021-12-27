@@ -8,16 +8,23 @@ import * as allActions from '../../ngrx-states/actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+<<<<<<< HEAD
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomersService } from '../customers/customers.service';
 import Swal from 'sweetalert2';
 declare const $:any;
+=======
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CustomersService } from '../customers/customers.service';
+import Swal from 'sweetalert2';
+>>>>>>> webfix/bellboy-copy
 @Component({
   selector: 'app-bellboy',
   templateUrl: './bellboy.component.html',
   styleUrls: ['./bellboy.component.scss']
 })
 export class BellboyComponent implements OnInit, AfterViewInit{
+<<<<<<< HEAD
   pager:any
   spinner:boolean
   inputType:number;  
@@ -25,19 +32,33 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   markDisabled;
   searchValue;
   searchType:string = "name";
+=======
+  pager:any = {}
+  spinner:boolean
+  inputType:number;
+  searchValue;
+  searchType:string = "search";
+>>>>>>> webfix/bellboy-copy
   amazonImgUrl:string = amazonUrl;
   placeVal:string = "Name";
   status:number;
   itemPerPage:number;
   totalItems:number;
+<<<<<<< HEAD
   hoveredDate: NgbDate | null = null;
   fromDate: any;
   toDate: any;
+=======
+>>>>>>> webfix/bellboy-copy
   searchDropdown = [
     {
       fieldName:"Name",
       type:'text',
+<<<<<<< HEAD
       searchType:'name'
+=======
+      searchType:'search'
+>>>>>>> webfix/bellboy-copy
     },
     {
       fieldName:"Cell No",
@@ -52,14 +73,19 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   @ViewChild('tabset', {static:true}) tabset;
   constructor(private bellboyService:BellboyService, private fb:FormBuilder, private db: AngularFireDatabase,
     private pagerService:PagerService, private store:Store<any>, private router:Router, private activatedRoute:ActivatedRoute, 
+<<<<<<< HEAD
     private modalService:NgbModal, private rendrer:Renderer2, private el:ElementRef, private custservice:CustomersService,
     private calendar:NgbCalendar){
+=======
+    private modalService:NgbModal, private rendrer:Renderer2, private el:ElementRef, private custservice:CustomersService){
+>>>>>>> webfix/bellboy-copy
       this.notificationForm = this.fb.group({
         title:['', {validators:[Validators.required]}],
         description:['',{validators:[Validators.required, Validators.maxLength(250)]}]
       })
   }     
   checkedValues:any = [];
+<<<<<<< HEAD
   currentRole:string;
   selectSenderArea:any = ' ';
   subscription:Subscription;
@@ -67,6 +93,12 @@ export class BellboyComponent implements OnInit, AfterViewInit{
     this.today = this.calendar.getToday(); //date in object formate
     this.markDisabled = (date: NgbDate, current: { month: number }) =>
     (date.day>this.today.day && date.month === this.today.month);
+=======
+  currentRole:string = 'Super Admin';
+  selectSenderArea:any = ' ';
+  subscription:Subscription;
+  ngOnInit(){
+>>>>>>> webfix/bellboy-copy
     // this.store.subscribe((res:any)=>{
     //   if(res.UserData.data!==undefined){
     //     this.currentRole = res.UserData.data.role.title;
@@ -84,14 +116,19 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   }
   currentPageIds:Array<any>;
   getBellboys(page=1, itemPerPage=10, status=1){
+<<<<<<< HEAD
     this.modalService.dismissAll();   
     this.bellboys = [];
     this.pager = {};
     this.totalItems = 0;
+=======
+    this.bellboys = [];
+>>>>>>> webfix/bellboy-copy
     this.spinner = true;
     this.status = status; 
     this.itemPerPage = itemPerPage;
     page = checkPage(page, this.pager.totalPages);
+<<<<<<< HEAD
     this.bellboyService.getAllBellboy(page, itemPerPage, status,this.searchType, this.searchValue, this.fromDate, this.toDate, undefined)
     .subscribe((res:any)=>{
       this.spinner = false
@@ -99,6 +136,13 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       this.bellboys = res.bellBoys;
       this.fromDate = undefined;
       this.toDate = undefined;
+=======
+    this.bellboyService.getAllBellboy(page, itemPerPage, status,this.searchType, this.searchValue)
+    .subscribe((res:any)=>{
+      this.totalItems = +res.count;
+      this.spinner = false
+      this.bellboys = res.bellBoys;
+>>>>>>> webfix/bellboy-copy
       this.currentPageIds = this.bellboys.map((res:any)=>{
         return res._id;
       })
@@ -132,6 +176,7 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       return o;
     });
   }
+<<<<<<< HEAD
   // range selection start
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
@@ -162,6 +207,9 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   }
 
   // ra ge selection over
+=======
+  
+>>>>>>> webfix/bellboy-copy
   submitNotification(values){
     values['userId'] = this.checkedValues;
     if(this.selectSenderArea=='' && this.checkedValues.length>1){
@@ -213,9 +261,15 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   resetToDefault(){
     this.notificationForm.reset();
     this.checkedValues = [];
+<<<<<<< HEAD
     this.router.navigate([]);
     this.changeAllChecked(false);
     this.modalService.dismissAll();
+=======
+    this.changeAllChecked(false);
+    this.modalService.dismissAll();
+    this.setQueryParams(this.searchValue, this.totalItems, this.status, this.searchType);
+>>>>>>> webfix/bellboy-copy
   }
   onEnter(event){
     let key = event.keyCode;
@@ -226,7 +280,11 @@ export class BellboyComponent implements OnInit, AfterViewInit{
   setQueryParams(searchValue, itemPerPage, status, searchType){
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
+<<<<<<< HEAD
       queryParams:{ q:searchValue, perPage:itemPerPage, status:status, searchType },
+=======
+      queryParams:{ q:searchValue, perPage:itemPerPage, status:status, searchType:searchType },
+>>>>>>> webfix/bellboy-copy
       queryParamsHandling:'merge'
     })
   }
@@ -316,9 +374,12 @@ export class BellboyComponent implements OnInit, AfterViewInit{
       this.checkedValues.length==10?this.rendrer.setProperty(el, 'checked', true):this.rendrer.setProperty(el, 'checked', false);
     }
   }
+<<<<<<< HEAD
   datePickerId
   showDatePick(id){
     this.datePickerId = id;
     $("#"+id).toggleClass('d-none');
   }
+=======
+>>>>>>> webfix/bellboy-copy
   }

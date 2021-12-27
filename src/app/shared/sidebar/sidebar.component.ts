@@ -5,9 +5,12 @@ import { customAnimations } from "../animations/custom-animations";
 import { ConfigService } from '../services/config.service';
 import { sideBarData } from './sidebar.metadeta';
 import { environment } from '../../../environments/environment';
+<<<<<<< HEAD
 import { Store } from "@ngrx/store";
 import { USER_NAME } from "app/ngrx-states/model/url.model";
 import { take } from "rxjs/operators";
+=======
+>>>>>>> webfix/bellboy-copy
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
@@ -31,8 +34,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     public translate: TranslateService,
+<<<<<<< HEAD
     private configService: ConfigService,
     private store:Store<USER_NAME>
+=======
+    private configService: ConfigService
+>>>>>>> webfix/bellboy-copy
   ) {
     if (this.depth === undefined) {
       this.depth = 0;
@@ -42,6 +49,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   // for order section
   ngOnInit() {
     this.version = environment.appVersion;
+<<<<<<< HEAD
     let permissions = JSON.parse(localStorage.getItem('Permissions'));
     this.routes = sideBarData(permissions);
     this.setRoutes();
@@ -55,6 +63,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.config = this.configService.templateConf;
   }
   setRoutes(){
+=======
+    this.routes = sideBarData();
+    this.config = this.configService.templateConf;
+>>>>>>> webfix/bellboy-copy
     this.routes = this.routes.filter(()=>{return true})
     this.menuItems = this.routes;
   }

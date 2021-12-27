@@ -2,6 +2,10 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DeliveriesService } from '../deliveries.service';
+<<<<<<< HEAD
+=======
+import { MapsAPILoader } from '@agm/core';
+>>>>>>> webfix/bellboy-copy
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { amazonUrl } from 'app/shared/services/global';
@@ -26,6 +30,10 @@ export class DeliveriesDetailComponent implements OnInit, AfterViewInit {
   amazonImgUrl:string = amazonUrl;
   constructor(private route:ActivatedRoute, 
     private deliveries:DeliveriesService,
+<<<<<<< HEAD
+=======
+    private mapsAPILoader: MapsAPILoader,
+>>>>>>> webfix/bellboy-copy
     private modalService:NgbModal, private db:AngularFirestore) { }
     map;
     service;
@@ -33,7 +41,13 @@ export class DeliveriesDetailComponent implements OnInit, AfterViewInit {
     currentImage;
     chat:any;
   ngOnInit() {
+<<<<<<< HEAD
     this.getSingleorder()  
+=======
+    this.mapsAPILoader.load().then(()=>{
+      this.getSingleorder()
+    })  
+>>>>>>> webfix/bellboy-copy
     this.subscription = this.route.params.subscribe((res:any)=>{
       this._id = res.id
     })

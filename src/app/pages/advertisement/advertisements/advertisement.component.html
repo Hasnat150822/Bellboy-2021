@@ -21,7 +21,11 @@
               <h6>
                   <span class="font-weight-500">{{item.title?item.title:'Advertisement Title'}}</span>
                   &nbsp; <a *ngIf="item.description" class="ft-alert-circle" ngbTooltip="{{item.description}}"></a>
+<<<<<<< HEAD
                   <p class="float-right"><small class="font-weight-500">Status: </small> <small [ngClass]="{'text-success': item?.status, 'text-error':!item?.status}">{{item.status?'Activated':'Deactivated'}}</small></p>
+=======
+                  <p class="float-right"><small class="font-weight-500">Status: </small> <small [ngClass]="{'text-success': item.status, 'text-error':!item.status}">{{item.status?'Activated':'Deactivated'}}</small></p>
+>>>>>>> webfix/bellboy-copy
               </h6>
               <img src="{{amazonUrl}}{{item.image}}" height="230px" width="300px" onerror="src='../../../assets/img/gallery/1.jpg'" alt="" width="100%">
               <div class="row py-2">

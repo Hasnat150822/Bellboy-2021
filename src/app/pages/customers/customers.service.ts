@@ -1,13 +1,21 @@
+<<<<<<< HEAD
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, take, tap } from 'rxjs/operators';
 import { sweetAlert, url } from 'app/shared/services/global';
 import { BehaviorSubject } from 'rxjs';
 
+=======
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
+import { sweetAlert, url } from 'app/shared/services/global';
+>>>>>>> webfix/bellboy-copy
 var postAuth;
 @Injectable({
   providedIn: 'root'
 })
+<<<<<<< HEAD
 
 export class CustomersService implements OnInit {
   _url = url;
@@ -15,6 +23,10 @@ export class CustomersService implements OnInit {
   otherParams = new BehaviorSubject(undefined);
   startandtodate;
   params;
+=======
+export class CustomersService {
+  _url = url;
+>>>>>>> webfix/bellboy-copy
   constructor(private http: HttpClient) {
     postAuth = {
       headers: new HttpHeaders({
@@ -22,6 +34,7 @@ export class CustomersService implements OnInit {
       })
     }
   }
+<<<<<<< HEAD
   
   ngOnInit(){
   }
@@ -44,6 +57,13 @@ export class CustomersService implements OnInit {
       return this.http.get(this._url + url+'&search=' + byName + '&pageNo=' + page + '&mobile='+byPhone+ '&sortBy=' + sortBy+'&perPage='+perPage)
     } else {
       return this.http.get(this._url + url+'&status='+status+'&search=' + byName + '&pageNo=' + page + '&mobile='+byPhone+ '&sortBy=' + sortBy+'&perPage='+perPage)
+=======
+  getCustomers(byName, byPhone, status, page, sortBy, perPage) {
+    if (status == ' ') {
+      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&pageNo=' + page + '&mobile='+byPhone+ '&sortBy=' + sortBy+'&perPage='+perPage)
+    } else {
+      return this.http.get(this._url + 'api/admin/customer?search=' + byName + '&status=' + status + '&pageNo=' + page + '&mobile=' + byPhone + '&sortBy=' + sortBy+'&perPage='+perPage)
+>>>>>>> webfix/bellboy-copy
     }
   }
   sortCustomer() {
@@ -52,8 +72,13 @@ export class CustomersService implements OnInit {
   searchCustomer(keyword) {
     return this.http.get(this._url + 'api/admin/customer?search=' + keyword)
   }
+<<<<<<< HEAD
   hiringByCustomers(page, perPage, id, status, type){
     let url = `api/admin/${type}/customer/`+id+"?";
+=======
+  hiringByCustomers(page, perPage, id, status){
+    let url = "api/admin/hiring/customer/"+id+"?";
+>>>>>>> webfix/bellboy-copy
     if(status!==null){
       url = url+"status="+status+'&perPage='+perPage+'&pageNo='+page;
     }else{

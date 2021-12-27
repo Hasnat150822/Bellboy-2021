@@ -11,6 +11,7 @@ export class WalletService {
   constructor(private http:HttpClient) { }
 
   
+<<<<<<< HEAD
   getAdminTransactions(page, perPage, transactionType){
     let id = localStorage.getItem('userId');
     let _url = 'api/admin/wallet/admin/getTranscation/'+id+'?pageNo='+page+'&perPage='+perPage;
@@ -18,6 +19,11 @@ export class WalletService {
       _url = _url+'&transactionType='+transactionType;
     }
     return this.http.get(url+_url).
+=======
+  getAdminTransactions(page, perPage){
+    let id = localStorage.getItem('userId');
+    return this.http.get(url+'api/admin/wallet/admin/getTranscation/'+id+'?pageNo='+page+'&perPage='+perPage).
+>>>>>>> webfix/bellboy-copy
     pipe(
       map((res:any)=>{
         return res.data;

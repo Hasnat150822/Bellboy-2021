@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagerService } from 'app/shared/services/pager.service';
+<<<<<<< HEAD
 import { ChargesService } from '../charges.service';
+=======
+import { FinanceService } from '../finance.service';
+>>>>>>> webfix/bellboy-copy
 
 @Component({
   selector: 'app-view-timeline',
@@ -9,12 +13,20 @@ import { ChargesService } from '../charges.service';
   styleUrls: ['./view-timeline.component.scss']
 })
 export class ViewTimelineComponent implements OnInit {
+<<<<<<< HEAD
   @Input() singleItem;
+=======
+  @Input() testing;
+>>>>>>> webfix/bellboy-copy
   timeLineData;
   pager:any = {};
   pageItems:any;
   spinner:boolean;
+<<<<<<< HEAD
   constructor(private modalService:NgbModal, private service:ChargesService, private pagerService:PagerService) { }
+=======
+  constructor(private modalService:NgbModal, private service:FinanceService, private pagerService:PagerService) { }
+>>>>>>> webfix/bellboy-copy
 
   ngOnInit() {
     this.getTimeline('');
@@ -26,7 +38,11 @@ export class ViewTimelineComponent implements OnInit {
     this.spinner = true;
     this.timeLineData = [];
     this.pageItems = [];
+<<<<<<< HEAD
     this.service.getTimeLine(this.singleItem.charges_type, this.singleItem.bellboy_type, status).subscribe((res:any)=>{
+=======
+    this.service.getTimeLine(this.testing, status).subscribe((res:any)=>{
+>>>>>>> webfix/bellboy-copy
       this.timeLineData = res;
       this.spinner = false;
       this.setPage(1);

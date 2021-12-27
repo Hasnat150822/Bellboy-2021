@@ -10,7 +10,11 @@
   <ng-container *ngTemplateOutlet="mainAction.length<0?shimmer:false"></ng-container>
   <div class="row" *ngIf="mainAction.length>0" myMatchHeight="card">
     <div class="col-sm-6 col-md-3" *ngFor="let item of mainAction" (click)="mainActionId=item._id; selectedCategory=item.title; getSubActions(status);">
+<<<<<<< HEAD
       <div class="recordCard card" ngbTooltip="{{item.actionTypeCount}} Actions">
+=======
+      <div class="recordCard card" ngbTooltip="{{item.actionTypeCount}} Tasks Performed">
+>>>>>>> webfix/bellboy-copy
         <div class="card-body">
           <h5 class="font-weight-500 mb-0 w-100 d-flex justify-content-between"> 
             <span>{{item.title}}</span>

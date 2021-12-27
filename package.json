@@ -1,6 +1,10 @@
 {
   "name": "Bellboy",
+<<<<<<< HEAD
   "version": "2.14.153",
+=======
+  "version": "2.14.110",
+>>>>>>> webfix/bellboy-copy
   "license": "",
   "scripts": {
     "ng": "ng",
@@ -17,6 +21,10 @@
   },
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@agm/core": "^1.1.0",
+>>>>>>> webfix/bellboy-copy
     "@angular/animations": "11.0.5",
     "@angular/cdk": "~11.0.3",
     "@angular/common": "11.0.5",
@@ -30,14 +38,21 @@
     "@angular/platform-server": "11.0.5",
     "@angular/router": "11.0.5",
     "@angular/service-worker": "11.0.5",
+<<<<<<< HEAD
     "@googlemaps/js-api-loader": "^1.12.9",
     "@googlemaps/markerclusterer": "^1.0.12",
+=======
+>>>>>>> webfix/bellboy-copy
     "@ng-bootstrap/ng-bootstrap": "^5.3.0",
     "@ng-select/ng-select": "2.20.0",
     "@ngrx/store": "10.1.2",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
+<<<<<<< HEAD
     "@types/google.maps": "^3.46.1",
+=======
+    "agm-direction": "^0.8.9",
+>>>>>>> webfix/bellboy-copy
     "bootstrap": "4.3.1",
     "chart.js": "^2.9.3",
     "chartjs-plugin-datalabels": "^0.5.0",
@@ -56,7 +71,10 @@
     "intl": "1.2.5",
     "jquery": "^3.5.1",
     "ng2-charts": "^2.3.3",
+<<<<<<< HEAD
     "ng2-ckeditor": "^1.3.1",
+=======
+>>>>>>> webfix/bellboy-copy
     "ng2-validation": "4.2.0",
     "ngx-image-compress": "^8.0.4",
     "ngx-image-cropper": "^3.2.1",
@@ -85,6 +103,10 @@
     "@angular/compiler-cli": "11.0.5",
     "@angular/language-service": "11.0.5",
     "@angular/localize": "^11.0.5",
+<<<<<<< HEAD
+=======
+    "@types/googlemaps": "^3.43.3",
+>>>>>>> webfix/bellboy-copy
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",

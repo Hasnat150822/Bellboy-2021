@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+=======
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+>>>>>>> webfix/bellboy-copy
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { dataURLtoFile } from 'app/shared/services/global-service.service';
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
@@ -11,6 +16,7 @@ import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 })
 export class SendNotificationComponent implements OnInit {
   notificationForm:FormGroup;
+<<<<<<< HEAD
   promoCode:FormGroup = new FormGroup({
     code: new FormControl('', Validators.required)
   });
@@ -20,6 +26,8 @@ export class SendNotificationComponent implements OnInit {
   }
   
   @Input() type:string;
+=======
+>>>>>>> webfix/bellboy-copy
   @Output() notificationData = new EventEmitter<{}>();
   constructor(private fb:FormBuilder, private modalService:NgbModal) { 
     this.notificationForm = this.fb.group({
@@ -37,9 +45,12 @@ export class SendNotificationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+<<<<<<< HEAD
   ngOnChanges(){
   }
 
+=======
+>>>>>>> webfix/bellboy-copy
   closeModal(){
     this.modalService.dismissAll();
   }
@@ -72,19 +83,34 @@ export class SendNotificationComponent implements OnInit {
     this.imageFile =  dataURLtoFile(this.croppedImage, this.tempFile.name);
 }
 showTitleErrors(){
+<<<<<<< HEAD
   if(this.title.hasError('required')){
     return 'Title is required'
   }
   if(this.title.hasError('maxlength')){
+=======
+  if(this.title.errors.required){
+    return 'Title is required'
+  }
+  if(this.title.errors.maxlength){
+>>>>>>> webfix/bellboy-copy
     return 'Maximum 30 character allowed'
   }
 }
 showDescriptionErrors(){
+<<<<<<< HEAD
   if (this.description.hasError('required')) {
     return 'Description is required';
   }
 
   if (this.description.hasError('maxlength')) {
+=======
+  if (this.description.errors.required) {
+    return 'Description is required';
+  }
+
+  if (this.description.errors.maxlength) {
+>>>>>>> webfix/bellboy-copy
     return 'Maximum 250 character allowed';
   }
   }
@@ -94,9 +120,12 @@ showDescriptionErrors(){
   sendNotificationData(){
     let values = this.notificationForm.getRawValue();
     values['notificationImg'] = this.imageFile;
+<<<<<<< HEAD
     if(this.type=='promoCode'){
       values['promoCode'] = this.promoCode.get('code').value;
     }
+=======
+>>>>>>> webfix/bellboy-copy
     this.notificationData.emit(values);
   }
 }

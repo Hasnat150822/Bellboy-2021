@@ -32,9 +32,16 @@ interface Countries {
 export class CustomersComponent implements OnInit, AfterViewInit {
   closeResult = '';
   allcustomers: any[];
+<<<<<<< HEAD
   pager: any;
   spinner: boolean;
   count: number;
+=======
+  pager: any = {};
+  spinner: boolean;
+  count: number;
+  defaultArr;
+>>>>>>> webfix/bellboy-copy
   apiParams: apiParams;
   keyword; placeVal = "Cell No"; sortBy: string;
   togg = true;
@@ -48,6 +55,7 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   selectSenderArea:string = '';
   countryCodeValue:string = "+92";
   @ViewChild('tabset', {static:true}) tabset;
+<<<<<<< HEAD
   constructor(private modalService: NgbModal, 
     private pagerService: PagerService,
     private custservice: CustomersService, 
@@ -57,6 +65,12 @@ export class CustomersComponent implements OnInit, AfterViewInit {
     private changeRef:ChangeDetectorRef, 
     private activatedRoute:ActivatedRoute, 
     private router:Router) { 
+=======
+  constructor(private modalService: NgbModal, private pagerService: PagerService,
+    private custservice: CustomersService, private rendrer: Renderer2, private el: ElementRef, 
+    private store:Store<USER_NAME>, private changeRef:ChangeDetectorRef, 
+    private activatedRoute:ActivatedRoute, private router:Router) { 
+>>>>>>> webfix/bellboy-copy
     }
   
   ngAfterViewInit(){
@@ -122,8 +136,11 @@ export class CustomersComponent implements OnInit, AfterViewInit {
   // check all values dynamically with rendrer2
   getCustomers(byName, byPhone, status, page, sortBy) {
     this.allcustomers = [];
+<<<<<<< HEAD
     this.pager = {};
     this.count = 0;
+=======
+>>>>>>> webfix/bellboy-copy
     page = checkPage(page, this.pager.totalPages);
     this.spinner = true;
     this.sortBy = sortBy;
@@ -132,6 +149,10 @@ export class CustomersComponent implements OnInit, AfterViewInit {
     .subscribe((res: any) => {
       this.count = res.data.count;
       this.pager = this.pagerService.getPager(this.count, page, this.perPage);
+<<<<<<< HEAD
+=======
+      this.defaultArr = res.data.customers;
+>>>>>>> webfix/bellboy-copy
       this.allcustomers = res.data.customers;
       this.currentPageIds = this.allcustomers.map((data:any)=>{
         return data._id;

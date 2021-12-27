@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 export function sideBarData(permissions) {
+=======
+export function sideBarData() {
+>>>>>>> webfix/bellboy-copy
     var bellboy:any = [];
     var reports:any = [];
     var vehicles:any = [];
@@ -7,7 +11,11 @@ export function sideBarData(permissions) {
     var users:any = [];
     var charges:any = [];
     var transactions:any = [];
+<<<<<<< HEAD
     var perm:[] = permissions;
+=======
+    var perm = JSON.parse(localStorage.getItem('Permissions'))
+>>>>>>> webfix/bellboy-copy
     for (let i = 0; i < perm.length; i++) {
         switch (perm[i]) {
         case "Dashboard":
@@ -17,7 +25,11 @@ export function sideBarData(permissions) {
             break;
             case "Hiring":
                 routes[1] = {
+<<<<<<< HEAD
                     path:'/hiring', title:'Hirings', icon:'../../../assets/img/ico/product.png', class:'', submenu:[]
+=======
+                    path:'/hiring', title:'Hiring Orders', icon:'../../../assets/img/ico/product.png', class:'', submenu:[]
+>>>>>>> webfix/bellboy-copy
             }
             break;
             case "Customers":
@@ -85,6 +97,7 @@ export function sideBarData(permissions) {
                         path:'/managemodel', title:'Model', icon:'', class:'', submenu:[]
                     })
             break;
+<<<<<<< HEAD
             case "Wallet":
                 transactions.push({
                     path:'', title:'Wallet', icon:'../../../assets/img/ico/SVG/wallet.svg', class:'has-sub', submenu:[{
@@ -101,12 +114,34 @@ export function sideBarData(permissions) {
             break;
             case "Complaints":
                 routes[5] = {
+=======
+            case "Commissions":
+                transactions[1] = {
+                    path:'', title:'Commissions', icon:'../../../assets/img/ico/commission.png', class:'has-sub', submenu:[{
+                        path:'/commissions/percentage', title:'Manage Percentage', icon:'', class:'', submenu:[]
+                    },{
+                        path:'/commissions/companyEarnings', title:"Company's Earning", icon:'', class:'', submenu:[]
+                    }]
+                }
+            break;
+            case "Wallet":
+                transactions[0]={
+                    path:'/wallet', title:'Wallet', icon:'../../../assets/img/ico/SVG/wallet.svg', class:'', submenu:[]
+                }
+            break;
+            case "Complaints":
+                routes[4] = {
+>>>>>>> webfix/bellboy-copy
                     path:'/complaints', title:'Customer Feedbacks', icon:'../../../assets/img/ico/telemarketing.png', class:'', submenu:[]
                 }
                 break;
             case "Rider":
                 charges.push({
+<<<<<<< HEAD
                     path:'/finance/hiringCharges', title:'Rides', icon:'', class:'', submenu:[]
+=======
+                    path:'/finance/hiringCharges', title:'Rider Charges', icon:'', class:'', submenu:[]
+>>>>>>> webfix/bellboy-copy
                 })
             break;
             case "Personal Assist":
@@ -125,7 +160,11 @@ export function sideBarData(permissions) {
                 })
             break;
             case "Hiring Action Types":
+<<<<<<< HEAD
                 routes[12] = {
+=======
+                routes[11] = {
+>>>>>>> webfix/bellboy-copy
                     path:'/hiringactiontype', title:'Action Types', icon:'../../../assets/img/ico/confused.png', class:'', submenu:[]
                     }
             break;
@@ -154,16 +193,20 @@ export function sideBarData(permissions) {
                         path:'/reports/customerReports', title:'Customer Reports', icon:'', class:'', submenu:[]
                     })
             break;
+<<<<<<< HEAD
             case "Bellboy Reports":
                 reports.push({
                         path:'/reports/bellboyReports', title:'Bellboy Reports', icon:'', class:'', submenu:[]
                     })
             break;
+=======
+>>>>>>> webfix/bellboy-copy
             case "Monitoring Reports":
                 reports.push({
                     path:'/reports/monitoringReport', title:'Monitoring Reports', icon:'', class:'', submenu:[]
                 })
                 break;
+<<<<<<< HEAD
             case "Hiring Reports":
                 reports.push({
                     path:'/reports/hiringReports', title:'Hiring Reports', icon:'', class:'', submenu:[]
@@ -172,6 +215,11 @@ export function sideBarData(permissions) {
             case "Advertisement":
                 media.push({
                         path:'', title:'Banners', icon:'', class:'has-sub', submenu:[
+=======
+            case "Advertisement":
+                media.push({
+                        path:'', title:'Advertisement', icon:'', class:'has-sub', submenu:[
+>>>>>>> webfix/bellboy-copy
                             {
                                 path:'/advertisement/customer', title:'Customer', icon:'', class:'', submenu:[]
                             },
@@ -181,6 +229,7 @@ export function sideBarData(permissions) {
                         ]
                     })
                 break;
+<<<<<<< HEAD
             case "Offers":
                 media.push({
                     path:'', title:'Offers', icon:'', class:'has-sub', submenu:[
@@ -200,21 +249,36 @@ export function sideBarData(permissions) {
                         }, {
                             path:'/notification?type=bellboy', title:'Bellboy', icon:'', class:'', submenu:[]
                         }]
+=======
+            case "Notification":
+                media.push({
+                        path:'/notification', title:'Notification', icon:'', class:'', submenu:[]
+>>>>>>> webfix/bellboy-copy
                     })
                 break;
             default:
                 break;
             case "Version Control":
+<<<<<<< HEAD
                 routes[11] = {
+=======
+                routes[10] = {
+>>>>>>> webfix/bellboy-copy
                     path:'/versionControl', title:'Version Control', icon:'../../../assets/img/ico/SVG/version.svg', class:'', submenu:[]
                     }
             break;
         }
     }
     if(vehicles.length>0){
+<<<<<<< HEAD
         routes[4] = {
             path:'', title:'Manage Vehicles', icon:'../../../assets/img/ico/SVG/rides.svg', class:'has-sub', submenu:vehicles
         }
+=======
+        bellboy.push({
+            path:'', title:'Vehicles', icon:'', class:'has-sub', submenu:vehicles
+        })
+>>>>>>> webfix/bellboy-copy
     }  
     if(bellboy.length>0){
         routes[3] = {
@@ -222,7 +286,11 @@ export function sideBarData(permissions) {
         }
     }
     if(charges.length>0){
+<<<<<<< HEAD
         routes[10] = {
+=======
+        routes[9] = {
+>>>>>>> webfix/bellboy-copy
             path:'', title:'Our Charges', icon:'../../../assets/img/ico/money.png', class:'has-sub', submenu:charges
         } 
     }
@@ -232,22 +300,38 @@ export function sideBarData(permissions) {
     //     }
     // }
     if(users.length>0){
+<<<<<<< HEAD
         routes[8] = {
+=======
+        routes[7] = {
+>>>>>>> webfix/bellboy-copy
             path:'', title:'Bellboy Staff', icon:'../../../assets/img/ico/users.png', class:'has-sub', submenu:users
         }
     }
     if(media.length>0){
+<<<<<<< HEAD
         routes[9] = {
+=======
+        routes[8] = {
+>>>>>>> webfix/bellboy-copy
             path:'', title:'Media', icon:'../../../assets/img/ico/campaign.png', class:'has-sub', submenu:media
         }
     }
     if(reports.length>0){
+<<<<<<< HEAD
         routes[6] = {
+=======
+        routes[5] = {
+>>>>>>> webfix/bellboy-copy
             path:'', title:'Reports', icon:'../../../assets/img/ico/reports.png', class:'has-sub', submenu:reports
         }
     }
     if(transactions.length>0){
+<<<<<<< HEAD
         routes[7] = {
+=======
+        routes[6] = {
+>>>>>>> webfix/bellboy-copy
             path:'', title:'Transactions', icon:'../../../assets/img/ico/SVG/transaction.svg', class:'has-sub', submenu:transactions
         }
     }

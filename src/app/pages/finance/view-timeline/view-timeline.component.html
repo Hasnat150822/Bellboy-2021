@@ -16,6 +16,10 @@
             <option value="true">Active</option>
           </select>
         </th>
+<<<<<<< HEAD
+=======
+        <th>Last Update</th>
+>>>>>>> webfix/bellboy-copy
       </tr>
     </thead>
     <tbody>
@@ -27,6 +31,10 @@
           <span *ngIf="item.status==false" class="text-danger">Terminated</span> 
           <span *ngIf="item.status==true" class="text-success">Active</span> 
         </td>
+<<<<<<< HEAD
+=======
+        <td>{{ item.updated_at | date:'mediumDate' }}</td>
+>>>>>>> webfix/bellboy-copy
       </tr>
       <tr *ngIf="spinner">
         <td class="py-4 bg-white">

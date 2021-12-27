@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
 import { NotificationComponent } from './notification/notification.component';
+=======
+import { NotificationComponent } from './notification.component';
+>>>>>>> webfix/bellboy-copy
 import { Routes, RouterModule } from '@angular/router';
 import { NotificationListComponent } from './notification-list/notification-list.component';
 import { LimitPipe } from './pipe/limit.pipe';
@@ -10,10 +14,14 @@ const routes:Routes = [{
   path:'', component:NotificationComponent
 }]
 @NgModule({
+<<<<<<< HEAD
   declarations: [
     NotificationComponent, 
     NotificationListComponent, 
     LimitPipe],
+=======
+  declarations: [NotificationComponent, NotificationListComponent, LimitPipe],
+>>>>>>> webfix/bellboy-copy
   imports: [
     CommonModule,
     NgbModule,

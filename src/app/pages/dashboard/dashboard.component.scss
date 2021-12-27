@@ -1,0 +1,89 @@
+ul>li{
+    padding-block: .25rem;
+    list-style: none;
+    padding: 0px 12px 0px 12px;
+    border-radius: 3px;
+    margin: 0px 10px 0px 10px;
+    color: rgba(0,0,0,0.8);
+}
+ul .active, ul>li:hover{
+    background: #fa9008;
+    color: white;
+    border-radius: 360px;
+}
+.actions{
+    padding: 6px 13px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0px 12px 0px 0px;
+}
+.hide-word{
+    display: none;
+    font-size: 10px;
+    font-weight: 600;
+    left: 0.2px;
+    top: 10px;
+}
+.template{
+    background-color: white;
+    color: white;
+}
+#week:hover{
+    cursor: pointer;
+}
+.shine{
+  padding: 1.5rem;
+}  
+
+//   another card
+
+  .card{
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0), 0 0 6px rgba(0, 0, 0, 0);
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    // padding: 12px 60px 15px 30px;
+    cursor: pointer;
+  }
+
+  h3{
+    text-align: left;
+    margin-top: 3rem;
+    
+  }
+
+  
+  .small-card:hover{
+    --tw-ring-offset-shadow:0 0 transparent;
+    --tw-ring-shadow:0 0 transparent;
+    --tw-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
+    transform: scale(1.05);
+    box-shadow:var(--tw-ring-offset-shadow,0 0 transparent),var(--tw-ring-shadow,0 0 transparent),var(--tw-shadow)
+  }
+  
+  .card h3{
+    font-weight: 600;
+  }
+  
+  .card img{
+    max-height:40px;
+  }
+  .small-card{
+    background-size: 10px;
+    justify-content: space-between;
+    padding-inline: 1rem;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.04); //4% 4/100=0.04
+  }
+
+  @media(max-width: 990px){
+    .card{
+      margin:2rem;
+    }
+  } 
+
+.rounded-full{
+  border-radius: 14px;
+}
+.font-weight-600{
+  font-weight: 600;
+}

@@ -5,6 +5,7 @@ import { MonitoringReportsComponent } from './monitoring-reports/monitoring-repo
 import { Routes, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerReportsComponent } from './customer-reports/customer-reports.component';
+<<<<<<< HEAD
 import { BellboyReportsComponent } from './bellboy-reports/bellboy-reports.component';
 import { TableComponent } from './shared-components/table/table.component';
 import { TablePaginationComponent } from './shared-components/table-pagination/table-pagination.component';
@@ -12,6 +13,8 @@ import { TimeConvertModule } from 'app/shared/pipes/time-convert/time-convert.mo
 import { DateRangeButtonModule } from 'app/shared/shared-components/date-range-button/date-range-button.module';
 import { HiringReportsComponent } from './hiring-reports/hiring-reports.component';
 
+=======
+>>>>>>> webfix/bellboy-copy
 const routes:Routes = [{
   path:'financeReport', component:FinanceReportsComponent,
   data:{
@@ -33,11 +36,16 @@ const routes:Routes = [{
 {
   path:'customerReports', component:CustomerReportsComponent,
   data:{
+<<<<<<< HEAD
     text:'Customer Reports',
+=======
+    text:'Monitoring Report',
+>>>>>>> webfix/bellboy-copy
     path:'/customerReports',
     nav:true,
     breadcrumbs:true
   }
+<<<<<<< HEAD
 }, {
   path:'bellboyReports', component:BellboyReportsComponent, 
   data:{
@@ -67,6 +75,14 @@ const routes:Routes = [{
     CommonModule,
     TimeConvertModule,
     DateRangeButtonModule,
+=======
+}]
+@NgModule({
+  declarations: [FinanceReportsComponent, MonitoringReportsComponent, CustomerReportsComponent],
+  imports: [
+    NgbModule,
+    CommonModule,
+>>>>>>> webfix/bellboy-copy
     RouterModule.forChild(routes)
   ]
 })

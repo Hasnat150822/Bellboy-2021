@@ -1,4 +1,5 @@
 <h3>Customer Reports</h3>
+<<<<<<< HEAD
 <ngb-tabset id="reportsTabs" type="pills"orientation="horizontal">
   <ngb-tab>
     <ng-template ngbTabTitle>
@@ -83,3 +84,147 @@
     <app-table-pagination [pager]='pager' (pagerObservable)="getPager($event)"></app-table-pagination>
   </div>
 </ng-template>
+=======
+<div class="card">
+  <div class="card-body">
+    <div class="card-content">
+      <ngb-tabset type="pills" orientation="horizontal">
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Today's Customers</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <form action="">
+              <div class="form-group">
+                <input type="date" class="form-control w-25">
+              </div>
+            </form>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Active Customers</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <button type="button" class="btn btn-outline-orange">With Hirings</button>
+            <button type="button" class="btn btn-outline-orange">With Logins</button>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Inactive Customers</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <button type="button" class="btn btn-outline-orange">With No Hirings</button>
+            <button type="button" class="btn btn-outline-orange">With No Logins</button>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Customer by Platform</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+            <button (click)="getCustomerByDevice(1)" type="button" class="btn btn-outline-orange">Android</button>
+            <button (click)="getCustomerByDevice(2)" type="button" class="btn btn-outline-orange">IOS</button>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Total Customers</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+          </ng-template>
+        </ngb-tab>
+        <!-- <ngb-tab>
+          <ng-template ngbTabTitle>
+            <div class="tab-padding">Customer with specific area</div>
+          </ng-template>
+          <ng-template ngbTabContent>
+          </ng-template>
+        </ngb-tab> -->
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+<!-- <div class="card">
+  <div class="card-header">
+    <ul class="buttons">
+      <li class="button-list">
+        <button class="btn btn-orange">Copy</button>
+      </li>
+      <li class="button-list">
+        <button class="btn btn-orange">Excel</button>
+      </li>
+      <li class="button-list">
+        <button class="btn btn-orange">Print</button>
+      </li>
+      <li class="ml-auto">
+        <form>
+          <div class="form-group mb-0">
+            <select name="" id="" class="form-control">
+              <option value="10">10 / page</option>
+              <option value="30">30 / page</option>
+              <option value="50">50 / page</option>
+            </select>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <table id="printableTable" class="table table-striped">
+      <thead>
+        <tr>
+          <th>First</th>
+          <th>Last</th>
+          <th>Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>Jacob</td>
+          <td>Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </table>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination">
+        <li class="ng2-smart-page-item page-item">
+          <a aria-label="First" class="ng2-smart-page-link page-link">
+            <span aria-hidden="true">First</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item">
+          <a aria-label="Prev" ngbTooltip="Previous 5" class="ng2-smart-page-link page-link page-link-prev">
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item ng-star-inserted">
+          <a class="ng2-smart-page-link page-link ng-star-inserted">1</a>
+        </li>
+        <li class="ng2-smart-page-item page-item">
+          <a ngbTooltip="Next 5" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item">
+          <a aria-label="Last" class="ng2-smart-page-link page-link">
+            <span aria-hidden="true">Last</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div> -->
+>>>>>>> webfix/bellboy-copy

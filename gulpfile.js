@@ -1,6 +1,10 @@
 const gulp = require("gulp");
 const cleanCSS = require("gulp-clean-css");
 const htmlmin  = require('gulp-html-minifier');
+<<<<<<< HEAD
+=======
+var prettify = require('gulp-html-prettify');
+>>>>>>> webfix/bellboy-copy
 var sass = require('gulp-sass');
 sass.compiler = require('sass');
 const paths = {
@@ -35,6 +39,14 @@ gulp.task('minify-html', function() {
     .pipe(htmlmin({collapseWhitespace: true }))
     .pipe(gulp.dest('./dist/'))
 });
+<<<<<<< HEAD
+=======
+gulp.task('html-pretify', function() {
+  return gulp.src('./src/app/pages/**/*.html')
+    .pipe(prettify({indent_char: ' ', indent_size: 2}))
+    .pipe(gulp.dest('./src/app/pages/'))
+});
+>>>>>>> webfix/bellboy-copy
  /*
   * You could even use `export as` to rename exported tasks
   */

@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { checkPage, startDateWeek } from 'app/shared/services/global';
+=======
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { checkPage } from 'app/shared/services/global';
+>>>>>>> webfix/bellboy-copy
 import { PagerService } from 'app/shared/services/pager.service';
 import { BellboyService } from '../bellboy.service';
 
@@ -13,6 +20,7 @@ import { BellboyService } from '../bellboy.service';
 })
 export class BellboyHiringsComponent implements OnInit {
   bbHirings;
+<<<<<<< HEAD
   filterForm:FormGroup;
   spinner:boolean;
   totalHirings;
@@ -34,16 +42,28 @@ export class BellboyHiringsComponent implements OnInit {
         filter:''
       })
      }
+=======
+  spinner:boolean;
+  totalHirings;
+  pager:any = {};
+  constructor(private bbService:BellboyService, private modalService:NgbModal, private pagerService:PagerService,
+    private router:Router) { }
+>>>>>>> webfix/bellboy-copy
   @Input() bbId;
   ngOnInit() {
     this.getBellboyHiring(1);
   }
+<<<<<<< HEAD
   startDate;
   endDate;
+=======
+
+>>>>>>> webfix/bellboy-copy
   getBellboyHiring(page){
     page = checkPage(page, this.pager.totalPages);
     this.bbHirings = [];
     this.spinner = true;
+<<<<<<< HEAD
     this.bbService.getBellboysHirings(this.bbId, page, 6, this.startDate, this.endDate, this.type).subscribe((res:any)=>{
       this.bbHirings = res.data.hirings;
       if(res.data.totalHiringsCount){
@@ -55,6 +75,12 @@ export class BellboyHiringsComponent implements OnInit {
       if(res.data.totalPaCount){
         this.totalHirings = res.data.totalPaCount;
       }
+=======
+    this.bbService.getBellboysHirings(this.bbId, page, 6).subscribe((res:any)=>{
+      this.bbHirings = res.data.hirings;
+      this.totalHirings = res.data.totalHiringsCount;
+      this.pager = this.pagerService.getPager(this.totalHirings, page, 6);
+>>>>>>> webfix/bellboy-copy
       this.spinner = false;
     })
   }
@@ -67,6 +93,7 @@ export class BellboyHiringsComponent implements OnInit {
   closeModal(){
     this.modalService.dismissAll();
   }
+<<<<<<< HEAD
   
   openClose(id){
     let el = this.el.nativeElement.querySelector('#'+id);
@@ -117,4 +144,6 @@ export class BellboyHiringsComponent implements OnInit {
       this.openClose('hiringType');
     }, 2000);
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

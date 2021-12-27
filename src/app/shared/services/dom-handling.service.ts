@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 
 @Injectable({
@@ -32,4 +33,14 @@ export class DomHandlingService {
     this.rendrer2.addClass(previous_li, 'done');
     current_content.classList.add('show', 'active');
   }
+=======
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DomHandlingService {
+
+  constructor() { }
+>>>>>>> webfix/bellboy-copy
 }

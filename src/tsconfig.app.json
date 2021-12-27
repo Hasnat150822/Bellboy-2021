@@ -4,6 +4,10 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "",
     "types": [
+<<<<<<< HEAD
+=======
+      "googlemaps",
+>>>>>>> webfix/bellboy-copy
       "node"
     ]
   },

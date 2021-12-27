@@ -37,6 +37,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ],
             "serviceWorker": true,
+<<<<<<< HEAD
             "ngswConfigPath": "ngsw-config.json",
             "aot": true
           },
@@ -49,6 +50,11 @@
               "optimization": false,
               "namedChunks": true
             },
+=======
+            "ngswConfigPath": "ngsw-config.json"
+          },
+          "configurations": {
+>>>>>>> webfix/bellboy-copy
             "production": {
               "optimization": true,
               "outputHashing": "all",
@@ -94,8 +100,12 @@
             "production": {
               "browserTarget": "matngular:build:production"
             }
+<<<<<<< HEAD
           },
           "defaultConfiguration":"development"
+=======
+          }
+>>>>>>> webfix/bellboy-copy
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

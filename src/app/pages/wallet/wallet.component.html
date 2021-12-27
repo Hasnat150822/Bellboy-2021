@@ -27,6 +27,7 @@
                             <th>Name</th>
                             <th>Admin</th>
                             <th>Mobile</th>
+<<<<<<< HEAD
                             <th>
                               <select
                               class="border-0 bg-transparent"
@@ -37,6 +38,9 @@
                               <option value="2">Topup</option>
                             </select>
                             </th>
+=======
+                            <th>Type</th>
+>>>>>>> webfix/bellboy-copy
                             <th>Amount</th>
                             <th>Balance</th>  
                           </tr>
@@ -52,7 +56,11 @@
                               <a [routerLink]="['/myprofile/', item.admin._id]">{{item.admin.name}}</a>
                             </td>
                             <td>{{item.bellboy.mobile}}</td>
+<<<<<<< HEAD
                             <td>{{item.transactionType==1?'WithDraw':'TopUp'}}</td>
+=======
+                            <td>{{item.transactionType==1?'TopUp':'WithDraw'}}</td>
+>>>>>>> webfix/bellboy-copy
                             <td>{{item.amount | number}}</td>
                             <td>{{item.available_balance | number}}</td>
                           </tr>

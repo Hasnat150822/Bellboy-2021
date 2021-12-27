@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { PagerService } from 'app/shared/services/pager.service';
 import { CommissionsService } from '../commissions.service';
 import { lineChartOptions, chartColors } from '../../../layouts/full/dashboard/chart.setting'; 
 import { ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
+=======
+import { Component, OnInit } from '@angular/core';
+>>>>>>> webfix/bellboy-copy
 
 @Component({
   selector: 'app-company-earnings',
@@ -12,6 +16,7 @@ import { Label } from 'ng2-charts';
 })
 export class CompanyEarningsComponent implements OnInit {
 
+<<<<<<< HEAD
   page = 1;
   earningsList:Array<any>;
   totalEarnings;
@@ -182,6 +187,11 @@ export class CompanyEarningsComponent implements OnInit {
     })
     // add active class into currenty active tab
     this.rendrer2.addClass(el, 'active');
+=======
+  constructor() { }
+
+  ngOnInit(): void {
+>>>>>>> webfix/bellboy-copy
   }
 
 }

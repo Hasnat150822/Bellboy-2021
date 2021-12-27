@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import { Component, OnInit} from '@angular/core';
 import { HiringActionsService } from 'app/pages/hiring-actions/hiring-actions.service';
 import { Subscription } from 'rxjs';
 import { ChargesService } from '../charges.service';
+=======
+import { Component, OnInit } from '@angular/core';
+>>>>>>> webfix/bellboy-copy
 
 @Component({
   selector: 'app-personal-assist',
@@ -9,6 +13,7 @@ import { ChargesService } from '../charges.service';
   styleUrls: ['./personal-assist.component.css']
 })
 export class PersonalAssistComponent implements OnInit {
+<<<<<<< HEAD
   chargesObjects:any = {};
   actionType:string;
   actionTitle:string;
@@ -61,3 +66,12 @@ export class PersonalAssistComponent implements OnInit {
     })
   }
 }
+=======
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+>>>>>>> webfix/bellboy-copy

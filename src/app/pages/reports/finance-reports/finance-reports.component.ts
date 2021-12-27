@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { DashboardService } from 'app/layouts/full/dashboard/dashboard.service';
+=======
+import { DashboardService } from 'app/pages/dashboard/dashboard.service';
+>>>>>>> webfix/bellboy-copy
 import { ReportsService } from '../reports.service';
 
 @Component({

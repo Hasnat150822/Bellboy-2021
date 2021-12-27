@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+=======
+import { Component, OnInit } from '@angular/core';
+>>>>>>> webfix/bellboy-copy
 import { ActivatedRoute } from '@angular/router';
 import { BellboyService } from '../bellboy.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ManageVehicleService } from 'app/pages/vehicles/manage-vehicles/manage-vehicle.service';
+<<<<<<< HEAD
 import { amazonUrl, confirmationDialog } from 'app/shared/services/global';
+=======
+import { amazonUrl, confirmationDialog, url } from 'app/shared/services/global';
+>>>>>>> webfix/bellboy-copy
 import { Store } from '@ngrx/store';
 import * as allActions from '../../../ngrx-states/actions';
 import { URL } from 'app/ngrx-states/model/url.model';
@@ -19,6 +27,7 @@ export class BellboydetailComponent implements OnInit {
   currentImage;
   amazonImgUrl:string = amazonUrl;
   spinner:boolean;
+<<<<<<< HEAD
   type:string;
   avatarUrl;
   avatarFile;
@@ -28,6 +37,9 @@ export class BellboydetailComponent implements OnInit {
   onlineEndTime;
   constructor(private activatedRote:ActivatedRoute,private modalService:NgbModal, private el:ElementRef,
     private rendrer2:Renderer2,
+=======
+  constructor(private activatedRote:ActivatedRoute,private modalService:NgbModal, 
+>>>>>>> webfix/bellboy-copy
     private bellboyService:BellboyService, private manageVehicle:ManageVehicleService, private store:Store<URL>) {
    }
   ngOnInit() {
@@ -42,6 +54,7 @@ export class BellboydetailComponent implements OnInit {
   open(content){
     this.modalService.open(content, { ariaLabelledBy:'modal-basic-title', backdrop:'static', keyboard:false});
   }
+<<<<<<< HEAD
   openClose(id){
     let el = this.el.nativeElement.querySelector('#'+id);
     if(el.className.includes('d-none')){
@@ -50,14 +63,21 @@ export class BellboydetailComponent implements OnInit {
       this.rendrer2.addClass(el, 'd-none');
     }
   }
+=======
+>>>>>>> webfix/bellboy-copy
   getBellboyDetail(){
     this.bellboyService.getById(this._id).subscribe((res:any)=>{
       this.spinner = false;
       this.detailBellboy = res.data
+<<<<<<< HEAD
       this.avatarUrl = null;
     })
   }
   
+=======
+    })
+  }
+>>>>>>> webfix/bellboy-copy
   changeNIC(status){
     confirmationDialog('').then((result)=>{
       if(result.value == true){
@@ -69,6 +89,12 @@ export class BellboydetailComponent implements OnInit {
       }
     })
   }
+<<<<<<< HEAD
+=======
+  showDetail(id){
+    $('#'+id).prop('hidden', !$('#'+id).prop('hidden'))
+  }
+>>>>>>> webfix/bellboy-copy
   changeLicense(status){
     confirmationDialog('').then((result)=>{
       if(result.value == true){
@@ -80,9 +106,12 @@ export class BellboydetailComponent implements OnInit {
       }
     })
   }
+<<<<<<< HEAD
   showDetail(id){
     $('#'+id).prop('hidden', !$('#'+id).prop('hidden'))
   }
+=======
+>>>>>>> webfix/bellboy-copy
   changeStatus(id, status){
     this.manageVehicle.changeVehicleStatus(id, status).subscribe((res:any)=>
     {
@@ -109,6 +138,7 @@ export class BellboydetailComponent implements OnInit {
       this.spinner = false;
     })
   }
+<<<<<<< HEAD
   getByTimeRange(){
     this.bellboyService.postTimeForOnlineHistory({
       startHour:this.onlineStartTime.split(':')[0],
@@ -119,4 +149,6 @@ export class BellboydetailComponent implements OnInit {
       
     })
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

@@ -1,5 +1,6 @@
 <div class="d-flex text-left mb-2 mt-2 justify-content-between">
     <h3>Company's Earnings</h3>
+<<<<<<< HEAD
   <span>
     <span class="text-orange h4 font-weight-500">
       {{totalEarnings?.total}}
@@ -104,14 +105,92 @@
       </div>
     </div>
   </div>
+=======
+    <i class="ft-dollar-sign"></i> <small>420k</small>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <ngb-tabset type="pills" #tabset="ngbTabset">
+                <ngb-tab id="tab1">
+                    <ng-template ngbTabTitle>
+                        <div class="tab-padding">All</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <table class="table table-responsive-md table-striped">
+                            <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                            <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                        </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab2">
+                    <ng-template ngbTabTitle>
+                    <div class="tab-padding">TopUp</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                    <table class="table table-responsive-md table-striped">
+                        <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                        <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                    </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab3">
+                    <ng-template ngbTabTitle>
+                        <div class="tab-padding">Withdraw</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <table class="table table-responsive-md table-striped">
+                            <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                            <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                        </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab4">
+                    <ng-template ngbTabTitle>
+                    <div class="tab-padding">Recieved</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                    <table class="table table-responsive-md table-striped">
+                        <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                        <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                    </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab id="tab5">
+                    <ng-template ngbTabTitle>
+                    <div class="tab-padding">Transfer</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                    <table class="table table-responsive-md table-striped">
+                        <ng-container *ngTemplateOutlet="tableHead;"></ng-container>
+                        <ng-container *ngTemplateOutlet="tableBody;"></ng-container>
+                    </table>
+                    <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
+>>>>>>> webfix/bellboy-copy
 </div>
 <ng-template #tableHead let-status="status">
   <thead>
     <tr>
+<<<<<<< HEAD
       <th>Hiring Type</th>
       <th>Amount</th>
       <th>Bellboy</th>
       <th>Customer</th>
+=======
+      <th>Hiring Id</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Hiring Type</th>
+>>>>>>> webfix/bellboy-copy
       <th>Date</th>
       <th>Time</th>
     </tr>
@@ -119,6 +198,7 @@
 </ng-template>
 <ng-template #tableBody let-status="status">
   <tbody>
+<<<<<<< HEAD
     <tr *ngFor="let item of earningsList">
         <td>
           <a 
@@ -162,12 +242,41 @@
             aria-label="Prev"
             ngbTooltip="Previous 5"
             (click)="setPage(pager.currentPage-5)"
+=======
+    <tr>
+        <td>Hiring Id</td>
+        <td>Amount</td>
+        <td>Type</td>
+        <td>Hiring Type</td>
+        <td>Date</td>
+        <td>Time</td>
+    </tr>
+  </tbody>
+</ng-template>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center"> <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+      >
+      : <span class="text-secondary ml-2">120</span> 
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination">
+        <li class="ng2-smart-page-item page-item"> <a aria-label="First" class="ng2-smart-page-link page-link"><span aria-hidden="true">First</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item">
+          <a
+            aria-label="Prev"
+            ngbTooltip="Previous 5"
+>>>>>>> webfix/bellboy-copy
             class="ng2-smart-page-link page-link page-link-prev"
             ><span aria-hidden="true">«</span></a
           >
         </li>
         <li
           class="ng2-smart-page-item page-item ng-star-inserted"
+<<<<<<< HEAD
           *ngFor="let page of pager.pages"
           [ngClass]="{ active: pager.currentPage === page }"
         >
@@ -175,15 +284,27 @@
             (click)="setPage(page)"
             class="ng2-smart-page-link page-link ng-star-inserted"
             >{{ page }}</a
+=======
+        >
+          <a
+            class="ng2-smart-page-link page-link ng-star-inserted"
+            >1</a
+>>>>>>> webfix/bellboy-copy
           >
         </li>
         <li
           class="ng2-smart-page-item page-item"
+<<<<<<< HEAD
           [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
         >
           <a
             ngbTooltip="Next 5"
             (click)="setPage(pager.currentPage+5)"
+=======
+        >
+          <a
+            ngbTooltip="Next 5"
+>>>>>>> webfix/bellboy-copy
             aria-label="Next"
             class="ng2-smart-page-link page-link page-link-next"
             ><span aria-hidden="true">»</span></a
@@ -191,10 +312,15 @@
         </li>
         <li
           class="ng2-smart-page-item page-item"
+<<<<<<< HEAD
           [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
         >
           <a
             (click)="setPage(pager.totalPages)"
+=======
+        >
+          <a
+>>>>>>> webfix/bellboy-copy
             aria-label="Last"
             class="ng2-smart-page-link page-link"
             ><span aria-hidden="true">Last</span></a
@@ -203,6 +329,7 @@
       </ul>
     </nav>
   </div>
+<<<<<<< HEAD
 </ng-template>
 <ng-template #shimmer>
   <tr *ngIf="spinner">
@@ -210,4 +337,6 @@
       <div class="py-3 shine w-100"></div>
     </td>
   </tr>
+=======
+>>>>>>> webfix/bellboy-copy
 </ng-template>

@@ -1,11 +1,22 @@
+<<<<<<< HEAD
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, Renderer2, ElementRef } from '@angular/core';
+=======
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef, Renderer2, ElementRef } from '@angular/core';
+>>>>>>> webfix/bellboy-copy
 import { Subscription } from 'rxjs';
 import { HiringService } from './hiring.service';
 import { PagerService } from 'app/shared/services/pager.service';
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+<<<<<<< HEAD
 import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { checkPage, confirmationDialog } from 'app/shared/services/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+=======
+import { ActivatedRoute, ResolveEnd, Router, RoutesRecognized } from '@angular/router';
+import { checkPage, confirmationDialog } from 'app/shared/services/global';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { filter } from 'rxjs/operators';
+>>>>>>> webfix/bellboy-copy
 
 var hr = 0;
 var min = 0;
@@ -69,7 +80,10 @@ export class HiringComponent implements OnInit, AfterViewInit {
   togg4 = true;inputType:string='text';sortBy:string='-created_at';
   perPage:number = 10;today;markDisabled;
   startDate; endDate;
+<<<<<<< HEAD
   hiringType:string = 'hiring';
+=======
+>>>>>>> webfix/bellboy-copy
   @ViewChild('tabset', { static: true }) tabset;
   constructor(private hiringService: HiringService, private pagerService: PagerService,
     private modalService: NgbModal, private cdr: ChangeDetectorRef,private calendar:NgbCalendar,
@@ -78,19 +92,30 @@ export class HiringComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.router.events.subscribe((data) => {
       if (data instanceof RoutesRecognized) {
+<<<<<<< HEAD
+=======
+        console.log(data.state.root.firstChild.data, 'data of hiring route  ');
+>>>>>>> webfix/bellboy-copy
       }
     });
     this.today = this.calendar.getToday(); //date in object formate
     this.markDisabled = (date: NgbDate, current: { month: number }) =>
     (date.day>this.today.day && date.month === this.today.month);
     this.activatedRoute.queryParams.subscribe((res:any)=>{
+<<<<<<< HEAD
       if(res.search || res.placeVal || res.status || res.searchType || res.hiringType)
+=======
+      if(res.search || res.placeVal || res.status || res.searchType)
+>>>>>>> webfix/bellboy-copy
         {
           this.searchValue = res.search;
           this.placeVal = res.placeVal;
           this.status = res.status; 
           this.searchType = res.searchType;
+<<<<<<< HEAD
           this.hiringType = res.hiringType
+=======
+>>>>>>> webfix/bellboy-copy
         }
         if(res.tabstatus){
           this.tabStatus = res.tabstatus;
@@ -142,6 +167,7 @@ export class HiringComponent implements OnInit, AfterViewInit {
   }
   errorMessage;
   getHirings(status, page) {
+<<<<<<< HEAD
     this.errorMessage = undefined;
     page = checkPage(page, this.pager.totalPages);
     this.pagedItems = [];
@@ -151,6 +177,15 @@ export class HiringComponent implements OnInit, AfterViewInit {
     this.spinner = true
     this.status = status;
     this.subscription = this.hiringService.getAllHirings(status, page, this.searchType, this.searchValue, this.sortBy, this.perPage, this.startDate, this.endDate, this.hiringType)
+=======
+    page = checkPage(page, this.pager.totalPages);
+    this.pagedItems = [];
+    this.permArr = [];
+    this.totalItems = 0;
+    this.spinner = true
+    this.status = status;
+    this.subscription = this.hiringService.getAllHirings(status, page, this.searchType, this.searchValue, this.sortBy, this.perPage, this.startDate, this.endDate)
+>>>>>>> webfix/bellboy-copy
       .subscribe((res: any) => {
         if (res.success == true) {
           this.permArr = res.data.hirings;
@@ -163,7 +198,10 @@ export class HiringComponent implements OnInit, AfterViewInit {
           this.pager = this.pagerService.getPager(res.data.count, page, this.perPage);
         }
       }, error => {
+<<<<<<< HEAD
         this.errorMessage = 'Something Went Wrong';
+=======
+>>>>>>> webfix/bellboy-copy
         this.spinner = false
       }, ()=>{
         this.subscription.unsubscribe();
@@ -212,7 +250,11 @@ export class HiringComponent implements OnInit, AfterViewInit {
       [], 
       {
         relativeTo: this.activatedRoute,
+<<<<<<< HEAD
         queryParams: { search: this.searchValue, status:this.status, placeVal:this.placeVal, searchType:this.searchType, hiringType:this.hiringType},
+=======
+        queryParams: { search: this.searchValue, status:this.status, placeVal:this.placeVal, searchType:this.searchType},
+>>>>>>> webfix/bellboy-copy
         queryParamsHandling: 'merge'
       });
       this.getHirings(this.status, 1);
@@ -222,7 +264,11 @@ export class HiringComponent implements OnInit, AfterViewInit {
       [], 
       {
         relativeTo: this.activatedRoute,
+<<<<<<< HEAD
         queryParams: { tabstatus:this.tabStatus, hiringType:this.hiringType },
+=======
+        queryParams: { tabstatus:this.tabStatus },
+>>>>>>> webfix/bellboy-copy
         queryParamsHandling: 'merge'
       });
   }
@@ -269,17 +315,28 @@ export class HiringComponent implements OnInit, AfterViewInit {
       let fromDate = new Date;
       $("#"+this.datePickerId).toggleClass('d-none');
       fromDate.setFullYear(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
+<<<<<<< HEAD
       this.startDate = fromDate.toUTCString();
+=======
+      this.startDate = fromDate.toISOString();
+>>>>>>> webfix/bellboy-copy
       this.getHirings(this.status, 1);
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
       $("#"+this.datePickerId).toggleClass('d-none');
       this.toDate = date;
       let fromDate = new Date;
       fromDate.setFullYear(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
+<<<<<<< HEAD
       this.startDate = fromDate.toUTCString();
       let toDate = new Date;
       toDate.setFullYear(this.toDate.year,this.toDate.month-1,this.toDate.day);
       this.endDate = toDate.toUTCString();
+=======
+      this.startDate = fromDate.toISOString();
+      let toDate = new Date;
+      toDate.setFullYear(this.toDate.year,this.toDate.month-1,this.toDate.day);
+      this.endDate = toDate.toISOString();
+>>>>>>> webfix/bellboy-copy
       this.getHirings(this.status, 1);
     } 
     else {
@@ -345,6 +402,7 @@ export class HiringComponent implements OnInit, AfterViewInit {
       resolve(timer);
     })
 }
+<<<<<<< HEAD
 getPageTitle(){
   if(this.hiringType == 'pa'){
     return 'Personal Assistance';
@@ -354,4 +412,6 @@ getPageTitle(){
     return 'Deliveries';
   }
 }
+=======
+>>>>>>> webfix/bellboy-copy
 }

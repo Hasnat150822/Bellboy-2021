@@ -17,7 +17,11 @@ export class HiringService {
         })
       }
   }
+<<<<<<< HEAD
   getAllHirings (status, page,searchType, searchValue, sortBy, perPage, startDate, endDate, hirinType){
+=======
+  getAllHirings (status, page,searchType, searchValue, sortBy, perPage, startDate, endDate){
+>>>>>>> webfix/bellboy-copy
     searchType==undefined?searchType='searchById':searchType=searchType;
     var searchstring;
     let dateRange='';
@@ -30,6 +34,7 @@ export class HiringService {
       {searchstring = "&"+searchType+"="+searchValue;}
     else
       {searchstring='';}
+<<<<<<< HEAD
     let apiUrl = "api/admin/"+hirinType+"?pageNo="+page+searchstring+'&perPage='+perPage+dateRange;
     if(status)
       apiUrl = apiUrl+"&status="+status;
@@ -39,6 +44,13 @@ export class HiringService {
   }
   getByid(id, hiringType){
     return this.http.get(this._url+'api/admin/'+hiringType+'/'+id)
+=======
+    let apiUrl = "api/admin/hiring?&pageNo="+page+"&status="+status+"&sortBy="+sortBy+searchstring+'&perPage='+perPage+dateRange;
+    return this.http.get(this._url+apiUrl)
+  }
+  getByid(id){
+    return this.http.get(this._url+'api/admin/hiring/'+id)
+>>>>>>> webfix/bellboy-copy
   }
   cancelHiring(id, reason){
     let body = new HttpParams()

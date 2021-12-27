@@ -47,9 +47,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       this.child = route.data
       if(route['parent'] !== undefined && route.url.length>0)
         this.parent = route['parent'].data
+<<<<<<< HEAD
       if(route.data.text == route['parent'].data.text){
         this.parent = undefined;
       }
+=======
+>>>>>>> webfix/bellboy-copy
     })
     this.config = this.configService.templateConf;
     this.translate.addLangs(['ur'])

@@ -18,7 +18,11 @@
     <div class="nav-container">
         <ul class="navigation" appSidebarList>
             <!-- First level menu -->
+<<<<<<< HEAD
              <li appSidebarlink level="{{depth + 1}}" (toggleEmit)="handleToggle($event)" (click)="toggleSlideInOut()" [routePath]="menuItem?.path" [classes]="menuItem?.class" [title]="menuItem?.title"  [parent]="" *ngFor="let menuItem of menuItems"   [ngClass]="{'has-sub': menuItem?.class === 'has-sub' ? true: false, 'open': activeTitles.includes(menuItem?.title) && !nav_collapsed_open ? true : false, 'nav-collapsed-open': nav_collapsed_open && activeTitles.includes(menuItem?.title)}" [routerLinkActive]="menuItem?.submenu?.length != 0 ? '' : 'active'"
+=======
+             <li appSidebarlink level="{{depth + 1}}" (toggleEmit)="handleToggle($event)" (click)="toggleSlideInOut()" [routePath]="menuItem?.path" [classes]="menuItem?.class" [title]="menuItem?.title"  [parent]="" *ngFor="let menuItem of menuItems"   [ngClass]="{'has-sub': menuItem?.class === 'has-sub' ? true: false, 'open': activeTitles.includes(menuItem?.title) && !nav_collapsed_open ? true : false, 'nav-collapsed-open': nav_collapsed_open && activeTitles.includes(menuItem?.title)}" [routerLinkActive]="menuItem?.submenu.length != 0 ? '' : 'active'"
+>>>>>>> webfix/bellboy-copy
                 [routerLinkActiveOptions]="{exact: true}">
                 <a appSidebarAnchorToggle [routerLink]="menuItem?.class === '' ? [menuItem?.path] : null" *ngIf="!menuItem?.isExternalLink; else externalLinkBlock">
                     <img class="icon-style" src="{{menuItem?.icon}}">
@@ -32,7 +36,11 @@
                 </ng-template>
                 <!-- Second level menu -->
                 <ul class="menu-content" *ngIf="menuItem?.submenu?.length > 0" [@slideInOut]="activeTitles.includes(menuItem?.title) ? true : false">
+<<<<<<< HEAD
                     <li appSidebarlink level="{{depth + 2}}" (toggleEmit)="handleToggle($event)" [routePath]="menuSubItem?.path" [classes]="menuSubItem?.class" [title]="menuSubItem?.title" [parent]="menuItem?.title" *ngFor="let menuSubItem of menuItem?.submenu" [routerLinkActive]="menuSubItem?.submenu?.length > 0 ? '' : 'active'" [ngClass]="{'has-sub': menuSubItem?.class === 'has-sub' ? true: false, 'open': activeTitles.includes(menuSubItem?.title) && !nav_collapsed_open ? true : false, 'nav-collapsed-open': nav_collapsed_open && activeTitles.includes(menuSubItem?.title)}">
+=======
+                    <li appSidebarlink level="{{depth + 2}}" (toggleEmit)="handleToggle($event)" [routePath]="menuSubItem?.path" [classes]="menuSubItem?.class" [title]="menuSubItem?.title" [parent]="menuItem?.title" *ngFor="let menuSubItem of menuItem?.submenu" [routerLinkActive]="menuSubItem?.submenu.length > 0 ? '' : 'active'" [ngClass]="{'has-sub': menuSubItem?.class === 'has-sub' ? true: false, 'open': activeTitles.includes(menuSubItem?.title) && !nav_collapsed_open ? true : false, 'nav-collapsed-open': nav_collapsed_open && activeTitles.includes(menuSubItem?.title)}">
+>>>>>>> webfix/bellboy-copy
                         <a appSidebarAnchorToggle [routerLink]="menuSubItem?.submenu?.length > 0 ? null : [menuSubItem?.path]" *ngIf="!menuSubItem?.isExternalLink; else externalSubLinkBlock">
                             <i [ngClass]="[menuSubItem?.icon]"></i>
                             <span class="menu-title">{{menuSubItem?.title | translate }}</span>

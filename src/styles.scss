@@ -1,4 +1,5 @@
 html, body { 
+<<<<<<< HEAD
     // height: 100%;
     --bgColor:#FA9008;
     --textGrey:#777;
@@ -22,6 +23,16 @@ ngb-tabset .nav-pills .nav-link.active{
 #reportsTabs ul, #reportsTabs .tab-content {
     padding-inline: 0 !important;
 }
+=======
+    height: 100%;
+    --bgColor:#FA9008;
+    --textGrey:#777;
+}
+.card-content .nav-pills .nav-link.active{
+    background-color: var(--bgColor);
+    color: white;
+}
+>>>>>>> webfix/bellboy-copy
 .table-img-size{
     height: 40px;
     width: 40px;
@@ -33,15 +44,23 @@ ngb-tabset .nav-pills .nav-link.active{
     cursor: pointer;
     transform: scale(1.05);
 }
+<<<<<<< HEAD
 .nav-pills .nav-item .nav-link{
     color:var(--textGrey);
 }
+=======
+>>>>>>> webfix/bellboy-copy
 ngb-tabset ul li{
     line-height: normal;
     margin-right: 15px;
 }
+<<<<<<< HEAD
 ngb-tabset ul li a.nav-link{
   padding: 0px;
+=======
+.nav-pills .nav-item .nav-link{
+    color:var(--textGrey);
+>>>>>>> webfix/bellboy-copy
 }
 ngb-tabset ul.nav{
     padding-left: 1rem;
@@ -289,6 +308,12 @@ li.breadcrumb-item a{
 .app-sidebar .navigation li > a:before, .off-canvas-sidebar .navigation li > a:before{
     border-right: solid 5px #FA9008 !important;
 }
+<<<<<<< HEAD
+=======
+.main-panel{
+    min-height: 100%;
+}
+>>>>>>> webfix/bellboy-copy
 .fill-check::before{
     background-color: #FA9008 !important;
 }
@@ -332,6 +357,12 @@ li.breadcrumb-item a{
   .tab-padding{
     padding: 8px 15px;
   }
+<<<<<<< HEAD
+=======
+  ngb-tabset ul li a.nav-link{
+    padding: 0px;
+}
+>>>>>>> webfix/bellboy-copy
 .customeCard{
     margin: 0px !important;
 }
@@ -345,7 +376,11 @@ body {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     font-size: 1rem;
     font-weight: 400;
+<<<<<<< HEAD
     // line-height: 1.5;
+=======
+    line-height: 1.5;
+>>>>>>> webfix/bellboy-copy
     color: #212529;
     text-align: left;
     background-color: #f7f7f8;
@@ -354,10 +389,17 @@ body {
     font-family: Poppins,sans-serif!important;
 }
 html {
+<<<<<<< HEAD
     // font-family: sans-serif;
     // line-height: 1.15;
     // -webkit-text-size-adjust: 100%;
     // -webkit-tap-highlight-color: transparent;
+=======
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+>>>>>>> webfix/bellboy-copy
 }
 ::-webkit-scrollbar {
     width: 8px !important;
@@ -488,6 +530,7 @@ html {
     }
  }
  
+<<<<<<< HEAD
  
  .dropdown {
     position: relative;
@@ -505,6 +548,8 @@ html {
     z-index: 1050;
     border-radius: .25rem;
   }
+=======
+>>>>>>> webfix/bellboy-copy
 #SearchBellboy::placeholder{
     color: #ccc;
     margin-left: 10px;
@@ -627,6 +672,7 @@ hr{
 }
 .btn-outline-orange:hover{
     color: white !important;
+<<<<<<< HEAD
 }
 .fileButton {
     position: relative;
@@ -647,3 +693,6 @@ hr{
     pointer-events: none;
     opacity: 0.4;
 }   
+=======
+}
+>>>>>>> webfix/bellboy-copy

@@ -18,7 +18,11 @@ export class BellboyTypesService {
             case '5f5da852abd69550176fad72':
               this.bbTypes['MotoBiker'] = res
               break;
+<<<<<<< HEAD
             case '612494395b11726f29d8adfc':
+=======
+            case '5ee08bcb69e94f28a37dadc6':
+>>>>>>> webfix/bellboy-copy
               this.bbTypes['Car'] = res
               break;
             case '5ee08bee69e94f28a37dadcc':
@@ -35,6 +39,7 @@ export class BellboyTypesService {
       })
     )
   }
+<<<<<<< HEAD
   getBBTypeWithoutMap(){
     return  this.http.get(this._url+'api/admin/bellboy-type').pipe(
       map((res:any)=>{
@@ -42,6 +47,8 @@ export class BellboyTypesService {
       })
     )
   }
+=======
+>>>>>>> webfix/bellboy-copy
   updateBBtype(title, icon, bellBoyType){
     let formData:FormData = new FormData()
     formData.append('title', title);

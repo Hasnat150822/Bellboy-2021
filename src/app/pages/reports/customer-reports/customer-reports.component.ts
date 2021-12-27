@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { CustomersService } from 'app/pages/customers/customers.service';
 import { downLoadFile } from 'app/shared/services/global';
 import { PagerService } from 'app/shared/services/pager.service';
+=======
+>>>>>>> webfix/bellboy-copy
 import { ReportsService } from '../reports.service';
 
 @Component({
@@ -10,6 +13,7 @@ import { ReportsService } from '../reports.service';
   styleUrls: ['./customer-reports.component.css']
 })
 export class CustomerReportsComponent implements OnInit {
+<<<<<<< HEAD
   page:number = 1;
   pager = {};
   customerData;
@@ -136,5 +140,26 @@ getDate($event){
 }
 getPager($event){
 
+=======
+
+  constructor(private service:ReportsService) { }
+
+  ngOnInit(): void {
+  }
+getCustomerByDevice(status){
+  this.service.getReportsByDevice(status).subscribe((res:any)=>{
+    this.downLoadFile(res, res.type)
+  });
+}
+downLoadFile(data: any, type: string) {
+  let dataType = type;
+  let binaryData = [];
+  binaryData.push(data);
+  let downloadLink = document.createElement('a');
+  downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+  downloadLink.setAttribute('download', `Customer Report`);
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+>>>>>>> webfix/bellboy-copy
 }
 }

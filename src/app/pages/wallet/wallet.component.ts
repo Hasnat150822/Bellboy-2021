@@ -15,7 +15,10 @@ export class WalletComponent implements OnInit {
   totalItems:number;
   pager = {}
   totlaTopupWithdraw:any={};
+<<<<<<< HEAD
   transactionType;
+=======
+>>>>>>> webfix/bellboy-copy
   constructor(private service:WalletService, private pagerService:PagerService) { }
 
   ngOnInit(){
@@ -38,7 +41,11 @@ export class WalletComponent implements OnInit {
     this.getTransaction(page, 10);
   }
   getTransaction(page, perpage){
+<<<<<<< HEAD
     this.service.getAdminTransactions(page, perpage, this.transactionType).subscribe((res:any)=>{
+=======
+    this.service.getAdminTransactions(page, perpage).subscribe((res:any)=>{
+>>>>>>> webfix/bellboy-copy
       this.transactionDetail = res.admin_transaction;
       let resultArr = this.transactionDetail;
       resultArr.forEach((singleObject:any)=>{
@@ -51,6 +58,7 @@ export class WalletComponent implements OnInit {
       this.pager = this.pagerService.getPager(res.count, page, perpage);
     })
   }
+<<<<<<< HEAD
 
   changeTransactionType(value){
     if(value){
@@ -58,4 +66,6 @@ export class WalletComponent implements OnInit {
       this.getTransaction(1, 10);
     }
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

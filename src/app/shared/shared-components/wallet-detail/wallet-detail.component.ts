@@ -9,8 +9,12 @@ import { WalletDetailService } from './wallet-detail.service';
   <app-presentor-copmonent (getTransactionsByPage)="setPage($event)"
   (getTransactionsByStatus)="getTranscByStatus($event)"
   [transactionDetail]="transactionDetail" [totalItems]="totalItems" 
+<<<<<<< HEAD
   [pager]="pager" [walletDetail]="walletDetail" (date)="getDate($event)"
   (resetRecord)="resetRecord()" (walletDetailR)="getWalletDetail($event)">
+=======
+  [pager]="pager" [walletDetail]="walletDetail">
+>>>>>>> webfix/bellboy-copy
 </app-presentor-copmonent>
   `
 })
@@ -22,9 +26,12 @@ export class WalletDetailComponent implements OnInit {
   pager: any = {};
   totalItems:number;
   walletType:string;
+<<<<<<< HEAD
   startDate = undefined;
   endDate = undefined;
   statusType:string;
+=======
+>>>>>>> webfix/bellboy-copy
   constructor(private service: WalletDetailService, private activatedRoute: ActivatedRoute, private pagerService: PagerService) { }
 
   ngOnInit(): void {
@@ -45,6 +52,7 @@ export class WalletDetailComponent implements OnInit {
     })
   }
   getTransaction(id, page, perpage, type) {
+<<<<<<< HEAD
     this.statusType = type;
     this.service.getBellboyTransactions(id, page, perpage, this.walletType, type, this.startDate, this.endDate).subscribe((res: any) => {
       this.transactionDetail = res.bellboy_transaction || res.customer_transaction;
@@ -55,10 +63,15 @@ export class WalletDetailComponent implements OnInit {
           singleObject[key] = singleObject[key]?singleObject[key]:'-';
         })
       })
+=======
+    this.service.getBellboyTransactions(id, page, perpage, this.walletType, type).subscribe((res: any) => {
+      this.transactionDetail = res.bellboy_transaction;
+>>>>>>> webfix/bellboy-copy
       this.totalItems = res.count;
       this.pager = this.pagerService.getPager(this.totalItems, page, perpage);
     })
   }
+<<<<<<< HEAD
   getDate(event){
     this.startDate = event.startdate;
     this.endDate = event.enddate;
@@ -72,4 +85,9 @@ export class WalletDetailComponent implements OnInit {
     this.endDate = undefined;
     this.setPage({'statusType':this.statusType, 'page':1});
   }
+=======
+  getTranscByStatus(type){
+    this.getTransaction(this._id, 1, 10, type);
+  }
+>>>>>>> webfix/bellboy-copy
 }

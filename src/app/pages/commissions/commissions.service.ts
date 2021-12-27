@@ -29,6 +29,7 @@ export class CommissionsService {
       }, error=>{sweetAlert('error', error)})
     )
   }
+<<<<<<< HEAD
   getEarnings(page){
     return this.http.get(url+'api/admin/app_earning?pageNo='+page);
   }
@@ -52,4 +53,6 @@ export class CommissionsService {
   getEarningsByYear(){
     return this.http.get(url+'api/admin/app_earning/byYear')
   }
+=======
+>>>>>>> webfix/bellboy-copy
 }

@@ -37,16 +37,26 @@ export class AuthGuard implements CanActivate, OnInit {
         if(res.success === true){
           localStorage.setItem('userId', res.data.user._id);
           localStorage.setItem('token', res.data.token);
+<<<<<<< HEAD
           localStorage.setItem('Permissions', JSON.stringify(res.data.user.role.permissions));
+=======
+>>>>>>> webfix/bellboy-copy
           resolve(res.data) 
           this.messagingService.fcmToken.subscribe((res:any)=>{
             if(res!=null || res !== undefined){
               this.gs.registerFcmToken(res);
             }
           })
+<<<<<<< HEAD
           let permissions = res.data.user.role.permissions[0];
           let path  = getPath(permissions);
           this.router.navigateByUrl(path);
+=======
+          localStorage.setItem('Permissions', JSON.stringify(res.data.user.role.permissions));
+          let permissions = res.data.user.role.permissions[0]
+          let path  = getPath(permissions);
+          this.router.navigateByUrl(path)
+>>>>>>> webfix/bellboy-copy
         }
       }, error=>{
         Swal.fire({
