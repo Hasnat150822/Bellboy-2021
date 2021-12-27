@@ -1,7 +1,4 @@
 node_modules
 dist
-<<<<<<< HEAD
-=======
 dist.rar
->>>>>>> webfix/bellboy-copy
 *.rar

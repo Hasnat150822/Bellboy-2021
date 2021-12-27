@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { url } from 'app/shared/services/global';
-import { GlobalService } from 'app/shared/services/global-service.service';
 import { map } from 'rxjs/operators';
 @Injectable()
 export class DashboardService {
