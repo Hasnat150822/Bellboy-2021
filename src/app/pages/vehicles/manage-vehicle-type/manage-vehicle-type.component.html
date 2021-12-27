@@ -1,0 +1,90 @@
+<section id="tabs">
+  <div class="row text-left mt-2">
+    <div class="col-sm-6 mb-1">
+      <h3 class="mb-0">Manage Vehicles Type</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button class="btn btn-orange mb-0" (click)="open(addBrand)">Add Vehicle Type</button>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Vehicle Type</th>
+                  <th>Icon</th>
+                  <th>Created By</th>
+                  <th>View / Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                <tr *ngFor="let item of allVehicleTypes">
+                  <td>{{item.title}}</td>
+                  <td>
+                    <a>
+                      <img class="table-img-size" src="{{amazonImgUrl}}{{item.icon}}" alt="">
+                    </a>
+                  </td>
+                  <td>Hasnat Hameed</td>
+                  <td>
+                    <a class="p-0 text-dark" target="_blank" [routerLink]="['/managevehicletype/vehicleTypeDetail', item._id]">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- addbrand -->
+<ng-template #addBrand let-modal>
+  <div class="modal-header justify-content-center mb-1">
+    <h3 class="card-title mb-0">Add Vehicle Type</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <div class="modal-body pb-0">
+    <form>
+      <div class="form-group">
+        <div class="position-relative position-relative">
+          <input accept="image/*" #file (change)="preview(file.files)" accept='image/*' class="upload-input" type="file">
+          <button class="camera-icon btn btn-orange">Add Icon</button>
+          <div class="text-center">
+            <img class="upload-image" onerror="src='../../../../assets/img/ico/no-icon.png'" src="{{imgURL}}">
+            <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" [formGroup]="vehicleType">
+        <input type="text" class="form-control" placeholder="Vehicle Type" formControlName="type">
+        <p class="text-error" *ngIf="submitted && vehicleType.controls.type.hasError('required')">
+          Vehicle Type is required.
+        </p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer mb-2">
+    <div>
+      <button type="button" class="btn btn-success" (click)="addVehicle(vehicleType)">Add Type</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>

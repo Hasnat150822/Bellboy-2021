@@ -1,0 +1,41 @@
+<button
+(click)="showDatePick('datepicker1')"
+class="btn btn-orange mx-2"
+>
+Select Range for Record
+</button>          
+<ngb-datepicker
+#dp1
+id="datepicker1"
+class="d-none  mt-4"
+[maxDate]="today"
+[markDisabled]="markDisabled"
+[displayMonths]="1"
+(dateSelect)="onDateSelection($event)"
+[dayTemplate]="t1"
+outsideDays="hidden"
+>
+</ngb-datepicker>
+<ng-template
+#t1
+let-date
+let-focused="focused"
+class="dropdown-content d-none"
+>
+<span
+class="custom-day"
+[class.focused]="focused"
+[class.range]="isRange(date)"
+[class.faded]="isHovered(date) || isInside(date)"
+(mouseenter)="hoveredDate = date"
+(mouseleave)="hoveredDate = null"
+[ngClass]="{
+  'text-muted':
+    date?.day > today?.day &&
+    date?.month === today?.month &&
+    date?.year === today?.year
+}"
+>
+{{ date?.day }}
+</span>
+</ng-template>

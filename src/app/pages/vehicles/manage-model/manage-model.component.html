@@ -1,0 +1,166 @@
+<section id="tabs">
+  <div class="row text-left mt-2">
+    <div class="col-sm-6 mb-1">
+      <h3 class="mb-0">Manage Vehicles Model</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button class="btn btn-orange mb-0" (click)="open(addBrand)">Add Vehicle Model</button>
+    </div>
+    <div class="col-sm-12">
+      <div class="position-relative">
+        <i class="ft-search child"></i>
+        <input type="text" *ngIf="placeVal=='Brand'" id="searchInput" (keyup)="searchByBrand($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by {{placeVal}}">
+        <input type="text" *ngIf="placeVal=='Model'" id="searchInput" (keyup)="searchByModel($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by {{placeVal}}">
+      </div>
+      <div class="inputs-group">
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" checked id="id1" value="Brand">
+          <label class="label-radio" for="id1">Search by Brand</label>
+        </div>
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id2" value="Model">
+          <label class="label-radio" for="id2">Search by Model</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Vehicle Type</th>
+                  <th>Brand</th>
+                  <th>Model Name</th>
+                  <th>Created By</th>
+                  <th>View / Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                <tr *ngFor="let item of pagedItems">
+                  <td>{{item?.vehicleType?.title}}</td>
+                  <td>{{item?.vehicleBrand?.title}}</td>
+                  <td>{{item.title}}</td>
+                  <td>Hasnat Hameed</td>
+                  <td>
+                    <a class="p-0 text-dark" target="_blank" [routerLink]="['/managemodel/manageModel', item._id]">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+              <p class="mr-3 d-flex align-items-center">
+                <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items:</span>
+                <span class="text-secondary ml-2">{{tempArr?.length}}</span>
+              </p>
+              <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="First" class="ng2-smart-page-link page-link" (click)="setPage(1)">
+                      <span aria-hidden="true">First</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="Prev" ngbTooltip="Previous 5" (click)="setPage(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev">
+                      <span aria-hidden="true">«</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a ngbTooltip="Next 5" (click)="setPage(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                      <span aria-hidden="true">»</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                      <span aria-hidden="true">Last</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- addbrand -->
+<ng-template #addBrand let-modal>
+  <div class="modal-header justify-content-center mb-1">
+    <h3 class="card-title mb-0">Add Vehicle Model</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="addVehicleModel">
+      <div class="form-group">
+        <select class="form-control" formControlName="selectType">
+          <option value="">....</option>
+          <option *ngFor="let item of allTypes" value="{{item._id}}">{{item.title}}</option>
+        </select>
+        <p class="text-error" *ngIf="submitted && addVehicleModel.controls.selectType.hasError('required')">
+          Type is required
+        </p>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="brandInput" placeholder="Vehicle Brand" (click)="open2(bigSearchArea)">
+        <!-- <p class="text-error" *ngIf="submitted && addBrandForm.controls.brandTitle.hasError('required')" >
+          Brand title is required
+        </p> -->
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="vehicleModel" placeholder="Vehicle Model">
+        <p class="text-error" *ngIf="submitted && addVehicleModel.controls.vehicleModel.hasError('required')">
+          Vehicle Model is required
+        </p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer mb-2">
+    <div>
+      <button type="button" class="btn btn-success" (click)="submitModel(addVehicleModel)">Add Model</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #bigSearchArea let-modal>
+  <div class="modal-body mbody">
+    <div class="form-group">
+      <input type="text" class="form-control parent" [(ngModel)]="search2" (ngModelChange)="searchBrand(search2)" placeholder="Search Brand">
+    </div>
+    <div class="row m-0">
+      <div class="col-sm-4 p-0 mb-2" *ngFor="let item of searchResult;let i=index">
+        <div class="row m-0 h-100 col-style align-items-center">
+          <div class="col-sm-6">{{item.title}}</div>
+          <div class="col-sm-3 text-right">
+            <img src="{{amazonImgUrl}}{{item.icon}}" height="40px" width="40px">
+          </div>
+          <div class="col-sm-3 text-right">
+            <button class="btn btn-secondary" (click)="selectionBrand(item); modal.close()">Select</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="modal.close('Close Click')">Close</button>
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>

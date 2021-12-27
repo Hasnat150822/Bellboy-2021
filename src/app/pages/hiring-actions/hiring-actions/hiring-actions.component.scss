@@ -1,0 +1,63 @@
+.upload-input{
+    position: absolute;
+    right: 0px;
+    opacity: 0;
+    bottom: 0;
+    z-index: 1;
+    cursor: pointer;
+  }
+  .upload-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 15px;
+  }
+  .camera-icon{
+    position: absolute;
+    bottom: 0px;
+    right: 66px;
+  }
+  .ng2-smart-page-item{
+    line-height: unset;
+    margin: 0 !important;
+}
+.form-check-label{
+    cursor: pointer;
+    text-transform: capitalize;
+  }
+  .w-10rem{
+    width: 10rem;
+  }
+  .wh-2rem{
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .slide-fwd-left {
+    -webkit-animation: slide-fwd-left 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-fwd-left 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+  @-webkit-keyframes slide-fwd-left {
+    0% {
+      margin-left: 0rem;
+    }
+    100% {
+      margin-left: -1.25rem;
+    }
+  }
+  @keyframes slide-fwd-left {
+    0% {
+      margin-left: 0rem;
+    }
+    100% {
+      margin-left: -1.25rem;
+    }
+  }  
+  .next-items{
+    font-size: 1.2rem;
+    text-shadow: 0px 0px 3px rgba(0,0,0,0.5)
+  }
+  .task-div{
+    height: 30px;
+    width: 30px;
+    object-fit: contain;
+  }

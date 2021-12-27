@@ -1,0 +1,34 @@
+.upload-input{
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.camera-icon{
+  position: absolute;
+  bottom: 0;
+  right: 66px;
+}
+.upload-image{
+  width: 120px;
+  height: 120px;
+  -o-object-fit: scale-down;
+  object-fit: scale-down;
+  border-radius: 15px;
+}
+.ft-chevron-left, .ft-chevron-right{
+    font-size: 25px;
+    font-weight: bolder;
+    color: orange;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.9);
+}
+.hoverTotal:hover{
+  color: #1a73e8 !important;
+  text-decoration: underline !important;
+}
+.cropper{
+  height: auto;
+  width: 200px;
+  margin: 0 auto;
+}

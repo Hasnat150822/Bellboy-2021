@@ -1,0 +1,283 @@
+<div class="row">
+  <div class="loading-container" *ngIf="spinner">
+    <div class="spinner"></div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h5 class="font-weight-500 mb-2">Customer</h5>
+              <br>
+            </div>
+            <div class="col-sm-12 ">
+              <div class="media align-items-center">
+                <a (click)="openModel(bigImg, detailHiring?.customer?.avatar?.value)">
+                  <img alt="100x100" class="object-fit d-flex mr-3 bg-primary rounded-circle" src="{{amazonImgUrl}}{{detailHiring?.customer?.avatar?.value}}" onerror="src='../../../assets/img/gallery/1.jpg'">
+                </a>
+                <div class="media-body">
+                  <h5 class="font-weight-normal">
+                    <a class="hoverOrange" target="_blank" [routerLink]="['/customers/custdetail', detailHiring?.customer?._id]">{{detailHiring?.customer?.name}}</a>
+                  </h5>
+                  <p><span>Cell No:</span><span class="ml-3 text-secondary">{{detailHiring?.customer?.mobile}}</span>
+                  </p>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card margin-t-30">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4">
+              <h5 class="font-weight-500 mb-2">Hiring Detail</h5>
+            </div>
+            <div class="col-sm-8 text-right">
+              <span>Status: </span>
+              <span *ngIf="detailHiring?.status==1" class="text-orange">Pending</span>
+              <span *ngIf="detailHiring?.status==2" class="text-success">Assigned</span>
+              <span *ngIf="detailHiring?.status==3" class="text-success">In Progress / Payment Waiting</span>
+              <span *ngIf="detailHiring?.status==4" class="text-success">Completed</span>
+              <span *ngIf="detailHiring?.status==5" class="text-error">Cancelled</span>
+            </div>
+            <div class="col-sm-12" *ngIf="detailHiring?.status==5">
+              <p>
+                <span class="font-weight-normal">Cancelled Reason: </span>
+                <span class="text-secondary ml-3">{{detailHiring?.cancellation_reason}}</span> 
+              </p>
+            </div>
+          </div>
+          <div class="row row-area">
+            <div class="col-sm-6">
+              <p><span>Hiring Id: &nbsp;</span><span class="text-secondary">{{detailHiring?.hiring_id}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Date: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.created_at | date:'mediumDate'}}, {{detailHiring?.created_at | date:'mediumTime'}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Hiring Start on: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.start_time | date:'mediumDate'}}, {{detailHiring?.start_time | date:'mediumTime'}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Bellboy Type: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.bellboyType?.title}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Price Per Hour: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.pricePerHour}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Hired For: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.charges?.hours}}hrs {{detailHiring?.charges?.minutes}} mins</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Total Time Spent: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.charges?.totalTime}}min</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Total Distance Covered: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.charges?.totalDistance}}km</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Paid By Wallet: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.charges?.paidByWallet}}</span>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span>Paid Amount: &nbsp;</span>
+                <span class="text-secondary">{{detailHiring?.amount}}</span>
+              </p>
+            </div>
+            <!-- <p class="col-sm-6">Total Bill:</p>
+            <p class="col-sm-6">
+              <span class="text-secondary">{{detailHiring?.charges?.totalBill | number:'1.1-3'}}pkr</span>
+            </p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card margin-t-30">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h5 class="font-weight-500 mb-2">Customer Current Location</h5>
+              <br>
+            </div>
+            <div class="col-sm-12 ">
+              <div class="map">
+                <img *ngIf="detailHiring?.location?.geolocation?.longitude==0 && detailHiring?.location?.geolocation?.latitude==0" width="100%" src="../../../../assets/img/gallery/map-not-load.png" alt="">
+                <!-- <agm-map style="height: 250px;" *ngIf="detailHiring?.location?.geolocation?.longitude!==0 && detailHiring?.location?.geolocation?.latitude!==0" [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
+                  <agm-marker [latitude]="detailHiring?.location?.geolocation?.latitude" [longitude]="detailHiring?.location?.geolocation?.longitude">
+                  </agm-marker>
+                </agm-map> -->
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title"> Available Bellboy </h4>
+              <br>
+            </div>
+            <div class="col-sm-12">
+              <div class="row-area px-2" style="height: 403px;">
+                <div style="height: 322px;">
+                  <div *ngFor="let item of pagedItems" class="row align-items-center mb-2">
+                    <div class="col-sm-6">
+                      <div class="media">
+                        <img class="table-img-size" src="{{amazonImgUrl}}{{item.avatar?.value}}">
+                        <div class="media-body">
+                          <article class="font-weight-500">{{item.name}}</article>
+                          <small>{{item.mobile}}</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                      <button class="btn btn-orange mx-1" (click)="trackBellboy(item._id, map)">
+                        Track Bellboy
+                      </button>
+                      <button class="btn btn-success mx-1" (click)="assignBellboy(item._id)">
+                        Assign Bellboy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right" *ngIf="pagedItems?.length>0">
+                  <hr class="my-2">
+                  <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Bellboys</span> :
+                  <span class="text-secondary ml-2">{{bellboys?.length}}</span>
+                  <button [disabled]="pager.currentPage === 1" ngbTooltip="Previous" class="btn ft-chevron-left" (click)="setPage(pager.currentPage - 1)"></button>
+                  <button [disabled]="pager.currentPage === pager.totalPages" ngbTooltip="Next" class="btn ft-chevron-right" (click)="setPage(pager.currentPage + 1)"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card margin-t-30">
+      <div class="card-content">
+        <div class="card-body mb-0">
+          <div class="row mb-3 justify-content-center">
+            <div class="col-sm-12">
+              <h5 class="font-weight-500">Actions</h5>
+            </div>
+            <div class="col-sm-12">
+              <div *ngFor="let item of detailHiring?.actions let i=index" class="row align-items-center bg-light1 py-2">
+                <div class="col-sm-5">
+                  <div *ngFor="let label of item.actionType?.labels">
+                    <span class="actionLabel" *ngIf="label.locale?.code=='en'">
+                      {{label.label}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-4 text-right">
+                  <span>Staus: </span>
+                  <span class="text-orange" *ngIf="item.status == false">Pending</span>
+                  <span class="text-success" *ngIf="item.status == true">Completed</span>
+                </div>
+                <div class="col-sm-3 text-right">
+                  <a (click)="showDetail(item._id, i)">
+                    <button id="{{i}}" class="btn btn-orange">View Detail</button>
+                  </a>
+                </div>
+                <div id="{{item._id}}" hidden=true class="col-sm-12 mt-2">
+                  <div class="row m-0 v-detail mb-2">
+                    <div class="col-sm-12 mt-2">
+                      <h6 class="font-weight-bold">Instructions:</h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <p>{{item.instruction}}</p>
+                    </div>
+                    <div class="col-sm-6">
+                      <h6 class="font-weight-bold">Location:</h6>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <button class="btn btn-orange" (click)="open(map, item.location?.geolocation)">View Map</button>
+                    </div>
+                    <div class="col-sm-12">
+                      <p>{{item.location?.address}}</p>
+                    </div>
+                    <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Refrence Images:</h6>
+                    </div>
+                    <div *ngFor="let image of item.images" class="col-sm-3 mb-2">
+                      <a>
+                        <img class="vehicleImage" (click)="openModel(bigImg, image)" src="{{amazonImgUrl}}{{image}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                      </a>
+                    </div>
+                    <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Bill Images:</h6>
+                    </div>
+                    <div *ngFor="let image of item.bill_images" class="col-sm-3 mb-2">
+                      <a>
+                        <img class="vehicleImage" (click)="openModel(bigImg, image)" src="{{amazonImgUrl}}{{image}}" onerror="src='../../../../assets/img/ico/bb-brand.jpg'">
+                      </a>
+                    </div>
+                    <div class="col-sm-12">
+                      <h6 class="font-weight-bold">Voice Note:</h6>
+                    </div>
+                    <div class="col-sm-12">
+                      <audio class="w-100" src="{{amazonImgUrl}}{{item?.voice_note?.value}}" controls></audio>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-white" (click)="modal.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{currentImage}}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit2" alt="" srcset="">
+  </div>
+</ng-template>
+<ng-template #map let-model>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-white" (click)="model.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <!-- <agm-map style="width: 95%; height: 305px;" [latitude]="loc?.latitude" [zoom]="loc?.zoom" [longitude]="loc?.longitude">
+      <agm-marker [latitude]="loc?.latitude" [longitude]="loc?.longitude">
+      </agm-marker>
+    </agm-map> -->
+  </div>
+</ng-template>

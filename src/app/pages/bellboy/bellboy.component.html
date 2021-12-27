@@ -1,0 +1,345 @@
+<section id="tabs">
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-1">
+      <h3>
+        Bellboys
+        <button class="float-right btn btn-orange" (click)="open(addNewBellboy)">Add Bellboy</button>
+      </h3>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-5">
+      <div class="position-relative">
+        <i ngbTooltip="Default Data" (click)="searchValue=undefined; resetToDefault();" class="ft-refresh-cw child font-weight-bold"></i>
+        <input [type]="inputType" class="form-control placeholder-pad" #input id="searchInput" 
+          (change)="searchValue = $event.target.value; setQueryParams($event.target.value, itemPerPage, status, searchType);"
+          placeholder="Search"
+          (keyup)="onEnter($event)"
+          value="{{ searchValue }}"/>
+        <div class="btn-group position-absolute">
+          <div
+            class="btn-group"
+            ngbDropdown
+            role="group"
+            aria-label="Button group with nested dropdown">
+            <button class="btn border-left dropdown-toggle-split" ngbDropdownToggle>
+              By {{ placeVal }} <i class="ft-chevron-down"></i>
+            </button>
+            <!-- dropdown menu start  -->
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <button ngbDropdownItem *ngFor="let item of searchDropdown"
+                (click)="
+                  placeVal = item.fieldName;
+                  inputType = item.type;
+                  input.value = '';
+                  searchType = item.searchType">
+                {{ item.fieldName }}
+              </button>
+            </div>
+          </div>
+          <button (click)="searchValue=input.value; getBellboys(1, this.itemPerPage, this.status);" type="button" class="btn btn-search">Search</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-7 text-right" *ngIf="currentRole == 'Super Admin'">
+      <div class="btn-group">
+        <select id="choice" class="btn btn-outline-secondary pr-0 choice" (change)="allSelect($event)">
+          <!-- <option value="">Registered</option>
+        <option value="">Unregistered</option> -->
+          <option value=" ">Select Value</option>
+          <option value="sendtoPakistaniUsers">Pakistanis</option>
+          <!-- <option value="">All</option> -->
+        </select>
+        <button type="button" [disabled]="checkedValues.length == 0 && selectSenderArea == ' '" class="btn btn-outline-secondary" (click)="open(sendNotification)">Send Notification</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="form-group float-right perPageBlock mb-0">
+              <select class="form-control perPage" (change)="setQueryParams(searchValue, $event.target.value, status, searchType);">
+                <option value="{{itemPerPage}}">{{itemPerPage}} / page</option>
+                <option value="25">25 / page</option>
+                <option value="50">50 / page</option>
+              </select>
+            </div>
+            <span class="dropdown float-right px-3">
+              <button
+                (click)="showDatePick('datepicker1')"
+                class="btn btn-orange mx-2 float-right mt-1"
+              >
+                Select Range for Record
+              </button>          
+              <ngb-datepicker
+              #dp1
+              id="datepicker1"
+              class="d-none  mt-4"
+              [maxDate]="today"
+              [markDisabled]="markDisabled"
+              [displayMonths]="1"
+              (dateSelect)="onDateSelection($event)"
+              [dayTemplate]="t1"
+              outsideDays="hidden"
+            >
+            </ngb-datepicker>
+            <ng-template
+              #t1
+              let-date
+              let-focused="focused"
+              class="dropdown-content d-none"
+            >
+              <span
+                class="custom-day"
+                [class.focused]="focused"
+                [class.range]="isRange(date)"
+                [class.faded]="isHovered(date) || isInside(date)"
+                (mouseenter)="hoveredDate = date"
+                (mouseleave)="hoveredDate = null"
+                [ngClass]="{
+                  'text-muted':
+                    date?.day > today?.day &&
+                    date?.month === today?.month &&
+                    date?.year === today?.year
+                }"
+              >
+                {{ date?.day }}
+              </span>
+            </ng-template>
+            </span>
+            <ngb-tabset type="pills" #tabset="ngbTabset">
+              <ngb-tab id="tab1">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="setQueryParams(searchValue, itemPerPage, 1, searchType); ">Active</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab2">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="setQueryParams(searchValue, itemPerPage, 0, searchType); ">Pending</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab3">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="setQueryParams(searchValue, itemPerPage, 2, searchType); ">Rejected</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab4">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="setQueryParams(searchValue, itemPerPage, 3, searchType); ">
+                    Blocked
+                  </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab5">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="setQueryParams(searchValue, itemPerPage, 4, searchType); ">
+                    All Bellboy
+                  </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-big-image *ngIf="isBigImg"></app-big-image> 
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center">
+        <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span>
+        :
+        <span class="text-secondary ml-2">{{ totalItems }}</span>
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+        <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+                <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getBellboys(1, itemPerPage, status) "><span aria-hidden="true">First</span></a>
+            </li>
+            <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+                <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getBellboys(pager.currentPage - 5, itemPerPage, status) " class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+            </li>
+            <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }">
+                <a (click)="getBellboys(page, itemPerPage, status) " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
+            </li>
+            <li
+                class="ng2-smart-page-item page-item"
+                [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+                <a ngbTooltip="Next 5" (click)="getBellboys(pager.currentPage + 5, itemPerPage, status) " aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span>
+                </a>
+            </li>
+            <li
+                class="ng2-smart-page-item page-item"
+                [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+                <a (click)="getBellboys(pager.totalPages, itemPerPage, status) " aria-label="Last" class="ng2-smart-page-link page-link"><span aria-hidden="true">Last</span></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</ng-template>
+<ng-template #tableHead let-status="status">
+  <thead>
+    <tr>
+      <th>
+        <div class="form-group mb-0">
+          <input type="checkbox" id="allSelect" class="form-control checkbox" (change)="allSelect($event)">
+        </div>
+      </th>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Cell no</th>
+      <th>CNIC</th>
+      <th *ngIf="status == 1 || status == 3 || status == 4">Busy</th>
+      <th>Joining Date</th>
+      <th *ngIf="status==1">Current Status</th>
+      <th>Total Working Hours</th>
+      <th>Total Hirings</th>
+      <th *ngIf="status==1">Block</th>
+      <th *ngIf="status==2 || status ==3 || status == 0">Actions</th>
+      <th *ngIf="status==4">Approval Status</th>
+      <th>View</th>
+    </tr>
+  </thead>
+</ng-template>
+<ng-template #tableBody let-status = "status">
+  <tbody>
+    <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+    <tr *ngFor="let item of bellboys">
+      <td>
+        <div class="form-group mb-0">
+          <input type="checkbox" (change)="selectBellboy($event)" [checked]="item.checked" value="{{ item._id }}" class="form-control checkbox">
+        </div>
+      </td>
+      <td class="image-td">
+        <div>
+          <a (click)="bigImage(amazonImgUrl + item?.avatar?.value)">
+            <img src="{{ amazonImgUrl }}{{ item?.avatar?.value }}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" alt="img" class="table-img-size" />
+          </a>
+        </div>
+      </td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.mobile }}</td>
+      <td>{{ item.legals?.nic?.value }}</td>
+      <td *ngIf="status == 1 || status == 3 || status == 4"  [ngClass]="{'text-success':item?.is_busy, 'text-danger':!item.is_busy}">{{item?.is_busy?'yes':'no'}}</td>
+      <td>{{item.created_at | date:'mediumDate'}}</td>
+      <td *ngIf="status == 1">
+        <span *ngIf="item.working_status == false" class="text-error">Offline</span>
+        <span *ngIf="item.working_status == true" class="text-success">Online</span>
+      </td>
+      <td>{{item.total_working_hours|timeConvert}}</td>
+      <td>{{item.total_hirings}}</td>
+      <td *ngIf="status == 1">
+        <a (click)="responseApproval(item, '3')">
+          <button class="btn btn-danger">Block</button>
+        </a>
+      </td>
+      <td *ngIf="status == 0">
+        <a class="mr-2" (click)="responseApproval(item, '1')">
+          <button class="btn btn-success">Accept</button>
+        </a>
+        <a (click)="responseApproval(item, '2')">
+          <button class="btn btn-danger">Reject</button>
+        </a>
+      </td>
+      <td *ngIf="status==2">
+        <a (click)="responseApproval(item, '0')">
+          <button class="btn btn-orange">Move</button>
+        </a>
+      </td>
+      <td *ngIf="status==3">
+        <a (click)="responseApproval(item, '1')">
+          <button class="btn btn-success">Unblock</button>
+        </a>
+      </td>
+      <td *ngIf="status == 4" [class.text-error]="item.status==3 || item.status==2" [class.text-orange]="item.status== 0" [class.text-success]="item.status==1" >
+        <span *ngIf="item.status == 3">Block</span> <span *ngIf="item.status == 2">Rejected</span> 
+        <span *ngIf="item.status == 0">Pending</span> <span *ngIf="item.status == 1">Approved</span>
+      </td>
+      <td>
+        <div class="d-flex align-items-center">
+          <a
+            [style.visibility] = "item.status == 0 || item.status == 2 ? 'hidden':'visible'"
+            ngbTooltip="Wallet Detail"
+            class="p-1 text-dark"
+            data-original-title=""
+            title=""
+            target="_blank"
+            [routerLink]="['/bellboy/bellboywallet', item._id]"
+            [queryParams]="{type: 'bellboy'}"
+          >
+            <img
+              src="../../../assets/img/ico/wallet.png"
+              class="img-eye"
+              alt=""
+            />
+          </a>
+          <a
+            class="p-1 text-dark"
+            data-original-title=""
+            ngbTooltip="Bellboy Detail"
+            title=""
+            target="_blank"
+            [routerLink]="['/bellboy/bellboydetail', item._id]"
+          >
+            <img
+              src="../../../assets/img/ico/eye.png"
+              class="img-eye"
+              alt=""
+            />
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</ng-template>
+<ng-template #sendNotification let-modal>
+  <app-send-notification (notificationData)="submitNotification($event)"
+  type="notification"></app-send-notification>
+</ng-template>
+
+<ng-template #addNewBellboy let-modal>
+  <app-add-new-bellboy (closeAll)="getBellboys(1, itemPerPage, status)"></app-add-new-bellboy>
+</ng-template>

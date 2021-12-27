@@ -1,0 +1,19 @@
+export interface AddVehicle{
+    vehicleType:string,
+    vehicleBrand:string,
+    vehicleModel:string,
+    bellboy:string,
+    front_image:File,
+    back_image:File,
+    left_image:File,
+    right_image:File,
+    color:string,
+    plate_image:File,
+    plate_number:string,
+    reg_front_image:File,
+    reg_back_image:File,
+    reg_other_image:File,
+    owner:string,
+    engine_no:string,
+    registration_year:string
+  }

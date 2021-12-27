@@ -1,0 +1,20 @@
+.image-input{
+
+}
+
+.upload-input, .camera-icon{
+    inset-inline: 50% !important;
+    transform: translateX(-50%);
+}
+label{
+    font-weight: 600;
+    color: rgba(0,0,0,0.8);
+    letter-spacing: 0.1rem;
+}
+.btn-orange{
+    height: unset !important;
+}
+.btn-outline-warning{
+    border-color: #ff9800 !important;
+    color: #ff9800 !important;
+}

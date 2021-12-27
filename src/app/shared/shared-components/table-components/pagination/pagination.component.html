@@ -1,0 +1,23 @@
+<p class="mr-3 d-flex align-items-center">
+    <span class="h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+    <span class="text-secondary ml-2" *ngIf="pager">{{pager.totalItems}}</span>
+</p>
+<nav *ngIf="pager">
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(1)">First</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link ft-chevron-left" (click)="setPage(pager.currentPage - 1)"></a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)">{{page}}</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link ft-chevron-right" (click)="setPage(pager.currentPage + 1)"></a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+        </li>
+    </ul>
+</nav>

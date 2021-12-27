@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-content">
+      <div class="card-body">
+        <table class="table table-responsive-md table-striped">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Promo Code</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Send By</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of promotions">
+              <td>
+                <img class="rounded img-fluid" onerror="src='../../../assets/img/ico/bb-brand.jpg'"
+                  src="{{amazonUrl}}{{item.imageUrl?.value}}" height="64px" width="64px" />
+              </td>
+              <td>{{item.code}}</td>
+              <td [ngbToolTip]="item.title">
+                {{item.title.length>25?item.title.substring(0, 25)+'......':item.title}}
+              </td>
+              <td>{{item.created_at | date:'mediumDate'}}</td>
+              <td>{{item.created_at | date:'mediumTime'}}</td>
+              <td>{{item.admin?.name}}</td>
+              <!-- <td [ngSwitch]="pageType">
+                <a *ngSwitchCase="'Customer Offers'" ngbTooltip="Update Offer" routerLink="/customerOffers/manageOffers" [queryParams]="{type:'Update', id:item._id, pageType:pageType}">
+                  <i class="ft-edit"></i>
+                </a>
+                <a *ngSwitchDefault ngbTooltip="Update Offer" routerLink="/bellboyOffers/manageOffers" [queryParams]="{type:'Update', id:item._id, pageType:pageType}">
+                  <i class="ft-edit"></i>
+                </a>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+        <app-pagination class="d-flex justify-content-end" [pager]="pager$|async" (page)="getPage($event)"></app-pagination>
+      </div>
+    </div>
+  </div>

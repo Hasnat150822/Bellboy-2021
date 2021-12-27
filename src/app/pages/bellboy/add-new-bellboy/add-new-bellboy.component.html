@@ -1,0 +1,188 @@
+<div class="modal-header justify-content-center">
+    <h3>Add {{headText}}</h3>
+    <a (click)="closeModal()"><i class="ft-x close-icon"></i></a>
+</div>
+<div class="modal-body">
+    <ul class="nav nav-pills justify-content-center py-2">
+        <li class="" role="presentation" id="profile-tab-li">
+            <a class="nav-profile active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true" 
+            (click)="profFormSubmit()">
+                <i class="ft-user"></i>
+            </a>
+        </li>
+        <li class="stepper" id="nic-tab-li" role="presentation">
+            <a class="nav-nic" [ngClass]="{'disabled':!profileForm.valid}" id="nic-tab" data-toggle="tab" href="#nic" role="tab" aria-controls="nic" aria-selected="true"
+            (click)="nicFormSubmit()">
+                <i class="ft-credit-card"></i>
+            </a>
+        </li>
+        <li class="stepper" id="liscense-tab-li" role="presentation">
+            <a class="nav-liscense" [ngClass]="{'disabled':!nicForm.valid}" id="liscense-tab" data-toggle="tab" href="#liscense" role="tab" aria-controls="liscense" aria-selected="true"
+            (click)="liscFormSubmit()">
+                <i class="ft-calendar"></i>
+            </a>
+        </li>
+        <li class="stepper" id="character-tab-li" role="presentation">
+            <a class="nav-character" [ngClass]="{'disabled':!liscenseForm.valid}" id="character-tab" data-toggle="tab" href="#character" role="tab" aria-controls="character" aria-selected="true"
+            (click)="charFormSubmit()">
+                <i class="ft-award"></i>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="" [style.display]="showCropper ? null : 'none'">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'avatar'}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <div class="img-div text-center position-relative mx-auto mb-2" [style.display]="!showCropper ? null : 'none'">
+                <input type="file" accept="image/*" (change)="fileChangeEvent('avatar',$event)" class="input-file">
+                <img class="prof-img" [src]="croppImgAvatar" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100px" width="100px">
+                <i class="ft-camera"></i>
+            </div>
+            <form [formGroup]="profileForm" class="row">
+                <section class="fomr-group col-6">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control" formControlName="name">
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="number">Mobile</label>
+                    <input type="text" id="number" class="form-control" formControlName="mobile">
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" formControlName="email">
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="date">Birth Date</label>
+                    <input type="date" id="date" class="form-control" formControlName="dateOfBirth">
+                </section>
+                <section class="fomr-group col-6" id="BBType">
+                    <label for="belllboyType">Bellboy Type</label>
+                    <select name="belllboyType" id="belllboyType" class="form-control" formControlName="BBType">
+                        <option value="">Select Type</option>
+                        <option *ngFor="let item of bbTypes$ | async" value="{{item._id}}">{{item.title}}</option>
+                    </select>
+                </section>
+            </form>
+            <button class="btn btn-orange d-block ml-auto mt-2" (click)="nicFormSubmit()" [disabled]="profileForm.invalid">Next</button>
+        </div>
+        <div class="tab-pane fade" id="nic" role="tabpanel" aria-labelledby="nic-tab">
+            <form [formGroup]="nicForm" class="row">
+                <section class="col-6 form-group">
+                    <label for="nic">Nic No</label>
+                    <input id="nic" type="text" class="form-control" formControlName="nicValue">
+                </section>
+                <section class="col-6 form-group">
+                    <label for="exDate">Expiry Date</label>
+                    <input id="exDate" type="date" class="form-control" formControlName="nicExpiryDate">
+                </section>
+            </form>
+            <!-- for front image -->
+            <section class="position-relative rounded">
+                <span>Front Image</span>
+                <div *ngIf="whichCropper=='nicF' && showCropper">
+                    <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'nicF'}"></ng-container>
+                    <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+                </div>
+                <div class="img-div rounded" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('nicF', $event)" class="input-file">
+                    <img class="prof-img rounded" [src]="croppImgNicF" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for back image -->
+            <section class="position-relative rounded my-3">
+                <span>Back Image</span>
+                <div *ngIf="whichCropper=='nicB' && showCropper">
+                    <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'nicB'}"></ng-container>
+                    <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+                </div>
+                <div class="img-div rounded" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('nicB', $event)" class="input-file">
+                    <img class="prof-img rounded" [src]="croppImgNicB" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <div>
+                <i class="ft-arrow-left" (click)="profFormSubmit()"></i>
+                <button class="btn btn-orange float-right" (click)="liscFormSubmit()" [disabled]="nicForm.invalid">Next</button>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="liscense" role="tabpanel" aria-labelledby="liscense-tab">
+            <form [formGroup]="liscenseForm" class="row">
+                <section class="col-6 form-group">
+                    <label for="lisValue">No</label>
+                    <input type="text" id="lisValue" class="form-control" formControlName="value">
+                </section>
+                <section class="col-6 form-group">
+                    <label for="lisExDate">Expiry Date</label>
+                    <input id="lisExDate" type="date" class="form-control" formControlName="expiryDate">
+                </section>
+            </form>
+            <!-- for front image -->
+            <section class="position-relative rounded">
+                <span>Front Image</span>
+                <div *ngIf="whichCropper=='lisF' && showCropper">
+                    <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'lisF'}"></ng-container>
+                    <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+                </div>
+                <div class="img-div rounded" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('lisF', $event)" class="input-file">
+                    <img class="prof-img rounded" [src]="croppImgLisF" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for back image -->
+            <section class="position-relative rounded my-3">
+                <span>Back Image</span>
+                <div *ngIf="whichCropper=='lisB' && showCropper">
+                    <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'lisB'}"></ng-container>
+                    <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+                </div>
+                <div class="img-div rounded" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('lisB', $event)" class="input-file">
+                    <img class="prof-img rounded" [src]="croppImgLisB" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <div>
+                <i class="ft-arrow-left" (click)="nicFormSubmit()"></i>
+                <button class="btn btn-orange float-right" (click)="charFormSubmit()" [disabled]="liscenseForm.invalid">Next</button>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="character" role="tabpanel" aria-labelledby="character-tab">
+            <form [formGroup]="characterForm" class="row">
+                <section class="col-6 form-group">
+                    <label for="no">No</label>
+                    <input id="no" type="text" class="form-control" formControlName="no">
+                </section>
+                <section class="col-6 form-group">
+                    <label for="issueDate">Issue Date</label>
+                    <input id="issueDate" type="date" class="form-control" formControlName="issueDate">
+                </section>
+            </form>
+            <section class="position-relative rounded my-2">
+                <div *ngIf="whichCropper=='char' && showCropper">
+                    <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'char'}"></ng-container>
+                    <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+                </div>
+                <div class="img-div rounded" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('char', $event)" class="input-file">
+                    <img class="prof-img rounded" [src]="croppImgChar" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <div>
+                <i class="ft-arrow-left" (click)="liscFormSubmit()"></i>
+                <button *ngIf = "!detailBellboy" class="btn btn-orange float-right" (click)="submitbellboy()" [disabled]="characterForm.invalid">Submit</button>
+                <button *ngIf="detailBellboy" class="btn btn-orange float-right" (click)="updateBellboyById()">Update</button>
+            </div>
+        </div>    
+    </div>
+</div>
+
+<ng-template #imgCropper let-which="cropperName">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="which=='avatar'?1 / 1:16 / 9" [resizeToWidth]="641" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+    [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" format="*" (imageCropped)="croppedImage($event, which)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+</ng-template>

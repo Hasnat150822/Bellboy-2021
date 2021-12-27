@@ -1,0 +1,36 @@
+.image-style{
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    -o-object-fit:contain !important;
+    object-fit: contain;
+}
+.change-button{
+    position: absolute;
+    border: unset;
+    background: rgba(0, 0, 0, 0.3);
+    width: 150px;
+    bottom: 35px;
+    color: #fff;
+    border-radius: 0px 0px 15px 15px;
+}
+.change-button:focus{
+    outline: none !important;
+}
+.bottom-place{
+    position: absolute;
+    bottom: 35px;
+    left: 0px;
+    right: 0px;
+}
+.btn{
+    width: max-content;
+}
+.change-input{
+    width: 300px;
+    position: absolute;
+    bottom: 35px;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+}

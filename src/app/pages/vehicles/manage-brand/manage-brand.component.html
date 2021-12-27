@@ -1,0 +1,148 @@
+<section id="tabs">
+  <div class="row text-left mt-2">
+    <div class="col-sm-6 mb-1">
+      <h3 class="mb-0">Manage Vehicles Brand</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button class="btn btn-orange" (click)="open(addBrand)">Add Vehicle Brand</button>
+    </div>
+    <div class="col-sm-12">
+      <div class="parent">
+        <i class="ft-search child"></i>
+        <input type="text" id="searchInput" (keyup)="searchBrand($event.target.value)" class="form-control placeholder-pad w-33" placeholder="Search Vehicle by Brand">
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Vehicle Type</th>
+                  <th>Brand Name</th>
+                  <th>Logo</th>
+                  <th>Created By</th>
+                  <th>View / Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+                <tr *ngFor="let item of pagedItems">
+                  <td *ngFor="let Type of item.vehicleTypes">{{Type.title}}</td>
+                  <td>{{item.title}}</td>
+                  <td>
+                    <a (click)="bigImage(bigImg, item.icon)">
+                      <img src="{{amazonImgUrl}}{{item.icon}}" alt="img" class="table-img-size">
+                    </a>
+                  </td>
+                  <td>Hasnat Hameed</td>
+                  <td>
+                    <a class="p-0 text-dark" [routerLink]="['/managebrand/manageBrandDetail', item._id]">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+              <p class="mr-3 d-flex align-items-center">
+                <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items:</span>
+                <span class="text-secondary ml-2">{{allBrands.length}}</span>
+              </p>
+              <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="First" class="ng2-smart-page-link page-link" (click)="setPage(1)">
+                      <span aria-hidden="true">First</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="Prev" ngbTooltip="Previous 5" (click)="setPage(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev">
+                      <span aria-hidden="true">«</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a ngbTooltip="Next 5" (click)="setPage(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                      <span aria-hidden="true">»</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                      <span aria-hidden="true">Last</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- addbrand -->
+<ng-template #addBrand let-modal>
+  <div class="modal-header justify-content-center mb-1">
+    <h3 class="card-title mb-0">Add Vehicle Brand</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="addVehicleBrand">
+      <div class="form-group">
+        <div class="position-relative position-relative">
+          <input accept="image/*" #file (change)="preview(file.files)" accept='image/*' class="upload-input" type="file">
+          <button class="camera-icon btn btn-orange">Add Icon</button>
+          <div class="text-center">
+            <img class="upload-image" onerror="src='../../../../assets/img/ico/no-logo.png'" src="{{imgURL}}">
+            <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <select class="form-control" formControlName="vehicleType">
+          <option value="">...</option>
+          <option *ngFor="let item of allVehicleType" value="{{item._id}}">{{item.title}}</option>
+        </select>
+        <p class="text-error" *ngIf="submitted && addVehicleBrand.controls.vehicleType.hasError('required')">
+          Vehicle Type is required
+        </p>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="brandTitle" placeholder="Vehicle Brand">
+        <p class="text-error" *ngIf="submitted && addVehicleBrand.controls.brandTitle.hasError('required')">
+          Brand title is required
+        </p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer mb-2">
+    <div>
+      <button type="button" class="btn btn-success" (click)="submitBrand(addVehicleBrand)">Add Brand</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"><span class="ft-x text-error" (click)="modal.close('Cancel Cick')"></span></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{currentImage}}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit">
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>

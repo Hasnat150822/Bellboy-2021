@@ -1,0 +1,66 @@
+.row-area{
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+}
+.hr-80{
+    width: 80%;
+    margin-left: 0px;
+}
+.object-fit{
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+}
+.row-area table thead tr th{
+    font-weight: 500;
+}
+.map{
+    width: 90% !important;
+    height: 250px !important;
+    margin-top: 0px !important;
+}
+small{
+    font-size: 90%;
+    color: rgba(0,0,0,0.87) !important;
+}
+figcaption>span{
+    color: black !important;
+}
+.object-fit2{
+    height: 400px;
+    width: 600px;
+    object-fit: contain;
+  }
+::ng-deep .bigImage .modal-dialog{
+    max-width: 60%;
+    left: 8%;
+    box-shadow: none;
+  }
+  ::ng-deep .bigImage .modal-dialog .modal-content{
+    background:rgba(0,0,0,0);
+    border:none;
+  }
+  .modal-header{
+    background-color: unset;
+}
+.ft-x {
+    font-size: 24px;
+}
+.chat-message{
+    padding: 8px 12px 8px 12px;
+    border-radius: 3px;
+    background: #00000008;
+}
+.no-chat{
+    background: rgba(0,0,0,0.03);
+    height: 280px;
+    font-size: 30px;
+    border-radius: 6px;
+    line-height: 280px;
+    font-weight: 500;
+    text-align: center;
+}
+.chat-card{
+    height: 376px;
+    overflow-y: scroll;
+}

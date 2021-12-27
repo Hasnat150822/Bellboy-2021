@@ -1,0 +1,33 @@
+.info-button{
+    background-color: rgba(210,223,234,.90);
+    border-radius: 9999px !important;
+    color: rgba(74,85,104,1);
+    font-size: 1rem;
+    height: 2rem;
+    line-height: 1rem;
+}
+
+.status-tabs>li{
+    list-style: none;
+    padding: 6px 12px 6px 12px;
+    border: 1px solid #fa9008;
+    border-radius: 3px;
+    margin: 0px 10px 0px 10px;
+    color: rgba(0,0,0,0.8);
+}
+.status-tabs .active, .status-tabs>li:hover{
+    cursor:pointer;
+    background: #fa9008;
+    color: white;
+    border-radius: 3px;
+}
+
+.recent-stats{
+    border-right: 1px solid #8d8989;
+    border-right-style: dashed;
+}
+
+.head-earning{
+    border-bottom: 1px solid #8d8989;
+    border-bottom-style: dotted;
+}

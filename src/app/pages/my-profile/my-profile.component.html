@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+  <div class="card">
+    <div class="card-content row m-0 justify-content-center">
+      <div class="card-header prof-heading">
+        <span><img class="img-fit" src="https://www.marketogre.com/assets/img/my%20profile50px.png" alt=""></span>
+        <span class="head-title">Edit Profile</span>
+      </div>
+      <div class="card-body">
+        <div class="d-flex m-0 justify-content-center pb-3">
+          <div class="media-object">
+            <img src="{{amazonImgUrl}}{{imgURL}}" onerror="src='../../../assets/img/gallery/1.jpg'">
+            <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+            <input type="file" #file (change)="preview(file.files)" name="" class="input-upload" id="">
+            <button class="btn btn-secondary">Change Image</button>
+          </div>
+        </div>
+        <form [formGroup]="updateProfile" (ngSubmit)="updateUser(updateProfile)">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input type="text" formControlName="name" class="form-control" placeholder="Name">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input type="text" formControlName="cellNo" class="form-control" placeholder="cell No">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input type="text" formControlName="email" class="form-control" placeholder="Email">
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group position-relative">
+                <input [type]="eyeToggle?'text':'password'" formControlName="pass" class="form-control" placeholder="Password">
+                <a>
+                  <i (click)="eyeToggle=!eyeToggle;" class="text-orange position-absolute" [ngClass]="{'ft-eye': !eyeToggle, 'ft-eye-off':eyeToggle}"></i>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group position-relative">
+                <input [type]="eyeToggle2?'text':'password'" formControlName="confirmpass" class="form-control" placeholder="Confirm Password">
+                <a>
+                  <i (click)="eyeToggle2=!eyeToggle2;" class="text-orange position-absolute" [ngClass]="{'ft-eye': !eyeToggle2, 'ft-eye-off':eyeToggle2}"></i>
+                </a>
+                <p class="text-error" *ngIf="updateProfile.controls.confirmpass.touched">
+                  <span *ngIf="updateProfile.controls.pass.value!=updateProfile.controls.confirmpass.value">Password not matched</span>
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <select name="role" formControlName="selectRole" class="form-control">
+                  <option value="">{{detailUser?.role?.title}}</option>
+                  <option *ngFor="let item of allRoles" value="{{item._id}}">{{item.title}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-orange">Update Profile</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

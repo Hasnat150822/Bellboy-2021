@@ -1,0 +1,28 @@
+ul.nav-pills{
+    padding-left: 1rem;
+}
+.ng2-smart-page-item{
+    line-height: unset;
+    margin: 0 !important;
+}
+.checkbox{
+    height: 13px;
+    width: 13px;
+}
+.choice, .btn-group>button{
+    font-size: 13px;
+}
+.choice{
+    cursor: pointer !important;
+}
+.pl-5{
+    padding-left: 7.5rem !important;
+}
+[class*=" ft-"], [class^=ft-]{
+    line-height: .65 !important;
+}
+.phone-code{
+    height: 300px;
+    overflow-y: scroll;
+    z-index: 1050;
+}

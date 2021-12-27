@@ -1,0 +1,262 @@
+<section id="tabs" class="parent">
+  <div class="loading-container" *ngIf="spinner">
+    <div class="spinner"></div>
+  </div>
+  <div class="row text-left mt-2">
+    <div class="col-sm-6">
+      <h3>Products</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button class="btn btn-orange mb-0" (click)="open(addProduct)">Add New Product</button>
+    </div>
+    <!-- <div class="col-sm-12">
+    <div class="parent">
+      <i class="ft-search child"></i>
+      <input type="text" id="SearchBellboy" class="form-control placeholder-pad w-33" name="searchPro" [(ngModel)]="searchPro" (ngModelChange)="searchProduct(searchPro)" placeholder="Search Products">
+    </div>
+   </div> -->
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Locale</th>
+                  <th>Brand</th>
+                  <th>Categories</th>
+                  <th>Added By</th>
+                  <th>Status</th>
+                  <th>View / Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" name="title" class="form-control text-center" [(ngModel)]="title" (ngModelChange)="searchProduct(title, 1)" placeholder="Title">
+                  </td>
+                  <td>
+                    <input type="text" name="title" class="form-control text-center" [(ngModel)]="title" (ngModelChange)="searchProduct(title, 1)" placeholder="Locale">
+                  </td>
+                  <td>
+                    <input type="text" name="brand" class="form-control text-center" [(ngModel)]="brand" (ngModelChange)="searchProduct(brand, 1)" placeholder="Brand">
+                  </td>
+                  <td>
+                    <input type="text" name="Category" [(ngModel)]="Category" (ngModelChange)="searchProduct(Category, 1)" class="form-control text-center" placeholder="Category">
+                  </td>
+                  <td>
+                    <input name="addedBy" [(ngModel)]="addedBy" (ngModelChange)="searchProduct(addedBy, 1)" type="text" class="form-control text-center" placeholder="Added By">
+                  </td>
+                  <td>
+                    <select name="" id="" class="form-control text-align-last-center">
+                      <option value="all">All</option>
+                      <option value="active">Active</option>
+                      <option value="deactive">Deactivated</option>
+                    </select>
+                  </td>
+                  <td style="width: 120px;"></td>
+                </tr>
+                <tr *ngFor="let item of allProducts;let i = index">
+                  <td>{{item.title}}</td>
+                  <td>
+                    <span *ngIf="item.labels[1]?.label">{{item.labels[1]?.label}}</span>
+                    <span *ngIf="!item.labels[1]?.label">- </span>
+                  </td>
+                  <td>
+                    {{item.brandData.brand.title}}
+                  </td>
+                  <td>
+                    {{item.categoryData.category.title}}
+                  </td>
+                  <td>Hasnat Hameed</td>
+                  <td>
+                    <span>Active</span>
+                    <a>
+                      <i placement="top" ngbTooltip="Deactive Product" class="ft-power text-error"></i>
+                    </a>
+                  </td>
+                  <td>
+                    <a class="p-0 text-dark" (click)="ProductDetail(item._id)">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end" *ngIf="default">
+              <p class="mr-3 d-flex align-items-center">
+                <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+                <span class="text-secondary ml-2">{{totalitems}}</span>
+              </p>
+              <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getProduct(1)">
+                      <span aria-hidden="true">First</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getProduct(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev">
+                      <span aria-hidden="true">«</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="getProduct(page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a ngbTooltip="Next" (click)="getProduct(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                      <span aria-hidden="true">»</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="getProduct(pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                      <span aria-hidden="true">Last</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="d-flex justify-content-end" *ngIf="searchPagination">
+              <p class="mr-3 d-flex align-items-center">
+                <span class="h6 mb-0 font-weight-normal">Total Items:</span>
+                <span class="text-secondary ml-2">{{totalitems}}</span>
+              </p>
+              <nav class="ng2-smart-pagination-nav ng-star-inserted">
+                <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a aria-label="First" class="ng2-smart-page-link page-link" (click)="searchProduct(keyword, 1)">
+                      <span aria-hidden="true">First</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a ngbTooltip="Previous" aria-label="Prev" (click)="searchProduct(keyword, pager.currentPage - 10)" class="ng2-smart-page-link page-link page-link-prev">
+                      <span aria-hidden="true">«</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="searchProduct(keyword, page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a ngbTooltip="Next" (click)="searchProduct(keyword, pager.currentPage + 10)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+                      <span aria-hidden="true">»</span>
+                    </a>
+                  </li>
+                  <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="searchProduct(keyword, pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+                      <span aria-hidden="true">Last</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- addProduct -->
+<ng-template #addProduct let-modal>
+  <div class="modal-header justify-content-center mb-3">
+    <h3 class="card-title mb-0">Add New Product</h3>
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="productForm">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="title" placeholder="Product Title">
+        <p class="text-error" *ngIf="submitted && productForm.controls.title.hasError('required')">
+          Title is required
+        </p>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control parent" placeholder="Search Brand" (click)="open2(bigSearchArea)" s>
+        <div class="d-flex mt-2 mb-2 align-items-center ">
+          <p class="remove-select" *ngFor="let item of selectedbrands; let i=index">
+            <a><i class="ft-x text-error mr-2" (click)="removeSelectionBrand(i)"></i></a>  <span>{{item.title}}</span> 
+          </p>
+        </div>
+        <p class="text-error" *ngIf="submitted && selectedbrands.length==0">
+          Select minimum one category
+        </p>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control parent" placeholder="Search Category" (click)="open2(bigSearchArea2)" s>
+        <div class="d-flex mt-2 mb-2 align-items-center ">
+          <p class="remove-select" *ngFor="let item of selectedCat; let i=index">
+            <i class="ft-x text-error mr-2" (click)="removeSelectionCat(i)"></i>  <span>{{item.title}}</span> 
+          </p>
+        </div>
+        <p class="text-error" *ngIf="submitted && selectedCat.length==0">
+          Select minimum one category
+        </p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-orange" (click)="submitProduct(productForm)">Add Product</button>
+  </div>
+</ng-template>
+<ng-template #bigSearchArea let-modal>
+  <div class="modal-body mbody">
+    <div class="form-group">
+      <input type="text" class="form-control parent" [(ngModel)]="search2" (ngModelChange)="searchBrand(search2)" placeholder="Search Brand">
+    </div>
+    <div class="d-flex m-0 mb-2 align-items-center ">
+      <p class="remove-select" *ngFor="let item of selectedbrands; let i=index">
+        <a><i class="ft-x text-error mr-2" (click)="removeSelectionBrand(i)"></i></a>  <span>{{item.title}}</span> 
+      </p>
+    </div>
+    <div class="row m-0">
+      <div class="col-sm-4 p-0 mb-2" *ngFor="let item of searchResult;let i=index">
+        <div class="row m-0 h-100 col-style align-items-center">
+          <div class="col-sm-6">{{item.title}}</div>
+          <div class="col-sm-3 text-right">
+            <img src="{{amazonImgUrl}}{{item.icon}}" height="40px" width="40px">
+          </div>
+          <div class="col-sm-3 text-right">
+            <button class="btn btn-secondary" (click)="selectionBrand(i)">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="modal.close()">Ok</button>
+  </div>
+</ng-template>
+<ng-template #bigSearchArea2 let-modal>
+  <div class="modal-body mbody">
+    <div class="form-group">
+      <input type="text" class="form-control parent" [(ngModel)]="search3" (ngModelChange)="searchCat(search3)" placeholder="Search Categories">
+    </div>
+    <div class="d-flex m-0 mb-2 align-items-center ">
+      <p class="remove-select" *ngFor="let item of selectedCat; let i=index">
+        <a><i class="ft-x text-error mr-2" (click)="removeSelectionCat(i)"></i></a>  <span>{{item.title}}</span> 
+      </p>
+    </div>
+    <div class="row m-0">
+      <div class="col-sm-4 p-0 mb-2" *ngFor="let item of searchResultCat;let i=index">
+        <div class="row m-0 h-100 col-style align-items-center">
+          <div class="col-sm-6">{{item.title}}</div>
+          <div class="col-sm-3 text-right">
+            <img src="{{amazonImgUrl}}{{item.icon}}" height="40px" width="40px">
+          </div>
+          <div class="col-sm-3 text-right">
+            <button class="btn btn-secondary" (click)="selectionCat(i)">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="modal.close()">Ok</button>
+  </div>
+</ng-template>

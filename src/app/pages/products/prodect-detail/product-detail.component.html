@@ -1,0 +1,195 @@
+<section>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <h3>Product Detail</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form action="">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6 mb-3">
+                  <h5 class="font-weight-normal">Product Title</h5>
+                </div>
+                <div class="col-sm-6 text-right">
+                </div>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <input type="text" class="form-control" readonly [(value)]="productDetail.title" placeholder="Product Title">
+                  </div>
+                </div>
+                <div class="col-sm-7 text-right">
+                  <a (click)="open(addLabel)" class="text-orange">
+                    <span class="ft-plus text-dark"></span>
+                    <span class="ml-1"> Add Label </span> 
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6 mb-3">
+                  <h5 class="font-weight-normal">Brands</h5>
+                </div>
+                <div class="col-sm-6 mb-3 text-right">
+                  <button class="btn btn-secondary" (click)="openModel(bigSearchArea)">
+                    Add Brand
+                  </button>
+                </div>
+                <div class="col-sm-12 p-0 mb-2">
+                  <div class="row m-0 mb-2 ml-2 col-style align-items-center" *ngFor="let item of productDetail?.brands">
+                    <div class="col-sm-6">{{item.brand.title}}</div>
+                    <div class="col-sm-5 text-right">
+                      <img class="rounded-circle" height="40px" width="40px" src="{{amazonImgUrl}}{{item.brand.icon}}">
+                    </div>
+                    <div class="col-sm-1 text-right">
+                      <a><i class="ft-x text-error" (click)="removeBrandById(item.brand._id)"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <h5 class="font-weight-normal">Categories</h5>
+                </div>
+                <div class="col-6 mb-3 text-right">
+                  <button class="btn btn-secondary" (click)="openModel(bigSearchArea2)">
+                    Add Categories
+                  </button>
+                </div>
+                <div class="col-sm-12 p-0 mb-2">
+                  <div class="row m-0 mb-2 ml-2 col-style align-items-center" *ngFor="let item of productDetail?.categories">
+                    <div class="col-sm-6">{{item.category.title}}</div>
+                    <div class="col-sm-5 text-right">
+                      <img class="rounded-circle" height="40px" width="40px" src="{{amazonImgUrl}}{{item.category.icon}}">
+                    </div>
+                    <div class="col-sm-1 text-right">
+                      <a><i class="ft-x text-error" (click)="removeCatById(item.category._id)"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+<!-- modal -->
+<section>
+  <ng-template #addLabel let-modal>
+    <div class="modal-header justify-content-center">
+      <h3 class="card-title mb-0">Add Label</h3>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="labelForm">
+        <div class="form-group">
+          <select class="form-control" (change)="changeLocal($event)">
+            <option value="">Select Language</option>
+            <option *ngFor="let item of locals" value="{{item.code}}/{{item._id}}">
+              {{item.title}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group" *ngIf="code=='ur' || code=='ar'">
+          <input type="text" formControlName="label" class="form-control text-right" placeholder="لیبل">
+        </div>
+        <div class="form-group" *ngIf="code=='en'">
+          <input type="text" formControlName="label" class="form-control" placeholder="Label">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+      <button type="button" class="btn btn-success" (click)="submitLabel(labelForm)">Add Label</button>
+    </div>
+  </ng-template>
+  <ng-template #bigSearchArea let-modal>
+    <div class="modal-body mbody">
+      <div class="form-group">
+        <input type="text" class="form-control parent" [(ngModel)]="search2" (ngModelChange)="searchBrand(search2)" placeholder="Search Brand">
+      </div>
+      <div class="d-flex m-0 mb-2 align-items-center ">
+        <p class="remove-select" *ngFor="let item of selectedbrands; let i=index">
+          <a><i class="ft-x text-error mr-2" (click)="removeSelectionBrand(i)"></i></a>  <span>{{item.title}}</span> 
+        </p>
+      </div>
+      <div class="row m-0">
+        <div class="col-sm-4 p-0 mb-2" *ngFor="let item of searchResult;let i=index">
+          <div class="row m-0 h-100 col-style align-items-center">
+            <div class="col-sm-4">{{item.title}}</div>
+            <div class="col-sm-4">
+              <img src="{{amazonImgUrl}}{{item.icon}}" height="40px" width="40px">
+            </div>
+            <div class="col-sm-4 text-right">
+              <button class="btn btn-secondary" (click)="selectionBrand(i)">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+      <button type="button" class="btn btn-success" (click)="addBrand()">Add Brand</button>
+    </div>
+  </ng-template>
+  <ng-template #bigSearchArea2 let-modal>
+    <div class="modal-body mbody">
+      <div class="form-group">
+        <input type="text" class="form-control parent" [(ngModel)]="search3" (ngModelChange)="searchCat(search3)" placeholder="Search Categories">
+      </div>
+      <div class="d-flex m-0 mb-2 align-items-center ">
+        <p class="remove-select" *ngFor="let item of selectedCat; let i=index">
+          <a><i class="ft-x text-error mr-2" (click)="removeSelectionCat(i)"></i></a>  <span>{{item.title}}</span> 
+        </p>
+      </div>
+      <div class="row m-0">
+        <div class="col-sm-4 p-0 mb-2" *ngFor="let item of searchResultCat;let i=index">
+          <div class="row m-0 h-100 col-style align-items-center">
+            <div class="col-sm-4">{{item.title}}</div>
+            <div class="col-sm-4">
+              <img src="{{amazonImgUrl}}{{item.icon}}" height="40px" width="40px">
+            </div>
+            <div class="col-sm-4 text-right">
+              <button class="btn btn-secondary" (click)="selectionCat(i)">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Cancel</button>
+      <button type="button" class="btn btn-success" (click)="addCategory()">Add Category</button>
+    </div>
+  </ng-template>
+</section>

@@ -1,0 +1,61 @@
+<section class="card">
+    <div class="card-body grid-container" myMatchHeight="fields">
+        <span class="item">
+            <b>Charges</b>
+            <p class="fields">{{actionTitle!=='Personal Assistance'?'Fixed':'Minimum'}} Charges</p>
+            <p *ngIf="actionTitle!=='Personal Assistance'" class="fields">Fuel Charges <span class="text-orange">/km</span></p>
+            <p class="fields">
+                {{actionTitle=='Personal Assistance'?
+                'Per Minute':'Time Cost '}}
+                <span class="text-orange" *ngIf="actionTitle!=='Personal Assistance'">/min</span>
+            </p>
+            <p *ngIf="actionTitle!=='Personal Assistance'" class="fields">Waiting for Customer Order</p>
+        </span>
+        <span class="item" *ngIf="actionTitle=='Deliveries'">
+            <b>Walker</b>
+            <ng-container
+                *ngTemplateOutlet="chargesValue; context:{'singleArray':chargesObjects.walker, 'bbType':'walker'}">
+            </ng-container>
+        </span>
+        <span class="item" *ngIf="actionTitle=='Deliveries'">
+            <b>Cycler</b>
+            <ng-container
+                *ngTemplateOutlet="chargesValue; context:{'singleArray':chargesObjects.cycle, 'bbType':'cycle'}">
+            </ng-container>
+        </span>
+        <span class="item">
+            <b>Biker</b>
+            <ng-container
+                *ngTemplateOutlet="chargesValue; context:{'singleArray':chargesObjects.bike, 'bbType':'bike'}">
+            </ng-container>
+        </span>
+        <span class="item" *ngIf="actionTitle!=='Personal Assistance'">
+            <b>Car</b>
+            <ng-container *ngTemplateOutlet="chargesValue; context:{'singleArray':chargesObjects.car, 'bbType':'car'}">
+            </ng-container>
+        </span>
+    </div>
+</section>
+<ng-template #chargesValue let-singleArray="singleArray" let-bbType='bbType'>
+    <p class="fields d-flex" *ngFor="let item of singleArray">
+        <span class="w-50">
+            <input value="{{item.inputValue}}" id="{{item.input}}" disabled class="form-control text-center">
+        </span>
+        <a>
+            <i *ngIf="bbType=='bike'" ngbTooltip="Update Value" id="{{item.icon}}"
+                (click)="changeDisable(item.input, item.icon, item.confirm)"
+                class="ml-2 ft-edit-2 font-weight-bold"></i>
+            <i *ngIf="bbType=='bike'" id="viewIcon" (click)="singleId =item ;open(viewTimeLine)"
+                ngbTooltip="View Timeline" class="ml-2 ft-eye font-weight-bold"></i>
+        </a>
+        <span id="{{item.confirm}}" style="display: none;">
+            <a><i (click)="updateCharges(item.input,item.confirm,item.icon,item.charges_type,item)"
+                    class="ml-2 text-success ft-check font-weight-bold"></i></a>
+            <a><i (click)="crossClick(item.input,item.confirm,item.icon,item)"
+                    class="ml-2 ft-x text-error font-weight-bold"></i></a>
+        </span>
+    </p>
+</ng-template>
+<ng-template #viewTimeLine let-modal>
+    <app-view-timeline [singleItem]="singleId"></app-view-timeline>
+</ng-template>

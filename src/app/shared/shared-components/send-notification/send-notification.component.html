@@ -1,0 +1,40 @@
+<div class="modal-header justify-content-center mb-1">
+    <h3 class="card-title mb-0">Add {{
+      type=='notification'?'Notification':'Offers'
+    }}</h3><a (click)="closeModal()"><i class="ft-x close-icon"></i></a>
+  </div>
+  <div class="modal-body">
+    <div class="position-relative text-center">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="641" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+      [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="*" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+      <input accept="image/*" #file type="file" accept="image/*" (change)="fileChangeEvent($event)" class="upload-input" type="file">
+      <button class="camera-icon btn btn-orange">Add Image</button>
+      <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{ croppedImage }}">
+    </div>
+    <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+    <p *ngIf="!croppedImage" class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
+    <p *ngIf="!croppedImage" class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
+    <p class="text-error" *ngIf="!imageFile && notificationForm.valid">
+      Image required
+    </p>
+    <form *ngIf="type=='promoCode'" [formGroup]="promoCode" class="form-group">
+      <input type="text" class="form-control" placeholder="Write Promo Code" formControlName="code">
+      <p *ngIf="code.touched && code.hasError('required')" class="text-danger">Promo Code is required</p>
+    </form>
+    <form [formGroup]="notificationForm">
+      <section class="form-group">
+        <input type="text" class="form-control" placeholder="Title" formControlName="title">
+        <p class="text-danger" *ngIf="title.touched">{{showTitleErrors()}}</p>
+      </section>
+      <section class="form-group">
+        <input type="text" class="form-control" placeholder="Description" formControlName="description">
+        <p class="text-danger" *ngIf="description.touched">
+          {{showDescriptionErrors()}}
+        </p>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="type!=='promoCode'" type="button" class="btn btn-orange" [disabled]="!notificationForm.valid ||  !imageFile" (click)="sendNotificationData()">Send Notification</button>
+    <button *ngIf="type=='promoCode'" type="button" class="btn btn-orange" [disabled]="(!notificationForm.valid && !promoCode) ||  !imageFile" (click)="sendNotificationData()">Send Offers</button>
+  </div>

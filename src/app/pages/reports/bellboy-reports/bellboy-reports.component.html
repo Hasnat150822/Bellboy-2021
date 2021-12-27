@@ -1,0 +1,92 @@
+<h3>Bellboy Reports</h3>
+<ngb-tabset id="reportsTabs" type="pills"orientation="horizontal">
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('4', 'status')">Total Bellboy</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('1', 'status')">Active Bellboys</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding disabledbutton">Registered Bellboys with no hiring</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('is_busy=true', 'other')">Bellboys on Hiring</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('is_busy=false && working_status=true', 'other')">Available Bellboys for Hirings</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding disabledbutton">Bellboys with acceptance rate</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding disabledbutton">Bellboys Type</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding disabledbutton">Bellboy with Max Hirings</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding disabledbutton" (click)="getByArea()">Bellboy from Specific Area</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <div class="card card-body">
+        <h5 class="font-weight-500">Areawise Bellboy</h5>
+        <div id="areaMap" style="height: 300px; overflow: hidden;"></div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
+<ng-template #content let-status="status">
+  <div class="card card-body">
+    <!-- I want to show for which status -->
+    <div class="ml-auto mb-3">
+      <span class="dropdown">
+        <app-date-range-button (onSelectDate)="getDate($event)" class="position-relative"></app-date-range-button>
+        <button class="btn btn-orange" (click)="downloadReport()">
+          <span *ngIf = "!isDownloading">Download Report {{status}}</span>
+          <span *ngIf = "isDownloading" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf = "isDownloading" >Downloading...</span>
+        </button>
+      </span>
+    </div>
+    <app-table [apiData] = "bellboyData" [tableHeadings]="totalBellboysHeadins">
+    </app-table>
+    <app-table-pagination [pager]='pager' (pagerObservable)="getPager($event)"></app-table-pagination>
+  </div>
+</ng-template>

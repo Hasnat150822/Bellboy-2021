@@ -1,0 +1,29 @@
+ul.nav-pills{
+    padding-left: 1rem;
+  }
+  .parent{
+    position: relative;
+  }
+  .child{
+    position: absolute;
+    padding: 8px 11px;
+  }
+  ::ng-deep .roleClass{
+    height: 500px;
+    overflow-y: scroll;
+  }
+  #SearchBellboy::placeholder{
+    color: #ccc;
+    margin-left: 10px;
+  }
+  .custom-control-label{
+    cursor: pointer;
+    font-weight: 500;
+    color: #75787d;
+    text-transform: uppercase ;
+  }
+  .ft-label{
+    color: #75787d;
+    font-weight: 500;
+    font-size: 12px;
+  }

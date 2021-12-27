@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h3 *ngIf="headStatus == 'all'">All Advertisement</h3>
+      <h3 *ngIf="headStatus == 'active'">Active Advertisement</h3>
+      <h3 *ngIf="headStatus == 'deactivate'">Deactivate Advertisement</h3>
+    </div>
+    <div class="col-sm-6 d-flex align-items-center justify-content-end">
+      <div class="form-group mb-0 mr-2">
+        <input type="month" (change)="getDate($event.target.value)" class="form-control perPage" min="2020-01" max="2100-01">
+      </div>
+      <button (click)="open(addAdvert)" class="btn btn-orange float-right">Add Advertisement</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let item of allAdvert.advertisements" class="slide">
+          <div class="card">
+            <div class="card-body">
+              <h6>
+                  <span class="font-weight-500">{{item.title?item.title:'Advertisement Title'}}</span>
+                  &nbsp; <a *ngIf="item.description" class="ft-alert-circle" ngbTooltip="{{item.description}}"></a>
+                  <p class="float-right"><small class="font-weight-500">Status: </small> <small [ngClass]="{'text-success': item?.status, 'text-error':!item?.status}">{{item.status?'Activated':'Deactivated'}}</small></p>
+              </h6>
+              <img src="{{amazonUrl}}{{item.image}}" height="230px" width="300px" onerror="src='../../../assets/img/gallery/1.jpg'" alt="" width="100%">
+              <div class="row py-2">
+                <div class="col-sm-6">
+                  <button [disabled]="currentRole !== 'Super Admin'" *ngIf="item.status==false" (click)="updateStatus('true',item._id)" class="btn btn-success">
+                    Activate
+                  </button>
+                  <button [disabled]="currentRole !== 'Super Admin'" *ngIf="item.status==true" (click)="updateStatus('false',item._id)" class="btn btn-orange">
+                    Deactivate
+                  </button>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <button class="btn btn-danger" (click)="deleteAdvert(item._id)" [disabled]="currentRole!=='Super Admin'">
+                    Delete
+                  </button>
+                </div>
+                <div class="col-sm-12 text-center mt-2" *ngIf="item.actionDate">
+                  <strong>Last Action: </strong> <small>{{item.actionDate | date:'mediumDate'}}, {{item.actionDate | date:'mediumTime'}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+  <div class="row py-2">
+    <div class="col-sm-12 text-right">
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'active';getAdvert(true, null, null)">Total Actived Advertisements: </a> </span>
+      <span class="text-orange">{{allAdvert.totalActive}}</span> &nbsp;
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'deactivate';getAdvert(false, null, null)">Total Deactivated Advertisements: </a> </span>
+      <span class="text-orange">{{allAdvert.totalDeactive}}</span> &nbsp;
+      <span class="font-weight-500"><a class="hoverTotal" (click)="headStatus = 'all';getAdvert(null, null, null)">Total Advertisements: </a> </span>
+      <span class="text-orange">{{allAdvert.total}}</span>
+    </div>
+  </div>
+</div>
+<ng-template #addAdvert let-modal>
+  <div class="modal-header justify-content-center">
+    <h3>Upload File</h3>
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <div class="modal-body">
+    <div class="position-relative text-center">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="641" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+      [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="*" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+      <input #file type="file" (change)="fileChangeEvent($event)" accept="image/x-png,image/gif,image/jpeg" class="upload-input" multiple>
+      <button class="camera-icon btn btn-orange">Insert Image</button>
+      <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{croppedImage}}">
+    </div>
+    <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+    <p *ngIf="!croppedImage" class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
+    <p *ngIf="!croppedImage" class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
+    <!-- <p *ngIf="croppedImage"><strong>Height: </strong><span>{{height}}</span> <strong>Width: </strong> <span>{{width}}</span></p> -->
+    <form [formGroup]="advertForm" class="mt-2">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="title" placeholder="Title">
+      </div>
+      <div class="form-group">
+        <textarea name="" id="" cols="30" rows="5" class="form-control" formControlName="desc" placeholder="Description"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="text-right">
+      <button class="btn btn-success" (click)="submitForm()">Add Advertisement</button>
+    </div>
+  </div>
+</ng-template>

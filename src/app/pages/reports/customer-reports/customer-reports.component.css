@@ -1,0 +1,16 @@
+.buttons{
+    list-style: none;
+    margin: unset;
+    padding: unset;
+    display: flex;
+    align-items: center;
+}
+.button-list{
+    padding-right: 1rem;
+}
+.pagination{
+    justify-content: flex-end !important;
+}
+.form-control{
+    box-shadow: 0 1px 2px 0 rgb(255 144 8 / 50%), 0 0px 2px 0 rgb(255 144 8 / 50%) !important;
+}

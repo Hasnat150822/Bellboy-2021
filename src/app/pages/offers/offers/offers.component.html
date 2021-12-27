@@ -1,0 +1,6 @@
+<h3 [ngSwitch]="type">
+  {{type}}
+  <button *ngSwitchCase="'Customer Offers'" class="float-right btn btn-orange" [routerLink]="['/customerOffers/manageOffers']" [queryParams]="{type:'Create', pageType:type}">Add Offers</button>
+  <button *ngSwitchDefault class="float-right btn btn-orange" [routerLink]="['/bellboyOffers/manageOffers']" [queryParams]="{type:'Create', pageType:type}">Add Offers</button>
+</h3>
+<app-show-offers [pageType]="type" [promotions]="promotions$ | async" (page)="getPage($event)"></app-show-offers>

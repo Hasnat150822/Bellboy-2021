@@ -1,0 +1,114 @@
+<div class="row" myMatchHeight="card">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-8">
+              <h5 class="font-weight-500 mb-2">Ride Detail ( Id# &nbsp;<small>{{ detailHiring?.hiring_id }}</small>)
+              </h5>
+            </div>
+            <div class="col-sm-4 text-right"><span>Status: </span><span class="text-orange">{{ detailHiring?.status |
+                hiringStatus }}</span>
+            </div>
+            <div class="col-sm-12" *ngIf="detailHiring?.status == 5">
+              <p><span class="font-weight-normal">Cancelled Reason: </span><span class="text-secondary ml-3">{{
+                  detailHiring?.cancellation_reason }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <h6 class="font-weight-500 col-12">Charges Detail</h6>
+            <p class="col-3">
+              Fuel Charges:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.fuelCharges?.calculated}}</span>
+            </p>
+            <p class="col-3">
+              Service Charges:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.serviceCharges?.totalcharged}}</span>
+            </p>
+            <p class="col-3">
+              Time Cost:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.timeCosting?.calculated | timeConvert}}</span>
+            </p>
+            <p class="col-3">
+              Waiting Charges:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.waitingCharges?.calculated}}</span>
+            </p>
+            <h6 class="font-weight-500 col-12">Distance & Time</h6>
+            <p class="col-3">
+              Total Distance:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalDistance}} km</span>
+            </p>
+            <p class="col-3">
+              Total Ride Distance:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalRideDistance}} km</span>
+            </p>
+            <p class="col-3">
+              Total Time:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalTime | timeConvert}}</span>
+            </p>
+            <p class="col-3">
+              Total Ride Time:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalRideTime | timeConvert}}</span>
+            </p>
+            <p class="col-3">
+              Total Waiting Time:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalWaitingTime | timeConvert}}</span>
+            </p>
+            <h6 class="font-weight-500 col-12">Billing</h6>
+            <p class="col-3">
+              Total Bill:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalBill}}</span>
+            </p>
+            <p class="col-3">
+              Bellboy Earining:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.bellboyEarning}}</span>
+            </p>
+            <p class="col-3">
+              Total Bill Show to Customer:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.totalBillShowToCustomer}}</span>
+            </p>
+            <p class="col-3">
+              Paid By Wallet:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.paidByWallet}}</span>
+            </p>
+            <p class="col-3">
+              Paid By Cash:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.paidByCash}}</span>
+            </p>
+            <p class="col-3">
+              Billing Time:&nbsp;
+              <span class="text-secondary">{{detailHiring?.charges?.billingTime | date:'mediumTime'}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row py-3">
+  <div id="mapView" class="col-sm-8 pr-0 position-relative">
+    <div id="map" [ngClass]="{'d-none':typeLocation === 'selected'}" style="height: 500px; overflow: hidden;"></div>
+    <div id="map2" [ngClass]="{'d-none':typeLocation === 'all'}" style="height: 500px; overflow: hidden;"></div>
+  </div>
+  <div id="bellboy" class="col-sm-4 pl-0">
+    <div class="card rounded pb-0 m-0" style="height: 500px;">
+      <div class="card-body customeCard">
+        <div *ngFor="let item of locations" class="row bg-light py-2 rounded align-items-center mb-2">
+          <div class="col-sm-12">
+            <div class="media">
+              <a class="media-body" (click)="changeCurrent(item)">
+                <article class="font-weight-500">{{item.location_type}}:</article>
+                <small>{{item.address}}</small>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-right">
+        <button class="mb-3 btn btn-orange" (click)="resetMap()">Reset Map</button>
+      </div>
+    </div>
+  </div>
+</div>

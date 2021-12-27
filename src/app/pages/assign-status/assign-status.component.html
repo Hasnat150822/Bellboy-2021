@@ -1,0 +1,145 @@
+<section id="tabs">
+  <div class="loading-container" *ngIf="spinner">
+    <div class="spinner"></div>
+  </div>
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-1">
+      <h3>Assign Status</h3>
+    </div>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" *ngIf="placeVal=='Id'" (keyup)="byId=$event.target.value;getPendingOrder(1)" placeholder="Search By {{placeVal}}">
+      <input type="text" class="form-control" *ngIf="placeVal=='Name'" (keyup)="byName=$event.target.value; getPendingOrder(1)" placeholder="Search By {{placeVal}}">
+      <input type="text" class="form-control" *ngIf="placeVal=='Phone'" (keyup)="byPhone=$event.target.value; getPendingOrder(1)" placeholder="Search By {{placeVal}}">
+      <input type="text" class="form-control" *ngIf="placeVal=='Bellboy Name'" (keyup)="byBBname=$event.target.value; getPendingOrder(1)" placeholder="Search By {{placeVal}}">
+      <input type="text" class="form-control" *ngIf="placeVal=='Bellboy Type'" (keyup)="bybbType=$event.target.value; getPendingOrder(1)" placeholder="Search By {{placeVal}}">
+      <!-- <input type="text" class="form-control" *ngIf="placeVal=='Time'" (keyup)="byTime=$event.target.value; getPendingOrder(1)" placeholder="Search By {{placeVal}}"> -->
+      <input type="text" class="form-control" *ngIf="placeVal=='Action'" (keyup)="byAction=$event.target.value; getPendingOrder(1)" placeholder="Search By {{placeVal}}">
+    </div>
+    <div class="col-sm-8">
+      <div class="inputs-group">
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" checked class="radio-check" id="id1" value="Id">
+          <label class="label-radio" for="id1">Search by Id</label>
+        </div>
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id2" value="Name">
+          <label class="label-radio" for="id2">Search by Name</label>
+        </div>
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id3" value="Phone">
+          <label class="label-radio" for="id3">Search by Phone</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6" style="margin-right: 50%;">
+      <div class="inputs-group">
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id5" value="Bellboy Type">
+          <label class="label-radio" for="id5">Search by Bellboy Type</label>
+        </div>
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id4" value="Bellboy Name">
+          <label class="label-radio" for="id4">Search by Bellboy Name</label>
+        </div>
+        <!-- <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id6" value="Time">
+          <label class="label-radio" for="id6">Search by Time</label>
+        </div> -->
+        <div>
+          <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id7" value="Action">
+          <label class="label-radio" for="id7">Search by Action</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <table class="table table-responsive-md table-striped">
+              <thead>
+                <tr>
+                  <th>Order Id</th>
+                  <th>Customer Name</th>
+                  <th>Cell No</th>
+                  <!-- <th>Time</th> -->
+                  <th>Actions</th>
+                  <th>Bellboy Type</th>
+                  <th>Created Time</th>
+                  <th>Date</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of pendingOrder">
+                  <td>{{item.hiring_id}}</td>
+                  <td>
+                    <span *ngIf="item.customer?.name"><a class="hoverOrange">{{item.customer?.name}}</a></span>
+                    <span *ngIf="!item.customer?.name">-</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.customer?.mobile">{{item.customer?.mobile}}</span>
+                    <span *ngIf="!item.customer?.mobile">-</span>
+                  </td>
+                  <!-- <td>
+                      <span>{{item.category?.title || item.hours}}</span>
+                      <span *ngIf="item.hours">hours</span>
+                  </td> -->
+                  <td>{{item.totalActions}}</td>
+                  <td>{{item.bellboyType?.title}}</td>
+                  <td>{{item.created_at | date:'mediumTime'}}</td>
+                  <td>{{item.created_at | date:'mediumDate'}}</td>
+                  <td>
+                    <a class="p-0 text-dark" (click)="detailRoute(item, item.type)">
+                      <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ng-container *ngTemplateOutlet="pagination"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- Modals -->
+<ng-template #pagination>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center">
+      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span> :
+      <span class="text-secondary ml-2">{{totalItems}}</span>
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getPendingOrder(1)">
+            <span aria-hidden="true">First</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getPendingOrder(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev">
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a (click)="getPendingOrder(page)" class="ng2-smart-page-link page-link ng-star-inserted">{{page}}</a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a ngbTooltip="Next 5" (click)="getPendingOrder(pager.currentPage + 5)" aria-label="Next" class="ng2-smart-page-link page-link page-link-next">
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a (click)="getPendingOrder(pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+            <span aria-hidden="true">Last</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-template>

@@ -1,0 +1,60 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-responsive-md table-striped text-left">
+          <thead>
+            <ng-container *ngTemplateOutlet="tableHead"></ng-container>
+          </thead>
+          <tbody>
+            <ng-container *ngTemplateOutlet="versionList?tableData:shimmer"></ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #shimmer>
+  <tr>
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>
+<ng-template #tableHead>
+  <tr>
+    <th>Version</th>
+    <th>Title</th>
+    <th class="text-left">Description</th>
+    <th>Status</th>
+    <th>AddedBy</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Actions</th>
+  </tr>
+</ng-template>
+<ng-template #tableData>
+  <tr *ngFor="let item of versionList">
+    <td>
+      {{item.version}}
+    </td>
+    <td>{{item.title}}</td>
+    <td class="w-25">{{item.description}}</td>
+    <!-- <td>
+        <div *ngFor="let label of item.labels">
+          <p *ngIf="label?.locale?.code == 'ur'">
+            {{label?.label}} 
+          </p>
+        </div>
+      </td> -->
+    <td [ngClass]="item.active == false?'text-danger':'text-success'">{{item.active == false?'Deactive':'Active'}}</td>
+    <td>
+      {{item.addedBy.name}}
+    </td>
+    <td>{{item.created_at | date:'mediumDate'}}</td>
+    <td>{{item.created_at | date:'mediumTime'}}</td>
+    <td>
+      <button class="btn" [ngClass]="item.active == false?'btn-success':'btn-danger'" (click)="sendId(item._id)">{{item.active == false?'Activate':'Deactivate'}}</button>
+    </td>
+  </tr>
+</ng-template>

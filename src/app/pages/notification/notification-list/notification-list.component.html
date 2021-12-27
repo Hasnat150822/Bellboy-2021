@@ -1,0 +1,96 @@
+<div class="card">
+  <div class="card-content">
+    <div class="card-body">
+      <table class="table table-responsive-md table-striped text-left">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Total Coustomers</th>
+            <th>Send By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngTemplateOutlet="lists ? content : shimmer"></ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<ng-container *ngTemplateOutlet="pagination"></ng-container>
+<ng-template #content>
+  <tr *ngFor="let item of lists">
+    <td>
+      <a (click)="bigImage(amazonImgUrl+item.imageUrl.value)">
+        <img class="rounded img-fluid" src="{{ amazonImgUrl }}{{ item.imageUrl.value }}" onerror="src='../../../assets/img/ico/bb-brand.jpg'" height="64px" width="64px" />
+      </a>
+    </td>
+    <td>{{ item.title }}</td>
+    <td style="width: 350px">
+      <a>{{ shortDescription ? (item.body | limit: 50) : item.body }}</a>
+    </td>
+    <td>{{ item.created_at | date: "mediumDate" }}</td>
+    <td>{{ item.created_at | date: "mediumTime" }}</td>
+    <td>
+      {{ item.customerCount || item.bellboyCount}}
+    </td>
+    <td>{{ item.admin.name }}</td>
+  </tr>
+</ng-template>
+<ng-template #shimmer>
+  <tr>
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end" *ngIf="pager">
+    <p class="mr-3 d-flex align-items-center">
+      <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+      >
+      :
+      <span class="text-secondary ml-2">{{ pager.totalItems }}</span>
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+          <a aria-label="First" class="ng2-smart-page-link page-link" (click)="sendPage(1)">
+            <span aria-hidden="true">First</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage <= 4 }">
+          <a aria-label="Prev" ngbTooltip="Previous 5" (click)="sendPage(pager.currentPage - 5)" class="ng2-smart-page-link page-link page-link-prev">
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }">
+          <a (click)="sendPage(page)" class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage >= pager.totalPages - 4 }"
+        >
+          <a
+            ngbTooltip="Next 5"
+            (click)="sendPage(pager.currentPage + 5)"
+            aria-label="Next"
+            class="ng2-smart-page-link page-link page-link-next"
+          >
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === pager.totalPages }">
+          <a (click)="sendPage(pager.totalPages)" aria-label="Last" class="ng2-smart-page-link page-link">
+            <span aria-hidden="true">Last</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-template>
+<app-big-image *ngIf="isBig"></app-big-image> 

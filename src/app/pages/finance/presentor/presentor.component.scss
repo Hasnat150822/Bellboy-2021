@@ -1,0 +1,28 @@
+.mr-m20 {
+  margin-right: -20px;
+}
+::ng-deep .my-class {
+  top: 0% !important;
+  .modal-dialog {
+    max-width: 70%;
+    width: 70%;
+  }
+}
+.modal-content {
+  margin-bottom: 18px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  padding: 1.5rem;
+  grid-gap: 0.75rem;
+}
+.item {
+  b {
+    margin-block: 0.75rem;
+    display: block;
+  }
+  .fields {
+    line-height: 2.2rem;
+  }
+}

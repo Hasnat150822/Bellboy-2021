@@ -1,0 +1,40 @@
+ul.nav-pills{
+  padding-left: 1rem;
+}
+.parent{
+  position: relative;
+}
+.child{
+  position: absolute;
+  padding: 8px 11px;
+}
+.upload-input{
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.camera-icon{
+  position: absolute;
+  bottom: 0;
+  right: 66px;
+}
+.upload-image{
+  width: 120px;
+  height: 120px;
+  -o-object-fit: scale-down;
+  object-fit: scale-down;
+  border-radius: 15px;
+} 
+.model-body-addUser{
+    padding-bottom: 0 !important;
+    overflow-y: scroll;
+}
+.model-body-addUser::-webkit-scrollbar {
+  display: none;
+}
+#SearchBellboy::placeholder{
+  color: #ccc;
+  margin-left: 10px;
+}

@@ -1,0 +1,52 @@
+.row-area{
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+    padding: 12px 0px;
+    margin: 0px 0px 18px 0px !important;
+}
+.hr-80{
+    width: 80%;
+    margin-left: 0px;
+}
+.object-fit{
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+}
+.object-fit2{
+    height: 400px;
+    width: 600px;
+    object-fit: contain;
+  }
+  .map{
+      width: 100% !important;
+      height: 250px !important;
+      margin-top: 0px !important;
+  }
+::ng-deep .bigImage .modal-dialog{
+    max-width: 60%;
+    left: 8%;
+    box-shadow: none;
+  }
+  ::ng-deep .bigImage .modal-dialog .modal-content{
+    background:rgba(0,0,0,0);
+    border:none;
+  }
+  .modal-header{
+    background-color: unset;
+}
+.ft-x {
+    font-size: 24px;
+}   
+.v-detail{
+    background: rgba(0,0,0,0.01);
+    border-radius: 6px;
+}
+.row .bg-light1{
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 6px;
+    margin-top: 10px;
+}
+.actionLabel{
+    text-decoration: underline;
+}

@@ -1,0 +1,234 @@
+<section id="tabs">
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-6 mb-1">
+      <h3>User Management</h3>
+    </div>
+    <div class="col-6 text-right">
+      <button class="btn btn-orange mb-0" (click)="open(addUser)">
+        Add New User
+      </button>
+    </div>
+    <div class="col-sm-12">
+      <div class="parent">
+        <i class="ft-search child"></i>
+        <!-- <input type="text" class="form-control placeholder-pad w-33" *ngIf="placeVal=='Id'" (keyup)="getUsers($event.target.value, 'true', 'Id')" placeholder="Search By {{placeVal}}">  -->
+        <input type="text" id="searchInput" class="form-control placeholder-pad w-33" *ngIf="placeVal == 'Name'" (keyup)="getUsers($event.target.value, 'true', 'Name')" placeholder="Search By {{ placeVal }}" />
+        <!-- <input type="text" class="form-control placeholder-pad w-33" *ngIf="placeVal=='Phone'" (keyup)="getUsers($event.target.value, 'true', 'Cell No')" placeholder="Search By {{placeVal}}"> -->
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="inputs-group">
+        <!-- <div>
+        <input type="radio" name="selectType" (change)="placeVal=$event.target.value" checked class="radio-check" id="id1" value="Name">
+        <label class="label-radio" for="id1">Search by Name</label>
+      </div> -->
+        <!-- <div>
+        <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id2" value="Name">
+        <label class="label-radio" for="id2">Search by Name</label>
+      </div>
+      <div>
+        <input type="radio" name="selectType" (change)="placeVal=$event.target.value" class="radio-check" id="id3" value="Phone">
+        <label class="label-radio" for="id3">Search by Phone</label>
+      </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="row text-left">
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <ngb-tabset type="pills">
+              <ngb-tab *ngIf="spinner">
+                <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+              </ngb-tab>
+              <ngb-tab *ngFor="let role of roles">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding">{{ role.title }}</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <ng-container *ngTemplateOutlet="sameColumns"></ng-container>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of allUsers">
+                        <td *ngIf="item.role._id == role._id" class="image-td">
+                          <a>
+                            <img class="table-img-size" (click)="bigImage(amazonUrl+item.avatar.value)" src="{{amazonUrl}}{{item.avatar.value}}" onerror="src='../../../assets/img/ico/no-icon.png'">
+                          </a>
+                        </td>
+                        <td *ngIf="item.role._id == role._id" class="image-td">
+                          {{ item._id }}
+                        </td>
+                        <td *ngIf="item.role._id == role._id">
+                          {{ item.name }}
+                        </td>
+                        <td *ngIf="item.role._id == role._id">
+                          {{ item.email }}
+                        </td>
+                        <td *ngIf="item.role._id == role._id">
+                          {{ item.contact_number }}
+                        </td>
+                        <td *ngIf="item.role._id == role._id">
+                          <a>
+                            <button [disabled]="loggedInUser['role']!=='Super Admin' && item.role.title=='Super Admin'" class="btn btn-danger" (click)="changeStatus(item._id, 'false')">
+                              Block
+                            </button>
+                          </a>
+                        </td>
+                        <td *ngIf="item.role._id == role._id">
+                          <a class="p-0 text-dark" (click)="userDetail(item._id, item.role.title)">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="" />
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab *ngIf="blockedUsers['length'] > 0">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="getBlockUser()">
+                    <span> Blocked </span>
+                  </div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <thead>
+                      <ng-container *ngTemplateOutlet="sameColumns"></ng-container>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of blockedUsers">
+                        <td class="image-td">
+                          <a>
+                            <img class="table-img-size" src="{{amazonUrl}}{{item.avatar.value}}" onerror="src='../../../assets/img/ico/no-icon.png'">
+                          </a>
+                        </td>
+                        <td class="image-td">{{ item._id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.contact_number }}</td>
+                        <td>
+                          <a (click)="changeStatus(item._id, 'true')">
+                            <button class="btn btn-success">Unblock</button>
+                          </a>
+                        </td>
+                        <td>
+                          <a class="p-0 text-dark" target="_blank" [routerLink]="['/usermanage/userdetail', item._id]">
+                            <img src="../../../assets/img/ico/eye.png" class="img-eye" alt="" />
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- addUser -->
+<ng-template #addUser let-modal>
+  <div class="modal-header justify-content-center mb-1">
+    <h3 class="card-title mb-0">Add New User</h3>
+  </div>
+  <div class="modal-body model-body-addUser">
+    <form [formGroup]="addUserForm" class="row">
+      <div class="form-group text-center col-sm-12">
+        <div class="position-relative">
+          <input accept="image/*" #file type="file" accept='image/*' (change)="preview(file.files)" class="upload-input" type="file">
+          <button class="camera-icon btn btn-secondary">Add Image</button>
+          <img class="upload-image" id="img1" onerror="src='../../../assets/img/ico/bb-brand.jpg'" src="{{imgURL}}">
+          <p class="text-error mb-0" *ngIf="message">{{message}}</p>
+          <p class="text-error" *ngIf="imgURL==undefined && submitted">
+            Image is required
+          </p>
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="text" formControlName="name" class="form-control" placeholder="Name" />
+        <p class="text-error" *ngIf="submitted && addUserForm.controls.name.hasError('required')">
+          Name is required
+        </p>
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="email" class="form-control" formControlName="email" placeholder="Email" />
+        <div *ngIf="submitted">
+          <p class="text-error" *ngIf="addUserForm.controls.email.hasError('required')">
+            Email is required
+          </p>
+          <p class="text-error" *ngIf="addUserForm.controls.email.hasError('email')">
+            Email is invalid
+          </p>
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="number" class="form-control" formControlName="cellno" placeholder="Cell Number" />
+        <p class="text-error" *ngIf="addUserForm.controls.cellno.hasError('required') && submitted">
+          Cell Number is required
+        </p>
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="password" formControlName="pass" class="form-control" placeholder="Set Password" />
+        <p class="text-error" *ngIf="addUserForm.controls.pass.hasError('required') && submitted">
+          Password is required
+        </p>
+      </div>
+      <div class="form-group col-sm-6">
+        <select name="role" formControlName="role" class="form-control" id="roleSelect">
+          <option value="">Select Role</option>
+          <option *ngFor="let item of roles" [ngClass]="{'d-none':item.title=='Super Admin' && loggedInUser['role']!=='Super Admin'}" value="{{ item._id }}">
+            {{ item.title }}
+          </option>
+        </select>
+        <p class="text-error" *ngIf="addUserForm.controls.role.hasError('required') && submitted">
+          Please select Role
+        </p>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="crossClick(addUserForm)">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-orange" (click)="submitUser(addUserForm)">
+      Add User
+    </button>
+  </div>
+</ng-template>
+<!-- <ng-template #bigImg let-modal>
+  <div class="modal-header d-flex justify-content-end pb-0 mb-2">
+    <a class="mb-2"
+      ><span class="ft-x text-error" (click)="modal.close('Cancel Cick')"></span
+    ></a>
+  </div>
+  <div class="modal-body d-flex justify-content-center pt-0">
+    <img src="{{ currentImage }}" onerror="src='../../../../assets/img/gallery/1.jpg'" class="object-fit" />
+  </div>
+</ng-template> -->
+<app-big-image *ngIf="isBigImg"></app-big-image>
+<ng-template #sameColumns>
+  <tr>
+    <th>Image</th>
+    <th>ID</th>
+    <th>
+      <a (click)="toggleSort()">
+        Name
+        <i id="sortIcon"></i>
+      </a>
+    </th>
+    <th>Email</th>
+    <th>Cell no</th>
+    <th>Actions</th>
+    <th>View / Update</th>
+  </tr>
+</ng-template>
+<ng-template #shimmer>
+  <div class="py-3 shine w-100"></div>
+</ng-template>

@@ -1,0 +1,122 @@
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BellboyService } from '../bellboy.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ManageVehicleService } from 'app/pages/vehicles/manage-vehicles/manage-vehicle.service';
+import { amazonUrl, confirmationDialog } from 'app/shared/services/global';
+import { Store } from '@ngrx/store';
+import * as allActions from '../../../ngrx-states/actions';
+import { URL } from 'app/ngrx-states/model/url.model';
+declare const $:any;
+@Component({
+  selector: 'app-bellboydetail',
+  templateUrl: './bellboydetail.component.html',
+  styleUrls: ['./bellboydetail.component.scss']
+})
+export class BellboydetailComponent implements OnInit {
+  _id;
+  detailBellboy:any
+  currentImage;
+  amazonImgUrl:string = amazonUrl;
+  spinner:boolean;
+  type:string;
+  avatarUrl;
+  avatarFile;
+  singleVehicle:{};
+  amazon
+  onlineStartTime;
+  onlineEndTime;
+  constructor(private activatedRote:ActivatedRoute,private modalService:NgbModal, private el:ElementRef,
+    private rendrer2:Renderer2,
+    private bellboyService:BellboyService, private manageVehicle:ManageVehicleService, private store:Store<URL>) {
+   }
+  ngOnInit() {
+    this._id = this.activatedRote.params['value'].id
+    this.getBellboyDetail()
+  }
+  isBigImg:boolean;
+  openModel(Url) {
+    this.isBigImg = true;
+    this.store.dispatch(new allActions.SendUrl(Url));
+  }
+  open(content){
+    this.modalService.open(content, { ariaLabelledBy:'modal-basic-title', backdrop:'static', keyboard:false});
+  }
+  openClose(id){
+    let el = this.el.nativeElement.querySelector('#'+id);
+    if(el.className.includes('d-none')){
+      this.rendrer2.removeClass(el, 'd-none');
+    }else{
+      this.rendrer2.addClass(el, 'd-none');
+    }
+  }
+  getBellboyDetail(){
+    this.bellboyService.getById(this._id).subscribe((res:any)=>{
+      this.spinner = false;
+      this.detailBellboy = res.data
+      this.avatarUrl = null;
+    })
+  }
+  
+  changeNIC(status){
+    confirmationDialog('').then((result)=>{
+      if(result.value == true){
+        this.bellboyService.manageNIC(status, this._id).subscribe((res:any)=>{
+            this.getBellboyDetail()
+        })  
+      }else{
+        return false;
+      }
+    })
+  }
+  changeLicense(status){
+    confirmationDialog('').then((result)=>{
+      if(result.value == true){
+        this.bellboyService.manageLicense(status, this._id).subscribe((res:any)=>{
+            this.getBellboyDetail()
+          })
+      }else{
+        return false
+      }
+    })
+  }
+  showDetail(id){
+    $('#'+id).prop('hidden', !$('#'+id).prop('hidden'))
+  }
+  changeStatus(id, status){
+    this.manageVehicle.changeVehicleStatus(id, status).subscribe((res:any)=>
+    {
+      if(res.success == true){
+        this.getBellboyDetail()
+      }
+    })
+  }
+  bellboyOnlineHistory:Array<any>;
+  getOnlineHistory(type){
+    this.bellboyOnlineHistory = [];
+    this.spinner = true;
+    this.bellboyService.getBellboyOnlineHistory(this._id, type).subscribe((res:any)=>{
+      this.bellboyOnlineHistory = res;
+      this.spinner = false;
+    })
+  }
+  bellboyOnlineActivity
+  getOnlineActivity(){
+    this.bellboyOnlineHistory = [];
+    this.spinner = true;
+    this.bellboyService.getBellboyOnlineActivity(this._id).subscribe((res:any)=>{
+      this.bellboyOnlineActivity = res.data;
+      this.spinner = false;
+    })
+  }
+  getByTimeRange(){
+    this.bellboyService.postTimeForOnlineHistory({
+      startHour:this.onlineStartTime.split(':')[0],
+      startMin:this.onlineStartTime.split(':')[1],
+      endHour:this.onlineEndTime.split(':')[0],
+      endMin:this.onlineEndTime.split(':')[1]
+    }).subscribe((res:any)=>{
+      
+    })
+  }
+}

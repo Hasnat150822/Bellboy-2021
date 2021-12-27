@@ -1,0 +1,38 @@
+.ft-power{
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.w-100px{
+    width: 100px;
+}
+// .absolute-img{
+//     position: absolute;
+//     bottom: -20px;
+//     left: 5px;
+// }
+.absolute-icon{
+    position: absolute;
+    bottom: -12px;
+    right: 5px;
+}
+.absolute-input{
+    position: absolute;
+    width: 100px;
+    left: 60px;
+    transform: rotate(180deg);
+    cursor: pointer;
+    opacity: 0;
+    z-index: 1;
+}
+.toaster{
+    position: absolute;
+    left: 35%;
+    top: 15%;
+}
+.toast{
+    width: 250px;
+    color: white;
+    font-weight: 500;
+    animation: slide-down 1s ease-out;
+}

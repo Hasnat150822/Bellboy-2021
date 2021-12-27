@@ -1,0 +1,18 @@
+ul.nav-pills{
+    padding-left: 1rem;
+}
+.parent{
+    position: relative;
+}
+.child{
+    position: absolute;
+    padding: 8px 11px;
+}
+#SearchBellboy::placeholder{
+    color: #ccc;
+    margin-left: 10px;
+}
+.ng2-smart-page-item{
+    line-height: unset;
+    margin: 0 !important;
+  }

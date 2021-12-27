@@ -1,0 +1,29 @@
+<table class="table table-responsive-md table-striped text-center">
+    <thead>
+        <tr>
+            <th *ngFor="let heading of tableHeadings">
+                {{heading}}
+            </th>
+        </tr>
+    </thead>
+    <tbody *ngIf="apiData?.length>0">
+        <tr *ngFor="let item of apiData">
+            <td *ngFor="let data of item">
+                <img class="table-img-size" *ngIf="data.type=='image'" [src]="data.value" alt="" srcset="">
+                <span *ngIf="data.type=='default'">{{data.value?data.value:'-'}}</span>
+                <span *ngIf="data.type=='date'">{{data.value?(data.value | date:'mediumDate'):'-'}}</span>
+                <span *ngIf="data.type=='hiring-time'"> {{data.value | timeConvert}} </span>
+                <span *ngIf="data.type=='bbStatus'" 
+                [class.text-error]="data.value==3 || data.value==2" 
+                [class.text-orange]="data.value== 0" 
+                [class.text-success]="data.value==1"
+                [ngSwitch]="data.value">
+                    <span *ngSwitchCase="0">Pending</span>
+                    <span *ngSwitchCase="1">Approved</span>
+                    <span *ngSwitchCase="2">Rejected</span>
+                    <span *ngSwitchCase="3">Block</span>   
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

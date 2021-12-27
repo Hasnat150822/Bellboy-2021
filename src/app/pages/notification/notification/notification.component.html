@@ -1,0 +1,4 @@
+<section id="tabs">
+  <h3>{{type=='customer'?'Customer':'Bellboy'}} Notifications</h3>
+  <app-notification-list [lists]="allNotific" [pager]="pager" (sendPageNumber)=receivePageNumber($event)></app-notification-list>
+</section>  

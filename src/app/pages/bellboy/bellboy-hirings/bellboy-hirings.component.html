@@ -1,0 +1,118 @@
+<h5 class="font-weight-500">
+  Hiring Detail
+  <div class="dropdown float-right d-flex">
+    <button (click)="openClose('hiringType')" class="nav-link btn btn-orange hiring-type mr-2">
+      Deliveries
+    </button>
+    <div class="dropdown-content d-none mt-4" id="hiringType">
+      <a (click)="getByType('hiring')"><p>Deliveries</p></a>
+      <a (click)="getByType('ride')"><p>Ride</p></a>
+      <a (click)="getByType('pa')"><p>PA</p></a>
+    </div>
+    <!-- <select class="hiring-type form-control perPage mr-2" (change)="getByType($event.target.value)">
+      <option value="hiring">Deliveries</option>
+      <option value="ride">Ride</option>
+      <option value="pa">Personal Assistance</option>
+    </select> -->
+    <button (click)="openClose('filterOpt')" class="nav-link btn btn-orange">
+      <i class="ft ft-filter"></i>
+      Filter
+    </button>
+    <div class="dropdown-content d-none" id="filterOpt">
+      <button class="btn btn-secondary" (click)="openClose('filterOpt')">Cancel</button>
+      <button [disabled]="!dateValue" (click)="searchByDate()" class="btn btn-success float-right">Ok</button>
+      <form [formGroup]="filterForm" class="mt-2">
+        <div class="form-group">
+          <input id="byday" type="radio"  value="byDay" formControlName="filter">
+          <label class="ml-2" for="byday">By Day</label>
+          <input (change)="dateValue=$event.target.value" [value]="dateValue" *ngIf="filter.value=='byDay'" type="date" placeholder="Select Day" class="form-control">
+        </div>
+        <div class="form-group">
+          <input id="byweek" type="radio"  value="byWeek" formControlName="filter">
+          <label class="ml-2" for="byweek">By Week</label>
+          <input (change)="dateValue=$event.target.value" [value]="dateValue" *ngIf="filter.value=='byWeek'" type="week" placeholder="Select Week" class="form-control">
+        </div>
+        <div class="form-group">
+          <input id="bymonth" type="radio"  value="byMonth" formControlName="filter">
+          <label class="ml-2" for="bymonth">By Month</label>
+          <input (change)="dateValue=$event.target.value" [value]="dateValue" *ngIf="filter.value=='byMonth'" type="month" placeholder="Select Month" class="form-control">
+        </div>
+        <button class="btn btn-secondary d-block w-100 m-auto" type="reset" (click)="reset()">Reset</button>
+      </form>
+    </div>
+  </div>
+</h5>
+<table class="table table-responsive-md table-hover">
+  <thead>
+    <tr>
+      <th>Hiring Id</th>
+      <th>Created Date</th>
+      <th>Spend Time</th>
+      <th>Status</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of bbHirings" [routerLink]="['/hiring/hiringDetail', item.hiring_id]">
+      <td>
+        {{item.hiring_id | showDashes}}
+        <!-- <a class="stretched-link" [routerLink]="['/hiring/hiringDetail', item.hiring_id]"></a> -->
+      </td>
+      <td>
+        {{item.created_at | date:"mediumDate" | showDashes}}
+      </td>
+      <td>
+        {{item.hours | timeConvert}}
+      </td>
+      <td [ngClass]="{
+      'text-warning':item?.status == 1||2||3, 
+      'text-success':item?.status == 4, 
+      'text-danger':item?.status == 5}">
+        {{item.status | hiringStatus | showDashes}}
+      </td>
+      <td>
+        {{item.amount | showDashes}}
+      </td>
+    </tr>
+    <tr *ngIf="spinner">
+      <td colspan="12" class="py-4 bg-white">
+        <div class="spinner-border text-orange" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-right mr-2" *ngIf="bbHirings">
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center">
+        <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span>
+        :
+        <span class="text-secondary ml-2">{{ totalHirings }}</span>
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+        <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+            <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+                <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getBellboyHiring(1) "><span aria-hidden="true">First</span></a>
+            </li>
+            <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }">
+                <a aria-label="Prev" ngbTooltip="Previous 5" (click)="getBellboyHiring(pager.currentPage - 5) " class="ng2-smart-page-link page-link page-link-prev"><span aria-hidden="true">«</span></a>
+            </li>
+            <li class="ng2-smart-page-item page-item ng-star-inserted" *ngFor="let page of pager.pages" [ngClass]="{ active: pager.currentPage === page }">
+                <a (click)="getBellboyHiring(page) " class="ng2-smart-page-link page-link ng-star-inserted">{{ page }}</a>
+            </li>
+            <li
+                class="ng2-smart-page-item page-item"
+                [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+                <a ngbTooltip="Next 5" (click)="getBellboyHiring(pager.currentPage + 5) " aria-label="Next" class="ng2-smart-page-link page-link page-link-next"><span aria-hidden="true">»</span> <span class="sr-only">Next</span>
+                </a>
+            </li>
+            <li
+                class="ng2-smart-page-item page-item"
+                [ngClass]="{disabled: pager.currentPage === pager.totalPages}">
+                <a (click)="getBellboyHiring(pager.totalPages) " aria-label="Last" class="ng2-smart-page-link page-link"><span aria-hidden="true">Last</span></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</div>

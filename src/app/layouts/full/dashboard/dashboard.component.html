@@ -1,0 +1,293 @@
+<section>
+  <div id="totalSec">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-6">
+                <h3 class="mt-0" *ngIf="!rangeRecord">Today Record</h3>
+                <span *ngIf="rangeRecord"
+                  ><strong>From: </strong>
+                  {{ this.startDateforRecord | date: "mediumDate" }}
+                  <strong>To: </strong>
+                  {{ this.endDateforRecord | date: "mediumDate" }}
+                </span>
+              </div>
+              <div class="col-6 text-right px-3">
+                <a (click)="defaults()">
+                  <i
+                    class="ft-refresh-cw font-weight-bold"
+                    ngbTooltip="Reset"
+                    placement="bottom"
+                  ></i>
+                </a>
+                <button
+                  (click)="showDatePick('datepicker1')"
+                  class="btn btn-orange mx-2"
+                >
+                  Select Range for Record
+                </button>
+              </div>
+              <div class="col-12">
+                <ngb-datepicker
+                  #dp1
+                  id="datepicker1"
+                  class="d-none"
+                  [maxDate]="today"
+                  [markDisabled]="markDisabled"
+                  [displayMonths]="1"
+                  (dateSelect)="onDateSelection($event)"
+                  [dayTemplate]="t1"
+                  outsideDays="hidden"
+                >
+                </ngb-datepicker>
+                <ng-template
+                  #t1
+                  let-date
+                  let-focused="focused"
+                  class="template"
+                >
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                    [ngClass]="{
+                      'text-muted':
+                        date?.day > today?.day &&
+                        date?.month === today?.month &&
+                        date?.year === today?.year
+                    }"
+                  >
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="daysData">
+            <app-bar-chart [data]="daysData" [isRange]="rangeRecord"></app-bar-chart>
+          </div>
+          <div class="card-body" *ngIf="!daysData">
+            <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-6">
+              <h3 class="mt-0" *ngIf="!rangeGraph">Current Week Statistics</h3>
+              <span *ngIf="rangeGraph"
+                ><strong>From: </strong>
+                {{ this.startDate | date: "mediumDate" }} <strong>To: </strong>
+                {{ this.endDate | date: "mediumDate" }}
+              </span>
+            </div>
+            <div class="col-sm-6 text-right position-relative">
+              <input
+                type="week"
+                (change)="selectWeek($event)"
+                id="week"
+                name="week"
+                class="btn-orange float-right border-0 rounded ml-2"
+                style="z-index: 1050; width: 100px"
+              />
+              <button
+                class="btn btn-orange mr-2 float-right position-absolute ml-2"
+              >
+                By Week
+              </button>
+              <input
+                type="month"
+                (change)="selectMonth($event)"
+                id="month"
+                name="month"
+                class="btn-orange float-right border-0 rounded"
+                style="z-index: 1050; width: 100px"
+              />
+              <button class="btn btn-orange mr-2 float-right position-absolute">
+                By Month
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <app-line-chart
+            [data]="graphData"
+            [startDate]="sendStartDate"
+            [endDate]="sendEndDate"
+          ></app-line-chart>
+        </div>
+        <div class="card-body" *ngIf="!graphData">
+          <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-3">
+    <!-- FIRST CARD -->
+
+    <div class="col-lg-4 col-md-6 mb-3">
+      <h5 class="font-weight-600 d-flex justify-content-between">
+        <span>
+          <img height="25px" src="../../../assets/img/ico/confused.png" />
+          {{ !rangeRecord ? "Today" : "" }} Hirings
+        </span>
+        <select class="form-control perPage w-50" (change)="getHiringByStatus($event.target.value)">
+          <option value="hiring">Deliveries</option>
+          <option value="ride">Rides</option>
+          <option value="pa">PA</option>
+        </select>
+      </h5>
+      <div class="card small-card flex-row align-items-center" *ngFor="let item of hiringItems">
+        <div class="media my-2">
+          <div class="actions position-relative" ngbTooltip="Actions">
+            <span>{{ item.actions }}</span>
+          </div>
+          <div class="media-body">
+            <small class="font-weight-600 text-nowrap">{{ item.customer.name }}</small> <br>
+            <small>{{ item.hiring_id }}</small>
+          </div>
+        </div> 
+        <div>
+          <a class="ml-1" routerLink="/hiring/hiringDetail/{{ item.hiring_id }}" target="_blank" rel="noopener noreferrer">
+            <button class="btn btn-orange rounded-full">View detail</button>
+          </a>
+        </div>
+      </div>
+      <ng-container *ngTemplateOutlet="hiringItems.length?pagination:noValue; context:{'context':'hiring'}"></ng-container>
+      <ng-template #pagination let-context="context">
+        <ul *ngIf="pager.pages && pager.pages.length" class="nav paginate justify-content-between font-weight-bold">
+          <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
+            <a (click)="setPage(1, context)">First</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+          </li>
+          <li [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page, context)">{{pager.currentPage}}</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages, context)">Last</a>
+          </li>
+        </ul>
+      </ng-template>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-3">
+      <h5 class="font-weight-600">
+        <span>
+          <img height="25px" src="../../../assets/img/ico/client.png"/>
+        </span>
+        {{ !rangeRecord ? "Today" : "" }} Customers
+      </h5>
+      <div class="card small-card flex-row align-items-center" *ngFor="let item of customerItems">
+        <div class="media my-2">
+          <img
+            src="{{ item.avatar?.value }}"
+            class="avatar rounded-circle"
+            alt="..."
+            onerror="src='../../../assets/img/gallery/1.jpg'"
+          />
+          <div class="media-body">
+            <small class="font-weight-600 text-nowrap">{{ item.name }}</small> <br>
+            <small>{{ item.mobile }}</small>
+          </div>
+        </div>
+        <div>
+          <a class="ml-1" routerLink="/customers/custdetail/{{ item._id }}" target="_blank" rel="noopener noreferrer">
+            <button class="btn btn-orange rounded-full">View detail</button>
+          </a>
+        </div>
+      </div>
+      <ng-container *ngTemplateOutlet="customerItems.length?paginationc:noValue; context:{'context':'customer'}"></ng-container>
+      <ng-template #paginationc let-context="context">
+        <ul *ngIf="pager2.pages && pager2.pages.length" class="nav paginate justify-content-between font-weight-bold">
+          <li [ngClass]="{'text-secondary':pager2.currentPage === 1}">
+            <a (click)="setPage(1, context)">First</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager2.currentPage === 1}">
+            <a (click)="setPage(pager2.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+          </li>
+          <li [ngClass]="{active:pager2.currentPage === page}">
+            <a (click)="setPage(page, context)">{{pager2.currentPage}}</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager2.currentPage === pager2.totalPages}">
+            <a (click)="setPage(pager2.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager2.currentPage === pager2.totalPages}">
+            <a (click)="setPage(pager2.totalPages, context)">Last</a>
+          </li>
+        </ul>
+      </ng-template>
+    </div>
+    <!-- 3RD CARD -->
+    <div class="col-lg-4 col-md-6 mb-3">
+      <h5 class="font-weight-600">
+        <span>
+          <img height="25px" src="../../../assets/img/ico/BB-PNG.png" />
+        </span>
+        {{ !rangeRecord ? "Today" : "" }} Bellboys
+      </h5>
+      <div class="card small-card flex-row align-items-center" *ngFor="let item of bellboyItems">
+      <div class="media my-2">
+        <img
+          src="{{ item.avatar?.value }}"
+          class="rounded-circle"
+          alt="..."
+          onerror="src='../../../assets/img/gallery/1.jpg'"
+        />
+        <div class="media-body">
+          <small class="font-weight-600 text-nowrap">{{ item.name }}</small> <br>
+          <small>{{ item.mobile }}</small>
+        </div>
+      </div> 
+      <div>
+        <a class="ml-1" routerLink="/bellboy/bellboydetail/{{ item._id }}" target="_blank" rel="noopener noreferrer">
+          <button class="btn btn-orange rounded-full">View detail</button>
+        </a>
+      </div>
+      </div>
+      <ng-container *ngTemplateOutlet="bellboyItems.length?paginationb:noValue; context:{'context':'bellboy'}"></ng-container>
+      <ng-template #paginationb let-context="context">
+        <ul *ngIf="pager3.pages && pager3.pages.length" class="nav paginate justify-content-between font-weight-bold">
+          <li [ngClass]="{'text-secondary':pager3.currentPage === 1}">
+            <a (click)="setPage(1, context)">First</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager3.currentPage === 1}">
+            <a (click)="setPage(pager3.currentPage - 1, context)"><i class="ft-chevrons-left"></i></a>
+          </li>
+          <li [ngClass]="{active:pager3.currentPage === page}">
+            <a (click)="setPage(page, context)">{{pager3.currentPage}}</a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager3.currentPage === pager3.totalPages}">
+            <a (click)="setPage(pager3.currentPage + 1, context)"><i class="ft-chevrons-right"></i></a>
+          </li>
+          <li [ngClass]="{'text-secondary':pager3.currentPage === pager3.totalPages}">
+            <a (click)="setPage(pager3.totalPages, context)">Last</a>
+          </li>
+        </ul>
+      </ng-template>
+    </div>
+  </div>
+</section>
+<ng-template #noValue let-context="context">
+  <div class="card small-card py-3">
+    There are no {{context}}s
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <div class="shine w-100"></div>
+</ng-template>

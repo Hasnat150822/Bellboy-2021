@@ -1,0 +1,127 @@
+<h3>{{type}} Offers</h3>
+<div class="card p-3">
+    <div class="position-relative row align-items-center">
+        <!-- cropper section -->
+        <section class="col-6" [style.display]="showCropper ? null : 'none'">
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+            [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="16 / 9" [resizeToWidth]="641"
+            [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="canvasRotation"
+            [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="*"
+            (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+        </section>
+        <section class="col-6" [style.display]="showCropper ? null : 'none'">
+            <img id="img1" width="100%" height="auto" onerror="src='../../../assets/img/ico/bb-brand.jpg'"
+                src="{{ croppedImage }}">
+        </section>
+        <!-- image upload input section -->
+        <section class="position-relative col-12 mt-5 mb-2">
+            <input accept="image/*" #file type="file" accept="image/*" (change)="fileChangeEvent($event)"
+                class="upload-input" type="file">
+            <button class="camera-icon btn btn-outline-warning">Upload Image</button>
+        </section>
+        <section id="imageInfo" class="col-12" *ngIf="!croppedImage" >
+            <p class="text-warning text-center">Use *HD Quality and 16:9 Ratio*</p>
+            <p class="text-error text-center">Only JPG, GIF, PNG, and BMP images are supported.</p>
+        </section>
+    </div>
+    <form [formGroup]="offersForm" (ngSubmit)="manageOffers()" class="row">
+        <section class="form-group col-6">
+            <label for="title">Title</label>
+            <input id="title" formControlName="title" type="text" name="title" class="form-control">
+            <p *ngIf="
+            offersForm.get('title').hasError('required') &&
+            offersForm.get('title').touched
+            " class="text-danger">
+                Title is required
+            </p>
+        </section>
+        <section class="form-group col-6">
+            <label for="code">Code</label>
+            <input id="code" formControlName="code" type="text" name="code" class="form-control">
+            <p class="text-danger" *ngIf="
+            offersForm.get('code').hasError('required') &&
+            offersForm.get('code').touched">
+                Promo Code is required
+            </p>
+        </section>
+        <section class="form-group col-12">
+            <label for="body">Body</label>
+            <ckeditor id="body" formControlName="body" name="myckeditor" [config]="ckeConfig" debounce="500"
+                (blur)="markAsTouched()">
+            </ckeditor>
+            <p class="text-danger" *ngIf="
+            offersForm.get('body').hasError('required') &&
+            offersForm.get('body').touched
+            ">
+                Body is required
+            </p>
+        </section>
+        <section class="form-group col-6">
+            <label class="d-block" for="isPercent">is Percent?</label>
+            <input class="align-middle" id="isPercentYes" type="radio" value="true" formControlName="isPercent">
+            <label class="mx-2" for="isPercentYes">Yes</label>
+            <input class="align-middle" id="isPercentNo" type="radio" value="false" formControlName="isPercent">
+            <label class="mx-2" for="isPercentNo">No</label>
+            <p class="text-danger" *ngIf="
+            offersForm.get('isPercent').hasError('required') &&
+            offersForm.get('isPercent').touched
+            ">
+                Percent Option is required
+            </p>
+        </section>
+        <section class="form-group col-6">
+            <label class="d-block" for="isLimited">is Limit?</label>
+            <input [checked]="type =='Update' && isLimitedValue" class="align-middle" id="isLimitedYes" type="radio" value="true" formControlName="isLimited">
+            <label class="mx-2" for="isLimitedYes">Yes</label>
+            <input [checked]="type =='Update' && !isLimitedValue" class="align-middle" id="isLimitedNo" type="radio" value="false" formControlName="isLimited">
+            <label class="mx-2" for="isLimitedNo">No</label>
+        </section>
+        <section class="form-group col-6">
+            <label for="amount">Amount</label>
+            <input id="amount" formControlName="amount" type="number" name="amount" class="form-control">
+            <p class="text-danger" *ngIf="
+            offersForm.get('amount').hasError('required') &&
+            offersForm.get('amount').touched
+            ">
+                Amount is required
+            </p>
+        </section>
+        <section class="form-group col-6 d-none" [ngClass]="{'d-block':isLimitedValue=='true'}">
+            <label for="max">Max</label>
+            <input id="max" formControlName="max" type="number" name="max" class="form-control">
+            <p class="text-danger" *ngIf="
+            offersForm.get('max').hasError('required') &&
+            offersForm.get('max').touched
+            ">
+                Maximum Value is required
+            </p>
+        </section>
+        <section class="form-group col-6">
+            <label for="expiryDate">Expiry Date</label>
+            <input id="expiryDate" formControlName="expiryDate" type="date" name="expiryDate" class="form-control">
+            <p class="text-danger" *ngIf="
+            offersForm.get('expiryDate').hasError('required') &&
+            offersForm.get('expiryDate').touched
+            ">
+                Expiry Date is required
+            </p>
+        </section>
+        <section class="form-group col-6">
+            <label for="bellboyType">Bellboy Type</label>
+            <select id="bellboyType" formControlName="bellboyType" name="bellboyType" class="form-control">
+                <option *ngFor="let item of allBBType | async" [value]="item._id" 
+                [selected]="item.title == bellboyType">{{item.title}}</option>
+            </select>
+            <p class="text-danger" *ngIf="
+            offersForm.get('bellboyType').hasError('required') &&
+            offersForm.get('bellboyType').touched
+            ">
+                Bellboy Type is required
+            </p>
+        </section>
+        <section class="form-group col-12 text-center">
+            <button *ngIf="type=='Update'" type="submit" class="btn btn-orange m-auto" [disabled]="spinner"> {{type}} Offer</button>
+            <button *ngIf="type=='Create'" type="submit" class="btn btn-orange m-auto" [disabled]="offersForm.invalid || spinner"> {{type}} Offer</button>
+        </section>
+    </form>
+</div>

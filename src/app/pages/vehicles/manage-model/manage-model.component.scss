@@ -1,0 +1,34 @@
+.upload-input{
+    position: absolute;
+    right: 0px;
+    opacity: 0;
+    bottom: 0;
+    z-index: 1;
+    cursor: pointer;
+  }
+  .upload-image{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 15px;
+  }
+  .camera-icon{
+    position: absolute;
+    bottom: 0px;
+    right: 66px;
+  }
+  .ng2-smart-page-item{
+    line-height: unset;
+    margin: 0 !important;
+  }
+  .mbody{
+    height: 400px;
+    overflow-y: scroll;
+  }
+  ::ng-deep .my-class .modal-dialog { 
+    max-width: 70%;
+    width: 70%;
+  }
+  .modal-header{
+    background-color: unset;
+}

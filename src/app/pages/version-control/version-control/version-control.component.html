@@ -1,0 +1,39 @@
+<section id="tabs">
+  <div class="row text-left mt-2">
+    <div class="col-6 mb-1">
+      <h3 class="mb-0">Version Control</h3>
+    </div>
+    <div class="col-6 text-right">
+      <button class="btn btn-orange" (click)="openModal(addVersion)">Add Version</button>
+    </div>
+  </div>
+  <app-version-history [versionList]="response" (id)="changeStatus($event)"></app-version-history>
+</section>
+<section>
+  <ng-template #addVersion let-modal>
+    <div class="modal-header justify-content-center mb-1">
+      <h3 class="card-title mb-0">Add Version</h3>
+      <a (click)="modal.close('Cancel Modal')">
+        <i class="ft-x close-icon"></i>
+      </a>
+    </div>
+    <div class="modal-body">
+      <form class="row" [formGroup]="versionForm" (ngSubmit)="submitVersion()">
+        <div class="form-group col-12">
+          <input type="text" class="form-control" placeholder="Type Version" formControlName="version" />
+        </div>
+        <div class="form-group col-12">
+          <input type="text" class="form-control" placeholder="Type Title" formControlName="title" />
+        </div>
+        <div class="form-group col-12">
+          <input type="text" class="form-control" placeholder="Type Description" formControlName="description" />
+        </div>
+        <div class="modal-footer ml-auto">
+          <button type="submit" class="btn btn-orange" [disabled]="versionForm.invalid">
+            Add Version
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</section>

@@ -1,0 +1,47 @@
+<div class="modal-header justify-content-center">
+  <h3 class="card-title mb-0">Charges Timeline</h3>
+</div>
+<div class="modal-body">
+  <table class="table table-responsive-md table-striped">
+    <thead>
+      <tr>
+        <th>Charges Type</th>
+        <th>Bellboy Type</th>
+        <th>Value</th>
+        <!-- <th>Label</th> -->
+        <th>
+          <select class="form-control font-weight-bold text-dark" (change)="getTimeline($event.target.value)">
+            <option value="">Status</option>
+            <option value="false">Terminated</option>
+            <option value="true">Active</option>
+          </select>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of pageItems">
+        <td>Hourly Charges</td>
+        <td>{{ item.bellboy_type?.title }}</td>
+        <td>{{ item.value }}</td>
+        <td>
+          <span *ngIf="item.status==false" class="text-danger">Terminated</span> 
+          <span *ngIf="item.status==true" class="text-success">Active</span> 
+        </td>
+      </tr>
+      <tr *ngIf="spinner">
+        <td class="py-4 bg-white">
+          <div class="spinner-border text-orange" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-right mr-2" *ngIf="pageItems">
+    <a><i (click)="setPage(pager.currentPage-1)" ngbTooltip="Prev" class="font-weight-bold ft-chevron-left mr-2"></i></a>
+    <a><i (click)="setPage(pager.currentPage+1)" ngbTooltip="Next" class="font-weight-bold ft-chevron-right"></i></a>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+</div>

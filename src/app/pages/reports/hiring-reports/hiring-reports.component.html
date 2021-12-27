@@ -1,0 +1,75 @@
+<h3>
+  Hiring Reports
+</h3>
+<p *ngIf="fromDate && toDate">
+  <strong>From: </strong> <span>{{fromDate}} &nbsp;</span>
+  <strong>To: </strong> <span>{{toDate}}</span>
+  <button class="btn btn-orange ml-2" (click)="resetDate()">Reset Date</button>
+</p>
+<ngb-tabset id="reportsTabs" type="pills"orientation="horizontal">
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" ngbTooltip="Completed Hirings" (click)="totalHirings()">Total Hiring</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="todayHirings();">Today's Hiring</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="specificBellboy = true; totalHirings();">Hiring of Specific Bellboy</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding">Hiring with Max Amount</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
+<ng-template #content>
+  <div class="card card-body">
+    <!-- I want to show for which status -->
+    <div class="mb-3">
+      <input *ngIf="specificBellboy" #searchBB (keyup)="searchValue=$event.target.value" (change)="searchBellboy()" type="text" placeholder="Search Bellboy">
+      <button *ngIf="specificBellboy" class="ml-2 btn btn-orange" (click)="searchBellboy()">Search</button>
+      <span class="dropdown d-flex align-items-center float-right">
+        <app-date-range-button (onSelectDate)="getDate($event)" class="position-relative"></app-date-range-button>
+        <button class="btn btn-orange" (click)="downloadReport()">
+          <span *ngIf = "!isDownloading">Download Report</span>
+          <span *ngIf = "isDownloading" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf = "isDownloading" >Downloading...</span>
+        </button>
+        <select class="hiring-type form-control perPage ml-2" (change)="
+        hiringType=$event.target.value;
+        getTotalHiring();
+        ">
+        <option value="hiring" [selected]="
+        hiringType=='hiring'
+        ">Deliveries</option>
+        <option value="ride" [selected]="
+        hiringType=='ride'
+        ">Ride</option>
+        <option value="pa" [selected]="
+        hiringType=='pa'
+        ">Personal Assistance</option>
+        </select>
+      </span>
+    </div>
+    <app-table [apiData] = "hiringData" [tableHeadings]="totalHiringHeadins">
+    </app-table>
+    <app-table-pagination [pager]='pager' (pagerObservable)="getPager($event)"></app-table-pagination>
+  </div>
+</ng-template>

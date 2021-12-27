@@ -1,0 +1,234 @@
+<div class="modal-header justify-content-center">
+    <h3>Add {{headText}}</h3>
+    <a (click)="closeModal()"><i class="ft-x close-icon"></i></a>
+</div>
+<div class="modal-body">
+    <ul class="nav nav-pills justify-content-center py-2">
+        <li class="" role="presentation" id="vehicle-tab-li">
+            <a (click)="submitVehicleDetail()" class="nav-vehicle active" id="vehicle-tab" data-toggle="tab" href="#vehicle" role="tab" aria-controls="vehicle" aria-selected="true" >
+                <i class="ft-user"></i>
+            </a>
+        </li>
+        <li class="stepper" id="vehicle-image-tab-li" role="presentation">
+            <a (click)="submitVehicleImages()" [ngClass]="{'disabled':vehicleForm.invalid}" class="nav-vehicle-image" id="vehicle-image-tab" data-toggle="tab" href="#vehicle-image" role="tab" aria-controls="vehicle-image" aria-selected="true">
+                <i class="ft-life-buoy"></i>
+            </a>
+        </li>
+        <li class="stepper" id="plate-image-tab-li" role="presentation">
+            <a (click)="submitVehiclePlate()" [ngClass]="{'disabled':!isVehicleImages()}" class="nav-plate-image" id="plate-image-tab" data-toggle="tab" href="#plate-image" role="tab" aria-controls="plate-image" aria-selected="true">
+                <i class="ft-calendar"></i>
+            </a>
+        </li>
+        <li class="stepper" id="ref-image-tab-li" role="presentation">
+            <a class="nav-ref-image" (click)="submitVehicleRegImages()" [ngClass]="{'disabled':!isVehiclePlateImage()}" id="ref-image-tab" data-toggle="tab" href="#ref-image" role="tab" aria-controls="ref-image" aria-selected="true">
+                <i class="ft-clipboard"></i>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="vehicle" role="tabpanel" aria-labelledby="vehicle-tab">
+            <form [formGroup]="vehicleForm" class="row">
+                <section class="fomr-group col-6">
+                    <label for="vehicleType">Vehicle Type</label>
+                    <select name="vehicleType" id="vehicleType" class="form-control" formControlName="vehicleType">
+                        <option value="{{this.updateVehicle?.vehicleType?._id || ''}}">{{this.updateVehicle?.vehicleType?.title || 'Select Type'}}</option>
+                        <option *ngFor="let item of vehicleTypes" [value]="item._id">{{item.title}}</option>
+                    </select>
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="vehicleBrand">Vehicle Brand</label>
+                    <select name="vehicleBrand" id="vehicleBrand" class="form-control" formControlName="vehicleBrand">
+                        <option value="{{this.updateVehicle?.vehicleBrand?._id || ''}}">{{this.updateVehicle?.vehicleBrand?.title || 'Select Brand'}}</option>
+                        <option *ngFor="let item of vehicleBrands" [value]="item._id">{{item.title}}</option>
+                    </select>
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="vehicleModel">Vehicle Model</label>
+                    <select name="vehicleModel" id="vehicleModel" class="form-control" formControlName="vehicleModel">
+                        <option value="{{this.updateVehicle?.vehicleModel?._id || ''}}">{{this.updateVehicle?.vehicleModel?.title || 'Select Model'}}</option>
+                        <option *ngFor="let item of vehicleModels" [value]="item._id">{{item.title}}</option>
+                    </select>
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="color">Color</label>
+                    <input type="text" id="color" class="form-control" placeholder="Write Name of Color" formControlName="color">
+                    <p class="text-danger" *ngIf="vehicleForm.get('color').touched && vehicleForm.get('color').invalid">
+                        Color is Required
+                    </p>
+                </section>
+                <section class="fomr-group col-6">
+                    <label for="engineNumber">Engine Number</label>
+                    <input type="text" id="engineNumber" class="form-control" placeholder="Write Engine Number" formControlName="engineNumber">
+                    <p class="text-danger" *ngIf="vehicleForm.get('engineNumber').touched && vehicleForm.get('engineNumber').invalid">
+                        Engine Number is Required
+                    </p>
+                </section>
+            </form>
+            <button class="btn btn-orange d-block mt-2 ml-auto" [disabled]="vehicleForm.invalid" (click)="submitVehicleImages()">Next</button>
+        </div>
+        <div class="tab-pane fade" id="vehicle-image" role="tabpanel" aria-labelledby="vehicle-image-tab">
+            <!-- for front image -->
+            <p>
+                <label class="w-50 text-center">Front Image</label>
+                <label class="w-50 text-center">Back Image</label>
+            </p>
+            <div *ngIf="whichCropper=='vehicleF' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleF'}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative d-inline-flex w-50 pr-2">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleF', $event)" class="input-file">
+                    <img class="prof-img pr-2" [src]="croppImgF" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for back image -->
+            <div *ngIf="whichCropper=='vehicleB' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleB'}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative d-inline-flex w-50 pl-2">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleB', $event)" class="input-file">
+                    <img class="prof-img pl-2" [src]="croppImgB" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for left image -->
+            <p>
+                <label class="w-50 text-center">Left Image</label>
+                <label class="w-50 text-center">Right Image</label>
+            </p>
+            <div *ngIf="whichCropper=='vehicleL' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleL'}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative d-inline-flex w-50 pr-2">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleL', $event)" class="input-file">
+                    <img class="prof-img pr-2" [src]="croppImgL" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for right image -->
+            <div *ngIf="whichCropper=='vehicleR' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleR'}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative d-inline-flex w-50 pl-2">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleR', $event)" class="input-file">
+                    <img class="prof-img pl-2" [src]="croppImgR" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <div class="mt-2">
+                <i class="ft-arrow-left" (click)="submitVehicleDetail()"></i>
+                <button class="btn btn-orange float-right" (click)="submitVehiclePlate()" [disabled]="!isVehicleImages()">Next</button>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="plate-image" role="tabpanel" aria-labelledby="plate-image-tab">
+            <form [formGroup]="numberPlate">
+                <div class="form-group">
+                    <label for="number-plate">Vehicle Number</label>
+                    <input formControlName="vehicleNumber" type="text" id="number-plate" class="form-control" placeholder="Write Number on Vehicle Plate">
+                    <p class="text-danger" *ngIf="numberPlate.get('vehicleNumber').invalid && numberPlate.get('vehicleNumber').touched">
+                        Vehicle Number is Required.
+                    </p>
+                </div>
+            </form>
+            <!-- for right image -->
+            <p class="text-center mb-2">
+                Number Plate Image
+            </p>
+            <div *ngIf="whichCropper=='vehiclePlate' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehiclePlate'}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehiclePlate', $event)" class="input-file">
+                    <img class="prof-img" [src]="croppImgPlate" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <div class="mt-2">
+                <i class="ft-arrow-left" (click)="submitVehicleImages()"></i>
+                <button class="btn btn-orange float-right" (click)="submitVehicleRegImages()" [disabled]="!isVehiclePlateImage()">Next</button>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="ref-image" role="tabpanel" aria-labelledby="ref-image-tab">
+            <form class="py-2" [formGroup]="registrationForm">
+                <section class="fomr-group">
+                    <label for="year">Registration Year</label>
+                    <input 
+                    id="year" 
+                    class="form-control" 
+                    placeholder="Write Registration Year" 
+                    formControlName="regYear"
+                    type="number" 
+                    min="1900" 
+                    max="2099" 
+                    step="1" 
+                    value="2016">
+                    <p class="text-danger" *ngIf="registrationForm.get('regYear').touched && registrationForm.get('regYear').invalid">
+                        Registration Year is Required
+                    </p>
+                </section>
+            </form>
+            <!-- for front image -->
+            <p>
+                <label class="w-50 text-center">Front Image</label>
+                <label class="w-50 text-center">Back Image</label>
+            </p>
+            <div *ngIf="whichCropper=='vehicleRegF' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleRegF', 'ratio':true}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative d-inline-flex w-50 pr-2">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleRegF', $event)" class="input-file">
+                    <img class="prof-img pr-2" [src]="croppImgRegF" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for back image -->
+            <div *ngIf="whichCropper=='vehicleRegB' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleRegB', 'ratio':true}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative d-inline-flex w-50 pl-2">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleRegB', $event)" class="input-file">
+                    <img class="prof-img pl-2" [src]="croppImgRegB" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <!-- for other image -->
+            <p class="text-center mb-2">
+                Other Registration Image
+            </p>
+            <div *ngIf="whichCropper=='vehicleRegO' && showCropper">
+                <ng-container *ngTemplateOutlet="imgCropper; context:{'cropperName':'vehicleRegO', 'ratio':true}"></ng-container>
+                <button class="btn btn-outline-orange d-block ml-auto my-3" (click)="showCropper = false">Ok</button>
+            </div>
+            <section class="position-relative">
+                <div class="img-div" *ngIf="!showCropper">
+                    <input type="file" accept="image/*" (change)="fileChangeEvent('vehicleRegO', $event)" class="input-file">
+                    <img class="prof-img" [src]="croppImgRegO" alt="" onerror="src='../../../../assets/img/gallery/upload_image.webp'" height="100%" width="100%">
+                    <i class="ft-camera"></i>
+                </div>
+            </section>
+            <div class="mt-2">
+                <i class="ft-arrow-left" (click)="submitVehiclePlate()"></i>
+                <button class="btn btn-orange float-right" (click)="updateVehicle?manageVehicle('update'):manageVehicle('create')" [disabled]="!isVehicleRegImages()">{{updateVehicle?'Update Vehicle':'Add Vehicle'}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #imgCropper let-which="cropperName" let-ratio="ratio">
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="ratio?1 / 1:16 / 9" [resizeToWidth]="641" [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false"
+    [canvasRotation]="canvasRotation" [transform]="transform" [alignImage]="'left'" format="*" (imageCropped)="croppedImage($event, which)" (imageLoaded)="imageLoaded()" class="cropper"></image-cropper>
+</ng-template>

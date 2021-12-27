@@ -1,0 +1,85 @@
+<h3>Customer Reports</h3>
+<ngb-tabset id="reportsTabs" type="pills"orientation="horizontal">
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByDefualt()">Total Customer</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getTodayCustomers()">Today's Customers</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('hiring=1', 'other')">Active Customers with Hirings</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('hiring=0', 'other')">Inactive Customers with no Hiring</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab> 
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('signup=1', 'other')">Total Android Customers</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('signup=2', 'other')">Total IOS Customers</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding disabledbutton">Customers with Specific Area</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <!-- <ng-container *ngTemplateOutlet="content"></ng-container> -->
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <div class="tab-padding" (click)="getByStatus('status=false', 'status')">Blocked Customers</div>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
+<ng-template #content>
+  <div class="card card-body">
+    <!-- I want to show for which status -->
+    <div class="ml-auto mb-3">
+      <span class="dropdown">
+        <app-date-range-button (onSelectDate)="getDate($event)" class="position-relative"></app-date-range-button>
+        <button class="btn btn-orange" (click)="getTotalCustomers()">
+          <span *ngIf = "!isDownloading">Download Report</span>
+          <span *ngIf = "isDownloading" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          <span *ngIf = "isDownloading" >Downloading...</span>
+        </button>
+      </span>
+    </div>
+    <app-table [apiData] = "customerData" [tableHeadings]="totalCustomersHeadins">
+    </app-table>
+    <app-table-pagination [pager]='pager' (pagerObservable)="getPager($event)"></app-table-pagination>
+  </div>
+</ng-template>

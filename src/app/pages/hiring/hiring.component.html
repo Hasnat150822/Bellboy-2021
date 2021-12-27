@@ -1,0 +1,396 @@
+<section id="tabs">
+  <div class="row text-left mb-2 mt-2">
+    <div class="col-sm-12 mb-1">
+      <h3>
+        {{getPageTitle()}}
+      </h3> 
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-5">
+      <div class="position-relative"> <i ngbTooltip="Default Data" (click)="
+            defaultData();
+            renderClass('', '', '');
+            input.value = ''
+          " class="ft-refresh-cw child font-weight-bold"></i>
+        <input [type]="inputType" class="form-control placeholder-pad" #input id="searchInput" (change)="searchValue = $event.target.value" placeholder="Search" (keyup.enter)="searchHiring()" value="{{ searchValue }}" />
+        <div class="btn-group position-absolute">
+          <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+            <button class="btn border-left dropdown-toggle-split" ngbDropdownToggle>By {{ placeVal }} <i class="ft-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <button ngbDropdownItem *ngFor="let item of searchDropdown" (click)="
+                  placeVal = item.fieldName;
+                  inputType = item.type;
+                  input.value = '';
+                  searchType = item.searchType
+                ">{{ item.fieldName }}</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-search" (click)="searchHiring();">Search</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-7 text-right">
+      <button (click)="showDatePick('datepicker1')" class="btn btn-orange mx-2"> <i class="ft-calendar"></i> &nbsp; Select Range for Record</button>
+    </div>
+    <div class="col-12 mt-2">
+      <div *ngIf="startDate && endDate"><strong>From Date: </strong> {{startDate | date:'mediumDate'}} <strong>To Date: </strong> {{endDate | date:'mediumDate'}}</div>
+      <div *ngIf="startDate && !endDate"><strong>Date: </strong> {{startDate | date:'mediumDate'}}</div>
+    </div>
+    <div class="col-12">
+      <ngb-datepicker #dp1 id="datepicker1" class="d-none" [maxDate]="today" [markDisabled]="markDisabled" [displayMonths]="1" (dateSelect)="onDateSelection($event)" [dayTemplate]="t1" outsideDays="hidden">
+      </ngb-datepicker>
+      <ng-template #t1 let-date let-focused="focused" class="template">
+        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)" [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null" [ngClass]="{'text-muted': (date?.day>today?.day) && (date?.month === today?.month) && (date?.year === today?.year)}">
+          {{ date.day }}
+        </span>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row text-left"> 
+    <!--Pills Starts-->
+    <div class="col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="form-group float-right perPageBlock mb-0 d-flex">
+              <select class="hiring-type form-control perPage mr-2" (change)="
+                hiringType=$event.target.value;
+                changeTabStatus()
+              ">
+                <option value="hiring" [selected]="
+                hiringType=='hiring'
+                ">Deliveries</option>
+                <option value="ride" [selected]="
+                hiringType=='ride'
+                ">Ride</option>
+                <option value="pa" [selected]="
+                hiringType=='pa'
+                ">Personal Assistance</option>
+              </select>
+              <select class="form-control perPage" (change)="
+                  perPage = $event.target.value; getHirings(this.status, 1)">
+                <option value="10">10 / page</option>
+                <option value="25">25 / page</option>
+                <option value="50">50 / page</option>
+              </select>
+            </div>
+            <ngb-tabset type="pills" #tabset="ngbTabset">
+              <!-- <ngb-tab id="tab1">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab1';
+                      getHirings(1, 1);
+                      changeTabStatus()
+                    ">Pending</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab> -->
+              <ngb-tab id="tab2">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab2';
+                      getHirings(2, 1);
+                      changeTabStatus()
+                    ">In Progress</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <!-- <ngb-tab id="tab3">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab3';
+                      getHirings(3, 1);
+                      changeTabStatus()
+                    ">Non-Closed Orders</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab> -->
+              <ngb-tab id="tab4">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab4';
+                      getHirings(4, 1);
+                      changeTabStatus()
+                    ">Complete</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab5">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab5';
+                      getHirings(5, 1);
+                      changeTabStatus()
+                    ">Cancelled</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab id="tab6">
+                <ng-template ngbTabTitle>
+                  <div class="tab-padding" (click)="
+                      this.tabStatus = 'tab6';
+                      getHirings(6, 1);
+                      changeTabStatus()
+                    ">Non Acceptable</div>
+                </ng-template>
+                <ng-template ngbTabContent>
+                  <table class="table table-responsive-md table-striped">
+                    <ng-container *ngTemplateOutlet="tableHead; context:{'status':status};"></ng-container>
+                    <ng-container *ngTemplateOutlet="tableBody; context:{'status':status};"></ng-container>
+                  </table>
+                  <ng-container *ngTemplateOutlet="pagination"></ng-container>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Pills Ends-->
+  </div>
+</section>
+<!-- Modals -->
+<ng-template #reason let-modal>
+  <div class="modal-header justify-content-center mb-3">
+    <h3 class="card-title mb-0">Cancellation Reason</h3> 
+    <a (click)="modal.close('Cancel Modal')">
+      <i class="ft-x close-icon"></i>
+    </a>
+  </div>
+  <div class="modal-body pb-0">
+    <p class="font-weight-normal text-center">{{ cacelled_reason }}</p>
+  </div>
+</ng-template>
+<ng-template #cancel let-modal>
+  <div class="modal-header justify-content-center mb-3">
+    <h3 class="card-title mb-0">{{
+      singleHiringId.status == 1 || singleHiringId.status == 2
+            ? 'Cancel Hiring'
+            : 'Close Hiring'
+          }}</h3> 
+  </div>
+  <div class="modal-body pb-0">
+    <form [formGroup]="cancelReason" class="form-group">
+      <input type="text" class="form-control" formControlName="cuase" [placeholder]="
+          singleHiringId.status == 1 || singleHiringId.status == 2
+            ? 'Cancel Reason'
+            : 'Close Reason'
+        " />
+      <p *ngIf="
+          cancelReason.controls.cuase.hasError('required') &&
+          cancelReason.controls.cuase.touched
+        " class="text-danger">Reason Required</p>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="cancelHiring()" [innerHTML]="
+        singleHiringId.status == 1 || singleHiringId.status == 2
+          ? 'Cancel Hiring'
+          : 'Close Hiring'
+      "></button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Cross click')">Close</button>
+  </div>
+</ng-template>
+<ng-template #tableHead let-status="status">
+  <thead>
+    <tr>
+      <th>Hiring Id</th>
+      <th>Customer Name <i id="sortByCustName"></i></th>
+      <th>Cell No</th>
+      <th *ngIf="!(status==1 || status==6)">Assigned Bellboy</th>
+      <th *ngIf="status!==6">Bellboy Type</th>
+      <th *ngIf="hiringType=='hiring'">
+        <div class="d-flex align-items-center justify-content-center" id="sortByNumber">
+          <a (click)="sortByNumber()">Actions</a>
+          <div class="ml-1 mt-1">
+            <span class="ft-chevron-up d-block"></span>
+            <span class="ft-chevron-down d-block"></span>
+          </div>
+        </div>
+      </th>
+      <th *ngIf="status == 1 || status == 6">Created Time</th>
+      <th *ngIf="status == 1">Time Spent</th>
+      <th *ngIf="status == 2 || status == 3 || status == 4">Start Time</th>
+      <th *ngIf="status == 4">Finish Time</th>
+      <th *ngIf="status == 5">Reason</th>
+      <th *ngIf="status == 5">Cancelled Time</th>
+      <th>
+        <div class="d-flex align-items-center justify-content-center" id="sortByDate">
+          <a (click)="sortByDate()">Date</a>
+          <div class="ml-1 mt-1">
+            <span class="ft-chevron-up d-block"></span>
+            <span class="ft-chevron-down d-block"></span>
+          </div>
+        </div>
+      </th>
+      <th *ngIf="status == 4">Amount</th>
+      <th *ngIf="status == 1 || status == 2">View / Cancel</th>
+      <th *ngIf="status == 3">View / Close</th>
+      <th *ngIf="status == 4 || status == 5 || status == 6">View</th>
+    </tr>
+  </thead>
+</ng-template>
+<ng-template #tableBody let-status="status">
+  <tbody>
+    <ng-container *ngTemplateOutlet="shimmer"></ng-container>
+    <tr *ngFor="let item of permArr">
+      <td>{{ item.hiring_id }}</td>
+      <td> 
+        <span><a class="hoverOrange" ngbTooltip="View Detail">{{item.customer?.name | showDashes}}</a></span>
+      </td>
+      <td class="text-nowrap"> 
+        <span>{{item.customer?.mobile | showDashes}}</span>
+      </td>
+      <td *ngIf="!(status==1 || status==6)" > <a [routerLink]="[
+        '/bellboy/bellboydetail',
+        item.bellboy?._id
+      ]" target="_blank" class="hoverOrange" ngbTooltip="View Detail">{{
+          item.bellboy?.name | showDashes
+        }}</a> 
+      </td>
+      <td *ngIf="status!==6">{{ item.bellboyType?.title | showDashes}}</td>
+      <td *ngIf="hiringType=='hiring'">{{ math.abs(item.totalActions) | showDashes}}</td>
+      <td class="text-nowrap" *ngIf="status == 2 || status == 3 || status == 4">{{ item.start_time | date: "shortTime" | showDashes }}</td>
+      <td class="text-nowrap" *ngIf="status==1 || status == 6">{{ item.created_at | date: "shortTime" | showDashes}}</td>
+      <td class="text-nowrap" *ngIf="status==1">{{showStopWatch(item.created_at)}} {{pendingCounter?pendingCounter:''}}</td>
+      <td class="text-nowrap" *ngIf="status == 4"> <span *ngIf="item.end_time">{{
+          item.end_time | date: "shortTime" | showDashes
+        }}</span>  <span *ngIf="!item.end_time">-</span> 
+      </td>
+      <td *ngIf="status == 5"> 
+        <a (click)="open(reason, item.cancellation_reason)" class="text-orange">Reason</a>
+      </td>
+      <td *ngIf="status == 5">
+        {{
+          item.cancellation_time
+            | date: "shortTime"
+            | showDashes
+        }}
+      </td>
+      <td class="text-nowrap">{{ item.created_at | date: "mediumDate" | showDashes}}</td>
+      <td *ngIf="status == 4" [ngClass]="{ 'text-success ': item.isFree }">{{ item.isFree ? "Free" : item.amount | showDashes}}</td>
+      <td *ngIf="status == 1 || status == 2 || status == 3">
+        <a class="p-0 text-dark" target="_blank" [routerLink]="[
+            '/hiring/hiringDetail',
+            item.hiring_id
+          ]" [queryParams]="{'hiringType':hiringType}">
+          <img src="../../../assets/img/ico/eye.png" class="img-eye" />
+        </a>
+        <a *ngIf="status!==4 || status!==5" [ngbTooltip]="status==1 || status == 2?'Cancel Hiring':status==3?'Close Hiring':false" class="p-0 text-dark" (click)="singleHiringId = item; open(cancel, '')">
+          <img src="../../../assets/img/ico/forbidden.svg" class="ml-2 img-eye" />
+        </a>
+      </td>
+      <td *ngIf="status == 4 || status ==5 || status == 6">
+        <a class="p-0 text-dark" target="_blank" [routerLink]="[
+            '/hiring/hiringDetail',
+            item.hiring_id
+          ]" [queryParams]="{'hiringType':hiringType}">
+          <img src="../../../assets/img/ico/eye.png" class="img-eye" />
+        </a>
+      </td>
+    </tr>
+    <tr *ngIf="errorMessage">
+      <td colspan="12">
+        <span class="font-weight-bold h4">{{errorMessage}}</span>
+      </td>
+    </tr>
+  </tbody>
+</ng-template>
+<ng-template #pagination>
+  <div class="d-flex justify-content-end">
+    <p class="mr-3 d-flex align-items-center"> <span class="text-shadow h6 mb-0 font-weight-normal text-orange">Total Items</span
+      >
+      : <span class="text-secondary ml-2">{{ totalItems }}</span> 
+    </p>
+    <nav class="ng2-smart-pagination-nav ng-star-inserted">
+      <ul class="ng2-smart-pagination pagination" *ngIf="pager.pages && pager.pages.length">
+        <li class="ng2-smart-page-item page-item" [ngClass]="{ disabled: pager.currentPage === 1 }"> <a aria-label="First" class="ng2-smart-page-link page-link" (click)="getHirings(status, 1)"><span aria-hidden="true">First</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === 1 }"
+        >
+          <a
+            aria-label="Prev"
+            ngbTooltip="Previous 5"
+            (click)="getHirings(status, pager.currentPage-5)"
+            class="ng2-smart-page-link page-link page-link-prev"
+            ><span aria-hidden="true">«</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item ng-star-inserted"
+          *ngFor="let page of pager.pages"
+          [ngClass]="{ active: pager.currentPage === page }"
+        >
+          <a
+            (click)="getHirings(status, page)"
+            class="ng2-smart-page-link page-link ng-star-inserted"
+            >{{ page }}</a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+        >
+          <a
+            ngbTooltip="Next 5"
+            (click)="getHirings(status, pager.currentPage+5)"
+            aria-label="Next"
+            class="ng2-smart-page-link page-link page-link-next"
+            ><span aria-hidden="true">»</span></a
+          >
+        </li>
+        <li
+          class="ng2-smart-page-item page-item"
+          [ngClass]="{ disabled: pager.currentPage === pager.totalPages }"
+        >
+          <a
+            (click)="getHirings(status, pager.totalPages)"
+            aria-label="Last"
+            class="ng2-smart-page-link page-link"
+            ><span aria-hidden="true">Last</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-template>
+<ng-template #shimmer>
+  <tr *ngIf="spinner">
+    <td colspan="12">
+      <div class="py-3 shine w-100"></div>
+    </td>
+  </tr>
+</ng-template>

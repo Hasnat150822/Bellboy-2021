@@ -1,0 +1,87 @@
+a>i{
+    padding: .75rem;
+    border-radius: 50%;
+    background: #ccc;
+}
+a.active>i, a.done>i{
+    background-color: #FA9008 !important;
+    box-shadow: 0px 5px 18px 0px rgba(0, 0, 0,0.2);
+}
+li.current::before, li.done::before{
+    background: #FA9008 !important;
+}
+.stepper::before{
+    content: "";
+    background: #e5e5e5;
+    font-size: 2px;
+    padding-inline: 2rem;
+}
+a{
+    vertical-align: middle;
+}
+.img-div{
+    background-color: #ccc;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    overflow: none;
+    transition: background-color .5s ease;
+}
+.prof-img{
+    inset: 0;
+    position: absolute;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: display .1s ease;
+}
+.ft-camera{
+    display: none;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-weight: 600;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    transform: translate(-50%, -50%);
+    transition: display .5s ease;
+}
+.img-div:hover{
+    background-color: rgba(0, 0, 0,0.4);
+    .prof-img{
+        display: none;
+    }
+    .ft-camera{
+        display: block;
+    }
+}
+.input-file{
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    z-index: 1050;
+}
+section.img-div{
+    height: 200px !important;
+    width: auto !important;
+}
+section>.img-div{
+    height: 200px !important;
+    width: auto !important;
+}
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+.ft-arrow-left{
+    padding: .1rem;
+    border: 1px solid #000;
+    border-radius: 50%;
+}
+.ft-arrow-left:hover{
+    cursor: pointer;
+    background-color: #FA9008;
+    color: white;
+}
