@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit  {
       this.fromDate = null;
       this.toDate = null;
       let data = [];
-      data[0] = (res.totalEarningDate/1000).toFixed(1);
+      data[0] = (res.totalEarningDate/1000);
       data[1] = res.totalCurrentDayCustomers;
       data[2] = res.totalCurrentDayBellBoys;
       data[3] = res.totalCurrentDayHirings;

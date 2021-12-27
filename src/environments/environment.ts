@@ -2,8 +2,8 @@ export const environment = {
   production: false,
   appVersion: require('../../package.json').version + ' -dev',
   // apiUrl:'http://192.168.100.5:3000/',
-  apiUrl:'http://192.168.100.64:3000/',
-  // apiUrl:'https://debugapi.bellboy.co/',
+  // apiUrl:'http://192.168.100.64:3000/',
+  apiUrl:'https://debugapi.bellboy.co/',
   // apiUrl:'https://api.bellboy.co/',
   firebase: {
       apiKey: "AIzaSyBIzV2hjFaFt3enV2GfLlcsI6HwvetJRek",
